@@ -1,22 +1,23 @@
 <template>
   <div id="main">
-      {{ msg }}
+    {{ msg }}
   </div>
 </template>
 
 <script>
-export default {
+  export default {
     name: "main",
-    data(){
-        return{
-            msg: 'main dese'
-        }
+    data() {
+      return {
+        msg: 'main dese'
+      }
     }
-}
+  }
 </script>
 
 <style>
-   #main{
-       z-index: -1000;
-   }
+  #main {
+    background-color: rgba(11, 111, 1, 0.5);
+    height: 100%;
+  }
 </style>

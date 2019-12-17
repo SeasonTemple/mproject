@@ -4,7 +4,7 @@
       <router-view class="view top" name="top"></router-view>
     </el-header>
     <el-container id="side-main" style="direction:vertical">
-      <el-aside style="width: auto;">
+      <el-aside style="width: fix-content;height: auto;">
         <router-view class="view left" name="left"></router-view>
       </el-aside>
       <el-main>

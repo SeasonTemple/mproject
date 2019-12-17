@@ -1,10 +1,12 @@
 <template>
   <el-row id="side">
     <el-col :span="24">
-      <el-menu default-active="1-4-1" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose"
-        :collapse="isCollapse" background-color="#222757"
-      text-color="#fff"
-      active-text-color="#ffd04b">
+      <el-menu default-active="0" class="el-menu-vertical-demo" :collapse="isCollapse"
+        background-color="rgba(9, 10, 57, 0.85)" text-color="#fff" active-text-color="#ffd04b">
+        <el-menu-item index="0" style="text-align:auto;" class="naviBar">
+          <i class="el-icon-s-unfold" :class="{'el-icon-s-fold':!isCollapse,'pos':!isCollapse}"
+            @click="changeCollapse"></i>
+        </el-menu-item>
         <el-submenu index="1">
           <template slot="title">
             <i class="el-icon-location"></i>
@@ -18,13 +20,15 @@
           <el-submenu index="1-4">
             <span slot="title">选项4</span>
             <el-menu-item index="1-4-1">选项1</el-menu-item>
+            <el-menu-item index="1-4-1">选项1</el-menu-item>
+            <el-menu-item index="1-4-1">选项1</el-menu-item>
           </el-submenu>
         </el-submenu>
         <el-menu-item index="2">
           <i class="el-icon-menu"></i>
           <span slot="title">导航二</span>
         </el-menu-item>
-        <el-menu-item index="3" disabled>
+        <el-menu-item index="3">
           <i class="el-icon-document"></i>
           <span slot="title">导航三</span>
         </el-menu-item>
@@ -33,10 +37,6 @@
           <span slot="title">导航四</span>
         </el-menu-item>
       </el-menu>
-      <el-radio-group v-model="isCollapse" style="margin-bottom: 10px;">
-        <el-radio-button :label="false">展开</el-radio-button><br>
-        <el-radio-button :label="true">收起</el-radio-button>
-      </el-radio-group>
     </el-col>
   </el-row>
 </template>
@@ -46,17 +46,14 @@
     name: 'sideBar',
     data() {
       return {
-        isCollapse: true
+        isCollapse: true,
       }
     },
     methods: {
-      // handleOpen(key, keyPath) {
-      //   console.log(key, keyPath);
-      // },
-      // handleClose(key, keyPath) {
-      //   console.log(key, keyPath);
-      // }
-    }
+      changeCollapse() {
+        this.isCollapse = !this.isCollapse
+      }
+    },
   }
 </script>
 
@@ -66,18 +63,31 @@
   }
 
   #side {
-    width: fit-content;
+    max-width: 180px;
+    min-width: 70px;
     height: 100%;
     text-align: left;
-    background-color: #222757;
+    /* background-color: #091057; */
+    background-color: rgba(9, 10, 57, 1);
+  }
+
+  .el-menu-item:hover {
+    background-color: rgba(111, 111, 111, 0.8) !important;
+  }
+
+  .el-submenu .is-opened {
+    background-color: rgba(111, 111, 111, 0.8) !important;
   }
 
   .el-menu--collapse {
-    width: 69px;
+    width: 70px;
+    border-right-color: rgba(255, 208, 75, 0.8) !important;
+    border-right-width: 2px !important;
   }
 
   .el-menu-vertical-demo:not(.el-menu--collapse) {
     width: 180px;
     min-height: 400px;
   }
+
 </style>
