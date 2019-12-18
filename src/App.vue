@@ -1,6 +1,6 @@
 <template>
   <el-container id="home" class="wrapper">
-    <el-header>
+    <el-header style="height:80px;width: fix-content">
       <router-view class="view top" name="top"></router-view>
     </el-header>
     <el-container id="side-main" style="direction:vertical">

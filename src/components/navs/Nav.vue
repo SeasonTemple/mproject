@@ -1,22 +1,21 @@
 <template>
   <el-col :span="24" id="Nav">
-    <el-menu :default-active="activeIndex2" class="el-menu-demo" mode="horizontal" @select="handleSelect"
+    <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect"
       background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
-      <el-menu-item index="1">处理中心</el-menu-item>
-      <el-submenu index="2">
-        <template slot="title">我的工作台</template>
-        <el-menu-item index="2-1">选项1</el-menu-item>
-        <el-menu-item index="2-2">选项2</el-menu-item>
-        <el-menu-item index="2-3">选项3</el-menu-item>
-        <el-submenu index="2-4">
-          <template slot="title">选项4</template>
-          <el-menu-item index="2-4-1">选项1</el-menu-item>
-          <el-menu-item index="2-4-2">选项2</el-menu-item>
-          <el-menu-item index="2-4-3">选项3</el-menu-item>
-        </el-submenu>
-      </el-submenu>
-      <el-menu-item index="3" >消息中心</el-menu-item>
-      <el-menu-item index="4"><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item>
+      <el-row :span="24" type="flex" justify="space-between">
+          <el-image alt="logo" src="#" fit="contain" style="padding:15px;width:auto;"></el-image>
+          <el-dropdown :hide-on-click="false" style="padding:12px;">
+            <span class="el-dropdown-link">
+                <el-avatar :size="58" src="#" :fit="contain"></el-avatar>
+            </span>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item>个人信息</el-dropdown-item>
+              <el-dropdown-item>出勤分析</el-dropdown-item>
+              <el-dropdown-item>任务报告</el-dropdown-item>
+              <el-dropdown-item>退出登录</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+      </el-row>
     </el-menu>
   </el-col>
 </template>
@@ -27,8 +26,7 @@
     methods: {},
     data() {
       return {
-        activeIndex: '1',
-        activeIndex2: '1'
+        activeIndex: '1'
       }
     },
     methods: {
@@ -40,15 +38,38 @@
   };
 </script>
 
-<style>
+<style scoped>
+  * {
+    outline: none;
+  }
+
   #Nav {
     width: 100%;
     font-size: 30px;
     position: absolute;
-    top: 0px;
+    top: 0;
     left: 0;
     text-align: center;
     align-content: center;
+
   }
- 
+
+  .el-menu>* {
+    border-bottom-width: 0px !important;
+    height: 80px !important;
+  }
+
+  .el-menu-item {
+    line-height: 79px !important;
+  }
+
+  .el-submenu {
+    line-height: 79px !important;
+  }
+
+  /* .el-dropdown-menu{
+    border-color: rgba(30, 31, 33, 0.5)
+    background-color: #303133;
+    color: #FFFFFF;
+  } */
 </style>

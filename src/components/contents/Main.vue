@@ -15,7 +15,7 @@
   }
 </script>
 
-<style>
+<style scoped>
   #main {
     background-color: rgba(11, 111, 1, 0.5);
     height: 100%;

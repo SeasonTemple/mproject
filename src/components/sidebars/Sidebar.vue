@@ -3,13 +3,16 @@
     <el-col :span="24">
       <el-menu default-active="0" class="el-menu-vertical-demo" :collapse="isCollapse"
         background-color="rgba(9, 10, 57, 0.85)" text-color="#fff" active-text-color="#ffd04b">
-        <el-menu-item index="0" @click="changeCollapse" style="text-align:auto;" class="naviBar">
-          <i class="el-icon-s-unfold" :class="{'el-icon-s-fold':!isCollapse,'pos':!isCollapse}"></i>
-        </el-menu-item>
+        <!-- <el-tooltip content="菜单切换" placement="right"> -->
+          <el-menu-item index="0" @click="changeCollapse" style="text-align:auto;" class="naviBar">
+            <i class="el-icon-s-unfold" :class="{'el-icon-s-fold':!isCollapse,'pos':!isCollapse}"></i>
+            <span slot="title">菜单切换</span>
+          </el-menu-item>
+        <!-- </el-tooltip> -->
         <el-submenu index="1">
           <template slot="title">
             <i class="el-icon-location"></i>
-            <span slot="title">导航一</span>
+            <span slot="title">主页</span>
           </template>
           <el-menu-item-group>
             <el-menu-item index="1-1">选项1</el-menu-item>
@@ -56,7 +59,7 @@
   }
 </script>
 
-<style>
+<style scope>
   * {
     overflow: hidden;
   }
@@ -89,10 +92,10 @@
     min-height: 400px;
   }
 
-  .pos{
+  /* .pos {
     transform: translate(50px);
     -moz-transform: translate(50px);
     -webkit-transform: translate(50px);
     -ms-transform: translate(50px);
-  }
+  } */
 </style>
