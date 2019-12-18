@@ -82,7 +82,7 @@
   .el-menu--collapse {
     width: 70px;
     border-right-color: rgba(255, 208, 75, 0.8) !important;
-    border-right-width: 2px !important;
+    border-right-width: 3px !important;
   }
 
   .el-menu-vertical-demo:not(.el-menu--collapse) {
@@ -90,4 +90,5 @@
     min-height: 400px;
   }
 
+  
 </style>

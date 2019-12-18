@@ -9,9 +9,9 @@ export default new Router({
   routes: [{
     path: '/',
     components: {
-      top: () => import('@/components/base/Nav'),
-      left: () => import('@/components/base/Sidebar'),
-      default: () => import('@/components/base/Main.vue'),
+      top: () => import('@/components/navs/Nav'),
+      left: () => import('@/components/sidebars/Sidebar'),
+      default: () => import('@/components/contents/Main.vue'),
     }
   }]
 })

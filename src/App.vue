@@ -15,9 +15,9 @@
 </template>
 
 <script>
-  import Nav from './components/base/Nav.vue'
-  import SideBar from './components/base/Sidebar.vue'
-  import Main from './components/base/Main.vue'
+  import Nav from './components/navs/Nav.vue'
+  import SideBar from './components/sidebars/Sidebar.vue'
+  import Main from './components/contents/Main.vue'
   export default {
     name: 'App',
     components: {
