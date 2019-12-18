@@ -3,9 +3,8 @@
     <el-col :span="24">
       <el-menu default-active="0" class="el-menu-vertical-demo" :collapse="isCollapse"
         background-color="rgba(9, 10, 57, 0.85)" text-color="#fff" active-text-color="#ffd04b">
-        <el-menu-item index="0" style="text-align:auto;" class="naviBar">
-          <i class="el-icon-s-unfold" :class="{'el-icon-s-fold':!isCollapse,'pos':!isCollapse}"
-            @click="changeCollapse"></i>
+        <el-menu-item index="0" @click="changeCollapse" style="text-align:auto;" class="naviBar">
+          <i class="el-icon-s-unfold" :class="{'el-icon-s-fold':!isCollapse,'pos':!isCollapse}"></i>
         </el-menu-item>
         <el-submenu index="1">
           <template slot="title">
@@ -90,5 +89,10 @@
     min-height: 400px;
   }
 
-  
+  .pos{
+    transform: translate(50px);
+    -moz-transform: translate(50px);
+    -webkit-transform: translate(50px);
+    -ms-transform: translate(50px);
+  }
 </style>
