@@ -6,7 +6,7 @@
           <el-image alt="logo" src="#" fit="contain" style="padding:15px;width:auto;"></el-image>
           <el-dropdown :hide-on-click="false" style="padding:12px;">
             <span class="el-dropdown-link">
-                <el-avatar :size="58" src="#" :fit="contain"></el-avatar>
+                <el-avatar :size="56" :src="src" :fit="contain"></el-avatar>
             </span>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item>个人信息</el-dropdown-item>
@@ -26,7 +26,8 @@
     methods: {},
     data() {
       return {
-        activeIndex: '1'
+        activeIndex: '1',
+        src: './assets/image/default-avatar.png'
       }
     },
     methods: {
