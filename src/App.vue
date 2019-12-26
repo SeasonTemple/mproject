@@ -1,6 +1,6 @@
 <template>
   <el-container id="home" class="wrapper">
-    <el-header style="height:80px;width: fix-content">
+    <el-header style="height:80px;width: fix-content block">
       <router-view class="view top" name="top"></router-view>
     </el-header>
     <el-container id="side-main" style="direction:vertical">
@@ -29,13 +29,20 @@
 </script>
 
 <style>
-   html,body,#home,.el-container{
-        padding: 0 0;
-        margin: 0px;
-        height: 100%;
-        width: 100%;
-   }
-  
+  .el-container {
+    overflow: hidden;
+  }
+
+  html,
+  body,
+  #home,
+  .el-container {
+    padding: 0 0;
+    margin: 0px;
+    height: 100%;
+    width: 100%;
+  }
+
   #home {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -43,8 +50,4 @@
     text-align: center;
     color: #2c3e50;
   }
-
-  
-  
-  
 </style>

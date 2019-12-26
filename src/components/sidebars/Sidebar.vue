@@ -59,10 +59,10 @@
   }
 </script>
 
-<style scope>
-  * {
+<style>
+  /* * {
     overflow: hidden;
-  }
+  } */
 
   #side {
     max-width: 180px;

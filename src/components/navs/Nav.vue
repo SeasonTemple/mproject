@@ -1,12 +1,12 @@
 <template>
   <el-col :span="24" id="Nav">
     <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect"
-      background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
+      background-color="rgba(9, 10, 57, 0.9)" text-color="#fff" active-text-color="#ffd04b">
       <el-row :span="24" type="flex" justify="space-between">
           <el-image alt="logo" src="#" fit="contain" style="padding:15px;width:auto;"></el-image>
           <el-dropdown :hide-on-click="false" style="padding:12px;">
             <span class="el-dropdown-link">
-                <el-avatar :size="56" :src="src" :fit="contain"></el-avatar>
+                <el-avatar :size="56" :src="url" fit="contain"></el-avatar>
             </span>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item>个人信息</el-dropdown-item>
@@ -27,7 +27,7 @@
     data() {
       return {
         activeIndex: '1',
-        src: './assets/image/default-avatar.png'
+        url: require('@/assets/img/default-avatar.png')
       }
     },
     methods: {
