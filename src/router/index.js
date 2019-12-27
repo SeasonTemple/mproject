@@ -11,9 +11,8 @@ export default new Router({
       components: {
         top: () => import('@/components/navs/Nav'),
         left: () => import('@/components/sidebars/Sidebar'),
-        default: () => import('@/components/contents/Main')
+        default: () => import('@/components/default/Main')
       }
     },
-
   ]
 })

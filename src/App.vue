@@ -7,7 +7,7 @@
       <el-aside style="width: fix-content;height: auto;">
         <router-view class="view left" name="left"></router-view>
       </el-aside>
-      <el-main>
+      <el-main style="padding-top:10px">
         <router-view class="view default"></router-view>
       </el-main>
     </el-container>
@@ -17,7 +17,7 @@
 <script>
   import Nav from './components/navs/Nav.vue'
   import SideBar from './components/sidebars/Sidebar.vue'
-  import Main from './components/contents/Main.vue'
+  import Main from './components/default/Main.vue'
   export default {
     name: 'App',
     components: {

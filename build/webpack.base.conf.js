@@ -5,7 +5,7 @@ const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
 const HtmlWebpackPlugin = require('html-webpack-plugin') //为html文件中引入的外部资源
 
-function resolve (dir) {
+function resolve(dir) {
   return path.join(__dirname, '..', dir)
 }
 
@@ -19,9 +19,8 @@ module.exports = {
   output: {
     path: config.build.assetsRoot,
     filename: '[name].js',
-    publicPath: process.env.NODE_ENV === 'production'
-      ? config.build.assetsPublicPath
-      : config.dev.assetsPublicPath
+    publicPath: process.env.NODE_ENV === 'production' ?
+      config.build.assetsPublicPath : config.dev.assetsPublicPath
   },
   resolve: {
     extensions: ['.js', '.vue', '.json'],
@@ -30,11 +29,20 @@ module.exports = {
     }
   },
   module: {
-    rules: [
-      {
+    rules: [{
         test: /\.vue$/,
         loader: 'vue-loader',
         options: vueLoaderConfig
+      },
+      {
+        test: /\.scss$/,
+        use: [{
+          loader: "style-loader"
+        }, {
+          loader: "css-loader"
+        }, {
+          loader: "sass-loader"
+        }]
       },
       {
         test: /\.js$/,
@@ -81,9 +89,9 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-       template: 'index.html',
-       favicon: 'favicon.ico',
-       inject: true
-     })
-   ],
+      template: 'index.html',
+      favicon: 'favicon.ico',
+      inject: true
+    })
+  ],
 }
