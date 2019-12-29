@@ -1,9 +1,9 @@
 <template>
   <el-row id="main">
     <el-col :span="24">
-      <el-tabs v-model="activeName" @tab-click="handleClick" type="border-card" editable="">
+      <el-tabs v-model="activeName" @tab-click="handleClick" type="border-card">
         <el-tab-pane label="tab1" name="first" :key="'first'">
-          <child1 v-if="isChildUpdate1"></child1>
+          <childStaff v-if="isChildUpdate1"></childStaff>
         </el-tab-pane>
         <el-tab-pane label="tab2" name="second" :key="'second'">
           <child2 v-if="isChildUpdate2"></child2>
@@ -15,9 +15,9 @@
 
 <script>
   export default {
-    name: "main",
+    name: "mainContent",
     components: {
-      child1: () => import('@/components/default/contents/Profile')
+      childStaff: () => import('@/components/default/contents/Staff')
     },
     data() {
       return {

@@ -3,12 +3,12 @@
     <el-col :span="24">
       <el-menu default-active="0" class="el-menu-vertical-demo" :collapse="isCollapse"
         background-color="rgba(9, 10, 57, 0.85)" text-color="#fff" active-text-color="#ffd04b">
-        <!-- <el-tooltip content="菜单切换" placement="right"> -->
+        <el-divider></el-divider>
         <el-menu-item index="0" @click="changeCollapse" style="text-align:auto;" class="naviBar">
-          <i class="el-icon-s-unfold" :class="{'el-icon-s-fold':!isCollapse,'pos':!isCollapse}"></i>
-          <span slot="title">菜单切换</span>
+          <i class="el-icon-s-unfold" :class="{'el-icon-s-fold':!isCollapse}"></i>
+          <span slot="title">{{switchBar}}</span>
         </el-menu-item>
-        <!-- </el-tooltip> -->
+        <el-divider></el-divider>
         <el-menu-item index="1">
           <i class="el-icon-location"></i>
           <span slot="title">控制台</span>
@@ -36,29 +36,26 @@
     data() {
       return {
         isCollapse: true,
+        switchBar: "展开菜单"
       }
     },
     methods: {
       changeCollapse() {
-        this.isCollapse = !this.isCollapse
+        this.isCollapse = !this.isCollapse;
+        this.isCollapse ? this.switchBar = "展开菜单" : this.switchBar = "收起菜单"
       }
     },
   }
 </script>
 
 <style>
-  * {
-    outline: none;
-  }
-
   #side {
-    max-width: 180px;
-    min-width: 71px;
+    max-width: 30vh;
+    min-width: fit-content;
     height: 100%;
     text-align: left;
     /* background-color: #091057; */
     background-color: rgba(9, 10, 57, 1);
-    overflow: hidden;
   }
 
   .el-menu-item:hover {
@@ -73,11 +70,12 @@
   .el-menu--collapse {
     width: 70px;
     border-right-width: 2px !important;
+    border-right-color: #ffd04b !important;
     border-right-style: solid;
   }
 
   .el-menu-vertical-demo:not(.el-menu--collapse) {
-    width: 180px;
+    width: 30vh;
     min-height: 400px;
   }
 
@@ -86,10 +84,9 @@
     outline-color: rgba(216, 22, 22, 0.8) !important;
   }
 
-  /* .pos {
-    transform: translate(50px);
-    -moz-transform: translate(50px);
-    -webkit-transform: translate(50px);
-    -ms-transform: translate(50px);
-  } */
+  .el-divider {
+    box-sizing: border-box;
+    margin: 1px 0 0 0;
+    background-color: rgb(96, 96, 143);
+  }
 </style>

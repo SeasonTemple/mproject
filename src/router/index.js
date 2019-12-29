@@ -5,13 +5,16 @@ Vue.use(Router)
 export default new Router({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes: [
-    {
+  routes: [{
       path: '/',
       components: {
-        top: () => import('@/components/navs/Nav'),
-        left: () => import('@/components/sidebars/Sidebar'),
-        default: () => import('@/components/default/Main')
+        
+      }
+    },
+    {
+      path: '/index',
+      components: {
+        home: () => import('@/components/base/App'),
       }
     },
   ]

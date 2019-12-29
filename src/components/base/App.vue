@@ -1,25 +1,25 @@
 <template>
   <el-container id="home" class="wrapper">
     <el-header style="height:80px;width: fix-content block">
-      <router-view class="view top" name="top"></router-view>
+      <top />
     </el-header>
     <el-container id="side-main" style="direction:vertical">
-      <el-aside style="width: fix-content;height: auto;">
-        <router-view class="view left" name="left"></router-view>
+      <el-aside style="width:fix-content;max-width: 30vh;height:fix-content;">
+        <left />
       </el-aside>
-      <el-main style="padding-top:10px">
-        <router-view class="view default"></router-view>
+      <el-main>
+        <default />
       </el-main>
     </el-container>
   </el-container>
 </template>
 
 <script>
-  import Nav from './components/navs/Nav.vue'
-  import SideBar from './components/sidebars/Sidebar.vue'
-  import Main from './components/default/Main.vue'
+  import Nav from '@/components/navs/Nav'
+  import SideBar from '@/components/sidebars/Sidebar'
+  import Main from '@/components/default/Main'
   export default {
-    name: 'App',
+    name: 'Home',
     components: {
       'top': Nav,
       'left': SideBar,
@@ -27,10 +27,13 @@
     }
   }
 </script>
-
 <style>
   .el-container {
     overflow: hidden;
+  }
+
+  * {
+    outline: none;
   }
 
   html,
@@ -49,5 +52,9 @@
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
     color: #2c3e50;
+  }
+
+  #side-main > .el-aside{
+    overflow: hidden;
   }
 </style>
