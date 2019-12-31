@@ -1,0 +1,28 @@
+@keyframes scaleDraw {
+  from {
+    transform: scale(1); }
+  to {
+    transform: scale(1.1); } }
+.top-left-card > :hover,
+.top-right-card > :hover,
+.administrators-card > :hover {
+  animation: scaleDraw 3s ease-out infinite; }
+
+.el-card {
+  margin-bottom: 15px; }
+
+.top-card-body .el-card {
+  margin-bottom: 0; }
+
+@keyframes top-card-frames {
+  0% {
+    background-color: white; }
+  50% {
+    background-color: rgba(146, 202, 212, 0.507); }
+  100% {
+    background-color: white; } }
+.top-left-card > :hover,
+.top-right-card > :hover {
+  animation: top-card-frames 3s ease-out infinite; }
+
+/*# sourceMappingURL=home-style.css.map */

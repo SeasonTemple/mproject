@@ -2,11 +2,11 @@
   <el-row id="main">
     <el-col :span="24">
       <el-tabs v-model="activeName" @tab-click="handleClick" type="border-card">
-        <el-tab-pane label="tab1" name="first" :key="'first'">
-          <childStaff v-if="isChildUpdate1"></childStaff>
+        <el-tab-pane label="控制台" name="first" :key="'first'">
+          <home v-if="isChildUpdate1"></home>
         </el-tab-pane>
         <el-tab-pane label="tab2" name="second" :key="'second'">
-          <child2 v-if="isChildUpdate2"></child2>
+          <childStaff v-if="isChildUpdate2"></childStaff>
         </el-tab-pane>
       </el-tabs>
     </el-col>
@@ -17,6 +17,7 @@
   export default {
     name: "mainContent",
     components: {
+      home: () => import('@/components/default/contents/Home'),
       childStaff: () => import('@/components/default/contents/Staff')
     },
     data() {
@@ -45,12 +46,11 @@
 </script>
 
 <style scoped>
+
   #main {
     /* background-color: rgba(11, 111, 1, 0.5); */
-    height: 100% !important;
+    height: auto;
     width: auto;
-    border-width: 3px solid;
-    border-color: red;
   }
 
   /* .el-tabs__content {

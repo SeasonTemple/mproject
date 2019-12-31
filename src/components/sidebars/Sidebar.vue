@@ -2,8 +2,8 @@
   <el-row id="side">
     <el-col :span="24">
       <el-menu default-active="0" class="el-menu-vertical-demo" :collapse="isCollapse"
-        background-color="rgba(9, 10, 57, 0.85)" text-color="#fff" active-text-color="#ffd04b">
-        <el-divider></el-divider>
+        background-color="rgba(9, 10, 57, 0.85)" text-color="#fff" active-text-color="#ffd04b" router>
+        <!-- <el-divider></el-divider> -->
         <el-menu-item index="0" @click="changeCollapse" style="text-align:auto;" class="naviBar">
           <i class="el-icon-s-unfold" :class="{'el-icon-s-fold':!isCollapse}"></i>
           <span slot="title">{{switchBar}}</span>
@@ -59,7 +59,7 @@
   }
 
   .el-menu-item:hover {
-    background-color: rgba(111, 111, 111, 0.8) !important;
+    background-color: rgba(111, 111, 111, 0.5) !important;
   }
 
   .el-submenu .is-opened {
@@ -77,6 +77,7 @@
   .el-menu-vertical-demo:not(.el-menu--collapse) {
     width: 30vh;
     min-height: 400px;
+    overflow: hidden;
   }
 
   .el-menu>.el-menu-item .is-active {
@@ -84,7 +85,7 @@
     outline-color: rgba(216, 22, 22, 0.8) !important;
   }
 
-  .el-divider {
+  .el-menu >.el-divider {
     box-sizing: border-box;
     margin: 1px 0 0 0;
     background-color: rgb(96, 96, 143);

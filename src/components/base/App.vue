@@ -1,5 +1,5 @@
 <template>
-  <el-container id="home" class="wrapper">
+  <el-container id="base" class="wrapper">
     <el-header style="height:80px;width: fix-content block">
       <top />
     </el-header>
@@ -27,18 +27,16 @@
     }
   }
 </script>
+<style src="../../assets/css/commons.css"></style>
 <style>
+
   .el-container {
     overflow: hidden;
   }
 
-  * {
-    outline: none;
-  }
-
   html,
   body,
-  #home,
+  #base,
   .el-container {
     padding: 0 0;
     margin: 0px;
@@ -46,7 +44,7 @@
     width: 100%;
   }
 
-  #home {
+  #base {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -54,7 +52,11 @@
     color: #2c3e50;
   }
 
-  #side-main > .el-aside{
+  #side-main {
+    background-color: gainsboro;
+  }
+
+  .el-aside{
     overflow: hidden;
   }
 </style>
