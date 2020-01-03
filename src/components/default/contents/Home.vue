@@ -2,14 +2,14 @@
   <div class="home">
     <el-card shadow="hover" id="top-card">
       <el-row class="top-card-body" type="flex" justify="start" :gutter="10">
-        <el-col :span="6">
+        <el-col :span="8">
           <el-card class="top-left-card" shadow="hover">
             <div style="height:80px">欢迎模块</div>
             <el-divider></el-divider>
             <div style="height:40px">签到模块</div>
           </el-card>
         </el-col>
-        <el-col :span="18">
+        <el-col :span="16">
           <el-card class="top-right-card" shadow="hover">
             <el-row :gutter="20" type="flex" justify="space-between">
               <el-col :span="14">
@@ -18,7 +18,7 @@
                 <div style="height:40px">实时日期</div>
               </el-col>
               <el-col :span="8">
-                 <div style="height:169px">实时定位</div>
+                <div style="height:169px">实时定位</div>
               </el-col>
             </el-row>
           </el-card>
@@ -45,7 +45,8 @@
     <el-divider></el-divider>
     <el-row>
       <el-col>
-        {{ duang }}
+        {{ getDuang }}
+        <el-button @click="getUsers">Axios</el-button>
       </el-col>
     </el-row>
 
@@ -57,7 +58,6 @@
     name: 'home',
     data() {
       return {
-        duang: '占位占位占位占位占位',
         url: '#',
         informations: [{
             title: '在线用户',
@@ -68,6 +68,23 @@
             body: ['112', '113', '114', '115'],
           },
         ]
+      }
+    },
+    methods: {
+      getUsers: function () {
+        // http://localhost:8085/users
+        // api/users
+        this.axios.get('/api/users')
+          .then((res) => {
+            console.log(res.data)
+          }).catch((err) => {
+            console.log('警告: 由api获取users数据失败！错误信息为: '+err.message)
+          })
+      }
+    },
+    computed: {
+      getDuang() {
+        return this.$store.state.duang;
       }
     }
   }

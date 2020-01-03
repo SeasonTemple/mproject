@@ -23,6 +23,6 @@
     background-color: white; } }
 .top-left-card > :hover,
 .top-right-card > :hover {
-  animation: top-card-frames 3s ease-out infinite; }
+  animation: top-card-frames 5s ease-out infinite; }
 
 /*# sourceMappingURL=home-style.css.map */

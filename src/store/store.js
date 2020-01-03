@@ -3,14 +3,11 @@ import Vuex from 'vuex';
 
 Vue.use(Vuex)
 
-export default new Vuex.Store ({
+export const store = new Vuex.Store({
   state: {
-
-  },
-  actions: {
-
+    duang: '占位占位占位占位占位'
   },
   mutations: {
-
+    
   }
 })
