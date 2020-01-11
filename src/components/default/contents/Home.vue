@@ -18,7 +18,7 @@
                 <div style="height:40px">实时日期</div>
               </el-col>
               <el-col :span="8">
-                <div style="height:169px">实时定位</div>
+                <div style="height:169px;">实时定位</div>
               </el-col>
             </el-row>
           </el-card>
@@ -78,7 +78,7 @@
           .then((res) => {
             console.log(res.data)
           }).catch((err) => {
-            console.log('警告: 由api获取users数据失败！错误信息为: '+err.message)
+            console.log('警告: 由api获取users数据失败！错误信息为: ' + err.message)
           })
       }
     },
@@ -89,5 +89,4 @@
     }
   }
 </script>
-
-<style scoped src="../../../assets/css/home-style.css"></style>
+<style scoped src="@/assets/css/home-style.css"></style>
