@@ -13,7 +13,7 @@ Vue.use(ElementUi)
 Vue.config.productionTip = false
 Vue.prototype.axios = axios
 Vue.prototype.qs = qs
-axios.defaults.baseURL='/api'
+axios.defaults.baseURL=''
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 /* eslint-disable no-new */

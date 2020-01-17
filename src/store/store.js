@@ -1,13 +1,11 @@
 import Vue from 'vue'
 import Vuex from 'vuex';
+Vue.use(Vuex);
 
-Vue.use(Vuex)
+import sideBar from './modules/sideBar';
 
 export const store = new Vuex.Store({
-  state: {
-    duang: '占位占位占位占位占位'
-  },
-  mutations: {
-    
+  modules: {
+    sideBar
   }
 })

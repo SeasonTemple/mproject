@@ -1,9 +1,9 @@
 <template>
   <el-row id="side">
     <el-col :span="24">
-      <el-menu default-active="0" class="el-menu-vertical-demo" :collapse="isCollapse"
-        background-color="rgba(9, 10, 57, 0.85)" text-color="#fff" active-text-color="#ffd04b" router>
-        <!-- <el-divider></el-divider> -->
+      <el-menu default-active="0" class="el-menu-vertical-demo" :collapse="isCollapse" background-color="transparent"
+        text-color="#fff" active-text-color="#ffd04b" router>
+        <!-- <el-divider></el-divider> rgba(9, 10, 57, 0.85)-->
         <el-menu-item index="0" @click="changeCollapse" style="text-align:auto;" class="naviBar">
           <i class="el-icon-s-unfold" :class="{'el-icon-s-fold':!isCollapse}"></i>
           <span slot="title">{{switchBar}}</span>
@@ -34,15 +34,18 @@
   export default {
     name: 'sideBar',
     data() {
+      const isCollapse = true;
+      const switchBar = "展开菜单";
       return {
-        isCollapse: true,
-        switchBar: "展开菜单"
+        isCollapse,
+        switchBar
       }
     },
     methods: {
       changeCollapse() {
-        this.isCollapse = !this.isCollapse;
-        this.isCollapse ? this.switchBar = "展开菜单" : this.switchBar = "收起菜单"
+        // this.isCollapse = !this.isCollapse;
+        this.$store.commit('sideBar/SET_COLLAPSE');
+        this.isCollapse ? this.switchBar = "展开菜单" : this.switchBar = "收起菜单";
       }
     },
   }
@@ -85,7 +88,7 @@
     outline-color: rgba(216, 22, 22, 0.8) !important;
   }
 
-  .el-menu >.el-divider {
+  .el-menu>.el-divider {
     box-sizing: border-box;
     margin: 1px 0 0 0;
     background-color: rgb(96, 96, 143);

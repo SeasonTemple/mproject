@@ -2,25 +2,26 @@
   <div class="home">
     <el-card shadow="hover" id="top-card">
       <el-row class="top-card-body" type="flex" justify="start" :gutter="10">
-        <el-col :span="8">
+        <el-col :span="6">
           <el-card class="top-left-card" shadow="hover">
-            <div style="height:80px">欢迎模块</div>
+            <div>欢迎模块</div>
             <el-divider></el-divider>
-            <div style="height:40px">签到模块</div>
+            <div>签到模块</div>
           </el-card>
         </el-col>
-        <el-col :span="16">
+        <el-col :span="6">
+          <el-card class="top-centerLeft-card" shadow="hover">
+            1
+          </el-card>
+        </el-col>
+        <el-col :span="6">
+          <el-card class="top-centerRight-card" shadow="hover">
+            1
+          </el-card>
+        </el-col>
+        <el-col :span="6">
           <el-card class="top-right-card" shadow="hover">
-            <el-row :gutter="20" type="flex" justify="space-between">
-              <el-col :span="14">
-                <div style="height:80px">实时时间</div>
-                <el-divider></el-divider>
-                <div style="height:40px">实时日期</div>
-              </el-col>
-              <el-col :span="8">
-                <div style="height:169px;">实时定位</div>
-              </el-col>
-            </el-row>
+            <div id="autoClock" v-html="time"></div>
           </el-card>
         </el-col>
       </el-row>
@@ -54,6 +55,7 @@
 </template>
 
 <script>
+  import dayjs from "dayjs";
   export default {
     name: 'home',
     data() {
@@ -67,7 +69,8 @@
             title: '管理员',
             body: ['112', '113', '114', '115'],
           },
-        ]
+        ],
+        time: dayjs().format('YYYY年MM月DD日<br>HH:mm:ss')
       }
     },
     methods: {
@@ -85,8 +88,21 @@
     computed: {
       getDuang() {
         return this.$store.state.duang;
+      },
+    },
+    mounted() {
+      //创建定时器更新最新的时间
+      var _this = this;
+      this.timer = setInterval(() => {
+        _this.time = dayjs().format('YYYY年MM月DD日<br>HH:mm:ss');
+      }, 1000);
+    },
+    beforeDestroy() {
+      //实例销毁前清除定时器
+      if (this.timer) {
+        clearInterval(this.timer);
       }
-    }
+    },
   }
 </script>
 <style scoped src="@/assets/css/home-style.css"></style>
