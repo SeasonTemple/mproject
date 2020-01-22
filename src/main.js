@@ -5,12 +5,14 @@ import 'element-ui/lib/theme-chalk/index.css'
 import {store} from './store/store';
 import axios from 'axios';
 // import VueAxios from 'vue-axios';
+import echarts from 'echarts'
 import qs from 'qs';
 import App from './components/base/App.vue'
 
 
 Vue.use(ElementUi)
 Vue.config.productionTip = false
+Vue.prototype.echarts = echarts
 Vue.prototype.axios = axios
 Vue.prototype.qs = qs
 axios.defaults.baseURL=''

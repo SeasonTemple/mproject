@@ -1,12 +1,12 @@
 <template>
   <el-row id="side">
     <el-col :span="24">
-      <el-menu default-active="0" class="el-menu-vertical-demo" :collapse="isCollapse" background-color="transparent"
+      <el-menu default-active="0" class="el-menu-vertical-demo" :collapse="collapse" background-color="transparent"
         text-color="#fff" active-text-color="#ffd04b" router>
         <!-- <el-divider></el-divider> rgba(9, 10, 57, 0.85)-->
         <el-menu-item index="0" @click="changeCollapse" style="text-align:auto;" class="naviBar">
-          <i class="el-icon-s-unfold" :class="{'el-icon-s-fold':!isCollapse}"></i>
-          <span slot="title">{{switchBar}}</span>
+          <i class="el-icon-s-unfold" :class="{'el-icon-s-fold':!collapse}"></i>
+          <span slot="title">{{ swiBar }}</span>
         </el-menu-item>
         <el-divider></el-divider>
         <el-menu-item index="1">
@@ -34,8 +34,8 @@
   export default {
     name: 'sideBar',
     data() {
-      const isCollapse = true;
-      const switchBar = "展开菜单";
+      const isCollapse = this.collapse
+      const switchBar = this.swiBar
       return {
         isCollapse,
         switchBar
@@ -43,11 +43,17 @@
     },
     methods: {
       changeCollapse() {
-        // this.isCollapse = !this.isCollapse;
         this.$store.commit('sideBar/SET_COLLAPSE');
-        this.isCollapse ? this.switchBar = "展开菜单" : this.switchBar = "收起菜单";
       }
     },
+    computed: {
+      collapse: function () {
+        return this.isCollapse = this.$store.state.sideBar.isCollapse
+      },
+      swiBar: function () {
+        return this.$store.state.sideBar.switchBar
+      }
+    }
   }
 </script>
 
