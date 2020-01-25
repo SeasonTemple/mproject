@@ -1,30 +1,12 @@
 <template>
-  <el-container id="base" class="wrapper">
-    <el-header style="height:80px;width: fix-content block">
-      <top />
-    </el-header>
-    <el-container id="side-main" style="direction:vertical">
-      <el-aside style="width:fix-content;max-width: 30vh;height:fix-content;">
-        <left />
-      </el-aside>
-      <el-main>
-        <default />
-      </el-main>
-    </el-container>
-  </el-container>
+  <div id="app">
+    <router-view/>
+  </div>
 </template>
 
 <script>
-  import Nav from '@/components/navs/Nav'
-  import SideBar from '@/components/sidebars/Sidebar'
-  import Main from '@/components/default/Main'
   export default {
-    name: 'Home',
-    components: {
-      'top': Nav,
-      'left': SideBar,
-      'default': Main,
-    }
+    name: 'App',
   }
 </script>
 <style src="../../assets/css/commons.css"></style>

@@ -43,7 +43,7 @@
   background-color: blanchedalmond;
   text-align: center; }
   .top-right-card > :not(#autoClock) {
-    padding: 20px;
+    padding: 0 auto;
     box-sizing: border-box; }
 
 .top-left-card,

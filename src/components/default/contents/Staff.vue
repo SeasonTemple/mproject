@@ -7,7 +7,7 @@
               <el-input v-model="formInline.user" placeholder="部门"></el-input>
             </el-form-item>
             <el-form-item label="职位">
-              <el-input v-model="formInline.user" placeholder="部门"></el-input>
+              <el-input v-model="formInline.user" placeholder="职位"></el-input>
             </el-form-item>
             <el-form-item label="负责项目">
               <el-select v-model="formInline.region" placeholder="负责项目">

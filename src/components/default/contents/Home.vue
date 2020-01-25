@@ -49,7 +49,7 @@
     <el-divider></el-divider>
     <el-row>
       <template v-for="(item,index) in charts">
-        <el-col :span="12" :key="index" :style="{'height':'200px'}">
+        <el-col :span="12" :key="index" :style="{'height':'400px'}" v-loading="drawLoading">
           <div :id='index' :style="{'height':'100%','width':'100%'}"></div>
         </el-col>
       </template>
@@ -64,6 +64,7 @@
     data() {
       return {
         url: '#',
+        drawLoading: true,
         informations: [{
             title: '在线用户',
             body: ['112', '113', '114', '115'],
@@ -106,7 +107,7 @@
             tooltip: {},
             legend: {
               right: 'center',
-              top: '15%',
+              top: '10%',
               data: ['销量']
             },
             xAxis: {
@@ -138,15 +139,18 @@
       },
       drawCharts: function () {
         this.charts.forEach((c, idx) => {
-          let myChart = this.echarts.init(document.getElementById(idx), c, {
+          let myChart = this.echarts.init(document.getElementById(idx), {
             render: 'svg'
           })
           myChart.setOption(c);
           window.addEventListener("resize", () => {
             myChart.resize();
           });
+          setTimeout(() => {
+            this.drawLoading = false
+          }, 2000);
+
         })
-        // myChart.setOption(this.charts[0])
       }
     },
     computed: {

@@ -1,29 +1,29 @@
 <template>
   <el-row id="side">
     <el-col :span="24">
-      <el-menu default-active="0" class="el-menu-vertical-demo" :collapse="collapse" background-color="transparent"
+      <el-menu default-active="/" class="el-menu-vertical-demo" :collapse="collapse" background-color="transparent"
         text-color="#fff" active-text-color="#ffd04b" router>
         <!-- <el-divider></el-divider> rgba(9, 10, 57, 0.85)-->
-        <el-menu-item index="0" @click="changeCollapse" style="text-align:auto;" class="naviBar">
+        <el-menu-item index="/" @click="changeCollapse" style="text-align:auto;" class="naviBar">
           <i class="el-icon-s-unfold" :class="{'el-icon-s-fold':!collapse}"></i>
           <span slot="title">{{ swiBar }}</span>
         </el-menu-item>
         <el-divider></el-divider>
-        <el-menu-item index="1">
+        <el-menu-item index="index/console">
           <i class="el-icon-location"></i>
           <span slot="title">控制台</span>
         </el-menu-item>
-        <el-menu-item index="2">
+        <el-menu-item index="index/userInfo">
           <i class="el-icon-menu"></i>
           <span slot="title">个人信息</span>
         </el-menu-item>
-        <el-menu-item index="3">
+        <el-menu-item index="index/sysMsg">
           <i class="el-icon-document"></i>
-          <span slot="title">导航三</span>
+          <span slot="title">系统消息</span>
         </el-menu-item>
-        <el-menu-item index="4">
+        <el-menu-item index="index/project">
           <i class="el-icon-setting"></i>
-          <span slot="title">导航四</span>
+          <span slot="title">项目相关</span>
         </el-menu-item>
       </el-menu>
     </el-col>
@@ -31,6 +31,9 @@
 </template>
 
 <script>
+  import {
+    mapMutations
+  } from 'vuex'
   export default {
     name: 'sideBar',
     data() {
@@ -42,8 +45,16 @@
       }
     },
     methods: {
+      ...mapMutations({
+        SET_COLLAPSE: 'sideBar/SET_COLLAPSE'
+      }),
       changeCollapse() {
-        this.$store.commit('sideBar/SET_COLLAPSE');
+        this.NProgress.inc(0.2)
+        // this.$store.commit('sideBar/SET_COLLAPSE');
+        setTimeout(() => {
+          this.SET_COLLAPSE();
+          this.NProgress.done()
+        }, 3000);
       }
     },
     computed: {
@@ -59,6 +70,7 @@
 
 <style>
   #side {
+    display: block;
     max-width: 30vh;
     min-width: fit-content;
     height: 100%;
