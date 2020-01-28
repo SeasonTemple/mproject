@@ -1,0 +1,36 @@
+@charset 'UTF-8';
+@import 'sassConfig';
+
+* {
+  outline: none;
+  // -moz-user-select: -moz-none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+#nprogress .bar {
+  background: $defColor6; //Nprogress 自定义颜色
+  animation: loading 5s ease-out infinite;
+}
+
+@keyframes loading {
+  0% {
+    background-color: $defColor1;
+  }
+
+  35%{
+    background-color: $defColor3
+  }
+
+  55% {
+    background-color: $defColor5;
+  }
+
+  80% {
+    background-color: $defColor6;
+  }
+}
