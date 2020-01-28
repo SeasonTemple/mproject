@@ -1,30 +1,46 @@
-axios.defaults.timeout = 50000; // 超时时间
-axios.defaults.baseURL = constant.OA_URL; // 默认地址
-axios.defaults.responseType = 'json'; //类型动态设置
+import axios from 'axios'
+import { DEFAULT_URL } from './constant'
+import cookie from 'js-cookie'
+import qs from 'qs';
 
-axios.defaults.transformRequest = function (data) {
-  //data = Qs.stringify(data);
-  data = JSON.stringify(data);
-  return data;
-};
+axios.defaults.timeout = 20000; // 超时时间
+axios.defaults.baseURL = DEFAULT_URL; // 默认地址
+axios.defaults.responseType = 'json'; //响应类型动态设置
+
+// axios.defaults.transformRequest = function (data) {
+//   data = qs.stringify(data);
+//   return data;
+// };
+
+axios.defaults.transformRequest = [
+  function (data) {
+    // data = qs.stringify(data)
+    return data;
+  }
+]
 
 // http request 拦截器
 axios.interceptors.request.use(
   config => {
-    //config.data = JSON.stringify(config.data);  
-    config.headers['Content-Type'] = 'application/json;charset=UTF-8';
-    //判断是否存在ticket，如果存在的话，则每个http header都加上ticket
-    if (cookie.get("token")) {
-      //用户每次操作，都将cookie设置成2小时
-      cookie.set("token", cookie.get("token"), 1 / 12)
-      cookie.set("name", cookie.get("name"), 1 / 12)
-      config.headers.token = cookie.get("token");
-      config.headers.name = cookie.get("name");
+    if (config.method == "post") {
+      config.data = qs.stringify(config.data);
+      config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+    } else {
+      config.headers['Content-Type'] = 'application/json;charset=UTF-8';
     }
+    //判断是否存在ticket，如果存在的话，则每个http header都加上ticket
+    // if (cookie.get("token")) {
+    //   //用户每次操作，都将cookie设置成2小时
+    // cookie.set("token", cookie.get("token"), 1 / 12)
+    //   cookie.set("name", cookie.get("name"), 1 / 12)
+    //   config.headers.token = cookie.get("token");
+    //   config.headers.name = cookie.get("name");
+    // }
 
     return config;
   },
   error => {
+    console.error('Request failed: Connect failed.')
     return Promise.reject(error.response);
   });
 
@@ -42,6 +58,7 @@ axios.interceptors.response.use(
     }
   },
   error => {
+    console.error('Response failed: Connection failed.')
     return Promise.reject(error.response) // 返回接口返回的错误信息
   });
 export default axios;

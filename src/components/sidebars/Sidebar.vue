@@ -32,6 +32,7 @@
 
 <script>
   import {
+    mapState,
     mapMutations
   } from 'vuex'
   export default {
@@ -58,11 +59,16 @@
       }
     },
     computed: {
+      ...mapState({
+        store_isCollapse: state => state.sideBar.isCollapse,
+        store_switchBar: state => state.sideBar.switchBar
+      }),
+
       collapse: function () {
-        return this.isCollapse = this.$store.state.sideBar.isCollapse
+        return this.isCollapse = this.store_isCollapse
       },
       swiBar: function () {
-        return this.$store.state.sideBar.switchBar
+        return this.store_switchBar
       }
     }
   }
@@ -74,6 +80,7 @@
     max-width: 30vh;
     min-width: fit-content;
     height: 100%;
+    width: fit-content;
     text-align: left;
     /* background-color: #091057; */
     background-color: rgba(9, 10, 57, 1);

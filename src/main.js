@@ -3,7 +3,9 @@ import { router } from './router'
 import ElementUi from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import { store } from './store/store';
-import axios from 'axios';
+import axios from './utils/axios';
+import owl from '_a/api'
+import cookie from 'js-cookie'
 // import VueAxios from 'vue-axios';
 import echarts from 'echarts'
 import NProgress from './utils/NProgress'
@@ -15,10 +17,10 @@ Vue.use(ElementUi)
 Vue.config.productionTip = false
 Vue.prototype.echarts = echarts
 Vue.prototype.axios = axios
+Vue.prototype.cookie = cookie
 Vue.prototype.NProgress = NProgress
 Vue.prototype.qs = qs
-axios.defaults.baseURL = ''
-axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+owl()
 
 /* eslint-disable no-new */
 new Vue({

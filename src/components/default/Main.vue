@@ -45,15 +45,4 @@
   }
 </script>
 
-<style scoped>
-
-  #main {
-    /* background-color: rgba(11, 111, 1, 0.5); */
-    height: auto;
-    width: auto;
-  }
-
-  /* .el-tabs__content {
-    height: 100% !important;
-  } */
-</style>
+<style scoped src="@/assets/css/main.css"></style>

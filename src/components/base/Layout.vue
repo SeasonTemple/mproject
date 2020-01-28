@@ -4,7 +4,7 @@
       <top />
     </el-header>
     <el-container id="side-main" style="direction:vertical">
-      <el-aside style="width:fix-content;max-width: 30vh;height:fix-content;">
+      <el-aside style="width:fit-content">
         <left />
       </el-aside>
       <el-main>
@@ -27,7 +27,11 @@
     }
   }
 </script>
-<style src="../../assets/css/commons.css"></style>
+<style src="@/assets/css/commons.css"></style>
+<style src="@/assets/css/layout.css"></style>
+
+
+</style>
 <style>
   .el-container {
     overflow: hidden;
@@ -53,6 +57,7 @@
 
   #side-main {
     background-color: gainsboro;
+    display: flex;
   }
 
   .el-aside {
