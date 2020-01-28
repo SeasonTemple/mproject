@@ -10,16 +10,17 @@ const whiteRouters = ['/', '/login', '/404']
 const defaultRouterMap = [{
     path: '/',
     name: '无条件跳转',
-    redirect: '/index'
+    redirect: '/login'
   },
-  // {
-  //   path: '/login',
-  //   name: '登录',
-  //   component: '',
-  //   meta: {
-  //     title: 'login'
-  //   }
-  // },
+  {
+    path: '/login',
+    name: '登录',
+    component: '',
+    meta: {
+      title: 'login'
+    },
+    component: () => import('@/components/login/Login')
+  },
   {
     path: '/index',
     name: '主页',
@@ -44,7 +45,7 @@ export const router = new Router({
 
 router.beforeEach((to, from, next) => {
   NProgress.set(0.2)
-  next()
+  setTimeout(()=>next(),1000)
 })
 
 router.afterEach(() => {
