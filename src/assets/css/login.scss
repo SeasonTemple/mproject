@@ -1,8 +1,12 @@
+@charset 'UTF-8';
+@import 'sassConfig';
+
 html,
 body {
   padding: 0;
   margin: 0;
-  overflow: scroll; }
+  overflow: scroll;
+}
 
 #parent {
   position: absolute;
@@ -12,9 +16,10 @@ body {
   margin-left: -200px;
   height: 350px;
   width: 400px;
-  border-color: rgba(113, 238, 190, 0.897);
-  background-color: rgba(252, 48, 41, 0.596); }
-  #parent > #userFrom {
+  border-color: $defColor3;
+  background-color: $defColor6;
+
+  &>#userFrom {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -23,13 +28,14 @@ body {
     height: 150px;
     width: 150px;
     border: 2px;
-    background-color: rgba(113, 238, 190, 0.897); }
+    background-color: $defColor5;
+  }
+}
 
 #userFrom .el-button {
   position: absolute;
   top: 50%;
   left: 50%;
   margin-top: 71px;
-  margin-left: -36px; }
-
-/*# sourceMappingURL=login.css.map */
+  margin-left: -36px;
+}

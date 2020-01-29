@@ -12,6 +12,6 @@ yarn-error.log*
 *.ntvs*
 *.njsproj
 *.sln
-*.scss
+# *.scss
 *.map
-sassConfig.css
+# sassConfig.css

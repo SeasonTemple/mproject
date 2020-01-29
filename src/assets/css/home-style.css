@@ -6,10 +6,12 @@
 .administrators-card {
   font-size: 1.5vw;
   text-align: center; }
-  .administrators-card > :hover {
-    animation: scaleDraw 3s ease-out infinite; }
-  .administrators-card > .el-avatar--square {
-    text-align: center; }
+
+.administrators-card > :hover {
+  animation: scaleDraw 3s ease-out infinite; }
+
+.administrators-card > .el-avatar--square {
+  text-align: center; }
 
 #top-card {
   margin-bottom: 15px;
@@ -20,10 +22,12 @@
 
 .top-card-body {
   height: fit-content; }
-  .top-card-body .el-card {
-    height: 112px; }
-  .top-card-body .el-divider {
-    margin: 12px 0 12px 0; }
+
+.top-card-body .el-card {
+  height: 112px; }
+
+.top-card-body .el-divider {
+  margin: 12px 0 12px 0; }
 
 @keyframes top-card-frames {
   0% {
@@ -40,11 +44,12 @@
 
 .top-right-card {
   font-family: Helvetica, Arial, sans-serif;
-  background-color: blanchedalmond;
+  background-color: rgba(255, 235, 205, 0.959);
   text-align: center; }
-  .top-right-card > :not(#autoClock) {
-    padding: 0 auto;
-    box-sizing: border-box; }
+
+.top-right-card > :not(#autoClock) {
+  padding: 0 auto;
+  box-sizing: border-box; }
 
 .top-left-card,
 .top-centerLeft-card,
@@ -53,12 +58,13 @@
   padding: 20px;
   box-sizing: border-box;
   text-align: center; }
-  .top-left-card div,
-  .top-centerLeft-card div,
-  .top-center-card div,
-  .top-centerRight-card div {
-    font-size: 1.5vw;
-    display: block; }
+
+.top-left-card div,
+.top-centerLeft-card div,
+.top-center-card div,
+.top-centerRight-card div {
+  font-size: 1.5vw;
+  display: block; }
 
 #autoClock {
   display: block;

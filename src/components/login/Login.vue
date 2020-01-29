@@ -1,9 +1,7 @@
 <template>
     <div id="parent">
         <el-form id="userFrom">
-          <el-row>
-           <el-button type="success" plain size="medium">{{mode}}</el-button>
-          </el-row>
+          
         </el-form>
     </div>
 </template>

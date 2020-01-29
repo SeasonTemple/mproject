@@ -30,8 +30,6 @@
 <style src="@/assets/css/commons.css"></style>
 <style src="@/assets/css/layout.css"></style>
 
-
-</style>
 <style>
   .el-container {
     overflow: hidden;
