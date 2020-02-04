@@ -1,17 +1,9 @@
-html,
-body {
-  padding: 0;
-  margin: 0;
-  overflow: scroll; }
+.cover {
+  background-image: url("../img/pexels-001.jpg");
+  background-repeat: none;
+  background-attachment: fixed; }
 
-body {
-  width: 100%;
-  height: 100vh;
-  background-color: #000;
-  background-image: radial-gradient(circle at top right, rgba(121, 68, 154, 0.13), transparent), radial-gradient(circle at 20% 80%, rgba(41, 196, 255, 0.13), transparent);
-  overflow: hidden; }
-
-#parent {
+.parent {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -19,9 +11,11 @@ body {
   margin-left: -200px;
   height: 350px;
   width: 400px;
-  border-color: rgba(113, 238, 190, 0.897);
-  background-color: rgba(252, 48, 41, 0.596); }
-  #parent > #userFrom {
+  border: 2px solid #e4dddd;
+  background-color: gray;
+  box-sizing: border-box;
+  box-shadow: -8px 8px 6px rgba(88, 88, 88, 0.9); }
+  .parent > .userFrom {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -31,12 +25,5 @@ body {
     width: 150px;
     border: 2px;
     background-color: rgba(146, 202, 212, 0.507); }
-
-#userFrom .el-button {
-  position: absolute;
-  top: calc(100% - 50%);
-  left: calc(100% - 50%);
-  margin-top: 71px;
-  margin-left: -36px; }
 
 /*# sourceMappingURL=login.css.map */
