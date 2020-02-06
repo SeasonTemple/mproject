@@ -1,10 +1,13 @@
 @charset 'UTF-8';
 @import 'sassConfig';
 
-.cover {
-  background-image: url("../img/pexels-001.jpg");
-  background-repeat: none;
-  background-attachment: fixed;
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
 }
 
 .parent {
@@ -15,21 +18,30 @@
   margin-left: -200px;
   height: 350px;
   width: 400px;
-  border: 2px solid rgb(228, 221, 221);
-  background-color: gray;
+  background-color: transparent;
+  border: 1px solid rgba(228, 221, 221, .8)transparent;
+  border-radius: 8px;
   box-sizing: border-box;
-  box-shadow: -8px 8px 6px rgba(88,88,88,.9);
-  // z-index: 2;
+  // box-shadow: -8px 8px 6px rgba(88, 88, 88, .5);
 
-  &>.userFrom {
+  &::before {
+    content: "";
     position: absolute;
     top: 50%;
     left: 50%;
-    margin-top: -75px;
-    margin-left: -75px;
-    height: 150px;
-    width: 150px;
-    border: 2px;
-    background-color: $defColor5;
+    margin-top: -175px;
+    margin-left: -200px;
+    height: 350px;
+    width: 400px;
+    border: 1px solid rgba(228, 221, 221, .8)transparent;
+    border-radius: 8px;
+    box-sizing: border-box;
+    background-color: rgba(255, 255, 255, .5);
+    filter: blur(1px);
+  }
+
+  &>.el-form {
+    margin: 5px;
   }
 }
+
