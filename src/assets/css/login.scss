@@ -101,6 +101,65 @@ body {
   }
 }
 
+.continue {
+  display: block;
+  position: absolute;
+  top: 60%;
+  height: 46px;
+  width: 90px;
+  border: 1px solid rgba(224, 224, 224, 0.959);
+  margin-left: -45px;
+  left: 50%;
+  transform-origin: center;
+  background: transparent;
+  color: rgba(224, 224, 224, 0.959);
+  // box-shadow: 0 0 3px white;
+  box-sizing: border-box;
+  transition: all linear 1s;
+  animation: dropFromLeft linear 2s;
+
+  &:hover {
+    width: 120px;
+    margin-left: -60px;
+    box-shadow: 0 1px 16px white;
+    transition: all linear 1s;
+    animation: box-shadow 1s ease-in-out alternate-reverse, dropFromLeft ease-out 1s reverse;
+
+    // transform: rotateX(360deg) linear 1s;
+    &::before {
+      width: 41%;
+      transition: width linear 1s;
+    }
+  }
+
+  &::before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 30%;
+    border-bottom: 2px solid rgba(224, 224, 224, 0.959);
+    width: 44%;
+    transition: width linear 1s;
+  }
+
+  &::after {
+    content: '';
+    display: block;
+    top: 50%;
+    margin-top: -5px;
+    left: 60%;
+    position: absolute;
+    transform: rotate(-45deg);
+    border-right: 2px solid rgba(224, 224, 224, 0.959);
+    border-bottom: 2px solid rgba(224, 224, 224, 0.959);
+    border-radius: 2px 2px;
+    height: 10px;
+    width: 10px;
+  }
+
+}
+
 .goRegister {
   display: block;
   position: absolute;
@@ -109,38 +168,41 @@ body {
   height: 80px;
   width: 150px;
   margin-left: -75px;
-  font-size: 1.05em;
-  text-align: center;
+  font-size: 1.1em;
   font-family: 'Times New Roman', Times, serif;
   color: transparent;
+  font-weight: 500;
+  text-align: center;
   box-sizing: border-box;
+  z-index: 10;
 
   &:hover {
     color: rgba(224, 224, 224, .964);
     transition: color ease-in-out 1s;
     z-index: 10;
+    text-shadow: 0px 0px 5px goldenrod;
 
     &::before {
-      height: 30px;
-      width: 30px;
-      margin-left: -15px;
-      border-bottom-width: .3em;
-      border-right-width: .3em;
+      height: 36px;
+      width: 36px;
+      margin-left: -18px;
+      border-bottom-width: .2em;
+      border-right-width: .2em;
       border-radius: 0 0;
-      transition: all ease-in-out .6s;
-      animation: all 1s linear alternate-reverse;
+      transition: all ease-in-out .4s;
+      animation: FadeMove3 1s ease-in-out alternate infinite;
     }
 
     &::after {
       bottom: 10%;
-      height: 30px;
-      width: 30px;
-      margin-left: -15px;
+      height: 36px;
+      width: 36px;
+      margin-left: -18px;
       border-radius: 0 0;
-      border-bottom-width: .3em;
-      border-right-width: .3em;
-      transition: all ease-in-out .6s;
-      animation: all 1s linear alternate-reverse;
+      border-bottom-width: .2em;
+      border-right-width: .2em;
+      transition: all ease-in-out .4s;
+      animation: FadeMove4 1s ease-in-out alternate infinite;
     }
   }
 
@@ -184,6 +246,37 @@ body {
   }
 }
 
+.greet {
+  display: block;
+  position: absolute;
+  background: transparent;
+  font-size: 5em;
+  font-weight: bold;
+  text-align: center;
+  height: 100px;
+  width: 800px;
+  top: 30%;
+  left: 50%;
+  margin-left: -400px;
+  color: rgba(224, 224, 224, .5);
+  animation: showGreet linear 1.5s;
+
+  &::before {
+    content: '';
+    display: block;
+    position: absolute;
+    background: transparent;
+    font-size: 5em;
+    font-weight: bold;
+    text-align: center;
+    height: 100px;
+    width: 800px;
+    left: 50%;
+    margin-left: -400px;
+    background: transparent;
+  }
+}
+
 @keyframes Fill {
   from {
     width: 0;
@@ -195,7 +288,7 @@ body {
 }
 
 @keyframes FadeMove1 {
-  to{
+  to {
     bottom: 60%;
   }
 }
@@ -206,9 +299,23 @@ body {
   }
 }
 
-@keyframes FadeMoveAll {
+@keyframes FadeMove3 {
+  from {
+    bottom: 50%;
+  }
+
   to {
-    bottom: -10%;
+    bottom: 25%;
+  }
+}
+
+@keyframes FadeMove4 {
+  from {
+    bottom: 15%;
+  }
+
+  to {
+    bottom: 0%;
   }
 }
 
@@ -217,6 +324,7 @@ body {
     left: -50%;
     transform: rotateZ(-360deg);
   }
+
   to {
     left: 50%;
   }
@@ -234,10 +342,26 @@ body {
   100% {}
 }
 
-// .right {
-//   height: 650px;
-//   width: 400px;
-//   background-image: url();
-//   background-size: contain;
-//   background-repeat: no-repeat;
-// }
+@keyframes dropFromLeft {
+  from {
+    left: -100%;
+    transform: rotate(-720deg);
+  }
+}
+
+@keyframes showGreet {
+  0% {
+    color: transparent;
+    transform: scale(.1);
+  }
+  80%{
+    color: transparent;
+    transform: scale(.8);
+  }
+  90%{
+    transform: scale(.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

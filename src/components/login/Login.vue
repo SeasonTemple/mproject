@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-image :style="bgStyle" :src='url' fit="cover" :lazy='true'></el-image>
-    <div class="left" :class="{isSwitch: mode=='register'}">
+    <div class="left" :class="{isSwitch: mode=='register'}" :style="showForm">
       <el-form ref="form" :model="form">
         <el-form-item label="Username" :class="{isFocus: actFocus.isFocus}">
           <el-input v-model="form.account" autocomplete maxlength="20" show-word-limit
@@ -24,18 +24,22 @@
           </el-tooltip> -->
           </el-input>
         </el-form-item>
-          <el-link class="forget">忘记密码?</el-link>
+        <el-link class="forget">忘记密码?</el-link>
         <el-form-item>
           <el-button class="logBtn">登&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;录</el-button>
         </el-form-item>
-        <el-form-item >
+        <el-form-item>
           <!-- v-if="mode!='register'" -->
           <el-button class="regBtn" @click="switchReg">没有账号?立即注册</el-button>
         </el-form-item>
       </el-form>
     </div>
-    <div class="goRegister">
-      点击前往注册
+    <div :class="{greet:true}">
+      通用人事管理系统
+    </div>
+    <el-button round :class="{continue: true}"></el-button>
+    <div :class="{goRegister:true,disappear: isClick}">
+      点此前往注册
     </div>
   </div>
 </template>
@@ -69,13 +73,19 @@
         name: 'password',
         isFocus: false
       };
+      let showForm = {
+        display: 'none'
+      };
+      let isClick = false;
       return {
         mode,
         url,
         bgStyle,
         form,
         actFocus,
-        pwdFocus
+        pwdFocus,
+        showForm,
+        isClick
       }
     },
     methods: {
