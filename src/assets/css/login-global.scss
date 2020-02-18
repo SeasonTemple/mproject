@@ -71,12 +71,19 @@ body {
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   margin: 20px 0 0 0;
   width: 90%;
-
+  &:focus {
+    outline: none;
+    animation: btColor 4s linear infinite;
+  }
+  &:hover {
+    outline: none;
+    border-bottom: 2px solid rgba(224, 224, 224, 0.959);
+  }
 }
 
 #valiCode {
   font-size: 1.3em;
-  color: rgba(224, 224, 224, 0.959);
+  color: rgba(255, 255, 255, 959);
   background-color: transparent;
   border-top-style: none;
   border-left-style: none;
@@ -89,23 +96,12 @@ body {
   width: 56%;
 }
 
-.el-input__inner:focus {
-  outline: none;
-  animation: btColor 4s linear infinite;
-}
-
-.el-input__inner:hover {
-  outline: none;
-  border-bottom: 2px solid rgba(224, 224, 224, 0.959);
-}
-
 .el-input__count-inner {
   font-size: 16px;
   font-weight: 300;
   background: transparent !important;
   color: rgba(255, 255, 255, 0.76);
   padding: 20px 33px 0 0 !important;
-  /* -webkit-font-smoothing: antialiased; */
 }
 
 .el-input__prefix {
@@ -152,7 +148,7 @@ body {
   font-size: 1.05em;
   border: transparent;
   width: 85%;
-  margin: 30px 0 0 30px;
+  margin: 20px 0 0 30px;
   // background-image: linear-gradient(to right, rgba(81, 173, 248, 0.822)23%, rgba(217, 74, 253, 0.822) 66%, rgba(255, 30, 86, 0.767) 100%);
   background-image: linear-gradient(35deg, rgba(70, 248, 210, 0.863)8%, rgba(81, 173, 248, 0.822)33%, rgba(123, 72, 182, 0.845), rgba(255, 30, 86, 0.767)76%, rgba(250, 120, 60, 0.87)100%);
 
