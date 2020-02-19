@@ -1,3 +1,20 @@
+@charset "UTF-8";
+::-webkit-scrollbar {
+  /*血槽宽度*/
+  width: 8px;
+  height: 8px;
+  background-color: rgba(0, 0, 0, 0.4); }
+
+::-webkit-scrollbar-thumb {
+  /*拖动条*/
+  background-color: rgba(0, 0, 0, 0.7);
+  border-radius: 6px; }
+
+::-webkit-scrollbar-track {
+  /*背景槽*/
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 5px; }
+
 html,
 body {
   margin: 0;
@@ -40,7 +57,8 @@ body {
   margin: 21px 28px 0 0;
   background: transparent;
   position: relative;
-  border: 0.5px solid rgba(252, 252, 252, 0.5); }
+  border: 0.5px solid rgba(252, 252, 252, 0.5);
+  transition: all ease-in-out 2s alternate-reverse; }
   .valiBtn:focus::after {
     content: '';
     position: absolute;
@@ -58,7 +76,7 @@ body {
     background: rgba(255, 255, 255, 0.5);
     border-color: rgba(255, 255, 255, 0.5); }
   .valiBtn:active {
-    background: rgba(103, 194, 58, 0.4);
+    background: rgba(189, 243, 157, 0.5);
     border-color: rgba(103, 194, 58, 0.4); }
 
 .forget {
@@ -66,7 +84,18 @@ body {
   left: 70%;
   bottom: 20%;
   font-size: .9em;
-  color: rgba(224, 224, 224, 0.959); }
+  line-height: .9em;
+  color: rgba(255, 255, 255, 0.959);
+  transition: all ease-in-out .5s; }
+  .forget:visited {
+    color: rgba(0, 0, 0, 0.877); }
+  .forget:hover {
+    font-weight: 550;
+    color: rgba(255, 255, 255, 0.959);
+    transform: scale(1.2);
+    transition: all ease-in-out .5s; }
+  .forget:active {
+    color: rgba(3, 31, 82, 0.877); }
 
 .isSwitch {
   animation: SwitchMode linear 1s;

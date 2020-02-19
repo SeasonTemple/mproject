@@ -24,26 +24,20 @@
           </el-tooltip> -->
           </el-input>
         </el-form-item>
-        <el-link class="forget">忘记密码?</el-link>
+        <el-link :class="{forget:true}" :underline="false">忘记密码?</el-link>
         <el-form-item>
           <el-button class="logBtn">登&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;录</el-button>
         </el-form-item>
-        <el-form-item>
-          <!-- v-if="mode!='register'" -->
-          <el-button class="regBtn" @click="switchReg">没有账号?立即注册</el-button>
-        </el-form-item>
       </el-form>
     </div>
-    <transition leave-class="disappear2">
-      <div :class="{greet:true}" v-if="isClick">
-        <!-- 通用人事管理系统 -->
-        叼你马人事
-      </div>
-    </transition>
-    <transition enter-active-class="dropFromLeft" leave-active-class="disappear">
+    <div :class="{greet:true,disappear2:isClick}" v-if="isClick">
+      <!-- 通用人事管理系统 -->
+      叼你马人事
+    </div>
+    <transition leave-to-class="disappear">
       <el-button round :class="{continue: true}" v-if="isClick" @click="toLog"></el-button>
     </transition>
-    <div :class="{goRegister:true}">
+    <div :class="{goRegister:true}" @click="{imageChange}">
       点此前往注册
     </div>
   </section>
@@ -52,6 +46,8 @@
 <script>
   import pexels2 from '@/assets/img/pexels-002.jpg';
   import pexels3 from '@/assets/img/pexels-003.jpg';
+  import pexels4 from '@/assets/img/pexels-004.jpg';
+  import pexels5 from '@/assets/img/pexels-005.jpg';
   export default {
     name: 'login',
     data() {
@@ -63,7 +59,7 @@
         color: 'rgba(224, 224, 224, 0.959)',
         backgroundRepeat: 'no-repeat',
         position: 'absolute',
-        zIndex: -1
+        zIndex: -10
       };
       let form = {
         account: '',
@@ -128,6 +124,9 @@
           console.log(this.form.account)
           console.log(this.form.password)
         }
+      },
+      imageChange: function () {
+        this.url = pexels2 ? pexels5 : pexels4;
       }
     },
     mounted() {
