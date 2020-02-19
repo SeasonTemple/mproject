@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <section>
     <el-image :style="bgStyle" :src='url' fit="cover" :lazy='true'></el-image>
     <div class="left" :class="{isSwitch: mode=='register'}" :style="showForm">
       <el-form ref="form" :model="form">
@@ -34,14 +34,19 @@
         </el-form-item>
       </el-form>
     </div>
-    <div :class="{greet:true}">
-      通用人事管理系统
-    </div>
-    <el-button round :class="{continue: true}"></el-button>
-    <div :class="{goRegister:true,disappear: isClick}">
+    <transition leave-class="disappear2">
+      <div :class="{greet:true}" v-if="isClick">
+        <!-- 通用人事管理系统 -->
+        叼你马人事
+      </div>
+    </transition>
+    <transition enter-active-class="dropFromLeft" leave-active-class="disappear">
+      <el-button round :class="{continue: true}" v-if="isClick" @click="toLog"></el-button>
+    </transition>
+    <div :class="{goRegister:true}">
       点此前往注册
     </div>
-  </div>
+  </section>
 </template>
 
 <script>
@@ -76,7 +81,7 @@
       let showForm = {
         display: 'none'
       };
-      let isClick = false;
+      let isClick = true;
       return {
         mode,
         url,
@@ -93,6 +98,10 @@
         let t = this.mode;
         console.log(t);
         return t == 'register' ? this.mode = 'login' : this.mode = 'register';
+      },
+      toLog: function () {
+        this.isClick = !this.isClick;
+        this.showForm.display = 'block';
       }
     },
     computed: {
