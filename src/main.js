@@ -12,21 +12,23 @@ import NProgress from './utils/NProgress'
 import 'nprogress/nprogress.css'
 import qs from 'qs';
 import App from './components/base/App.vue'
+import { wow } from '_u/wow_config.js'
+import 'animate.css';
 
 Vue.use(ElementUi)
 Vue.config.productionTip = false
 Vue.prototype.echarts = echarts
-Vue.prototype.axios = axios
+// Vue.prototype.axios = axios
 Vue.prototype.cookie = cookie
 Vue.prototype.NProgress = NProgress
 Vue.prototype.qs = qs
+Vue.prototype.wow = wow
 owl()
-
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
   store,
-  axios,
+  wow,
   render: h => h(App)
 })

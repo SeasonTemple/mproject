@@ -4,8 +4,8 @@ import main from './modules/main';
 import sideBar from './modules/sideBar';
 import nav from './modules/nav';
 import home from './modules/home';
+import login from './modules/login';
 Vue.use(Vuex);
-
 const state = {
   mode: 'login',
   permissions: []
@@ -49,6 +49,7 @@ export const store = new Vuex.Store({
     home,
     nav,
     sideBar,
-    main
+    main,
+    login
   }
 })

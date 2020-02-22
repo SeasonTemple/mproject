@@ -279,6 +279,7 @@ body {
   background: transparent;
   font-size: 5em;
   font-weight: bold;
+  letter-spacing: 15px;
   text-align: center;
   height: 100px;
   width: 800px;
@@ -301,6 +302,27 @@ body {
     left: 50%;
     margin-left: -400px;
     background: transparent;
+  }
+}
+
+.imgCg-leave-active {
+  animation: imgCg-out 1s linear;
+}
+
+.imgCg-enter-active {
+  animation: imgCg-in 1s linear;
+}
+
+.maskLayer {
+  &::before {
+    content: '';
+    position: absolute;
+    display: block;
+    height: 100vh;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.1);
+    filter: blur(5px);
+    z-index: 5;
   }
 }
 
@@ -429,5 +451,25 @@ body {
 
   100% {
     color: transparent;
+  }
+}
+
+@keyframes imgCg-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes imgCg-out {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
   }
 }
