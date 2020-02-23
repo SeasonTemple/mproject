@@ -1,15 +1,16 @@
 const state = {
-  mode: 'login' ? 'login' : JSON.parse(sessionStorage.getItem('mode')) ,
+  modes: (String === typeof(JSON.parse(sessionStorage.getItem('modes'))) || JSON.parse(sessionStorage.getItem('modes'))!= null) ? JSON.parse(sessionStorage.getItem('modes')): 'login'
+
 }
 
 const getters = {
-  mode: state => state.mode
+  modes: state => state.modes
 }
 
 const mutations = {
-  SET_MODE: (state,payload)=> {
-    state.mode = payload+'';
-    sessionStorage.setItem('mode', JSON.stringify(state.mode));
+  SET_MODES: (state, payload) => {
+    state.modes = payload;
+    sessionStorage.setItem('modes', JSON.stringify(state.modes));
   }
 }
 

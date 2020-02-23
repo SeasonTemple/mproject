@@ -1,17 +1,14 @@
 <template>
   <section>
-    <transition name="imgCg" mode="out-in">
-      <el-image :style="bgStyle" class="maskLayer" :src='modeStatus' fit="cover" :lazy='true' v-if="mode == 'login'"
-        key="login">
+    <transition-group leave-active-class="animated zoomOutUp" mode="out-in">
+      <el-image :style="bgStyle" class="animated zoomInUp" :src='modeStatus' fit="cover" :lazy='true' v-if="modes == 'login'" key="login">
       </el-image>
-      <el-image :style="bgStyle" class="maskLayer" :src='modeStatus' fit="cover" :lazy='true' v-if="mode == 'register'"
-        key="register">
+      <el-image :style="bgStyle" class="animated zoomInUp" :src='modeStatus' fit="cover" :lazy='true' v-if="modes == 'register'" key="register">
       </el-image>
-      <el-image :style="bgStyle" class="maskLayer" :src='modeStatus' fit="cover" :lazy='true' v-if="mode == 'forget'"
-        key="forget">
+      <el-image :style="bgStyle" class="animated zoomInUp" :src='modeStatus' fit="cover" :lazy='true' v-if="modes == 'forget'" key="forget">
       </el-image>
-    </transition>
-    <!-- :class="{isSwitch: mode=='register'}" -->
+    </transition-group>
+    <!-- :class="{isSwitch: modes=='register'}" -->
     <div class="left" :style="showForm">
       <el-form ref="form" :model="form">
         <el-form-item label="Username" :class="{isFocus: actFocus.isFocus}">
@@ -26,7 +23,7 @@
             <i class="el-icon-lock" slot="prepend"></i>
           </el-input>
         </el-form-item>
-        <el-form-item v-if="mode!='usePassword'">
+        <el-form-item v-if="modes!='usePassword'">
           <el-input v-model="form.valiCode" prop="valiCode" id="valiCode" maxlength="6">
             <i class="el-icon-chat-dot-round" slot="prepend"></i>
             <el-button type="success" slot="suffix" class="valiBtn">获取验证码</el-button>
@@ -41,8 +38,8 @@
         </el-form-item>
       </el-form>
     </div>
-    <transition leave-active-class="fadeOut" :duration="{ leave: 2500 }">
-      <div class="greet animated fadeIn" v-if="isShow" key="logText">
+    <transition leave-active-class="fadeOutUpBig" mode="out-in">
+      <div class="greet animated zoomInUp" v-if="isShow" key="logText">
         <!-- 通用人事管理系统 -->
         叼你马人事
       </div>
@@ -51,8 +48,8 @@
       <el-button round :class="{continue: true}" v-if="isShow" @click="toLog" key="logBtn"></el-button>
     </transition>
     <el-button type="primary" @click="() =>{ this.isShow =!this.isShow }">Reset</el-button>
-    <transition leave-to-class="fadeOutUpBig" :duration="{ leave: 2500 }" mode="in-out">
-      <div class="goRegister animated bounceInUp" v-if="isShow" @click="switchMode('login')" key="regBtn">
+    <transition leave-to-class="fadeOutUpBig" mode="out-in">
+      <div class="goRegister animated bounceInUp" v-if="isShow" @click="switchMode('register')" key="regBtn">
         点此前往注册
       </div>
     </transition>
@@ -67,11 +64,11 @@
   import {
     mapState,
     mapMutations
-  } from 'vuex'
+  } from 'vuex';
   export default {
     name: 'login',
     data() {
-      let mode = 'login';
+      const modes = this.getModes
       let url = pexels2;
       let bgStyle = {
         height: '100vh',
@@ -79,7 +76,8 @@
         backgroundRepeat: 'no-repeat',
         position: 'absolute',
         backgroundSize: '200%',
-        zIndex: -10
+        zIndex: -10,
+        filter: 'opacity(0.9)'
       };
       let form = {
         account: '',
@@ -100,7 +98,7 @@
       let isShow = true;
       let isToReg = false;
       return {
-        mode,
+        modes,
         url,
         bgStyle,
         form,
@@ -113,11 +111,11 @@
     },
     methods: {
       ...mapMutations({
-        SET_MODE: 'login/SET_MODE'
+        SET_MODES: 'login/SET_MODES'
       }),
       switchMode: function (flag) {
         this.isShow = !this.isShow;
-        this.SET_MODE(flag);
+        this.SET_MODES(flag);
       },
       toLog: function () {
         this.isShow = !this.isShow;
@@ -126,10 +124,10 @@
     },
     computed: {
       ...mapState({
-        store_mode: state => state.login.mode
+        store_modes: state => state.login.modes,
       }),
-      modes: function () {
-        return this.mode = this.store_mode;
+      getModes: function () {
+        return this.modes = this.store_modes;
       },
       inputFocus: function () {
         return function (tag) {

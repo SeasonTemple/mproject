@@ -7,7 +7,6 @@ import home from './modules/home';
 import login from './modules/login';
 Vue.use(Vuex);
 const state = {
-  mode: 'login',
   permissions: []
 }
 
@@ -16,20 +15,20 @@ const getters = {
 }
 
 const mutations = {
-  SET_MODE: (state, data) => {
-    state.mode = data
-  },
-  SET_PERMISSION: (state, data) => {
-    state.permissions = data
-  }
+  // SET_MODE: (state, data) => {
+  //   state.mode = data
+  // },
+  // SET_PERMISSION: (state, data) => {
+  //   state.permissions = data
+  // }
 }
 
 const actions = {
-  SET_MODE({
-    commit
-  }, payload) {
+  // SET_MODE({
+  //   commit
+  // }, payload) {
 
-  },
+  // },
   GET_PERMISSION({
     commit
   }) {
