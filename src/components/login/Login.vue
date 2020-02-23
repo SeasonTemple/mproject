@@ -41,16 +41,18 @@
         </el-form-item>
       </el-form>
     </div>
-    <div :class="{greet:true,disappear2:isShow}" v-if="isShow">
-      <!-- 通用人事管理系统 -->
-      叼你马人事
-    </div>
-    <transition leave-to-class="disappear">
-      <el-button round :class="{continue: true}" v-if="isShow" @click="toLog"></el-button>
+    <transition leave-active-class="fadeOut" :duration="{ leave: 2500 }">
+      <div class="greet animated fadeIn" v-if="isShow" key="logText">
+        <!-- 通用人事管理系统 -->
+        叼你马人事
+      </div>
     </transition>
-    <el-button type="primary" @click="()=>{ !this.mode }">Reset</el-button>
-    <transition leave-to-class="animated rollOut" :duration="{ leave: 800 }" mode="in-out">
-      <div class="goRegister wow" :class="{bounceInUp: isShow}" v-if="isShow" @click="switchMode('login')">
+    <transition leave-active-class="disappear">
+      <el-button round :class="{continue: true}" v-if="isShow" @click="toLog" key="logBtn"></el-button>
+    </transition>
+    <el-button type="primary" @click="() =>{ this.isShow =!this.isShow }">Reset</el-button>
+    <transition leave-to-class="animated fadeOutUpBig" :duration="{ leave: 800 }" mode="in-out">
+      <div class="goRegister wow bounceInUp" v-if="isShow" @click="switchMode('login')" key="regBtn">
         点此前往注册
       </div>
     </transition>
@@ -119,7 +121,7 @@
       },
       toLog: function () {
         this.isShow = !this.isShow;
-        this.showForm.display = 'block';
+        // this.showForm.display = 'block';
       }
     },
     computed: {

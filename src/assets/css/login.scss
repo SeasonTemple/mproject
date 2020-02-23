@@ -287,7 +287,8 @@ body {
   left: 50%;
   margin-left: -400px;
   color: rgba(224, 224, 224, .5);
-  animation: showGreet linear 1.5s;
+  // animation: showGreet linear 1.5s;
+  animation-delay: 2.5s;
 
   &::before {
     content: '';
