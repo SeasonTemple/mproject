@@ -1,13 +1,15 @@
 <template>
   <section>
-    <transition-group leave-active-class="animated zoomOutUp" mode="out-in">
-      <el-image :style="bgStyle" class="animated zoomInUp" :src='modeStatus' fit="cover" :lazy='true' v-if="modes == 'login'" key="login">
+    <transition enter-to-class="animated slideInUp" mode="in-out" :duration="{enter: 2000,leave:1500}">
+      <el-image :style="bgStyle" :src='url' fit="cover" :lazy='true' v-if="modes == 'login'" key="login">
       </el-image>
-      <el-image :style="bgStyle" class="animated zoomInUp" :src='modeStatus' fit="cover" :lazy='true' v-if="modes == 'register'" key="register">
+      <el-image class="animated slideOutUp" :style="bgStyle" :src='url' fit="cover" :lazy='true'
+        v-if="modes == 'register'" key="register">
       </el-image>
-      <el-image :style="bgStyle" class="animated zoomInUp" :src='modeStatus' fit="cover" :lazy='true' v-if="modes == 'forget'" key="forget">
+      <el-image class="animated slideOutUp" :style="bgStyle" :src='url' fit="cover" :lazy='true'
+        v-if="modes == 'forget'" key="forget">
       </el-image>
-    </transition-group>
+    </transition>
     <!-- :class="{isSwitch: modes=='register'}" -->
     <div class="left" :style="showForm">
       <el-form ref="form" :model="form">
@@ -38,8 +40,8 @@
         </el-form-item>
       </el-form>
     </div>
-    <transition leave-active-class="fadeOutUpBig" mode="out-in">
-      <div class="greet animated zoomInUp" v-if="isShow" key="logText">
+    <transition leave-to-class="fadeOutUpBig" enter-active-class="zoomInUp">
+      <div class="animated greet zoomInUp" v-if="isShow" key="logText">
         <!-- 通用人事管理系统 -->
         叼你马人事
       </div>
@@ -47,9 +49,9 @@
     <transition leave-active-class="disappear">
       <el-button round :class="{continue: true}" v-if="isShow" @click="toLog" key="logBtn"></el-button>
     </transition>
-    <el-button type="primary" @click="() =>{ this.isShow =!this.isShow }">Reset</el-button>
+    <el-button type="primary" @click="() =>isShow =!isShow">Reset</el-button>
     <transition leave-to-class="fadeOutUpBig" mode="out-in">
-      <div class="goRegister animated bounceInUp" v-if="isShow" @click="switchMode('register')" key="regBtn">
+      <div class="animated goRegister bounceInUp" v-if="isShow" @click="switchMode('register')" key="regBtn">
         点此前往注册
       </div>
     </transition>
@@ -58,17 +60,17 @@
 
 <script>
   import pexels2 from '@/assets/img/pexels-002.jpg';
-  import pexels3 from '@/assets/img/pexels-003.jpg';
   import pexels4 from '@/assets/img/pexels-004.jpg';
   import pexels5 from '@/assets/img/pexels-005.jpg';
   import {
     mapState,
+    mapGetters,
     mapMutations
   } from 'vuex';
   export default {
     name: 'login',
     data() {
-      const modes = this.getModes
+      let modes = 'login';
       let url = pexels2;
       let bgStyle = {
         height: '100vh',
@@ -76,9 +78,23 @@
         backgroundRepeat: 'no-repeat',
         position: 'absolute',
         backgroundSize: '200%',
+        // animationDelay: '2s',
         zIndex: -10,
         filter: 'opacity(0.9)'
       };
+      let bgImg = [{
+          modeName: 'login',
+          url: pexels2
+        },
+        {
+          modeName: 'register',
+          url: pexels4
+        },
+        {
+          modeName: 'forget',
+          url: pexels5
+        }
+      ];
       let form = {
         account: '',
         password: '',
@@ -101,6 +117,7 @@
         modes,
         url,
         bgStyle,
+        bgImg,
         form,
         actFocus,
         pwdFocus,
@@ -111,11 +128,16 @@
     },
     methods: {
       ...mapMutations({
-        SET_MODES: 'login/SET_MODES'
+        SET_MODES: 'login/SET_MODES',
+        SET_URL: 'login/SET_URL'
       }),
       switchMode: function (flag) {
         this.isShow = !this.isShow;
         this.SET_MODES(flag);
+        this.SET_URL(flag);
+        this.modes = this.getModes;
+        this.url = this.getUrl;
+        // this.modeStatus;
       },
       toLog: function () {
         this.isShow = !this.isShow;
@@ -125,9 +147,17 @@
     computed: {
       ...mapState({
         store_modes: state => state.login.modes,
+        store_url: state => state.login.url
+      }),
+      ...mapGetters({
+        GET_MODES: 'login/GET_MODES',
+        GET_URL: 'login/GET_URL',
       }),
       getModes: function () {
-        return this.modes = this.store_modes;
+        return this.store_modes
+      },
+      getUrl: function () {
+        return this.store_url
       },
       inputFocus: function () {
         return function (tag) {
@@ -154,22 +184,24 @@
         }
       },
       modeStatus: function () {
-        switch (this.modes) {
-          case 'login':
-            this.url = pexels2;
-            break;
-          case 'register':
-            this.url = pexels4;
-            break;
-          case 'forget':
-            this.url = pexels5;
-            break;
-        }
-        return this.url;
+        let result = this.bgImg.find(m => m.modeName == this.modes)
+        this.url = result.url;
+      }
+    },
+    watch: {
+      getModes(curVal, oldVal) {
+        console.log('watch: modes' + oldVal + '/' + curVal)
+        this.modes = curVal;
+      },
+      getUrl(curVal, oldVal) {
+        console.log('watch: url')
+        this.url = curVal;
       }
     },
     mounted() {
-      // this.wow({});
+      this.modes = this.getModes
+      this.url = this.getUrl
+      console.log(this.modes)
     }
   }
 </script>

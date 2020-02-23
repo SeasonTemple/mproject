@@ -65,6 +65,7 @@
       }),
 
       collapse: function () {
+        console.log(this.isCollapse)
         return this.isCollapse = this.store_isCollapse
       },
       swiBar: function () {

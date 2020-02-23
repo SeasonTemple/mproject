@@ -3,8 +3,8 @@ import Vuex from 'vuex';
 import main from './modules/main';
 import sideBar from './modules/sideBar';
 import nav from './modules/nav';
-import home from './modules/home';
 import login from './modules/login';
+import home from './modules/home';
 Vue.use(Vuex);
 const state = {
   permissions: []

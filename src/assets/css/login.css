@@ -250,8 +250,7 @@ body {
   left: 50%;
   margin-left: -400px;
   color: rgba(224, 224, 224, 0.5);
-  animation-delay: 1.5s;
-  animation-duration: 2s; }
+  animation-delay: 1.5s; }
 
 .imgCg-leave-active {
   animation: imgCg-out 1s linear; }
