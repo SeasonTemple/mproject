@@ -51,8 +51,8 @@
       <el-button round :class="{continue: true}" v-if="isShow" @click="toLog" key="logBtn"></el-button>
     </transition>
     <el-button type="primary" @click="() =>{ this.isShow =!this.isShow }">Reset</el-button>
-    <transition leave-to-class="animated fadeOutUpBig" :duration="{ leave: 800 }" mode="in-out">
-      <div class="goRegister wow bounceInUp" v-if="isShow" @click="switchMode('login')" key="regBtn">
+    <transition leave-to-class="fadeOutUpBig" :duration="{ leave: 2500 }" mode="in-out">
+      <div class="goRegister animated bounceInUp" v-if="isShow" @click="switchMode('login')" key="regBtn">
         点此前往注册
       </div>
     </transition>
@@ -171,7 +171,7 @@
       }
     },
     mounted() {
-      this.wow({});
+      // this.wow({});
     }
   }
 </script>
