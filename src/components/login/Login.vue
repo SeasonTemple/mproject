@@ -1,13 +1,11 @@
 <template>
   <section>
-    <transition enter-to-class="animated slideInUp" mode="in-out" :duration="{enter: 2000,leave:1500}">
-      <el-image :style="bgStyle" :src='url' fit="cover" :lazy='true' v-if="modes == 'login'" key="login">
+    <transition enter-to-class="slideInUp" leave-active-class="slideOutUp" :duration="{enter: 1800,leave: 1800}">
+      <el-image class="bgStyle animated" :src='url' fit="cover" :lazy='true' v-if="modes == 'login'" key="login">
       </el-image>
-      <el-image class="animated slideOutUp" :style="bgStyle" :src='url' fit="cover" :lazy='true'
-        v-if="modes == 'register'" key="register">
+      <el-image class="bgStyle animated" :src='url' fit="cover" :lazy='true' v-if="isShowReg" key="register">
       </el-image>
-      <el-image class="animated slideOutUp" :style="bgStyle" :src='url' fit="cover" :lazy='true'
-        v-if="modes == 'forget'" key="forget">
+      <el-image class="bgStyle animated" :src='url' fit="cover" :lazy='true' v-if="isShowFog" key="forget">
       </el-image>
     </transition>
     <!-- :class="{isSwitch: modes=='register'}" -->
@@ -26,7 +24,7 @@
           </el-input>
         </el-form-item>
         <el-form-item v-if="modes!='usePassword'">
-          <el-input v-model="form.valiCode" prop="valiCode" id="valiCode" maxlength="6">
+          <el-input v-model="form.valiCode" prop="valiCode" id="valiCode" maxlength="6" placeholder="Verification Code" >
             <i class="el-icon-chat-dot-round" slot="prepend"></i>
             <el-button type="success" slot="suffix" class="valiBtn">获取验证码</el-button>
             <!-- <el-tooltip content="获取验证码" placement="bottom" effect="light" slot="append">
@@ -40,18 +38,21 @@
         </el-form-item>
       </el-form>
     </div>
-    <transition leave-to-class="fadeOutUpBig" enter-active-class="zoomInUp">
-      <div class="animated greet zoomInUp" v-if="isShow" key="logText">
+    <transition appear appear-active-class="bounceInUp" enter-active-class="bounceInUp"
+      leave-active-class="fadeOutUpBig">
+      <div class="animated greet" v-if="isShowLog">
         <!-- 通用人事管理系统 -->
         叼你马人事
       </div>
     </transition>
-    <transition leave-active-class="disappear">
-      <el-button round :class="{continue: true}" v-if="isShow" @click="toLog" key="logBtn"></el-button>
-    </transition>
-    <el-button type="primary" @click="() =>isShow =!isShow">Reset</el-button>
-    <transition leave-to-class="fadeOutUpBig" mode="out-in">
-      <div class="animated goRegister bounceInUp" v-if="isShow" @click="switchMode('register')" key="regBtn">
+    <el-tooltip content="前往登录" placement="bottom-end" effect='light'>
+      <transition leave-active-class="disappear">
+        <el-button round class="continue" v-if="isShowLog" @click="showLogForm()"></el-button>
+      </transition>
+    </el-tooltip>
+    <el-button class="btnCss" @click="reset">重置状态</el-button>
+    <transition appear appear-active-class="bounceInUp" enter-active-class="bounceInUp" leave-to-class="fadeOutUpBig">
+      <div class="animated goRegister" v-if="isShowLog" @click="switchMode('register')">
         点此前往注册
       </div>
     </transition>
@@ -67,21 +68,23 @@
     mapGetters,
     mapMutations
   } from 'vuex';
+  // let bgStyle = {
+  //   height: '100vh',
+  //   width: '100%',
+  //   backgroundRepeat: 'no-repeat',
+  //   position: 'absolute',
+  //   backgroundSize: '100%',
+  //   zIndex: -10,
+  //   animationDuration: '1.5s',
+  //   animationTimingFunction: 'linear',
+  //   opacity: '0.8'
+  // };
   export default {
     name: 'login',
     data() {
       let modes = 'login';
       let url = pexels2;
-      let bgStyle = {
-        height: '100vh',
-        width: '100%',
-        backgroundRepeat: 'no-repeat',
-        position: 'absolute',
-        backgroundSize: '200%',
-        // animationDelay: '2s',
-        zIndex: -10,
-        filter: 'opacity(0.9)'
-      };
+
       let bgImg = [{
           modeName: 'login',
           url: pexels2
@@ -111,19 +114,20 @@
       let showForm = {
         display: 'none'
       };
-      let isShow = true;
-      let isToReg = false;
+      let isShowLog = true;
+      let isShowReg = false;
+      let isShowFog = false;
       return {
         modes,
         url,
-        bgStyle,
         bgImg,
         form,
         actFocus,
         pwdFocus,
         showForm,
-        isShow,
-        isToReg,
+        isShowLog,
+        isShowReg,
+        isShowFog
       }
     },
     methods: {
@@ -132,17 +136,42 @@
         SET_URL: 'login/SET_URL'
       }),
       switchMode: function (flag) {
-        this.isShow = !this.isShow;
-        this.SET_MODES(flag);
+        this.showSwitch(flag);
         this.SET_URL(flag);
-        this.modes = this.getModes;
-        this.url = this.getUrl;
-        // this.modeStatus;
+        this.modeStatus;
+        console.log(`switchMode now ${this.modes}`)
       },
-      toLog: function () {
-        this.isShow = !this.isShow;
-        // this.showForm.display = 'block';
-      }
+      showLogForm: function () {
+        this.isShowLog = false;
+        this.isShowFog = false;
+        this.isShowReg = false;
+        this.showForm.display = 'block';
+      },
+      showRegForm: function () {
+        this.isShowReg = true;
+        this.isShowLog = false;
+        this.isShowFog = false;
+      },
+      showFogForm: function () {
+        this.isShowFog = true;
+        this.isShowLog = false;
+        this.isShowReg = false;
+      },
+      showSwitch: function (flag) {
+        this.SET_MODES(flag);
+        this.modes = this.getModes;
+        console.log(`showSwitch now ${this.modes}`)
+        this.modes == 'login' ? this.showLogForm() : (this.modes == 'register' ? this.showRegForm() : this
+          .showFogForm());
+
+
+      },
+      reset: function () {
+        this.switchMode('login');
+        this.isShowLog = true;
+        this.showForm.display = 'none';
+      },
+
     },
     computed: {
       ...mapState({
@@ -190,18 +219,18 @@
     },
     watch: {
       getModes(curVal, oldVal) {
-        console.log('watch: modes' + oldVal + '/' + curVal)
+        console.log(`watch: modes ${curVal}`);
         this.modes = curVal;
       },
       getUrl(curVal, oldVal) {
-        console.log('watch: url')
+        console.log(`watch: url ${curVal}`);
         this.url = curVal;
       }
     },
     mounted() {
-      this.modes = this.getModes
-      this.url = this.getUrl
-      console.log(this.modes)
+      this.modes = this.getModes;
+      this.url = this.getUrl;
+      // console.log(this.modes);
     }
   }
 </script>

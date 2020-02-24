@@ -46,6 +46,16 @@ body {
   }
 }
 
+input::-webkit-input-placeholder {
+  color: #c0c4cc;
+}
+input::-moz-input-placeholder {
+  color: #c0c4cc;
+}
+input::-ms-input-placeholder {
+  color: #c0c4cc;
+}
+
 .isFocus {
   & .el-form-item__label {
     font-size: .9em;

@@ -42,6 +42,15 @@ body {
     font-size: 1.3em;
     color: rgba(224, 224, 224, 0.959); }
 
+input::-webkit-input-placeholder {
+  color: #c0c4cc; }
+
+input::-moz-input-placeholder {
+  color: #c0c4cc; }
+
+input::-ms-input-placeholder {
+  color: #c0c4cc; }
+
 .isFocus .el-form-item__label {
   font-size: .9em;
   position: relative;
