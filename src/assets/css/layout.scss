@@ -1,2 +1,58 @@
 @charset 'UTF-8';
 @import 'sassConfig';
+
+.el-container {
+  overflow: hidden;
+}
+
+html,
+body,
+#base,
+.el-container {
+  padding: 0 0;
+  margin: 0px;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.el-main {
+  overflow: hidden;
+}
+
+.base {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+}
+
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 80px !important;
+  width: 100%;
+}
+
+.side-main {
+  height: calc(100% - #{$navheight});
+  margin-top: 80px;
+  overflow: hidden;
+  position: fixed;
+  
+  background-color: gainsboro;
+}
+
+.aside {
+  float: left;
+  width: auto !important;
+}
+
+.main {
+  width: auto;
+  overflow-y: auto;
+  padding: 5px;
+
+}

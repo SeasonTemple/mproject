@@ -54,6 +54,7 @@ body {
   position: relative;
   border: .5px solid rgba(252, 252, 252, 0.5);
   transition: all ease-in-out 2s alternate-reverse;
+  z-index: 10;
 
   &:focus {
 
@@ -85,23 +86,29 @@ body {
   }
 }
 
-.forget {
-  position: absolute;
-  left: 70%;
-  bottom: 20%;
-  font-size: 1em;
-  line-height: 1em;
+.toolFloor {
+  position: relative;
+  display: block;
+  width: 100%;
+  left: 10%;
+  margin: 10px 0 0 0;
   font-weight: bold;
-  color: rgba(255, 255, 255, 0.829);
+  line-height: 1em;
+
+}
+
+.forget {
+  color: rgb(255, 255, 255);
   transition: all ease-in-out .5s;
 
+
   &:visited {
-    color: rgba(0, 0, 0, 0.877);
+    color: rgb(0, 0, 0);
   }
 
   &:hover {
     transform: scale(1.2);
-    filter: hue-rotate(20deg);
+    font-weight: bold;
     transition: all ease-in-out .5s;
   }
 
@@ -189,7 +196,7 @@ body {
   z-index: -10;
   opacity: 0.8;
   animation-timing-function: linear;
-  animation-duration: 2.1s;
+  animation-duration: 2.22s;
 }
 
 .goRegister {
@@ -452,8 +459,8 @@ body {
   box-shadow: 0 0 50px #03a9f4;
   background: #03a9f4;
   color: black;
-  filter: hue-rotate(151deg);
-  transition: 2s linear alternate-reverse infinite;;
+  filter: hue-rotate(241deg);
+  transition: 2s ease-in-out;
   transition-delay: .4s;
 }
 
@@ -492,6 +499,33 @@ body {
   width: 100%;
   height: 100%;
   transition: .5s;
+}
+
+
+.logBtn {
+  display: block;
+  color: rgba(245, 245, 245, 0.911);
+  font-size: 1.05em;
+  border: transparent;
+  width: 85%;
+  margin: 20px 0 0 30px;
+  background-image: linear-gradient(35deg, rgba(70, 248, 210, 0.863)8%, rgba(81, 173, 248, 0.822)33%, rgba(123, 72, 182, 0.845), rgba(255, 30, 86, 0.767)76%, rgba(250, 120, 60, 0.87)100%);
+
+  &:focus {
+    color: rgba(39, 58, 73, 0.822);
+    background-image: linear-gradient(35deg, rgba(70, 248, 210, 0.863)8%, rgba(81, 173, 248, 0.822)33%, rgba(123, 72, 182, 0.845), rgba(255, 30, 86, 0.767)76%, rgba(250, 120, 60, 0.87)100%);
+  }
+
+  &:hover {
+    color: rgba(245, 46, 46, 0.911);
+    animation: btnBg ease-in-out .8s;
+    background-image: linear-gradient(35deg, rgba(70, 248, 210, 0.863)8%, rgba(81, 173, 248, 0.822)33%, rgba(123, 72, 182, 0.845), rgba(255, 30, 86, 0.767)76%, rgba(250, 120, 60, 0.87)100%);
+  }
+
+  &:active {
+    color: rgba(255, 255, 255, 0.5);
+    background-image: linear-gradient(35deg, rgba(70, 248, 210, 0.863)8%, rgba(81, 173, 248, 0.822)33%, rgba(123, 72, 182, 0.845), rgba(255, 30, 86, 0.767)76%, rgba(250, 120, 60, 0.87)100%);
+  }
 }
 
 @keyframes Fill {
@@ -562,6 +596,7 @@ body {
   from {
     right: 20%;
   }
+
   to {
     right: 5%;
   }

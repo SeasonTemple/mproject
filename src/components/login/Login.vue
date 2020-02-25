@@ -15,26 +15,32 @@
           <el-form-item label="Username" :class="{isFocus: actFocus.isFocus}">
             <el-input v-model="form.account" autocomplete maxlength="20" show-word-limit
               @focus.stop="inputFocus(actFocus.name)" @blur.stop="inputblur(actFocus.name)" prop="username">
-              <i class="el-icon-s-custom" slot="prepend"></i>
+              <!-- <i class="el-icon-s-custom" slot="prepend"></i> -->
             </el-input>
           </el-form-item>
           <el-form-item label="Password" :class="{isFocus: pwdFocus.isFocus}">
             <el-input v-model="form.password" autocomplete maxlength="20" show-password
               @focus.stop="inputFocus(pwdFocus.name)" @blur.stop="inputblur(pwdFocus.name)" prop="password">
-              <i class="el-icon-lock" slot="prepend"></i>
+              <!-- <i class="el-icon-lock" slot="prepend"></i> -->
             </el-input>
           </el-form-item>
           <el-form-item v-if="modes!='usePassword'">
-            <el-input v-model="form.valiCode" prop="valiCode" id="valiCode" maxlength="6"
-              placeholder="Verification Code">
-              <i class="el-icon-chat-dot-round" slot="prepend"></i>
+            <el-input v-model="form.valiCode" prop="valiCode" id="valiCode" maxlength="6" >
+              <!-- <i class="el-icon-chat-dot-round" slot="prepend"></i>   -->
               <el-button type="success" slot="suffix" class="valiBtn">获取验证码</el-button>
               <!-- <el-tooltip content="获取验证码" placement="bottom" effect="light" slot="append">
             <i class="el-icon-chat-dot-round" style="color:rgba(224, 224, 224, 0.959);font-size: 1em;font-weight: 300;cursor:pointer"></i>
           </el-tooltip> -->
             </el-input>
           </el-form-item>
-          <el-link :class="{forget:true}" :underline="false">忘记密码?</el-link>
+          <el-col class="toolFloor" :span="24" type="flex" justify="center" >
+            <el-col :span="6" >
+              <el-checkbox v-model="form.remember" class="checkBox">保持登录</el-checkbox>
+            </el-col>
+            <el-col :span="6" :push="9">
+            <el-link class="forget" :underline="false" href="/index">忘记密码?</el-link>
+            </el-col>
+          </el-col>
           <el-form-item>
             <el-button class="logBtn">登&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;录</el-button>
           </el-form-item>
@@ -53,7 +59,8 @@
       </el-tooltip>
     </transition>
     <el-button class="btnCss" @click="reset">重置状态</el-button>
-    <transition appear appear-active-class="zoomInLeft" enter-active-class="zoomInLeft" leave-to-class="fadeOutUpBig">
+    <transition appear appear-active-class="bounceInRight" enter-active-class="bounceInRight"
+      leave-to-class="fadeOutUpBig">
       <div class="animated goForget" v-if="showStatus < 2">
         账号找回
       </div>
@@ -98,6 +105,7 @@
         account: '',
         password: '',
         valiCode: '',
+        remember: false
       };
       let actFocus = {
         name: 'account',
@@ -143,21 +151,21 @@
         setTimeout(() => {
           this.bgStatus = 0;
           this.SET_URL();
-        }, 2050);
+        }, 2000);
       },
       showRegForm: function () {
         this.showStatus = 2;
         setTimeout(() => {
           this.bgStatus = 1;
           this.SET_URL();
-        }, 2050);
+        }, 2000);
       },
       showFogForm: function () {
         this.showStatus = 3;
         setTimeout(() => {
           this.bgStatus = 2;
           this.SET_URL();
-        }, 2050);
+        }, 2000);
       },
       showSwitch: function (flag) {
         this.SET_MODES(flag);

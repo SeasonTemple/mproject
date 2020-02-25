@@ -14,10 +14,10 @@
   /*背景槽*/
   border-radius: 5px; }
 
-#main {
+.main {
   /* background-color: rgba(11, 111, 1, 0.5); */
   height: auto;
-  overflow: initial;
+  overflow: hidden;
   box-sizing: border-box;
   width: auto; }
 

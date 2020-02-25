@@ -1,13 +1,13 @@
 <template>
-  <el-container id="base" class="wrapper">
-    <el-header style="height:80px;width: fix-content block">
+  <el-container class="wrapper base">
+    <el-header class="nav">
       <top />
     </el-header>
-    <el-container id="side-main" style="direction:vertical">
-      <el-aside style="width:fit-content">
+    <el-container class="side-main">
+      <el-aside class="aside">
         <left />
       </el-aside>
-      <el-main>
+      <el-main class="main">
         <default />
       </el-main>
     </el-container>
@@ -29,36 +29,3 @@
 </script>
 <style src="@/assets/css/commons.css"></style>
 <style src="@/assets/css/layout.css"></style>
-
-<style>
-  .el-container {
-    overflow: hidden;
-  }
-
-  html,
-  body,
-  #base,
-  .el-container {
-    padding: 0 0;
-    margin: 0px;
-    height: 100%;
-    width: 100%;
-  }
-
-  #base {
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    color: #2c3e50;
-  }
-
-  #side-main {
-    background-color: gainsboro;
-    display: flex;
-  }
-
-  .el-aside {
-    overflow: hidden;
-  }
-</style>

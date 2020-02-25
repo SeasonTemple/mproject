@@ -1,8 +1,8 @@
 <template>
-  <el-row id="main">
+  <el-row class="main">
     <el-col :span="24">
       <el-tabs v-model="activeName" @tab-click="handleClick" type="border-card">
-        <el-tab-pane label="控制台" name="first" :key="'first'">
+        <el-tab-pane label="控制台" name="first" :key="'first'" >
           <home v-if="isChildUpdate1"></home>
         </el-tab-pane>
         <el-tab-pane label="tab2" name="second" :key="'second'">
@@ -46,3 +46,13 @@
 </script>
 
 <style scoped src="@/assets/css/main.css"></style>
+<style>
+  .container-tab >>> .el-tabs__content {
+    flex-grow: 1;
+    overflow-y: scroll !important;
+  }
+
+  .el-tabs__header .is-top {
+    position: relative;
+  }
+</style>

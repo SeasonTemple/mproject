@@ -15,7 +15,7 @@
   border-radius: 5px; }
 
 #Nav {
-  width: 100%;
+  width: 100vw;
   position: fixed;
   z-index: 100;
   font-size: 30px;
@@ -24,7 +24,7 @@
   text-align: center;
   align-content: center;
   /* opacity: 0.5;
-    filter: alpha(opacity=50) */ }
+      filter: alpha(opacity=50) */ }
 
 .el-menu > * {
   border-bottom-width: 0px !important;
