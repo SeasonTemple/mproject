@@ -1,58 +1,65 @@
 <template>
   <section>
-    <transition enter-to-class="slideInUp" leave-active-class="slideOutUp" :duration="{enter: 1800,leave: 1800}">
-      <el-image class="bgStyle animated" :src='url' fit="cover" :lazy='true' v-if="modes == 'login'" key="login">
+    <transition enter-to-class="slideInUp" leave-active-class="slideOutUp">
+      <el-image class="bgStyle animated" :src='url' fit="cover" :lazy='true' v-if="bgStatus == 0" key="login">
       </el-image>
-      <el-image class="bgStyle animated" :src='url' fit="cover" :lazy='true' v-if="isShowReg" key="register">
+      <el-image class="bgStyle animated" :src='url' fit="cover" :lazy='true' v-if="bgStatus == 1" key="register">
       </el-image>
-      <el-image class="bgStyle animated" :src='url' fit="cover" :lazy='true' v-if="isShowFog" key="forget">
+      <el-image class="bgStyle animated" :src='url' fit="cover" :lazy='true' v-if="bgStatus == 2" key="forget">
       </el-image>
     </transition>
     <!-- :class="{isSwitch: modes=='register'}" -->
-    <div class="left" :style="showForm">
-      <el-form ref="form" :model="form">
-        <el-form-item label="Username" :class="{isFocus: actFocus.isFocus}">
-          <el-input v-model="form.account" autocomplete maxlength="20" show-word-limit
-            @focus.stop="inputFocus(actFocus.name)" @blur.stop="inputblur(actFocus.name)" prop="username">
-            <i class="el-icon-s-custom" slot="prepend"></i>
-          </el-input>
-        </el-form-item>
-        <el-form-item label="Password" :class="{isFocus: pwdFocus.isFocus}">
-          <el-input v-model="form.password" autocomplete maxlength="20" show-password
-            @focus.stop="inputFocus(pwdFocus.name)" @blur.stop="inputblur(pwdFocus.name)" prop="password">
-            <i class="el-icon-lock" slot="prepend"></i>
-          </el-input>
-        </el-form-item>
-        <el-form-item v-if="modes!='usePassword'">
-          <el-input v-model="form.valiCode" prop="valiCode" id="valiCode" maxlength="6" placeholder="Verification Code" >
-            <i class="el-icon-chat-dot-round" slot="prepend"></i>
-            <el-button type="success" slot="suffix" class="valiBtn">获取验证码</el-button>
-            <!-- <el-tooltip content="获取验证码" placement="bottom" effect="light" slot="append">
+    <transition>
+      <div class="left" :style="showForm">
+        <el-form ref="form" :model="form">
+          <el-form-item label="Username" :class="{isFocus: actFocus.isFocus}">
+            <el-input v-model="form.account" autocomplete maxlength="20" show-word-limit
+              @focus.stop="inputFocus(actFocus.name)" @blur.stop="inputblur(actFocus.name)" prop="username">
+              <i class="el-icon-s-custom" slot="prepend"></i>
+            </el-input>
+          </el-form-item>
+          <el-form-item label="Password" :class="{isFocus: pwdFocus.isFocus}">
+            <el-input v-model="form.password" autocomplete maxlength="20" show-password
+              @focus.stop="inputFocus(pwdFocus.name)" @blur.stop="inputblur(pwdFocus.name)" prop="password">
+              <i class="el-icon-lock" slot="prepend"></i>
+            </el-input>
+          </el-form-item>
+          <el-form-item v-if="modes!='usePassword'">
+            <el-input v-model="form.valiCode" prop="valiCode" id="valiCode" maxlength="6"
+              placeholder="Verification Code">
+              <i class="el-icon-chat-dot-round" slot="prepend"></i>
+              <el-button type="success" slot="suffix" class="valiBtn">获取验证码</el-button>
+              <!-- <el-tooltip content="获取验证码" placement="bottom" effect="light" slot="append">
             <i class="el-icon-chat-dot-round" style="color:rgba(224, 224, 224, 0.959);font-size: 1em;font-weight: 300;cursor:pointer"></i>
           </el-tooltip> -->
-          </el-input>
-        </el-form-item>
-        <el-link :class="{forget:true}" :underline="false">忘记密码?</el-link>
-        <el-form-item>
-          <el-button class="logBtn">登&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;录</el-button>
-        </el-form-item>
-      </el-form>
-    </div>
-    <transition appear appear-active-class="bounceInUp" enter-active-class="bounceInUp"
-      leave-active-class="fadeOutUpBig">
-      <div class="animated greet" v-if="isShowLog">
+            </el-input>
+          </el-form-item>
+          <el-link :class="{forget:true}" :underline="false">忘记密码?</el-link>
+          <el-form-item>
+            <el-button class="logBtn">登&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;录</el-button>
+          </el-form-item>
+        </el-form>
+      </div>
+    </transition>
+    <transition appear appear-active-class="zoomInUp" enter-active-class="zoomInUp" leave-active-class="zoomOutDown">
+      <div class="animated greet" v-if="showStatus == 0">
         <!-- 通用人事管理系统 -->
         叼你马人事
       </div>
     </transition>
-    <el-tooltip content="前往登录" placement="bottom-end" effect='light'>
-      <transition leave-active-class="disappear">
-        <el-button round class="continue" v-if="isShowLog" @click="showLogForm()"></el-button>
-      </transition>
-    </el-tooltip>
+    <transition leave-active-class="disappear">
+      <el-tooltip content="登录" enterable placement="top" key="logBtnPop" v-if="showStatus == 0" popper-class="logPop">
+        <el-button round class="continue" v-if="showStatus == 0" @click="showLogForm()" key="logBtn"></el-button>
+      </el-tooltip>
+    </transition>
     <el-button class="btnCss" @click="reset">重置状态</el-button>
+    <transition appear appear-active-class="zoomInLeft" enter-active-class="zoomInLeft" leave-to-class="fadeOutUpBig">
+      <div class="animated goForget" v-if="showStatus < 2">
+        账号找回
+      </div>
+    </transition>
     <transition appear appear-active-class="bounceInUp" enter-active-class="bounceInUp" leave-to-class="fadeOutUpBig">
-      <div class="animated goRegister" v-if="isShowLog" @click="switchMode('register')">
+      <div class="animated goRegister" v-if="showStatus < 2" @click="switchMode('register')">
         点此前往注册
       </div>
     </transition>
@@ -68,17 +75,6 @@
     mapGetters,
     mapMutations
   } from 'vuex';
-  // let bgStyle = {
-  //   height: '100vh',
-  //   width: '100%',
-  //   backgroundRepeat: 'no-repeat',
-  //   position: 'absolute',
-  //   backgroundSize: '100%',
-  //   zIndex: -10,
-  //   animationDuration: '1.5s',
-  //   animationTimingFunction: 'linear',
-  //   opacity: '0.8'
-  // };
   export default {
     name: 'login',
     data() {
@@ -114,9 +110,8 @@
       let showForm = {
         display: 'none'
       };
-      let isShowLog = true;
-      let isShowReg = false;
-      let isShowFog = false;
+      let showStatus = 0;
+      let bgStatus = 0;
       return {
         modes,
         url,
@@ -125,9 +120,8 @@
         actFocus,
         pwdFocus,
         showForm,
-        isShowLog,
-        isShowReg,
-        isShowFog
+        bgStatus,
+        showStatus
       }
     },
     methods: {
@@ -136,26 +130,34 @@
         SET_URL: 'login/SET_URL'
       }),
       switchMode: function (flag) {
-        this.showSwitch(flag);
-        this.SET_URL(flag);
-        this.modeStatus;
-        console.log(`switchMode now ${this.modes}`)
+        this.SET_MODES(flag);
+        this.modes = this.getModes;
+        console.log(`showSwitch now ${this.modes}`)
+        this.modes == 'login' ? this.showLogForm() : (this.modes == 'register' ? this.showRegForm() : this
+          .showFogForm());
+        console.log(`switchMode now ${this.modes} / ${this.url}`)
       },
       showLogForm: function () {
-        this.isShowLog = false;
-        this.isShowFog = false;
-        this.isShowReg = false;
+        this.showStatus = 1;
         this.showForm.display = 'block';
+        setTimeout(() => {
+          this.bgStatus = 0;
+          this.SET_URL();
+        }, 2050);
       },
       showRegForm: function () {
-        this.isShowReg = true;
-        this.isShowLog = false;
-        this.isShowFog = false;
+        this.showStatus = 2;
+        setTimeout(() => {
+          this.bgStatus = 1;
+          this.SET_URL();
+        }, 2050);
       },
       showFogForm: function () {
-        this.isShowFog = true;
-        this.isShowLog = false;
-        this.isShowReg = false;
+        this.showStatus = 3;
+        setTimeout(() => {
+          this.bgStatus = 2;
+          this.SET_URL();
+        }, 2050);
       },
       showSwitch: function (flag) {
         this.SET_MODES(flag);
@@ -163,12 +165,10 @@
         console.log(`showSwitch now ${this.modes}`)
         this.modes == 'login' ? this.showLogForm() : (this.modes == 'register' ? this.showRegForm() : this
           .showFogForm());
-
-
       },
       reset: function () {
         this.switchMode('login');
-        this.isShowLog = true;
+        this.showStatus = 0;
         this.showForm.display = 'none';
       },
 
@@ -212,6 +212,9 @@
           console.log(this.form.password)
         }
       },
+      changeStatus: function (flag) {
+
+      },
       modeStatus: function () {
         let result = this.bgImg.find(m => m.modeName == this.modes)
         this.url = result.url;
@@ -225,7 +228,10 @@
       getUrl(curVal, oldVal) {
         console.log(`watch: url ${curVal}`);
         this.url = curVal;
-      }
+      },
+      // showStatus: function () {
+      //   this.showStatus
+      // }
     },
     mounted() {
       this.modes = this.getModes;

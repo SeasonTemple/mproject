@@ -15,20 +15,20 @@ const getters = {
 const mutations = {
   SET_MODES: (state, payload) => {
     state.modes = payload + '';
-    // console.log(payload)
     sessionStorage.setItem('modes', JSON.stringify(state.modes));
   },
-  SET_URL: (state,payload) => {
-    if(state.modes == 'login'){
-      state.url = logImg
-    }else if(state.modes == 'register'){
-      state.url = regImg
-    }else{
-      state.url = fogImg; 
-      // state.modes == 'register' ? state.url = regImg : 
-    }
-    // console.log(`store ${payload}`)
+  SET_URL: ({ modes }) => {
+    // if(state.modes == 'login'){
+    //   state.url = logImg
+    // }else if(state.modes == 'register'){
+    //   state.url = regImg
+    // }else{
+    //   state.url = fogImg; 
+    // }
+    console.log(`From store : ${modes}`)
+    modes == 'login' ? state.url = logImg :(modes == 'register' ? state.url = regImg : state.url = fogImg);
     sessionStorage.setItem('url', JSON.stringify(state.url));
+    console.log(`From store after : ${state.modes} / ${state.url}`)
   }
 }
 

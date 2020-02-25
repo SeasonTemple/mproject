@@ -46,12 +46,36 @@ body {
   }
 }
 
+.logPop {
+  font-family: 'Times New Roman', Times, serif;
+  background: transparent !important;
+  border: 1px solid rgba(224, 224, 224, 0.959);
+  text-align: center;
+  letter-spacing: 12px;
+  font-size: 1rem !important;
+  padding: 8px 0px 8px 12px;
+
+  .popper__arrow {
+    border-top-color: rgba(255, 255, 255, .8) !important;
+    border-right-color: transparent;
+    border-left-color: transparent;
+    border-bottom-color: rgba(255, 255, 255, .8) !important;
+
+    &::after {
+      border-color: transparent !important;
+    }
+  }
+}
+
+
 input::-webkit-input-placeholder {
   color: #c0c4cc;
 }
+
 input::-moz-input-placeholder {
   color: #c0c4cc;
 }
+
 input::-ms-input-placeholder {
   color: #c0c4cc;
 }
@@ -80,10 +104,12 @@ input::-ms-input-placeholder {
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   margin: 20px 0 0 0;
   width: 90%;
+
   &:focus {
     outline: none;
     animation: btColor 4s linear infinite;
   }
+
   &:hover {
     outline: none;
     border-bottom: 2px solid rgba(224, 224, 224, 0.959);
