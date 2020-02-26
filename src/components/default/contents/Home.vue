@@ -180,6 +180,5 @@
       }
     }
   };
-
 </script>
 <style scoped src="@/assets/css/home-style.css"></style>

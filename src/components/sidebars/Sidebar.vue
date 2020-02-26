@@ -13,7 +13,7 @@
           <i class="el-icon-location"></i>
           <span slot="title">控制台</span>
         </el-menu-item>
-        <el-menu-item index="index/userInfo">
+        <el-menu-item index="index/userInfo" @click="addTab(editableTabsValue)">
           <i class="el-icon-menu"></i>
           <span slot="title">个人信息</span>
         </el-menu-item>
@@ -65,12 +65,19 @@
       }),
 
       collapse: function () {
-        console.log(this.isCollapse)
-        return this.isCollapse = this.store_isCollapse
+        return this.store_isCollapse;
       },
       swiBar: function () {
         return this.store_switchBar
       }
+    },
+    watch: {
+      isCollapse: () => {
+        this.isCollapse = this.collapse;
+      }
+    },
+    mounted(){
+      this.isCollapse = this.collapse;
     }
   }
 </script>
