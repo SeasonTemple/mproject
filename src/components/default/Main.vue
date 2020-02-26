@@ -1,10 +1,9 @@
 <template>
   <el-row class="main">
     <el-col :span="24">
-      <el-tabs v-model="activeName" @tab-click="handleClick" type="border-card" editable>
+      <el-tabs v-model="activeName" @tab-click="handleClick" type="border-card">
         <el-tab-pane name="first" :key="'first'">
           <span slot="label"><i class="el-icon-s-home"></i> 控制台</span>
-          <div id="tpWeatherWidget"></div>
           <home v-if="isChildUpdate1"></home>
         </el-tab-pane>
         <el-tab-pane label="tab2" name="second" :key="'second'">
@@ -30,12 +29,6 @@
         isChildUpdate1: true,
         isChildUpdate2: false
       }
-    },
-    beforeMount() {
-      getWeather();
-    },
-    mounted() {
-      appendCss();
     },
     methods: {
       handleClick(tab) {

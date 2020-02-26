@@ -25,7 +25,7 @@
             </el-input>
           </el-form-item>
           <el-form-item v-if="modes!='usePassword'">
-            <el-input v-model="form.valiCode" prop="valiCode" id="valiCode" maxlength="6" >
+            <el-input v-model="form.valiCode" prop="valiCode" id="valiCode" maxlength="6">
               <!-- <i class="el-icon-chat-dot-round" slot="prepend"></i>   -->
               <el-button type="success" slot="suffix" class="valiBtn">获取验证码</el-button>
               <!-- <el-tooltip content="获取验证码" placement="bottom" effect="light" slot="append">
@@ -33,12 +33,12 @@
           </el-tooltip> -->
             </el-input>
           </el-form-item>
-          <el-col class="toolFloor" :span="24" type="flex" justify="center" >
-            <el-col :span="6" >
+          <el-col class="toolFloor" :span="24" type="flex" justify="center">
+            <el-col :span="6">
               <el-checkbox v-model="form.remember" class="checkBox">保持登录</el-checkbox>
             </el-col>
             <el-col :span="6" :push="9">
-            <el-link class="forget" :underline="false" href="/index">忘记密码?</el-link>
+              <el-link class="forget" :underline="false" href="/index">忘记密码?</el-link>
             </el-col>
           </el-col>
           <el-form-item>
@@ -240,6 +240,8 @@
       // showStatus: function () {
       //   this.showStatus
       // }
+    },
+    created() {
     },
     mounted() {
       this.modes = this.getModes;

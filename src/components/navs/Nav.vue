@@ -4,7 +4,7 @@
       background-color="rgba(9, 10, 57, 0.8)" text-color="#fff" active-text-color="#ffd04b">
       <el-row :span="24" type="flex" justify="space-between">
         <el-image alt="logo" src="#" fit="contain" style="padding:15px;width:auto;"></el-image>
-        <div id="tpWeatherWidget" style="background:transparent;height:79px;line-height:79px;position:absolute;text-align:center;left:90px;"></div>
+        <div id="tp-weather-widget" ></div>
         <el-dropdown :hide-on-click="false" style="padding:12px 30px 12px 12px;">
           <span class="el-dropdown-link">
             <el-avatar :size="56" :src="url" fit="contain"></el-avatar>
@@ -39,10 +39,12 @@
         console.log(key, keyPath);
       }
     },
-    created: () => {
+    created:() => {
       getWeather();
+
     },
     mounted: () => {
+      appendCss();
     }
   };
 
