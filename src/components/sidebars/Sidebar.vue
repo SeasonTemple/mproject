@@ -2,7 +2,7 @@
   <el-row id="side">
     <el-col :span="24">
       <el-menu default-active="/index" class="el-menu-vertical-demo" :collapse="collapse" background-color="  #090a39"
-        text-color="#fff" active-text-color="#ffd04b" router>
+        text-color="#fff" active-text-color="#ffd04b" >
         <!-- <el-divider></el-divider> rgba(9, 10, 57, 0.85)-->
         <el-menu-item index="/index" @click="changeCollapse" style="text-align:auto;" class="naviBar">
           <i class="el-icon-s-unfold" :class="{'el-icon-s-fold':!collapse}"></i>
