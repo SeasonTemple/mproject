@@ -1,5 +1,5 @@
 export let getWeather = function () {
-  console.log('调用getWeather方法获取天气');
+  // console.log('调用getWeather方法获取天气');
   (function (a, h, g, f, e, d, c, b) {
     b = function () {
       d = h.createElement(g);
@@ -31,7 +31,7 @@ export let getWeather = function () {
     hover: "enabled",
     container: "tp-weather-widget"
   })
-  console.log('调用完毕！');
+  // console.log('调用完毕！');
 }
 
 export let appendCss = () => {

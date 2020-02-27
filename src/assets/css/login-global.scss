@@ -111,6 +111,7 @@ input::-ms-input-placeholder {
 .el-input__inner {
   position: relative;
   font-size: 1.3em;
+  text-indent: 2%;
   color: rgba(224, 224, 224, 0.959);
   background-color: transparent;
   border-top-style: none;
@@ -137,7 +138,7 @@ input::-ms-input-placeholder {
 
 #valiCode {
   font-size: 1.3em;
-  color: rgba(255, 255, 255, 959);
+  color: rgb(255, 249, 249);
   background-color: transparent;
   border-top-style: none;
   border-left-style: none;

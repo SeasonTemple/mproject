@@ -12,14 +12,14 @@ body {
 
 .left {
   position: absolute;
-  top: 50%;
+  top: 45%;
   left: 50%;
-  margin-top: -175px;
+  margin-top: -150px;
   margin-left: -200px;
-  height: 350px;
+  height: 300px;
   width: 400px;
   background-color: transparent;
-  border: 1px solid rgba(228, 221, 221, .8)transparent;
+  border: 1px solid transparent;
   border-radius: 8px;
   box-sizing: border-box;
   animation: Special-Effects-Login 4s ease-in-out;
@@ -28,13 +28,13 @@ body {
   &::before {
     content: "";
     position: absolute;
-    top: 50%;
+    top: 55%;
     left: 50%;
-    margin-top: -175px;
+    margin-top: -150px;
     margin-left: -200px;
-    height: 350px;
+    height: 300px;
     width: 400px;
-    border: 1px solid rgba(228, 221, 221, .8)transparent;
+    border: 1px solid rgba(228, 221, 221, .5);
     border-radius: 8px;
     box-sizing: border-box;
     background-color: rgba(255, 255, 255, 0.253);
@@ -46,18 +46,15 @@ body {
   }
 }
 
-
-
 .valiBtn {
-  margin: 21px 28px 0 0;
+  margin: 19px 28px 0 0;
   background: transparent;
   position: relative;
-  border: .5px solid rgba(252, 252, 252, 0.5);
+  border: 1px solid rgba(252, 252, 252, 0.5);
   transition: all ease-in-out 2s alternate-reverse;
   z-index: 10;
 
   &:focus {
-
     // background-image: linear-gradient(35deg, rgba(70, 248, 210, 0.6)8%, rgba(81, 173, 248, 0.6)33%, rgba(123, 72, 182, 0.6), rgba(255, 30, 86, 0.6)76%, rgba(250, 120, 60, 0.6)100%);
     &::after {
       content: '';
@@ -116,6 +113,14 @@ body {
     color: rgba(3, 31, 82, 0.877);
   }
 
+}
+
+.push1 {
+  margin-bottom: 40px;
+}
+
+.push2 {
+  margin: 0px 0 40px 0;
 }
 
 .isSwitch {
@@ -429,7 +434,8 @@ body {
   text-transform: uppercase;
   line-height: 1rem;
   text-align: center;
-  color: #03a9f4;
+  // color: #03a9f4;
+  color: rgba(224, 224, 224, 0.5);
   box-sizing: border-box;
   font-family: sans-serif;
   font-weight: bold;
@@ -473,8 +479,10 @@ body {
   height: 15px;
   width: 15px;
   box-sizing: border-box;
-  border-left: 2px solid #03a9f4;
-  border-top: 2px solid #03a9f4;
+  // border-left: 2px solid #03a8f4;
+  // border-top: 2px solid #03a9f4;
+  border-left: 2px solid rgba(224, 224, 224, 0.5);
+  border-top: 2px solid rgba(224, 224, 224, 0.5);
   transition: .5s;
   outline: none;
 }
@@ -488,8 +496,10 @@ body {
   height: 15px;
   width: 15px;
   box-sizing: border-box;
-  border-right: 2px solid #03a9f4;
-  border-bottom: 2px solid #03a9f4;
+  // border-right: 2px solid #03a9f4;
+  // border-bottom: 2px solid #03a9f4;
+  border-right: 2px solid rgba(224, 224, 224, 0.5);;
+  border-bottom: 2px solid rgba(224, 224, 224, 0.5);;
   outline: none;
   transition: .5s;
 }
@@ -506,6 +516,8 @@ body {
   display: block;
   color: rgba(245, 245, 245, 0.911);
   font-size: 1.05em;
+  letter-spacing: 2em;
+  text-indent: 2em;
   border: transparent;
   width: 85%;
   margin: 20px 0 0 30px;

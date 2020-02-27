@@ -18,14 +18,17 @@
               <!-- <i class="el-icon-s-custom" slot="prepend"></i> -->
             </el-input>
           </el-form-item>
-          <el-form-item label="Password" :class="{isFocus: pwdFocus.isFocus}">
+          <el-form-item label="Password" :class="{isFocus: pwdFocus.isFocus,push1:form.usePassword}"
+            v-if="form.usePassword">
             <el-input v-model="form.password" autocomplete maxlength="20" show-password
               @focus.stop="inputFocus(pwdFocus.name)" @blur.stop="inputblur(pwdFocus.name)" prop="password">
               <!-- <i class="el-icon-lock" slot="prepend"></i> -->
             </el-input>
           </el-form-item>
-          <el-form-item v-if="modes!='usePassword'">
-            <el-input v-model="form.valiCode" prop="valiCode" id="valiCode" maxlength="6">
+          <el-form-item label="Validate Code" v-if="!form.usePassword"
+            :class="{isFocus: codeFocus.isFocus,push2:!form.usePassword}">
+            <el-input v-model="form.valiCode" prop="valiCode" id="valiCode" maxlength="6"
+              @focus.stop="inputFocus(codeFocus.name)" @blur.stop="inputblur(codeFocus.name)">
               <!-- <i class="el-icon-chat-dot-round" slot="prepend"></i>   -->
               <el-button type="success" slot="suffix" class="valiBtn">获取验证码</el-button>
               <!-- <el-tooltip content="获取验证码" placement="bottom" effect="light" slot="append">
@@ -38,19 +41,19 @@
               <el-checkbox v-model="form.remember" class="checkBox">保持登录</el-checkbox>
             </el-col>
             <el-col :span="6" :push="9">
-              <el-link class="forget" :underline="false" href="/index">忘记密码?</el-link>
+              <el-link class="forget" :underline="false" @click="logChoice">{{ form.choice }}</el-link>
             </el-col>
           </el-col>
           <el-form-item>
-            <el-button class="logBtn">登&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;录</el-button>
+            <el-button class="logBtn" @click="login">登录</el-button>
           </el-form-item>
         </el-form>
       </div>
     </transition>
     <transition appear appear-active-class="zoomInUp" enter-active-class="zoomInUp" leave-active-class="zoomOutDown">
       <div class="animated greet" v-if="showStatus == 0">
-        <!-- 通用人事管理系统 -->
-        叼你马人事
+        通用人事管理系统
+        <!-- 叼你马人事 -->
       </div>
     </transition>
     <transition leave-active-class="disappear">
@@ -105,7 +108,9 @@
         account: '',
         password: '',
         valiCode: '',
-        remember: false
+        remember: false,
+        usePassword: true,
+        choice: '验证码登录'
       };
       let actFocus = {
         name: 'account',
@@ -113,6 +118,10 @@
       };
       let pwdFocus = {
         name: 'password',
+        isFocus: false
+      };
+      let codeFocus = {
+        name: 'valiCode',
         isFocus: false
       };
       let showForm = {
@@ -129,7 +138,8 @@
         pwdFocus,
         showForm,
         bgStatus,
-        showStatus
+        showStatus,
+        codeFocus
       }
     },
     methods: {
@@ -179,7 +189,13 @@
         this.showStatus = 0;
         this.showForm.display = 'none';
       },
-
+      logChoice: function () {
+        this.form.usePassword ? this.form.choice = '验证码登录' : this.form.choice = '密码登录';
+        this.form.usePassword = !this.form.usePassword;
+      },
+      login: function () {
+        this.$router.push('/index');
+      }
     },
     computed: {
       ...mapState({
@@ -204,6 +220,8 @@
             return this.actFocus.isFocus = !this.actFocus.isFocus;
           } else if (pwd === '' && tag === 'password') {
             return this.pwdFocus.isFocus = !this.pwdFocus.isFocus;
+          } else {
+            return this.codeFocus.isFocus = !this.codeFocus.isFocus;
           }
         }
       },
@@ -215,13 +233,13 @@
             return this.actFocus.isFocus = false;
           } else if (pwd === '' && tag === 'password') {
             return this.pwdFocus.isFocus = false;
+          } else {
+            return this.codeFocus.isFocus = false;
           }
           console.log(this.form.account)
           console.log(this.form.password)
+          console.log(this.form.valiCode)
         }
-      },
-      changeStatus: function (flag) {
-
       },
       modeStatus: function () {
         let result = this.bgImg.find(m => m.modeName == this.modes)
@@ -242,6 +260,7 @@
       // }
     },
     created() {
+
     },
     mounted() {
       this.modes = this.getModes;

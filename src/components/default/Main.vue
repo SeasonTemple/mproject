@@ -1,10 +1,10 @@
 <template>
   <el-row class="main">
     <el-col :span="24">
-      <el-tabs v-model="activeName" @tab-click="handleClick" type="border-card">
+      <el-tabs v-model="activeName" @tab-click="handleClick" type="border-card" >
         <el-tab-pane name="first" :key="'first'">
-          <span slot="label"><i class="el-icon-s-home"></i> 控制台</span>
-          <home v-if="isChildUpdate1"></home>
+          <span slot="label"><i class="el-icon-monitor"></i> 控制台</span>
+          <home v-if="isChildUpdate1" v-loading='drawLoading'></home>
         </el-tab-pane>
         <el-tab-pane label="tab2" name="second" :key="'second'">
           <staff v-if="isChildUpdate2"></staff>
@@ -23,11 +23,13 @@
       staff: () => import('@/components/default/contents/Staff')
     },
     data() {
+      let drawLoading = false;
       return {
         //默认第一个选项卡
         activeName: "first",
         isChildUpdate1: true,
-        isChildUpdate2: false
+        isChildUpdate2: false,
+        drawLoading
       }
     },
     methods: {

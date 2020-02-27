@@ -29,21 +29,15 @@
 .administrators-card > .el-avatar--square {
   text-align: center; }
 
-#top-card {
-  margin-bottom: 15px;
-  box-sizing: border-box; }
-
-.top-card-body .el-card {
-  margin-bottom: 0; }
-
 .top-card-body {
-  height: fit-content; }
-
-.top-card-body .el-card {
-  height: 112px; }
-
-.top-card-body .el-divider {
-  margin: 12px 0 12px 0; }
+  height: 100%;
+  width: auto; }
+  .top-card-body .el-card {
+    margin-bottom: 0;
+    padding: 0;
+    height: 112px; }
+  .top-card-body .el-divider {
+    margin: 12px 0 12px 0; }
 
 @keyframes top-card-frames {
   0% {
@@ -52,40 +46,54 @@
     background-color: rgba(146, 202, 212, 0.507); }
   100% {
     background-color: white; } }
-.top-left-card > :hover,
-.top-centerRight-card > :hover,
-.top-center-card > :hover,
-.top-centerLeft-card > :hover {
-  animation: top-card-frames 5s ease-out infinite; }
-
 .top-right-card {
   font-family: Helvetica, Arial, sans-serif;
-  background-color: rgba(255, 235, 205, 0.959);
   text-align: center; }
 
 .top-right-card > :not(#autoClock) {
   padding: 0 auto;
   box-sizing: border-box; }
 
-.top-left-card,
-.top-centerLeft-card,
-.top-center-card,
-.top-centerRight-card {
-  padding: 20px;
-  box-sizing: border-box;
-  text-align: center; }
-
-.top-left-card div,
-.top-centerLeft-card div,
-.top-center-card div,
-.top-centerRight-card div {
-  font-size: 1.5vw;
-  display: block; }
-
 #autoClock {
   display: block;
   font-size: 1.88vw;
   color: white;
   text-shadow: 0px -1px 3px rgba(0, 0, 0, 0.6), 2px -2px 2px rgba(0, 0, 0, 0.7), 4px -2px 4px rgba(0, 0, 0, 0.72), 4px -3px 4px rgba(0, 0, 0, 0.75), 5px -3px 4px rgba(0, 0, 0, 0.5), 6px -3px 2px rgba(0, 0, 0, 0.8); }
+
+.topUnifyStyle {
+  padding: auto;
+  box-sizing: border-box;
+  height: 100%; }
+  .topUnifyStyle .icon {
+    float: left;
+    font-size: 4vw;
+    text-align: center;
+    height: 100%;
+    line-height: 1em;
+    width: auto;
+    padding: 10px; }
+  .topUnifyStyle .msg {
+    float: none;
+    height: 100%;
+    text-align: justify;
+    width: auto; }
+    .topUnifyStyle .msg .title {
+      font-size: 1vw;
+      display: block;
+      line-height: 2em;
+      color: #8b9aa1; }
+
+.el-link--inner {
+  color: #409EFF;
+  padding-top: 10px;
+  font-size: 2vw !important; }
+
+.content {
+  display: block; }
+
+.el-card__body {
+  position: relative;
+  display: block;
+  max-height: 100%; }
 
 /*# sourceMappingURL=home-style.css.map */

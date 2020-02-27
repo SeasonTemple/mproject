@@ -3,25 +3,27 @@
     <el-row>
       <el-col :span="24">
         <el-form :inline="true" :model="formInline" class="demo-form-inline">
-            <el-form-item label="部门">
-              <el-input v-model="formInline.user" placeholder="部门"></el-input>
-            </el-form-item>
-            <el-form-item label="职位">
-              <el-input v-model="formInline.user" placeholder="职位"></el-input>
-            </el-form-item>
-            <el-form-item label="负责项目">
-              <el-select v-model="formInline.region" placeholder="负责项目">
-                <el-option label="项目一" value="shanghai"></el-option>
-                <el-option label="项目二" value="beijing"></el-option>
-              </el-select>
-            </el-form-item>
-            <el-button type="primary" @click="onSubmit">查询</el-button>
+          <el-form-item label="部门">
+            <el-input v-model="formInline.user" placeholder="部门"></el-input>
+          </el-form-item>
+          <el-form-item label="职位">
+            <el-input v-model="formInline.user" placeholder="职位"></el-input>
+          </el-form-item>
+          <el-form-item label="负责项目">
+            <el-select v-model="formInline.region" placeholder="负责项目">
+              <el-option label="项目一" value="shanghai"></el-option>
+              <el-option label="项目二" value="beijing"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-button type="primary" @click="onSubmit">查询</el-button>
         </el-form>
       </el-col>
     </el-row>
 
     <el-table :data="tableData" border style="width: 100%;" height="500" size="medium">
-      <el-table-column prop="date" label="日期" width="150">
+      <el-table-column type="selection" width="50">
+      </el-table-column>
+      <el-table-column prop="date" label="日期" width="150" show-overflow-tooltip>
       </el-table-column>
       <el-table-column prop="name" label="姓名" width="150">
       </el-table-column>
@@ -188,9 +190,10 @@
     /* line-height: 40px; */
     max-height: fit-content;
     min-height: fit-content;
-    padding: 30px 10px 0 10px;
+    padding: 30px 10px 10px 10px;
     box-sizing: border-box;
     text-align: left;
+    box-sizing: border-box;
   }
 
   .el-table {
@@ -202,5 +205,4 @@
     display: block;
     margin: 20px 0 0 0;
   }
-
 </style>
