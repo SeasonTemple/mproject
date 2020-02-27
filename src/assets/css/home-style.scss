@@ -65,12 +65,14 @@
 .top-right-card {
   font-family: Helvetica, Arial, sans-serif;
   text-align: center;
+  box-sizing: border-box;
+
 }
 
-.top-right-card> :not(#autoClock) {
-  padding: 0 auto;
-  box-sizing: border-box;
-}
+// .top-right-card> :not(#autoClock) {
+//   padding: 0 auto;
+//   box-sizing: border-box;
+// }
 
 // .top-left-card,
 // .top-centerLeft-card,
@@ -92,17 +94,24 @@
 
 
 
-#autoClock {
-  display: block;
-  font-size: 1.88vw;
-  color: white;
-  text-shadow: 0px -1px 3px rgba(0, 0, 0, 0.6), 2px -2px 2px rgba(0, 0, 0, 0.7), 4px -2px 4px rgba(0, 0, 0, 0.72), 4px -3px 4px rgba(0, 0, 0, 0.75), 5px -3px 4px rgba(0, 0, 0, 0.5), 6px -3px 2px rgba(0, 0, 0, 0.8);
+.autoClock {
+  display: table-cell;
+  vertical-align: middle;
+  font-size: 1.4vw;
+  min-height: 100%;
+  height: 100%;
+  padding-top: 15px;
+  text-align: left;
+  // font-weight: bold;
+  // color: rgba(95, 93, 86, 0.8);
+  color: #409EFF;
+  // text-shadow: 0px -1px 3px rgba(0, 0, 0, 0.6), 2px -2px 2px rgba(0, 0, 0, 0.7), 4px -2px 4px rgba(0, 0, 0, 0.72), 4px -3px 4px rgba(0, 0, 0, 0.75), 5px -3px 4px rgba(0, 0, 0, 0.5), 6px -3px 2px rgba(0, 0, 0, 0.8);
 }
 
 .topUnifyStyle {
-  padding: auto;
+  // padding: auto;
   box-sizing: border-box;
-  height: 100%;
+  min-height: 100%;
 
   .icon {
     float: left;

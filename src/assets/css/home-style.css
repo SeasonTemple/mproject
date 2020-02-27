@@ -3,11 +3,11 @@
   /*血槽宽度*/
   width: 8px;
   height: 8px;
-  background-color: rgba(0, 0, 0, 0.4); }
+  background-color: rgba(0, 0, 0, 0.2); }
 
 ::-webkit-scrollbar-thumb {
   /*拖动条*/
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.5);
   border-radius: 6px; }
 
 ::-webkit-scrollbar-track {
@@ -48,22 +48,22 @@
     background-color: white; } }
 .top-right-card {
   font-family: Helvetica, Arial, sans-serif;
-  text-align: center; }
-
-.top-right-card > :not(#autoClock) {
-  padding: 0 auto;
+  text-align: center;
   box-sizing: border-box; }
 
-#autoClock {
-  display: block;
-  font-size: 1.88vw;
-  color: white;
-  text-shadow: 0px -1px 3px rgba(0, 0, 0, 0.6), 2px -2px 2px rgba(0, 0, 0, 0.7), 4px -2px 4px rgba(0, 0, 0, 0.72), 4px -3px 4px rgba(0, 0, 0, 0.75), 5px -3px 4px rgba(0, 0, 0, 0.5), 6px -3px 2px rgba(0, 0, 0, 0.8); }
+.autoClock {
+  display: table-cell;
+  vertical-align: middle;
+  font-size: 1.4vw;
+  min-height: 100%;
+  height: 100%;
+  padding-top: 15px;
+  text-align: left;
+  color: #409EFF; }
 
 .topUnifyStyle {
-  padding: auto;
   box-sizing: border-box;
-  height: 100%; }
+  min-height: 100%; }
   .topUnifyStyle .icon {
     float: left;
     font-size: 4vw;

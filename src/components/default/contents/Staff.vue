@@ -20,7 +20,7 @@
       </el-col>
     </el-row>
 
-    <el-table :data="tableData" border style="width: 100%;" height="500" size="medium">
+    <el-table :data="tableData" border style="width: 100%;" height="500" size="medium" v-loading='drawLoading'>
       <el-table-column type="selection" width="50">
       </el-table-column>
       <el-table-column prop="date" label="日期" width="150" show-overflow-tooltip>
@@ -58,7 +58,9 @@
   export default {
     name: 'staff',
     data() {
+      let drawLoading = true;
       return {
+        drawLoading,
         formInline: {
           user: '',
           region: ''
@@ -170,7 +172,11 @@
       handleCurrentChange(val) {
         console.log(`当前页: ${val}`);
       }
-
+    },
+    mounted: function () {
+      setTimeout(() => {
+        this.drawLoading = false;
+      }, 2000);
     }
   }
 </script>
@@ -198,7 +204,6 @@
 
   .el-table {
     display: block;
-    overflow-y: auto;
   }
 
   .el-pagination {

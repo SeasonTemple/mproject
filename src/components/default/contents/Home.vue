@@ -4,50 +4,40 @@
       <el-row class="top-card-body" type="flex" justify="start" :gutter="10">
         <el-col :span="24">
           <template v-for="(card, index) in cards">
-            <el-col :key="index" class="topUnifyStyle" :xs="6" :sm="6" :md="6" :lg="6" :xl="6">
+            <el-col :key="index" class="topUnifyStyle" :xs="5" :sm="5" :md="5" :lg="5" :xl="5">
               <el-card shadow="hover" v-loading='drawLoading'>
-                <el-col :span="10" class="icon">
+                <el-col :xs="10" :sm="10" :md="10" :lg="10" :xl="10" class="icon">
                   <i :class="card.icon" :style="{color:card.iconColor}"></i>
                 </el-col>
-                <el-col :span="14" class="msg" :push="2">
+                <el-col :xs="14" :sm="14" :md="14" :lg="14" :xl="14" class="msg" :push="2">
                   <el-link class="link" :underline="false">{{card.content}}</el-link>
                   <span class="title">{{card.title}}</span>
                 </el-col>
               </el-card>
             </el-col>
           </template>
-          <el-card class="top-right-card" shadow="hover" v-loading='drawLoading'>
-            <div id="autoClock" v-html="time"></div>
-          </el-card>
+          <el-col class="topUnifyStyle" :xs="4" :sm="4" :md="4" :lg="4" :xl="4">
+            <el-card class="top-right-card" shadow="hover" v-loading='drawLoading'>
+              <el-row>
+                <el-col :xs="12" :sm="12" :md="12" :lg="12" :xl="12" class="icon" :pull='2'>
+                  <i class="el-icon-time"></i>
+                </el-col>
+                <el-col :xs="12" :sm="12" :md="12" :lg="12" :xl="12" :pull='1'>
+                  <div class="autoClock" v-html="time"></div>
+                </el-col>
+              </el-row>
+            </el-card>
+          </el-col>
         </el-col>
       </el-row>
     </el-card>
-    <!-- <el-row type="flex" justify="start" :gutter="20" class="administrators">
-      <template v-for="(information, index) in informations">
-        <el-col :span="6" :key="index" v-show="information">
-          <el-card class="administrators-card" shadow="hover">
-            <div slot="header" class="clearfix" style="text-align:left;">
-              <el-avatar :size="40" :src="url" fit="contain" shape="square"></el-avatar>
-              <span>{{ information.title }}</span>
-            </div>
-            <div class="administrators-body">
-              <template v-for="(list, index2) in information.body">
-                <p :key="index2">{{ list }}</p>
-              </template>
-            </div>
-          </el-card>
-        </el-col>
-      </template>
-    </el-row> -->
     <el-divider></el-divider>
-    <el-row>
-      <template v-for="(item, index) in charts">
-        <el-col :span="12" :key="index" :style="{ height: '400px' }" v-loading="drawLoading">
-          <div :id="index" :style="{ height: '100%', width: '100%' }"></div>
-        </el-col>
-      </template>
-    </el-row>
-    <button @click="getUsers">axios</button>
+    <template v-for="(item, index) in charts">
+      <el-col :span="item.span" :key="index" :style="{ height: '400px' }" v-loading="drawLoading">
+        <div :id="index" :style="{ height: '100%', width: '100%' }"></div>
+      </el-col>
+    </template>
+    <!-- <button @click="getUsers">axios</button> -->
   </div>
 </template>
 
@@ -59,29 +49,43 @@
       let url = "#";
       let drawLoading = true;
       let cards = [{
-        title: '欢迎使用',
-        content: '廖文岵',
-        icon: 'el-icon-user-solid',
-        iconColor: 'rgb(86, 172, 201)'
-      }, {
-        title: '系统消息',
-        content: '11',
-        icon: 'el-icon-message',
-        iconColor: 'rgb(178, 92, 212)'
-      }, {
-        title: '工作报告',
-        content: '213',
-        icon: 'el-icon-files',
-        iconColor: 'rgb(101, 228, 63)'
-      }];
-      let time = dayjs().format("YYYY年MM月DD日<br>HH:mm:ss");
+          title: '欢迎使用',
+          content: '廖文岵',
+          icon: 'el-icon-user-solid',
+          iconColor: 'rgb(86, 172, 201)'
+        }, {
+          title: '系统消息',
+          content: '11',
+          icon: 'el-icon-bell',
+          iconColor: 'rgb(178, 92, 212)'
+        }, {
+          title: '工作报告',
+          content: '213',
+          icon: 'el-icon-files',
+          iconColor: 'rgb(101, 228, 63)'
+        },
+        {
+          title: '累积签到',
+          content: '721',
+          icon: 'el-icon-date',
+          iconColor: 'rgb(255, 57, 22)'
+        }
+      ];
+      let time = dayjs().format("YYYY/MM/DD</br>HH:mm:ss");
       let loading = true;
       let charts = [{
           title: {
-            text: '折线图堆叠'
+            text: '周工程情况报表'
           },
           tooltip: {
-            trigger: 'axis'
+            trigger: 'axis',
+            axisPointer: {
+              type: 'cross',
+              label: {
+                backgroundColor: '#6a7985'
+              }
+            }
+
           },
           legend: {
             data: ['邮件营销', '联盟广告', '视频广告', '直接访问', '搜索引擎']
@@ -109,37 +113,50 @@
               name: '邮件营销',
               type: 'line',
               stack: '总量',
+              areaStyle: {},
               data: [120, 132, 101, 134, 90, 230, 210]
             },
             {
               name: '联盟广告',
               type: 'line',
               stack: '总量',
+              areaStyle: {},
               data: [220, 182, 191, 234, 290, 330, 310]
             },
             {
               name: '视频广告',
               type: 'line',
               stack: '总量',
+              areaStyle: {},
               data: [150, 232, 201, 154, 190, 330, 410]
             },
             {
               name: '直接访问',
               type: 'line',
               stack: '总量',
+              areaStyle: {},
               data: [320, 332, 301, 334, 390, 330, 320]
             },
             {
               name: '搜索引擎',
               type: 'line',
               stack: '总量',
+              areaStyle: {},
+              label: {
+                normal: {
+                  show: true,
+                  position: 'top'
+                }
+              },
               data: [820, 932, 901, 934, 1290, 1330, 1320]
             }
-          ]
+          ],
+          span: 24,
         },
         {
           title: {
             text: '权限变化一览',
+            left: 'center'
           },
           tooltip: {
             trigger: 'axis',
@@ -165,10 +182,89 @@
             data: ["普通", "项目负责人", "项目经理", "部门主管", "管理员", "总经理"]
           },
           series: [{
-            name: '2011年',
+            name: '持续天数',
             type: 'bar',
             data: [1820, 189, 190, 80, 14, 0]
-          }]
+          }],
+          span: 12,
+        },
+        {
+          title: {
+            text: '项目分布',
+            left: 'center'
+          },
+          tooltip: {
+            trigger: 'item',
+            formatter: '{a} <br/>{b} : {c} ({d}%)'
+          },
+          legend: {
+            left: 'center',
+            top: 'bottom',
+            data: ['rose1', 'rose2', 'rose3', 'rose4', 'rose5', 'rose6', 'rose7', 'rose8']
+          },
+          toolbox: {
+            show: true,
+            feature: {
+              mark: {
+                show: true
+              },
+              dataView: {
+                show: true,
+                readOnly: false
+              },
+              magicType: {
+                show: true,
+                type: ['pie', 'funnel']
+              },
+              restore: {
+                show: true
+              },
+              saveAsImage: {
+                show: true
+              }
+            }
+          },
+          series: [{
+            name: '面积模式',
+            type: 'pie',
+            radius: [30, 110],
+            center: ['50%', '50%'],
+            roseType: 'area',
+            data: [{
+                value: 10,
+                name: 'rose1'
+              },
+              {
+                value: 5,
+                name: 'rose2'
+              },
+              {
+                value: 15,
+                name: 'rose3'
+              },
+              {
+                value: 25,
+                name: 'rose4'
+              },
+              {
+                value: 20,
+                name: 'rose5'
+              },
+              {
+                value: 35,
+                name: 'rose6'
+              },
+              {
+                value: 30,
+                name: 'rose7'
+              },
+              {
+                value: 40,
+                name: 'rose8'
+              }
+            ]
+          }],
+          span: 12
         }
       ];
       return {
@@ -214,7 +310,7 @@
       //创建定时器更新最新的时间
       var _this = this;
       this.timer = setInterval(() => {
-        _this.time = dayjs().format("YYYY年MM月DD日<br>HH:mm:ss");
+        _this.time = dayjs().format("YYYY/MM/DD</br>HH:mm:ss");
       }, 1000);
       this.drawCharts();
     },

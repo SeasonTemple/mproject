@@ -6,8 +6,9 @@
           <span slot="label"><i class="el-icon-monitor"></i> 控制台</span>
           <home v-if="isChildUpdate1" v-loading='drawLoading'></home>
         </el-tab-pane>
-        <el-tab-pane label="tab2" name="second" :key="'second'">
-          <staff v-if="isChildUpdate2"></staff>
+        <el-tab-pane label="second" name="second" :key="'second'">
+          <span slot="label"><i class=""></i> 职员信息</span>
+          <staff v-if="isChildUpdate2" v-loading='drawLoading'></staff>
         </el-tab-pane>
       </el-tabs>
     </el-col>
@@ -67,6 +68,11 @@
         this.editableTabsValue = activeName;
         this.editableTabs = tabs.filter(tab => tab.name !== targetName);
       }
+    },
+    mounted() {
+      setTimeout(() => {
+        this.drawLoading = false;
+      }, 2000);
     }
   }
 </script>

@@ -1,7 +1,7 @@
 <template>
   <el-row id="side">
     <el-col :span="24">
-      <el-menu default-active="/index" class="el-menu-vertical-demo" :collapse="collapse" background-color="transparent"
+      <el-menu default-active="/index" class="el-menu-vertical-demo" :collapse="collapse" background-color="  #090a39"
         text-color="#fff" active-text-color="#ffd04b" router>
         <!-- <el-divider></el-divider> rgba(9, 10, 57, 0.85)-->
         <el-menu-item index="/index" @click="changeCollapse" style="text-align:auto;" class="naviBar">
@@ -13,10 +13,16 @@
           <i class="el-icon-location"></i>
           <span slot="title">控制台</span>
         </el-menu-item>
-        <el-menu-item index="index/userInfo" @click="addTab(editableTabsValue)">
-          <i class="el-icon-menu"></i>
-          <span slot="title">个人信息</span>
-        </el-menu-item>
+        <el-submenu index="index/userInfo" @click="addTab(editableTabsValue)">
+          <template slot="title">
+            <i class="el-icon-menu"></i>
+            <span slot="title">个人中心</span>
+          </template>
+          <el-menu-item-group>
+            <el-menu-item index="1-1">账户信息</el-menu-item>
+            <el-menu-item index="1-2">工作报告</el-menu-item>
+          </el-menu-item-group>
+        </el-submenu>
         <el-menu-item index="index/sysMsg">
           <i class="el-icon-document"></i>
           <span slot="title">系统消息</span>
@@ -76,7 +82,7 @@
         this.isCollapse = this.collapse;
       }
     },
-    mounted(){
+    mounted() {
       this.isCollapse = this.collapse;
     }
   }
