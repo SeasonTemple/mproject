@@ -1,0 +1,59 @@
+@charset 'UTF-8';
+@import 'sassConfig';
+
+html,
+body {
+  margin: 0px;
+  min-height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.temp {
+  /* min-height: 60vh; */
+  height: fit-content;
+}
+
+.demo-form-inline {
+  width: 100%;
+  display: block;
+  background-color: #f2f2f2;
+  // line-height: 40px;
+  // max-height: fit-content;
+  height: 12vh;
+  padding: 4vh 0 4vh 1vw;
+  box-sizing: border-box;
+  text-align: left;
+}
+
+.el-table {
+  display: block;
+  height: auto;
+}
+
+.el-pagination {
+  display: block;
+  margin: 20px 0 0 0;
+}
+
+.tableBg {
+}
+
+.demo-table-expand {
+  color: #8996a8 !important;
+  font-size: 0;
+  .el-form-item__label {
+    width: 90px;
+  }
+}
+
+// .demo-table-expand label {
+//   width: 90px;
+//   color: #99a9bf;
+// }
+
+.demo-table-expand .el-form-item {
+  margin-right: 0;
+  margin-bottom: 0;
+  width: 50%;
+}

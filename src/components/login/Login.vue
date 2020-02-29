@@ -9,9 +9,9 @@
       </el-image>
     </transition>
     <!-- :class="{isSwitch: modes=='register'}" -->
-    <transition>
-      <div class="left" :style="showForm">
-        <el-form ref="form" :model="form">
+    <transition-group appear appear-active-class="rollIn" enter-active-class="rollIn" leave-active-class="rollOut">
+      <div class="animated left delay-2s" v-if="showStatus == 1" key="logForm">
+        <el-form ref="form" :model="form" >
           <el-form-item label="Username" :class="{isFocus: actFocus.isFocus}">
             <el-input v-model="form.account" autocomplete maxlength="20" show-word-limit
               @focus.stop="inputFocus(actFocus.name)" @blur.stop="inputblur(actFocus.name)" prop="username">
@@ -19,13 +19,13 @@
             </el-input>
           </el-form-item>
           <el-form-item label="Password" :class="{isFocus: pwdFocus.isFocus,push1:form.usePassword}"
-            v-if="form.usePassword">
+            v-if="form.usePassword == true">
             <el-input v-model="form.password" autocomplete maxlength="20" show-password
               @focus.stop="inputFocus(pwdFocus.name)" @blur.stop="inputblur(pwdFocus.name)" prop="password">
               <!-- <i class="el-icon-lock" slot="prepend"></i> -->
             </el-input>
           </el-form-item>
-          <el-form-item label="Validate Code" v-if="!form.usePassword"
+          <el-form-item label="Validate Code" v-if="form.usePassword == false"
             :class="{isFocus: codeFocus.isFocus,push2:!form.usePassword}">
             <el-input v-model="form.valiCode" prop="valiCode" id="valiCode" maxlength="6"
               @focus.stop="inputFocus(codeFocus.name)" @blur.stop="inputblur(codeFocus.name)">
@@ -49,7 +49,7 @@
           </el-form-item>
         </el-form>
       </div>
-    </transition>
+    </transition-group>
     <transition appear appear-active-class="zoomInUp" enter-active-class="zoomInUp" leave-active-class="zoomOutDown">
       <div class="animated greet" v-if="showStatus == 0">
         通用人事管理系统
@@ -61,7 +61,7 @@
         <el-button round class="continue" v-if="showStatus == 0" @click="showLogForm()" key="logBtn"></el-button>
       </el-tooltip>
     </transition>
-    <el-button class="btnCss" @click="reset">重置状态</el-button>
+    <el-button class="btnCss" @click="reset" >重置状态</el-button>
     <transition appear appear-active-class="bounceInRight" enter-active-class="bounceInRight"
       leave-to-class="fadeOutUpBig">
       <div class="animated goForget" v-if="showStatus < 2">
@@ -157,7 +157,7 @@
       },
       showLogForm: function () {
         this.showStatus = 1;
-        this.showForm.display = 'block';
+        // this.showForm.display = 'block';
         setTimeout(() => {
           this.bgStatus = 0;
           this.SET_URL();
@@ -190,7 +190,7 @@
         this.showForm.display = 'none';
       },
       logChoice: function () {
-        this.form.usePassword ? this.form.choice = '验证码登录' : this.form.choice = '密码登录';
+        !this.form.usePassword ? this.form.choice = '验证码登录' : this.form.choice = '密码登录';
         this.form.usePassword = !this.form.usePassword;
       },
       login: function () {

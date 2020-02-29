@@ -1,5 +1,5 @@
-<template>
-  <el-container class="wrapper base">
+<template >
+  <el-container class="wrapper base" v-loading.fullscreen.lock="fullscreenLoading">
     <el-header class="nav">
       <top />
     </el-header>
@@ -23,7 +23,18 @@
     components: {
       'top': Nav,
       'left': SideBar,
-      'default': Main,
+      'default': Main
+    },
+    data() {
+      let fullscreenLoading = true;
+      return {
+        fullscreenLoading
+      }
+    },
+    mounted() {
+      setTimeout(() => {
+        this.fullscreenLoading = false;
+      }, 1000);
     }
   }
 </script>

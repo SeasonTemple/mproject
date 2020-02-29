@@ -22,7 +22,8 @@ body {
   border: 1px solid transparent;
   border-radius: 10px;
   box-sizing: border-box;
-  animation: Special-Effects-Login 4s ease-in-out;
+  // animation:  4s ease-in-out;
+  // Special-Effects-Login
   // box-shadow: -8px 8px 6px rgba(88, 88, 88, .5);
 
   &::before {
@@ -426,6 +427,7 @@ body {
 
 .btnCss {
   position: absolute;
+  // display: none;
   top: 10%;
   left: 45%;
   height: 50px;
