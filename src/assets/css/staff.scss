@@ -15,35 +15,35 @@ body {
 }
 
 .demo-form-inline {
-  width: 100%;
-  display: block;
+  //   width: 100%;
   background-color: #f2f2f2;
-  // line-height: 40px;
-  // max-height: fit-content;
-  height: 12vh;
-  padding: 4vh 0 4vh 1vw;
-  box-sizing: border-box;
+  // line-height: 100px;
+  //   // max-height: fit-content;
+  min-height: auto;
   text-align: left;
+  padding: 30px 10px 10px 10px;
+  box-sizing: border-box;
 }
 
-.el-table {
-  display: block;
-  height: auto;
-}
+// .el-table {
+//   display: block;
+//   height: auto;
+// }
 
 .el-pagination {
   display: block;
   margin: 20px 0 0 0;
 }
 
-.tableBg {
-}
-
 .demo-table-expand {
   color: #8996a8 !important;
+  background: #f2f2f2;
+  padding: 0 30px;
   font-size: 0;
-  .el-form-item__label {
-    width: 90px;
+  transition: .5s .1s ease-in-out;
+  &:hover {
+    box-shadow: 1px 1px 10px rgba(128, 128, 128, 0.8);
+    transform: scale(1.02);
   }
 }
 

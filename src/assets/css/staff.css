@@ -26,17 +26,11 @@ body {
   height: fit-content; }
 
 .demo-form-inline {
-  width: 100%;
-  display: block;
   background-color: #f2f2f2;
-  height: 12vh;
-  padding: 4vh 0 4vh 1vw;
-  box-sizing: border-box;
-  text-align: left; }
-
-.el-table {
-  display: block;
-  height: auto; }
+  min-height: auto;
+  text-align: left;
+  padding: 30px 10px 10px 10px;
+  box-sizing: border-box; }
 
 .el-pagination {
   display: block;
@@ -44,9 +38,13 @@ body {
 
 .demo-table-expand {
   color: #8996a8 !important;
-  font-size: 0; }
-  .demo-table-expand .el-form-item__label {
-    width: 90px; }
+  background: #f2f2f2;
+  padding: 0 30px;
+  font-size: 0;
+  transition: .5s .1s ease-in-out; }
+  .demo-table-expand:hover {
+    box-shadow: 1px 1px 10px rgba(128, 128, 128, 0.8);
+    transform: scale(1.02); }
 
 .demo-table-expand .el-form-item {
   margin-right: 0;

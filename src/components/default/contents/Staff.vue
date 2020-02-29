@@ -1,19 +1,16 @@
 <template>
   <div class="temp">
-    <el-row>
-      <el-col :span="24">
-        <el-form :inline="true" :model="formInline" class="demo-form-inline">
-          <el-form-item label="部门">
-            <el-input v-model="formInline.user" placeholder="部门"></el-input>
+    <el-row type="flex">
+      <el-col :span="24" >
+        <el-form :inline="true" :model="formInline" class="demo-form-inline" label-position="right">
+          <el-form-item label="所属部门">
+            <el-input v-model="formInline.dep" placeholder="所属部门"></el-input>
           </el-form-item>
-          <el-form-item label="项目组">
-            <el-input v-model="formInline.user" placeholder="项目组"></el-input>
+          <el-form-item label="所属项目组">
+            <el-input v-model="formInline.group" placeholder="所属项目组"></el-input>
           </el-form-item>
-          <el-form-item label="职位">
-            <el-input v-model="formInline.user" placeholder="职位"></el-input>
-          </el-form-item>
-          <el-form-item label="负责项目">
-            <el-select v-model="formInline.region" placeholder="负责项目">
+          <el-form-item label="参与项目">
+            <el-select v-model="formInline.project" placeholder="参与项目">
               <el-option label="项目一" value="shanghai"></el-option>
               <el-option label="项目二" value="beijing"></el-option>
             </el-select>
@@ -24,7 +21,7 @@
     </el-row>
 
     <el-table :data="tableData" style="width:100%;" fit maxi-height="600" size="medium" v-loading='drawLoading'
-      empty-text='暂无数据' class="tableBg" ref="tableData">
+      empty-text='暂无数据' ref="tableData">
       <el-table-column type="selection" width="50">
       </el-table-column>
       <el-table-column type="expand" show-overflow-tooltip>
@@ -49,7 +46,7 @@
               <el-tag size="medium" v-if="scope.row.role==0" effect="dark">用户</el-tag>
               <el-tag type="warning " size="medium" v-else effect="dark">管理员</el-tag>
             </el-form-item>
-            <el-form-item label="状态">
+            <el-form-item label="账户状态">
               <el-tag type="success" size="medium" v-if="scope.row.roleStatus==1" effect="dark">使用中</el-tag>
               <el-tag type="danger" size="medium" v-else effect="dark" >禁用</el-tag>
             </el-form-item>
@@ -87,7 +84,7 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column label="状态" show-overflow-tooltip>
+      <el-table-column label="账户状态" show-overflow-tooltip>
         <template slot-scope="scope">
           <div slot="reference" >
             <el-tooltip :content="scope.row.roleStatus == 0?'已禁用':'使用中'" placement="top">
@@ -141,8 +138,9 @@
       return {
         drawLoading,
         formInline: {
-          user: '',
-          region: ''
+          dep: '',
+          group: '',
+          project: '',
         },
         tableData: [{
           eid: '5123123',
