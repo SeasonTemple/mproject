@@ -10,63 +10,134 @@
   text-align: left;
   /* background-color: #091057; */
   background-color: rgba(9, 10, 57, 1);
-}
 
-.el-menu-item:hover {
-  // border-right: 2px solid #ffd04b !important;
-  background-color: rgba(196, 202, 202, 0.5) !important;
-}
-
-.el-submenu {
-  text-align: left;
-
-  i {
-    color: rgb(144, 147, 153) !important;
+  .el-menu {
+    border-right: none;
   }
 
-  .el-submenu__title:hover {
+  .el-submenu {
+    text-align: left;
+
+    i {
+      color: rgb(144, 147, 153);
+    }
+
+    .el-submenu__title {
+      &::before {
+        content: '';
+        position: absolute;
+        height: 100%;
+        right: 0;
+        transform: scaleY(0);
+        border-right: 3px solid transparent;
+        transition: .35s ease-in-out;
+      }
+
+
+      &:hover {
+        background-color: rgba(196, 202, 202, 0.5) !important;
+
+        &::before {
+          border-right-color: goldenrod;
+          transform: scaleY(1);
+          transition: .35s ease-in-out;
+        }
+      }
+    }
+
+    &.is-active {
+      i {
+        color: #ffd04b;
+      }
+    }
+  }
+}
+
+.el-menu-item {
+  &::before {
+    content: '';
+    position: absolute;
+    height: 100%;
+    right: 0;
+    transform: scaleY(0);
+    border-right: 3px solid transparent;
+    transition: .35s ease-in-out;
+  }
+
+  &:hover {
     background-color: rgba(196, 202, 202, 0.5) !important;
-  }
 
-  .el-menu-item-group__title {
-    display: none;
-  }
-
-  .el-menu-item:hover {
-    border-right: 2px solid#ffd04b !important;
-
-  }
-
-  &:has(.el-menu-item.is-active) {
-    color: #ffd04b !important;
-
-    i {
-      color: #ffd04b !important;
+    &::before {
+      border-right-color: goldenrod;
+      transform: scaleY(1);
+      transition: .35s ease-in-out;
     }
   }
 }
 
-.el-submenu.is-active {
-  color: #ffd04b !important;
+.el-menu-item-group__title {
+  display: none;
+}
 
-  .el-submenu__title {
-    color: #ffd04b !important;
+@keyframes rightBorderScale {
+  from {
+    transform-origin: center center;
+    border-right-color: goldenrod;
+
+  }
+
+  to {
+    height: 100%;
+    border-right-color: goldenrod;
   }
 }
 
-.el-submenu.is-active.is-opened {
-  &>.el-submenu__title {
-    color: #ffd04b !important;
 
-    i {
-      color: #ffd04b !important;
-    }
-  }
-}
 
-.el-submenu .is-opened {
-  background-color: rgba(111, 111, 111, 0.8) !important;
-}
+// .el-submenu {
+//   text-align: left;
+
+//   i {
+//     color: rgb(144, 147, 153) !important;
+//   }
+
+//   .el-submenu__title:hover {
+//     background-color: rgba(196, 202, 202, 0.5) !important;
+//   }
+
+//   // .el-menu-item:hover {
+//   //   border-right: 2px solid#ffd04b !important;
+//   // }
+//   &:has(.el-menu-item.is-active) {
+//     color: #ffd04b !important;
+
+//     i {
+//       color: #ffd04b !important;
+//     }
+//   }
+// }
+
+// .el-submenu.is-active {
+//   color: #ffd04b !important;
+
+//   .el-submenu__title {
+//     color: #ffd04b !important;
+//   }
+// }
+
+// .el-submenu.is-active.is-opened {
+//   &>.el-submenu__title {
+//     color: #ffd04b !important;
+
+//     i {
+//       color: #ffd04b !important;
+//     }
+//   }
+// }
+
+// .el-submenu .is-opened {
+//   background-color: rgba(111, 111, 111, 0.8) !important;
+// }
 
 /* border-right-color: rgba(255, 208, 75, 0.8) !important; */
 .el-menu--collapse {
@@ -74,8 +145,8 @@
 
 }
 
-// .el-menu {
-//   border-right: none;
+// #side .el-menu {
+//   border-right: 2px solid#ffd04b !important;
 // }
 
 .el-menu-vertical-demo:not(.el-menu--collapse) {
@@ -83,16 +154,16 @@
   min-height: 400px;
   overflow: hidden;
   // .el-submenu:hover {
-  // border-color: 2px solid#ffd04b !important;
+  // border-right: 2px solid#ffd04b !important;
   // }
 }
 
-.el-menu>.el-menu-item .is-active {
-  border-right-color: rgba(216, 22, 22, 0.8) !important;
-  outline-color: rgba(216, 22, 22, 0.8) !important;
-}
+// .el-menu>.el-menu-item .is-active {
+//   border-right-color: rgba(216, 22, 22, 0.8) !important;
+//   outline-color: rgba(216, 22, 22, 0.8) !important;
+// }
 
-.el-menu>.el-divider {
+.el-menu .el-divider {
   box-sizing: border-box;
   margin: 1px 0 0 0;
   background-color: rgb(96, 96, 143);

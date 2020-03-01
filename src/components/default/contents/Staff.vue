@@ -26,46 +26,48 @@
       </el-table-column>
       <el-table-column type="expand" show-overflow-tooltip>
         <template slot-scope="scope">
-          <el-form label-position="left" inline class="demo-table-expand">
-            <el-form-item label="职工号">
-              <span>{{ scope.row.eid }}</span>
-            </el-form-item>
-            <el-form-item label="用户名">
-              <span>{{ scope.row.username }}</span>
-            </el-form-item>
-            <el-form-item label="密码">
-              <span>{{ scope.row.password }}</span>
-            </el-form-item>
-            <el-form-item label="真实姓名">
-              <span>{{ scope.row.name }}</span>
-            </el-form-item>
-            <el-form-item label="性别">
-              <span>{{ scope.sex==0?'女':'男' }}</span>
-            </el-form-item>
-            <el-form-item label="角色">
-              <el-tag size="medium" v-if="scope.row.role==0" effect="dark">用户</el-tag>
-              <el-tag type="warning " size="medium" v-else effect="dark">管理员</el-tag>
-            </el-form-item>
-            <el-form-item label="账户状态">
-              <el-tag type="success" size="medium" v-if="scope.row.roleStatus==1" effect="dark">已启用</el-tag>
-              <el-tag type="danger" size="medium" v-else effect="dark">已禁用</el-tag>
-            </el-form-item>
-            <el-form-item label="手机号">
-              <span>{{ scope.row.phone }}</span>
-            </el-form-item>
-            <el-form-item label="邮箱">
-              <span>{{ scope.row.email }}</span>
-            </el-form-item>
-            <el-form-item label="籍贯">
-              <span>{{ scope.row.address }}</span>
-            </el-form-item>
-            <el-form-item label="身份证号">
-              <span>{{ scope.row.idNum }}</span>
-            </el-form-item>
-            <el-form-item label="入职日期">
-              <span>{{ scope.row.enterTime }}</span>
-            </el-form-item>
-          </el-form>
+          <!-- <transition appear appear-active-class="zoomIn" enter-active-class="fadeIn" leave-class="fadeOut" :duration="{enter:1000}"> -->
+            <el-form label-position="left" inline class="demo-table-expand animated zoomIn faster">
+              <el-form-item label="职工号">
+                <span>{{ scope.row.eid }}</span>
+              </el-form-item>
+              <el-form-item label="用户名">
+                <span>{{ scope.row.username }}</span>
+              </el-form-item>
+              <el-form-item label="密码">
+                <span>{{ scope.row.password }}</span>
+              </el-form-item>
+              <el-form-item label="真实姓名">
+                <span>{{ scope.row.name }}</span>
+              </el-form-item>
+              <el-form-item label="性别">
+                <span>{{ scope.sex==0?'女':'男' }}</span>
+              </el-form-item>
+              <el-form-item label="角色">
+                <el-tag size="medium" v-if="scope.row.role==0" effect="dark">用户</el-tag>
+                <el-tag type="warning " size="medium" v-else effect="dark">管理员</el-tag>
+              </el-form-item>
+              <el-form-item label="账户状态">
+                <el-tag type="success" size="medium" v-if="scope.row.roleStatus==1" effect="dark">已启用</el-tag>
+                <el-tag type="danger" size="medium" v-else effect="dark">已禁用</el-tag>
+              </el-form-item>
+              <el-form-item label="手机号">
+                <span>{{ scope.row.phone }}</span>
+              </el-form-item>
+              <el-form-item label="邮箱">
+                <span>{{ scope.row.email }}</span>
+              </el-form-item>
+              <el-form-item label="籍贯">
+                <span>{{ scope.row.address }}</span>
+              </el-form-item>
+              <el-form-item label="身份证号">
+                <span>{{ scope.row.idNum }}</span>
+              </el-form-item>
+              <el-form-item label="入职日期">
+                <span>{{ scope.row.enterTime }}</span>
+              </el-form-item>
+            </el-form>
+          <!-- </transition> -->
         </template>
       </el-table-column>
       <el-table-column prop="eid" label="职工号" show-overflow-tooltip>
