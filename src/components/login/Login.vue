@@ -11,9 +11,9 @@
     <!-- :class="{isSwitch: modes=='register'}" -->
     <transition-group appear appear-active-class="rollIn" enter-active-class="rollIn" leave-active-class="rollOut">
       <div class="animated left delay-2s" v-if="showStatus == 1" key="logForm">
-        <el-form ref="form" :model="form" >
-          <el-form-item label="Username" :class="{isFocus: actFocus.isFocus}">
-            <el-input v-model="form.account" autocomplete maxlength="20" show-word-limit
+        <el-form ref="form" :model="form">
+          <el-form-item label="Username" :class="{isFocus:actFocus.isFocus}" >
+            <el-input v-model="form.account"  autocomplete maxlength="20" show-word-limit
               @focus.stop="inputFocus(actFocus.name)" @blur.stop="inputblur(actFocus.name)" prop="username">
               <!-- <i class="el-icon-s-custom" slot="prepend"></i> -->
             </el-input>
@@ -61,7 +61,7 @@
         <el-button round class="continue" v-if="showStatus == 0" @click="showLogForm()" key="logBtn"></el-button>
       </el-tooltip>
     </transition>
-    <el-button class="btnCss" @click="reset" >重置状态</el-button>
+    <el-button class="btnCss" @click="reset">重置状态</el-button>
     <transition appear appear-active-class="bounceInRight" enter-active-class="bounceInRight"
       leave-to-class="fadeOutUpBig">
       <div class="animated goForget" v-if="showStatus < 2">
@@ -80,6 +80,7 @@
   import pexels2 from '@/assets/img/pexels-002.jpg';
   import pexels4 from '@/assets/img/pexels-004.jpg';
   import pexels5 from '@/assets/img/pexels-005.jpg';
+
   import {
     mapState,
     mapGetters,

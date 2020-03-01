@@ -1,8 +1,8 @@
 <template>
-  <div class="temp">
+  <div class="temp" v-cloak>
     <el-row type="flex">
-      <el-col :span="24" >
-        <el-form :inline="true" :model="formInline" class="demo-form-inline" label-position="right">
+      <el-col :span="24">
+        <el-form :inline="true" :model="formInline" class="demo-form-inline">
           <el-form-item label="所属部门">
             <el-input v-model="formInline.dep" placeholder="所属部门"></el-input>
           </el-form-item>
@@ -47,8 +47,8 @@
               <el-tag type="warning " size="medium" v-else effect="dark">管理员</el-tag>
             </el-form-item>
             <el-form-item label="账户状态">
-              <el-tag type="success" size="medium" v-if="scope.row.roleStatus==1" effect="dark">使用中</el-tag>
-              <el-tag type="danger" size="medium" v-else effect="dark" >禁用</el-tag>
+              <el-tag type="success" size="medium" v-if="scope.row.roleStatus==1" effect="dark">已启用</el-tag>
+              <el-tag type="danger" size="medium" v-else effect="dark">已禁用</el-tag>
             </el-form-item>
             <el-form-item label="手机号">
               <span>{{ scope.row.phone }}</span>
@@ -86,10 +86,10 @@
       </el-table-column>
       <el-table-column label="账户状态" show-overflow-tooltip>
         <template slot-scope="scope">
-          <div slot="reference" >
-            <el-tooltip :content="scope.row.roleStatus == 0?'已禁用':'使用中'" placement="top">
-              <el-switch v-model="scope.row.roleStatus" active-color="#13ce66"
-                inactive-color="#ff4949" active-value="1" inactive-value="0">
+          <div slot="reference">
+            <el-tooltip :content="scope.row.roleStatus == 0?'已禁用':'已启用'" placement="top">
+              <el-switch v-model="scope.row.roleStatus" active-color="#13ce66" inactive-color="#ff4949" active-value="1"
+                inactive-value="0">
               </el-switch>
             </el-tooltip>
           </div>
@@ -125,7 +125,7 @@
     </div>
     <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage4"
       :page-sizes="[100, 200, 300, 400]" :page-size="100" layout="total, sizes, prev, pager, next, jumper" :total="400"
-      style="text-align:center;">
+      style="text-align:center;display:block;margin:20px 0 0 0;">
     </el-pagination>
   </div>
 </template>
@@ -181,7 +181,7 @@
           address: '上海市普陀区金沙江路1518号',
           idNum: '51025198110120212',
           enterTime: '2016-05-02'
-        },{
+        }, {
           eid: '5123123',
           username: '1231231231',
           password: 'Zc42230',

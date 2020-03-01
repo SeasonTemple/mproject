@@ -8,6 +8,7 @@ body {
   height: 100vh;
   width: 100vw;
   overflow: hidden;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
 .left {
@@ -45,6 +46,8 @@ body {
   &>.el-form {
     margin: 5px;
   }
+
+  
 }
 
 .valiBtn {
@@ -92,7 +95,6 @@ body {
   margin: 10px 0 0 0;
   font-weight: bold;
   line-height: 1em;
-
 }
 
 .forget {

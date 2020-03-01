@@ -20,7 +20,8 @@ body {
   padding: 0;
   height: 100vh;
   width: 100vw;
-  overflow: hidden; }
+  overflow: hidden;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; }
 
 .left {
   position: absolute;

@@ -14,27 +14,16 @@
   /*背景槽*/
   border-radius: 5px; }
 
-@keyframes btColor {
-  0% {
-    border-color: rgba(240, 115, 115, 0.5); }
-  25% {
-    border-color: rgba(248, 227, 41, 0.5); }
-  50% {
-    border-color: rgba(76, 238, 176, 0.5); }
-  75% {
-    border-color: rgba(248, 227, 41, 0.59); }
-  100% {
-    border-color: rgba(240, 115, 115, 0.5); } }
 html,
 body {
   overflow: hidden;
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; }
 
-.el-form-item {
+.left .el-form-item {
   margin-bottom: 0px;
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   height: 80px; }
-  .el-form-item .el-form-item__label {
+  .left .el-form-item .el-form-item__label {
     position: relative;
     padding: 0;
     top: 58px;
@@ -58,15 +47,6 @@ body {
     .logPop .popper__arrow::after {
       border-color: transparent !important; }
 
-input::-webkit-input-placeholder {
-  color: #c0c4cc; }
-
-input::-moz-input-placeholder {
-  color: #c0c4cc; }
-
-input::-ms-input-placeholder {
-  color: #c0c4cc; }
-
 .checkBox {
   color: rgba(255, 255, 255, 0.9); }
   .checkBox .el-checkbox__input.is-checked + .el-checkbox__label {
@@ -77,7 +57,7 @@ input::-ms-input-placeholder {
     border-color: rgba(255, 255, 255, 0.9);
     background: rgba(59, 228, 87, 0.9); }
 
-.isFocus .el-form-item__label {
+.el-form-item.isFocus .el-form-item__label {
   font-size: .9em;
   position: relative;
   padding: 0;
@@ -85,7 +65,7 @@ input::-ms-input-placeholder {
   left: 12%;
   transition: font-size .2s linear, top .2s linear; }
 
-.el-input__inner {
+.left .el-input__inner {
   position: relative;
   font-size: 1.3em;
   text-indent: 2%;
@@ -101,10 +81,10 @@ input::-ms-input-placeholder {
   margin: 20px 0 0 0;
   left: 10%;
   width: 80%; }
-  .el-input__inner:focus {
+  .left .el-input__inner:focus {
     outline: none;
     animation: btColor 4s linear infinite; }
-  .el-input__inner:hover {
+  .left .el-input__inner:hover {
     outline: none;
     border-bottom: 2px solid rgba(224, 224, 224, 0.959); }
 
@@ -123,41 +103,41 @@ input::-ms-input-placeholder {
   margin: 20px 0 0 0;
   width: 53%; }
 
-.el-input__count-inner {
+.left .el-input__count-inner {
   font-size: 16px;
   font-weight: 300;
   background: transparent !important;
   color: rgba(255, 255, 255, 0.76);
   padding: 20px 33px 0 0 !important; }
 
-.el-input__prefix {
+.left .el-input__prefix {
   left: 42px;
   top: 19px;
   font-size: 22px;
   color: rgba(0, 0, 0, 0.466); }
 
-.el-input .el-input__clear {
+.left .el-input .el-input__clear {
   font-size: 20px;
   font-weight: 300;
   background: transparent;
   color: rgba(255, 255, 255, 0.76);
   padding: 14px 30px 0 0; }
 
-.el-input-group__prepend {
+.left .el-input-group__prepend {
   background: transparent;
   border: none;
   color: rgba(0, 0, 0, 0.466);
   padding: 20px 10px 0 28px;
   font-size: 25px; }
 
-.el-input-group__append {
+.left .el-input-group__append {
   background: transparent;
   border: none;
   color: rgba(0, 0, 0, 0.466);
   padding: 20px 0 0 0;
   font-size: 25px; }
 
-.el-form-item__content {
+.left .el-form-item__content {
   top: 0px;
   margin: 20px 0 0 0;
   height: 20px;
@@ -200,5 +180,17 @@ input::-ms-input-placeholder {
   .regBtn:active {
     color: rgba(255, 255, 255, 0.5);
     background-image: linear-gradient(35deg, rgba(70, 248, 210, 0.863) 8%, rgba(81, 173, 248, 0.822) 33%, rgba(123, 72, 182, 0.845), rgba(255, 30, 86, 0.767) 76%, rgba(250, 120, 60, 0.87) 100%); }
+
+@keyframes btColor {
+  0% {
+    border-color: rgba(240, 115, 115, 0.5); }
+  25% {
+    border-color: rgba(248, 227, 41, 0.5); }
+  50% {
+    border-color: rgba(76, 238, 176, 0.5); }
+  75% {
+    border-color: rgba(248, 227, 41, 0.59); }
+  100% {
+    border-color: rgba(240, 115, 115, 0.5); } }
 
 /*# sourceMappingURL=login-global.css.map */

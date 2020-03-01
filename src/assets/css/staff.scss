@@ -1,6 +1,10 @@
 @charset 'UTF-8';
 @import 'sassConfig';
 
+[v-cloak] {
+  display: none;
+}
+
 html,
 body {
   margin: 0px;
@@ -29,11 +33,6 @@ body {
 //   display: block;
 //   height: auto;
 // }
-
-.el-pagination {
-  display: block;
-  margin: 20px 0 0 0;
-}
 
 .demo-table-expand {
   color: #8996a8 !important;

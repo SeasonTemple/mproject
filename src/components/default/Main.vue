@@ -1,14 +1,14 @@
 <template>
   <el-row class="main">
-    <el-col :span="24">
+    <el-col :span="24" v-loading='drawLoading'>
       <el-tabs v-model="activeName" @tab-click="handleClick" type="border-card" >
-        <el-tab-pane name="first" :key="'first'">
+        <el-tab-pane name="first" :key="'first'" v-loading='drawLoading'>
           <span slot="label"><i class="el-icon-monitor"></i> 控制台</span>
-          <home v-if="isChildUpdate1" v-loading='drawLoading'></home>
+          <home v-if="isChildUpdate1"></home>
         </el-tab-pane>
-        <el-tab-pane label="second" name="second" :key="'second'">
+        <el-tab-pane label="second" name="second" :key="'second'" v-loading='drawLoading'>
           <span slot="label"><i class=""></i> 职员信息</span>
-          <staff v-if="isChildUpdate2" v-loading='drawLoading'></staff>
+          <staff v-if="isChildUpdate2" ></staff>
         </el-tab-pane>
       </el-tabs>
     </el-col>

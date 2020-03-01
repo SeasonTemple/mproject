@@ -14,6 +14,9 @@
   /*背景槽*/
   border-radius: 5px; }
 
+[v-cloak] {
+  display: none; }
+
 html,
 body {
   margin: 0px;
@@ -31,10 +34,6 @@ body {
   text-align: left;
   padding: 30px 10px 10px 10px;
   box-sizing: border-box; }
-
-.el-pagination {
-  display: block;
-  margin: 20px 0 0 0; }
 
 .demo-table-expand {
   color: #8996a8 !important;
