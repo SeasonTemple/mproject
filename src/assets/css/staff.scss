@@ -35,14 +35,17 @@ body {
 // }
 
 .demo-table-expand {
-  color: #8996a8 !important;
+  color: #808da0;
   background: #f2f2f2;
   padding: 0 30px;
   font-size: 0;
-  transition: .5s .1s ease-in-out;
+  transition: .6s ease-in-out;
+
+  // overflow: auto;
   &:hover {
     box-shadow: 1px 1px 10px rgba(128, 128, 128, 0.8);
     transform: scale(1.02);
+    transition: .6s ease-in-out;
   }
 }
 
@@ -55,4 +58,71 @@ body {
   margin-right: 0;
   margin-bottom: 0;
   width: 50%;
+}
+
+.pager {
+  text-align: center;
+  // margin-bottom: 10px;
+  box-sizing: border-box;
+}
+
+// @media (min-width:800px) {
+//   .el-table {
+//     .el-table-column {
+//       background: #FFF !important;
+//       display: inline;
+//     }
+//   }
+
+//   .cell {
+//     display: inline-block;
+//     background: transparent !important;
+//   }
+// }
+
+.footer {
+  margin: 20px 0 0 0;
+  box-sizing: border-box;
+
+  .el-button {
+    margin-bottom: 10px;
+    float: left;
+  }
+}
+
+@media (max-width:800px) {
+  // .el-table {
+  //   .el-table-column {
+  //     height: 10% !important;
+  //   }
+  // }
+
+  .cell {
+    display: inline-block;
+    background: #FFF !important;
+
+    >.el-button {
+      float: left;
+      padding: 5px;
+      font-size: 5px;
+      border-radius: 0;
+      margin: 0;
+    }
+  }
+
+  .demo-table-expand {
+    * {
+      font-size: .8em;
+    }
+  }
+
+  .footer {
+    .el-button{
+      margin: 0;
+    }
+    .el-pagination {
+      display: inline-block;
+      font-size: 10px;
+    }
+  }
 }

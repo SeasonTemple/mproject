@@ -1,4 +1,4 @@
-<template >
+<template>
   <el-container class="wrapper base" v-loading.fullscreen.lock="fullscreenLoading">
     <el-header class="nav">
       <top />
@@ -9,6 +9,11 @@
       </el-aside>
       <el-main class="main">
         <default />
+        <el-backtop target=".main" :visibility-height="200" :bottom="60" :right="50" style="background:transparent">
+          <div class="backTop">
+            UP
+          </div>
+        </el-backtop>
       </el-main>
     </el-container>
   </el-container>

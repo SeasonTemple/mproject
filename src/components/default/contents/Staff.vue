@@ -15,19 +15,22 @@
               <el-option label="项目二" value="beijing"></el-option>
             </el-select>
           </el-form-item>
+          <el-form-item label="个人信息">
+            <el-input v-model="formInline.group" placeholder="使用个人信息查询"></el-input>
+          </el-form-item>
           <el-button type="primary" @click="onSubmit">查询</el-button>
         </el-form>
       </el-col>
     </el-row>
-
-    <el-table :data="tableData" style="width:100%;" fit maxi-height="600" size="medium" v-loading='drawLoading'
+    <el-table :data="tableData" style="width:100%;" fit max-height="700" size="medium" v-loading='drawLoading'
       empty-text='暂无数据' ref="tableData">
       <el-table-column type="selection" width="50">
       </el-table-column>
-      <el-table-column type="expand" show-overflow-tooltip>
+      <el-table-column type="expand">
         <template slot-scope="scope">
-          <!-- <transition appear appear-active-class="zoomIn" enter-active-class="fadeIn" leave-class="fadeOut" :duration="{enter:1000}"> -->
-            <el-form label-position="left" inline class="demo-table-expand animated zoomIn faster">
+          <transition appear appear-active-class="zoomIn" enter-active-class="fadeIn" leave-class="fadeOut"
+            :duration="{enter:1000}">
+            <el-form label-position="left" inline class="demo-table-expand animated">
               <el-form-item label="职工号">
                 <span>{{ scope.row.eid }}</span>
               </el-form-item>
@@ -48,8 +51,11 @@
                 <el-tag type="warning " size="medium" v-else effect="dark">管理员</el-tag>
               </el-form-item>
               <el-form-item label="账户状态">
-                <el-tag type="success" size="medium" v-if="scope.row.roleStatus==1" effect="dark">已启用</el-tag>
-                <el-tag type="danger" size="medium" v-else effect="dark">已禁用</el-tag>
+                <transition enter-active-class="bounceIn" leave-active-class="bounceOut" mode="out-in">
+                  <el-tag class="animated" type="success" size="medium" v-if="scope.row.roleStatus==1" effect="dark"
+                    key="enable">已启用</el-tag>
+                  <el-tag class="animated" type="danger" size="medium" v-else effect="dark" key="disabled">已禁用</el-tag>
+                </transition>
               </el-form-item>
               <el-form-item label="手机号">
                 <span>{{ scope.row.phone }}</span>
@@ -67,7 +73,7 @@
                 <span>{{ scope.row.enterTime }}</span>
               </el-form-item>
             </el-form>
-          <!-- </transition> -->
+          </transition>
         </template>
       </el-table-column>
       <el-table-column prop="eid" label="职工号" show-overflow-tooltip>
@@ -76,8 +82,8 @@
       </el-table-column>
       <el-table-column prop="password" label="密码" show-overflow-tooltip>
       </el-table-column>
-      <el-table-column prop="name" label="真实姓名" show-overflow-tooltip>
-      </el-table-column>
+      <!-- <el-table-column prop="name" label="真实姓名" show-overflow-tooltip>
+      </el-table-column> -->
       <el-table-column label="角色" show-overflow-tooltip>
         <template slot-scope="scope">
           <div slot="reference" class="name-wrapper">
@@ -99,7 +105,7 @@
       </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-tooltip content="查看" placement="top" effect="dark">
+          <el-tooltip content="详情" placement="top" effect="dark">
             <el-button @click="toogleExpand(scope.row)" icon="el-icon-thumb" circle></el-button>
           </el-tooltip>
           <el-tooltip content="编辑" placement="top" effect="dark">
@@ -121,14 +127,13 @@
       </el-table-column> -->
     <!-- <el-table-column prop="enterTime" label="入职日期" width="150" show-overflow-tooltip>
       </el-table-column> -->
-    <div slot="append" style="margin-top: 20px;float:left;">
-      <el-button size="small" @click="toggleSelection([tableData[1], tableData[2]])">反选</el-button>
-      <el-button size="small" @click="toggleSelection()" type="danger">批量删除</el-button>
+    <div slot="append" class="footer">
+      <el-button style="" size="small" @click="toggleSelection([tableData[1], tableData[2]])">反选</el-button>
+      <el-button style="" size="small" @click="toggleSelection()" type="danger">批量删除</el-button>
+      <el-pagination class="pager" @current-change="handleCurrentChange" :current-page="currentPage4" :page-size="5"
+        layout="total, prev, pager, next, jumper" :total="40" :hide-on-single-page="true">
+      </el-pagination>
     </div>
-    <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage4"
-      :page-sizes="[100, 200, 300, 400]" :page-size="100" layout="total, sizes, prev, pager, next, jumper" :total="400"
-      style="text-align:center;display:block;margin:20px 0 0 0;">
-    </el-pagination>
   </div>
 </template>
 
@@ -325,9 +330,6 @@
       },
       deleteRow(index, rows) {
         rows.splice(index, 1);
-      },
-      handleSizeChange(val) {
-        console.log(`每页 ${val} 条`);
       },
       handleCurrentChange(val) {
         console.log(`当前页: ${val}`);

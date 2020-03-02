@@ -3,18 +3,18 @@
   /*血槽宽度*/
   width: 8px;
   height: 8px;
-  background-color: rgba(0, 0, 0, 0.1); }
+  background-color: rgba(245, 245, 245, 0.8); }
 
 ::-webkit-scrollbar-thumb {
   /*拖动条*/
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.4);
   border-radius: 6px; }
 
 ::-webkit-scrollbar-track {
   /*背景槽*/
   border-radius: 5px; }
 
-#side {
+.side {
   display: block;
   max-width: 30vh;
   min-width: fit-content;
@@ -22,14 +22,25 @@
   width: fit-content;
   text-align: left;
   /* background-color: #091057; */
-  background-color: #090a39; }
-  #side .el-menu {
+  background-color: #090a39;
+  overflow-y: auto; }
+  .side .el-menu {
     border-right: none; }
-  #side .el-submenu {
+    .side .el-menu .el-divider {
+      box-sizing: border-box;
+      margin: 1px 0 0 0;
+      background-color: #60608f; }
+  .side .el-menu--collapse {
+    width: 70px; }
+  .side .el-menu-vertical-demo:not(.el-menu--collapse) {
+    width: 30vh;
+    min-height: 100%;
+    overflow: hidden; }
+  .side .el-submenu {
     text-align: left; }
-    #side .el-submenu i {
+    .side .el-submenu i {
       color: #909399; }
-    #side .el-submenu .el-submenu__title::before {
+    .side .el-submenu .el-submenu__title::before {
       content: '';
       position: absolute;
       height: 100%;
@@ -37,15 +48,15 @@
       transform: scaleY(0);
       border-right: 3px solid transparent;
       transition: .35s ease-in-out; }
-    #side .el-submenu .el-submenu__title:hover {
+    .side .el-submenu .el-submenu__title:hover {
       background-color: rgba(196, 202, 202, 0.5) !important; }
-      #side .el-submenu .el-submenu__title:hover::before {
+      .side .el-submenu .el-submenu__title:hover::before {
         border-right-color: goldenrod;
         transform: scaleY(1);
         transition: .35s ease-in-out; }
-    #side .el-submenu.is-active .el-submenu__title :nth-child(1) {
+    .side .el-submenu.is-active .el-submenu__title :nth-child(1) {
       color: #ffd04b !important; }
-    #side .el-submenu.is-active .el-submenu__title :nth-child(2) {
+    .side .el-submenu.is-active .el-submenu__title :nth-child(2) {
       color: #ffd04b !important; }
 
 .el-menu-item::before {
@@ -73,18 +84,5 @@
   to {
     height: 100%;
     border-right-color: goldenrod; } }
-/* border-right-color: rgba(255, 208, 75, 0.8) !important; */
-.el-menu--collapse {
-  width: 70px; }
-
-.el-menu-vertical-demo:not(.el-menu--collapse) {
-  width: 30vh;
-  min-height: 400px;
-  overflow: hidden; }
-
-.el-menu .el-divider {
-  box-sizing: border-box;
-  margin: 1px 0 0 0;
-  background-color: #60608f; }
 
 /*# sourceMappingURL=sidebar-global.css.map */

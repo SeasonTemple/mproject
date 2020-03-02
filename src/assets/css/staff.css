@@ -3,11 +3,11 @@
   /*血槽宽度*/
   width: 8px;
   height: 8px;
-  background-color: rgba(0, 0, 0, 0.1); }
+  background-color: rgba(245, 245, 245, 0.8); }
 
 ::-webkit-scrollbar-thumb {
   /*拖动条*/
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.4);
   border-radius: 6px; }
 
 ::-webkit-scrollbar-track {
@@ -36,18 +36,50 @@ body {
   box-sizing: border-box; }
 
 .demo-table-expand {
-  color: #8996a8 !important;
+  color: #808da0;
   background: #f2f2f2;
   padding: 0 30px;
   font-size: 0;
-  transition: .5s .1s ease-in-out; }
+  transition: .6s ease-in-out; }
   .demo-table-expand:hover {
     box-shadow: 1px 1px 10px rgba(128, 128, 128, 0.8);
-    transform: scale(1.02); }
+    transform: scale(1.02);
+    transition: .6s ease-in-out; }
 
 .demo-table-expand .el-form-item {
   margin-right: 0;
   margin-bottom: 0;
   width: 50%; }
+
+.pager {
+  text-align: center;
+  box-sizing: border-box; }
+
+.footer {
+  margin: 20px 0 0 0;
+  box-sizing: border-box; }
+  .footer .el-button {
+    margin-bottom: 10px;
+    float: left; }
+
+@media (max-width: 800px) {
+  .cell {
+    display: inline-block;
+    background: #FFF !important; }
+    .cell > .el-button {
+      float: left;
+      padding: 5px;
+      font-size: 5px;
+      border-radius: 0;
+      margin: 0; }
+
+  .demo-table-expand * {
+    font-size: .8em; }
+
+  .footer .el-button {
+    margin: 0; }
+  .footer .el-pagination {
+    display: inline-block;
+    font-size: 10px; } }
 
 /*# sourceMappingURL=staff.css.map */
