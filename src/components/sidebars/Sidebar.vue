@@ -10,12 +10,12 @@
         </el-menu-item>
         <el-divider></el-divider>
         <el-menu-item index="index/console">
-          <i class="el-icon-location"></i>
+          <i class="el-icon-monitor"></i>
           <span slot="title">控制台</span>
         </el-menu-item>
         <el-submenu index="index/userInfo" @click="addTab(editableTabsValue)">
           <template slot="title">
-            <i class="el-icon-menu"></i>
+            <i class="el-icon-user-solid"></i>
             <span slot="title">个人中心</span>
           </template>
           <el-menu-item-group>
@@ -34,7 +34,7 @@
         </el-menu-item> -->
         <el-submenu index="index/sysMsg" @click="addTab(editableTabsValue)">
           <template slot="title">
-            <i class="el-icon-document"></i>
+            <i class="el-icon-eleme"></i>
             <span slot="title">人事管理</span>
           </template>
           <el-menu-item-group>
@@ -49,14 +49,29 @@
           </template>
           <el-menu-item-group>
             <el-menu-item index="3-1">通知管理</el-menu-item>
-            <el-menu-item index="3-2">系统日志</el-menu-item>
+            <el-menu-item index="3-2">日志管理</el-menu-item>
             <el-menu-item index="3-3">功能管理</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
-        <!-- <el-menu-item index="index/project">
-          <i class="el-icon-setting"></i>
-          <span slot="title">项目相关</span>
-        </el-menu-item> -->
+        <el-submenu index="index/help" @click="addTab(editableTabsValue)">
+          <template slot="title">
+            <i class="el-icon-question"></i>
+            <span slot="title">使用帮助</span>
+          </template>
+          <el-menu-item-group>
+            <el-menu-item index="4-1">系统简介</el-menu-item>
+            <el-menu-item index="4-2">菜单简介</el-menu-item>
+            <el-menu-item index="4-3">功能介绍</el-menu-item>
+            <el-menu-item index="4-3">智能引导</el-menu-item>
+          </el-menu-item-group>
+        </el-submenu>
+        <el-menu-item-group style="min-width:70px;">
+          <!-- <el-button-group > -->
+            <el-button plain style="background:transparent;color: whitesmoke;" icon="el-icon-house"></el-button>
+            <el-button plain style="background:transparent;color: whitesmoke;" type="primary" icon="el-icon-refresh"></el-button>
+            <el-button plain style="background:transparent;color: whitesmoke;" type="danger" icon="el-icon-switch-button"></el-button>
+          <!-- </el-button-group> -->
+        </el-menu-item-group>
       </el-menu>
     </el-col>
   </el-row>

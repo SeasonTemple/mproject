@@ -23,7 +23,8 @@
   text-align: left;
   /* background-color: #091057; */
   background-color: #090a39;
-  overflow-y: auto; }
+  overflow-y: auto;
+  overflow-x: hidden; }
   .side .el-menu {
     border-right: none; }
     .side .el-menu .el-divider {

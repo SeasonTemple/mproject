@@ -59,7 +59,7 @@
           icon: 'el-icon-bell',
           iconColor: 'rgb(178, 92, 212)'
         }, {
-          title: '工作报告',
+          title: '工作报表',
           content: '213',
           icon: 'el-icon-files',
           iconColor: 'rgb(101, 228, 63)'
