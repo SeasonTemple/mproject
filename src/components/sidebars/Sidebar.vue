@@ -13,6 +13,7 @@
           <i class="el-icon-monitor"></i>
           <span slot="title">控制台</span>
         </el-menu-item>
+        <el-divider></el-divider>
         <el-submenu index="index/userInfo" @click="addTab(editableTabsValue)">
           <template slot="title">
             <i class="el-icon-user-solid"></i>
@@ -26,12 +27,10 @@
             <el-menu-item index="1-5">出勤汇总</el-menu-item>
             <el-menu-item index="1-6">薪资分析</el-menu-item>
             <el-menu-item index="1-7">系统通知</el-menu-item>
+            <el-menu-item index="1-8">请假申请</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
-        <!-- <el-menu-item index="index/sysMsg">
-          <i class="el-icon-document"></i>
-          <span slot="title">人事管理</span>
-        </el-menu-item> -->
+        <el-divider></el-divider>
         <el-submenu index="index/sysMsg" @click="addTab(editableTabsValue)">
           <template slot="title">
             <i class="el-icon-eleme"></i>
@@ -40,8 +39,10 @@
           <el-menu-item-group>
             <el-menu-item index="2-1">账号管理</el-menu-item>
             <el-menu-item index="2-2">职工管理</el-menu-item>
+            <el-menu-item index="2-3">请假审核</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
+        <el-divider></el-divider>
         <el-submenu index="index/setting" @click="addTab(editableTabsValue)">
           <template slot="title">
             <i class="el-icon-setting"></i>
@@ -53,6 +54,7 @@
             <el-menu-item index="3-3">功能管理</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
+        <el-divider></el-divider>
         <el-submenu index="index/help" @click="addTab(editableTabsValue)">
           <template slot="title">
             <i class="el-icon-question"></i>
@@ -60,18 +62,18 @@
           </template>
           <el-menu-item-group>
             <el-menu-item index="4-1">系统简介</el-menu-item>
-            <el-menu-item index="4-2">菜单简介</el-menu-item>
+            <el-menu-item index="4-2">菜单介绍</el-menu-item>
             <el-menu-item index="4-3">功能介绍</el-menu-item>
             <el-menu-item index="4-3">智能引导</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
-        <el-menu-item-group style="min-width:70px;">
-          <!-- <el-button-group > -->
-            <el-button plain style="background:transparent;color: whitesmoke;" icon="el-icon-house"></el-button>
-            <el-button plain style="background:transparent;color: whitesmoke;" type="primary" icon="el-icon-refresh"></el-button>
-            <el-button plain style="background:transparent;color: whitesmoke;" type="danger" icon="el-icon-switch-button"></el-button>
-          <!-- </el-button-group> -->
-        </el-menu-item-group>
+        <el-divider></el-divider>
+        <!-- <el-button-group class="bottomBarGroup">
+          <el-button plain class="sideBarButtons" icon="el-icon-house"></el-button>
+          <el-button plain class="sideBarButtons" type="primary" icon="el-icon-refresh"></el-button>
+          <el-button plain class="sideBarButtons" type="danger" icon="el-icon-switch-button"></el-button>
+        </el-button-group>
+        <el-divider></el-divider> -->
       </el-menu>
     </el-col>
   </el-row>

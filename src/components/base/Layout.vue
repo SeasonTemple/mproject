@@ -9,10 +9,12 @@
       </el-aside>
       <el-main class="main">
         <default />
-        <el-backtop target=".main" :visibility-height="200" :bottom="60" :right="50" style="background:transparent">
-          <div class="backTop">
-            UP
-          </div>
+        <el-backtop target=".main" :visibility-height="200" :bottom="60" :right="50" style="background:transparent;">
+          <el-tooltip effect="light" content="返回顶部" placement="top">
+            <div class="backTop">
+              UP
+            </div>
+          </el-tooltip>
         </el-backtop>
       </el-main>
     </el-container>
@@ -43,5 +45,5 @@
     }
   }
 </script>
-<style src="@/assets/css/commons.css"></style>
+<style scoped src="@/assets/css/commons.css"></style>
 <style src="@/assets/css/layout.css"></style>

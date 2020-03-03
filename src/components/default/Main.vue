@@ -7,7 +7,7 @@
           <home v-if="isChildUpdate1"></home>
         </el-tab-pane>
         <el-tab-pane label="second" name="second" :key="'second'" v-loading='drawLoading'>
-          <span slot="label"><i class=""></i> 职员信息</span>
+          <span slot="label"><i class=""></i> 职员管理</span>
           <staff v-if="isChildUpdate2" ></staff>
         </el-tab-pane>
       </el-tabs>

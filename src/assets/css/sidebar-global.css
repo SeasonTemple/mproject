@@ -59,6 +59,19 @@
       color: #ffd04b !important; }
     .side .el-submenu.is-active .el-submenu__title :nth-child(2) {
       color: #ffd04b !important; }
+  .side .bottomBarGroup {
+    min-width: 70px;
+    max-width: 100%;
+    width: 100%; }
+    .side .bottomBarGroup .sideBarButtons {
+      background: #090a39;
+      color: whitesmoke;
+      margin: 0 !important;
+      font-size: 18px;
+      border-color: transparent;
+      max-height: 100%;
+      width: auto;
+      box-sizing: border-box; }
 
 .el-menu-item::before {
   content: '';

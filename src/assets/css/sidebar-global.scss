@@ -75,7 +75,28 @@
       }
     }
   }
+
+  .bottomBarGroup {
+    min-width: 70px;
+    max-width: 100%;
+    width: 100%;
+    // text-align: center;
+    .sideBarButtons {
+      background: rgb(9, 10, 57);
+      color: whitesmoke;
+      margin: 0 !important;
+      // width: 6vw;
+      font-size: 18px;
+      // vertical-align: middle;
+      border-color: transparent;
+      max-height: 100%;
+      width: auto;
+      // padding-right: 4vw;
+      box-sizing: border-box;
+    }
+  }
 }
+
 
 .el-menu-item {
   &::before {
