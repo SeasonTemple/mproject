@@ -1,8 +1,8 @@
 <template>
   <div class="home">
-    <el-card shadow="hover" style="background: #fafafa">
+    <el-card shadow="never" :style="{background: '#fafafa', marginBottom: '30px' }">
       <el-row class="top-card-body" type="flex" justify="start" :gutter="10">
-        <el-col :span="24">
+        <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
           <template v-for="(card, index) in cards">
             <el-col :key="index" class="topUnifyStyle" :xs="5" :sm="5" :md="5" :lg="5" :xl="5">
               <el-card shadow="hover" v-loading='drawLoading'>
@@ -31,13 +31,15 @@
         </el-col>
       </el-row>
     </el-card>
-    <el-divider></el-divider>
+    <!-- <el-divider></el-divider> -->
+    <el-row :gutter="30">
     <template v-for="(item, index) in charts">
-      <el-col :span="item.span" :key="index" :style="{ height: '400px' }" v-loading="drawLoading">
-        <div :id="index" :style="{ height: '100%', width: '100%' }"></div>
+      <el-col :xs="item.span" :sm="item.span" :md="item.span" :lg="item.span" :xl="item.span" :style="{ height: '400px' ,marginBottom: '30px'}" :key="index" v-loading="drawLoading">
+        <el-card :id="index" :style="{ height: '100%', width: '100%' }" shadow="hover">
+        </el-card>
       </el-col>
     </template>
-    <!-- <button @click="getUsers">axios</button> -->
+    </el-row>
   </div>
 </template>
 

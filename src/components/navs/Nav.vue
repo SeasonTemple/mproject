@@ -3,7 +3,7 @@
     <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect"
       background-color="rgba(9, 10, 57, 0.7)" text-color="#fff" active-text-color="#ffd04b">
       <el-row :span="24" type="flex" justify="space-between">
-        <el-image alt="logo" :src="url.img4" fit="contain" style="background:rgba(222,222,222,.8);border-radius: 22px;box-sizing:border-box;margin:13px 0 13px 6px;width:220px;" lazy></el-image>
+        <el-image alt="logo" class="siteSymbol" :src="url.img4" fit="contain" lazy></el-image>
         <div id="tp-weather-widget"></div>
         <el-dropdown :hide-on-click="false" style="padding:12px 30px 12px 12px;" @command="handleCommand">
           <span class="el-dropdown-link">

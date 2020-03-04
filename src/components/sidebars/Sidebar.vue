@@ -21,13 +21,12 @@
           </template>
           <el-menu-item-group>
             <el-menu-item index="1-1">个人信息</el-menu-item>
-            <el-menu-item index="1-2">工作报表</el-menu-item>
-            <el-menu-item index="1-3">项目进度</el-menu-item>
-            <el-menu-item index="1-4">薪资查询</el-menu-item>
-            <el-menu-item index="1-5">出勤汇总</el-menu-item>
-            <el-menu-item index="1-6">薪资分析</el-menu-item>
-            <el-menu-item index="1-7">系统通知</el-menu-item>
-            <el-menu-item index="1-8">请假申请</el-menu-item>
+            <el-menu-item index="1-2">工作信息</el-menu-item>
+            <el-menu-item index="1-3">薪资查询</el-menu-item>
+            <el-menu-item index="1-4">出勤汇总</el-menu-item>
+            <el-menu-item index="1-5">薪资分析</el-menu-item>
+            <el-menu-item index="1-6">系统通知</el-menu-item>
+            <el-menu-item index="1-7">事务申请</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
         <el-divider></el-divider>
@@ -39,7 +38,8 @@
           <el-menu-item-group>
             <el-menu-item index="2-1">账号管理</el-menu-item>
             <el-menu-item index="2-2">职工管理</el-menu-item>
-            <el-menu-item index="2-3">请假审核</el-menu-item>
+            <el-menu-item index="2-3">权限管理</el-menu-item>
+            <el-menu-item index="2-4">申请审核</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
         <el-divider></el-divider>

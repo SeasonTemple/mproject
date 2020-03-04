@@ -14,6 +14,82 @@
       filter: alpha(opacity=50) */
 }
 
+.siteSymbol {
+  background: transparent;
+  border-radius: 22px;
+  box-sizing: border-box;
+  margin: 13px 0 13px 6px;
+  width: 220px;
+  background-size: 400%;
+  transition: 1s ease-in-out;
+  animation: Slide 1.4s linear alternate infinite;
+
+  &:hover {
+    // box-shadow: 0 0 1px rgba(255, 255, 255, .1),
+    // 1px 0 10px rgb(255, 106, 106),
+    // -1px 0 10px rgb(116, 106, 255),
+    // 0 1px 10px rgb(106, 188, 140),
+    // 0 -1px 10px rgb(255, 228, 106);
+
+    &::before {
+      transform-origin: 63%;
+      background: rgba(255, 255, 255, .5);
+      transition: 1.5s ease-in-out;
+    }
+
+    &::after {
+      transform-origin: 29%;
+      background: rgba(255, 255, 255, .5);
+      transition: 1.5s ease-in-out;
+    }
+  }
+
+  &::before {
+    content: "";
+    border-radius: 22px;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    transform: skewY(77deg);
+    transform-origin: 0%;
+    background: transparent;
+    transition: 1.5s ease-in-out;
+  }
+
+  &::after {
+    content: "";
+    border-radius: 22px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: skewY(-78deg);
+    transform-origin: 100%;
+    height: 100%;
+    width: 100%;
+    background: transparent;
+    transition: 1.5s ease-in-out;
+  }
+}
+
+@keyframes Slide {
+  0% {
+    filter: hue-rotate(175deg);
+  }
+
+  50% {
+    filter: hue-rotate(0deg);
+  }
+
+  51% {
+    filter: hue-rotate(1deg);
+  }
+
+  100% {
+    filter: hue-rotate(175deg);
+
+  }
+}
+
 .el-menu>* {
   border-bottom-width: 0px !important;
   height: 80px !important;

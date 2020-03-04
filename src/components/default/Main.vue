@@ -1,14 +1,18 @@
 <template>
   <el-row class="main">
-    <el-col :span="24" v-loading='drawLoading'>
-      <el-tabs v-model="activeName" @tab-click="handleClick" type="border-card" >
-        <el-tab-pane name="first" :key="'first'" v-loading='drawLoading'>
+    <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" v-loading='drawLoading'>
+      <el-tabs v-model="activeName" @tab-click="handleClick" type="border-card" :style="{ background: '#fafafa' }">
+        <el-tab-pane label="first" name="first" :key="'first'" v-loading='drawLoading'>
           <span slot="label"><i class="el-icon-monitor"></i> 控制台</span>
           <home v-if="isChildUpdate1"></home>
         </el-tab-pane>
         <el-tab-pane label="second" name="second" :key="'second'" v-loading='drawLoading'>
-          <span slot="label"><i class=""></i> 职员管理</span>
-          <staff v-if="isChildUpdate2" ></staff>
+          <span slot="label"><i class=""></i> 个人中心</span>
+          <profile v-if="isChildUpdate2"></profile>
+        </el-tab-pane>
+        <el-tab-pane label="third" name="third" :key="'third'" v-loading='drawLoading'>
+          <span slot="label"><i class=""></i> 职工管理</span>
+          <staff v-if="isChildUpdate3"></staff>
         </el-tab-pane>
       </el-tabs>
     </el-col>
@@ -16,12 +20,12 @@
 </template>
 
 <script>
-  import { getWeather, appendCss } from "_u/weather";
   export default {
     name: "mainContent",
     components: {
       home: () => import('@/components/default/contents/Home'),
-      staff: () => import('@/components/default/contents/Staff')
+      staff: () => import('@/components/default/contents/Staff'),
+      profile: () => import('@/components/default/contents/Profile')
     },
     data() {
       let drawLoading = false;
@@ -30,6 +34,7 @@
         activeName: "first",
         isChildUpdate1: true,
         isChildUpdate2: false,
+        isChildUpdate3: true,
         drawLoading
       }
     },
@@ -38,9 +43,15 @@
         if (tab.name == "first") {
           this.isChildUpdate1 = true;
           this.isChildUpdate2 = false;
+          this.isChildUpdate3 = false;
         } else if (tab.name == "second") {
           this.isChildUpdate1 = false;
           this.isChildUpdate2 = true;
+          this.isChildUpdate3 = false;
+        } else {
+          this.isChildUpdate1 = false;
+          this.isChildUpdate2 = false;
+          this.isChildUpdate3 = true;
         }
       },
       addTab(targetName) {
@@ -70,9 +81,13 @@
       }
     },
     mounted() {
-      setTimeout(() => {
+      this.timer = setTimeout(() => {
         this.drawLoading = false;
       }, 2000);
+    },
+    beforeDestroy() {
+      clearTimeout(this.timer);
+      this, timer = null;
     }
   }
 </script>

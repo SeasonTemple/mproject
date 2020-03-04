@@ -356,6 +356,7 @@ body {
   left: 50%;
   margin-left: -400px;
   color: rgba(224, 224, 224, 0.5);
+  transition: .6s linear;
   animation-delay: 1.5s; }
 
 .imgCg-leave-active {
@@ -550,5 +551,68 @@ body {
     opacity: 1; }
   to {
     opacity: 0; } }
+@media (max-width: 850px) {
+  .greet {
+    transition: .6s linear;
+    transform: scale(0.85);
+    letter-spacing: 6px; }
+
+  .goForget {
+    transform: scale(0.8); }
+    .goForget:hover {
+      transform: scale(0.8); }
+
+  .goRegister {
+    transform: scale(0.8); }
+    .goRegister:hover {
+      transform: scale(0.8); }
+
+  .continue {
+    transform: scale(0.9);
+    transition: .6s linear; } }
+@media (max-width: 750px) {
+  .greet {
+    letter-spacing: 5px;
+    transition: .6s linear;
+    transform: scale(0.7); }
+    .greet span {
+      margin-left: 10px;
+      margin-right: 10px; }
+
+  .goForget {
+    transform: scale(0.7); }
+    .goForget:hover {
+      transform: scale(0.7); }
+
+  .goRegister {
+    transform: scale(0.7); }
+    .goRegister:hover {
+      transform: scale(0.7); }
+
+  .continue {
+    transform: scale(0.9);
+    transition: .6s linear; } }
+@media (max-width: 600px) {
+  .greet {
+    letter-spacing: 3px;
+    transition: .6s linear;
+    transform: scale(0.6); }
+    .greet span {
+      margin-left: 10px;
+      margin-right: 10px; }
+
+  .goForget {
+    transform: scale(0.6); }
+    .goForget:hover {
+      transform: scale(0.6); }
+
+  .goRegister {
+    transform: scale(0.6); }
+    .goRegister:hover {
+      transform: scale(0.6); }
+
+  .continue {
+    transform: scale(0.85);
+    transition: .6s linear; } }
 
 /*# sourceMappingURL=login.css.map */

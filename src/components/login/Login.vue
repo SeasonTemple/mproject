@@ -12,8 +12,8 @@
     <transition-group appear appear-active-class="rollIn" enter-active-class="rollIn" leave-active-class="rollOut">
       <div class="animated left delay-2s" v-if="showStatus == 1" key="logForm">
         <el-form ref="form" :model="form">
-          <el-form-item label="Username" :class="{isFocus:actFocus.isFocus}" >
-            <el-input v-model="form.account"  autocomplete maxlength="20" show-word-limit
+          <el-form-item label="Username" :class="{isFocus:actFocus.isFocus}">
+            <el-input v-model="form.account" autocomplete maxlength="20" show-word-limit
               @focus.stop="inputFocus(actFocus.name)" @blur.stop="inputblur(actFocus.name)" prop="username">
               <!-- <i class="el-icon-s-custom" slot="prepend"></i> -->
             </el-input>
@@ -52,7 +52,7 @@
     </transition-group>
     <transition appear appear-active-class="zoomInUp" enter-active-class="zoomInUp" leave-active-class="zoomOutDown">
       <div class="animated greet" v-if="showStatus == 0">
-        通用人事管理系统
+        <span>通用人事管理系统</span>
         <!-- 叼你马人事 -->
       </div>
     </transition>
