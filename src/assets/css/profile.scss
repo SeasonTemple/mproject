@@ -1,6 +1,112 @@
 @charset 'UTF-8';
 @import 'sassConfig';
 
-.pbox {
-    background: red;
+.pbx {
+  height: 100%;
+  width: 100%;
+}
+
+.leftCard {
+  width: 30vw;
+  margin: 10px;
+  box-sizing: border-box;
+.top{
+  color: white;font-size: 1.2rem;text-align:left;text-shadow: 0 1px 1px #123, 1px 1px 2px #123, 1px 1px 3px #123, 2px 1px 4px #123, 2px 1px 5px #123;
+}
+  .leftContent {
+    height: auto;
+
+    .userProfile {
+      height: 25vh;
+
+      .authTag {
+        margin: 0;
+        position: relative;
+        top: 100%;
+        transform: translateY(-50%);
+      }
+    }
+
+    .tagWall {
+      position: relative;
+      margin: 0;
+      width: 100%;
+      height: 40vh;
+
+      .header {
+        text-align: center;
+        display: block;
+        margin: -10px 0 10px 0;
+        font-size: 1.4rem;
+        color: whitesmoke;
+        text-shadow: 0 1px 1px #493aa0, 1px 1px 2px #493aa0, 1px 1px 3px #493aa0, 2px 1px 4px #493aa0, 2px 1px 5px #493aa0;
+      }
+
+      .tags {
+        // position: relative;
+        display: table;
+        float: left;
+      }
+    }
+  }
+}
+
+.rightCard {
+  // background: #fff;
+  width: 100%;
+  height: auto;
+  padding: 10px;
+  outline: none;
+}
+
+.rightContent {
+  height: 100vh;
+}
+
+.avatar {
+  transform-origin: 70% 70%;
+  position: absolute;
+  transition: .3s ease-in-out;
+  left: 50%;
+  top: 10%;
+  height: 130px;
+  width: 130px;
+  background: red;
+  transform: translate(-50%);
+  z-index: 10;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, .3), 2px 2px 5px rgba(0, 0, 0, .3), 3px 3px 5px rgba(0, 0, 0, .3), 4px 4px 2px rgba(0, 0, 0, .3);
+
+  &:hover {
+    transform-origin: 70% 70%;
+    transform: rotateZ(-110deg);
+    box-shadow: none;
+    transition: .3s ease-in-out;
+  }
+}
+
+.wel {
+  position: absolute;
+  display: block;
+  text-align: left;
+  left: 50%;
+  height: 110px;
+  width: 110px;
+  border-radius: 50%;
+  transform: translate(-50%);
+  top: 10%;
+  border: 8px solid rgba(211, 211, 211, 0.8);
+  transition: 1s ease-in-out;
+  box-sizing: border-box;
+
+  span {
+    position: absolute;
+    display: block;
+    top: 50%;
+    font-size: 1.2rem;
+    font-weight: 600;
+    left: 50%;
+    word-break: keep-all;
+    white-space: nowrap;
+    transform: translate(-50%, -50%);
+  }
 }

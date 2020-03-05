@@ -34,7 +34,7 @@
         activeName: "first",
         isChildUpdate1: true,
         isChildUpdate2: false,
-        isChildUpdate3: true,
+        isChildUpdate3: false,
         drawLoading
       }
     },
@@ -99,7 +99,7 @@
     overflow-y: scroll !important;
   }
 
-  .el-tabs__header .is-top {
+  /* .el-tabs__header .is-top {
     position: relative;
-  }
+  } */
 </style>

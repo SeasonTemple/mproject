@@ -1,24 +1,3 @@
-@charset "UTF-8";
-::-webkit-scrollbar {
-  /*血槽宽度*/
-  width: 8px;
-  height: 8px;
-  background-color: rgba(245, 245, 245, 0.8); }
-
-::-webkit-scrollbar-thumb {
-  /*拖动条*/
-  background-color: rgba(0, 0, 0, 0.4);
-  border-radius: 6px; }
-
-::-webkit-scrollbar-track {
-  /*背景槽*/
-  border-radius: 5px; }
-
-@keyframes scaleDraw {
-  from {
-    transform: scale(1); }
-  to {
-    transform: scale(1.1); } }
 .administrators-card {
   font-size: 1.5vw;
   text-align: center; }
@@ -96,5 +75,11 @@
   position: relative;
   display: block;
   max-height: 100%; }
+
+@keyframes scaleDraw {
+  from {
+    transform: scale(1); }
+  to {
+    transform: scale(1.1); } }
 
 /*# sourceMappingURL=home-style.css.map */

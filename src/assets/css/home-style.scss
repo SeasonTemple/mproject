@@ -1,16 +1,6 @@
 @charset 'UTF-8';
 @import 'sassConfig';
 
-@keyframes scaleDraw {
-  from {
-    transform: scale(1);
-  }
-
-  to {
-    transform: scale(1.1);
-  }
-}
-
 .administrators-card {
   font-size: 1.5vw;
   text-align: center;
@@ -55,44 +45,11 @@
   }
 }
 
-// .top-left-card> :hover,
-// .top-centerRight-card> :hover,
-// .top-center-card> :hover,
-// .top-centerLeft-card> :hover {
-//   animation: top-card-frames 5s ease-out infinite;
-// }
-
 .top-right-card {
   font-family: Helvetica, Arial, sans-serif;
   text-align: center;
   box-sizing: border-box;
-
 }
-
-// .top-right-card> :not(#autoClock) {
-//   padding: 0 auto;
-//   box-sizing: border-box;
-// }
-
-// .top-left-card,
-// .top-centerLeft-card,
-// .top-center-card,
-// .top-centerRight-card {
-//   padding: 0px;
-//   height: 100%;
-//   width: auto;
-//   box-sizing: border-box;
-//   font-size: 1.5vw;
-//   display: block;
-//   text-align: center;
-
-//   &:div {
-//     height: 100%;
-//     width: 100%;
-//   }
-// }
-
-
 
 .autoClock {
   display: table-cell;
@@ -153,4 +110,14 @@
   position: relative;
   display: block;
   max-height: 100%;
+}
+
+@keyframes scaleDraw {
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(1.1);
+  }
 }

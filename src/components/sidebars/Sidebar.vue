@@ -1,6 +1,6 @@
 <template>
   <el-row class="side">
-    <el-col :span="24">
+    <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
       <el-menu default-active="/index" class="el-menu-vertical-demo" :collapse="collapse" background-color="  #090a39"
         text-color="#fff" active-text-color="#ffd04b">
         <!-- <el-divider></el-divider> rgba(9, 10, 57, 0.85)-->
@@ -21,12 +21,11 @@
           </template>
           <el-menu-item-group>
             <el-menu-item index="1-1">个人信息</el-menu-item>
-            <el-menu-item index="1-2">工作信息</el-menu-item>
-            <el-menu-item index="1-3">薪资查询</el-menu-item>
-            <el-menu-item index="1-4">出勤汇总</el-menu-item>
-            <el-menu-item index="1-5">薪资分析</el-menu-item>
-            <el-menu-item index="1-6">系统通知</el-menu-item>
-            <el-menu-item index="1-7">事务申请</el-menu-item>
+            <el-menu-item index="1-2">工作进展</el-menu-item>
+            <el-menu-item index="1-3">出勤汇总</el-menu-item>
+            <el-menu-item index="1-4">薪资分析</el-menu-item>
+            <el-menu-item index="1-5">系统通知</el-menu-item>
+            <el-menu-item index="1-6">事务申请</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
         <el-divider></el-divider>
