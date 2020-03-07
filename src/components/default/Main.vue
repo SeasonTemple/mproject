@@ -94,10 +94,10 @@
 
 <style scoped src="@/assets/css/main.css"></style>
 <style>
-  .container-tab>>>.el-tabs__content {
+  /* .container-tab>>>.el-tabs__content {
     flex-grow: 1;
-    overflow-y: scroll !important;
-  }
+    overflow-y: auto !important;
+  } */
 
   /* .el-tabs__header .is-top {
     position: relative;

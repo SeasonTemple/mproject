@@ -3,7 +3,6 @@
     <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
       <el-menu default-active="/index" class="el-menu-vertical-demo" :collapse="collapse" background-color="  #090a39"
         text-color="#fff" active-text-color="#ffd04b">
-        <!-- <el-divider></el-divider> rgba(9, 10, 57, 0.85)-->
         <el-menu-item index="/index" @click="changeCollapse" style="text-align:auto;" class="naviBar">
           <i class="el-icon-s-unfold" :class="{'el-icon-s-fold':!collapse}"></i>
           <span slot="title">{{ swiBar }}</span>
@@ -20,12 +19,16 @@
             <span slot="title">个人中心</span>
           </template>
           <el-menu-item-group>
-            <el-menu-item index="1-1">个人信息</el-menu-item>
-            <el-menu-item index="1-2">工作进展</el-menu-item>
-            <el-menu-item index="1-3">出勤汇总</el-menu-item>
-            <el-menu-item index="1-4">薪资分析</el-menu-item>
-            <el-menu-item index="1-5">系统通知</el-menu-item>
-            <el-menu-item index="1-6">事务申请</el-menu-item>
+            <el-submenu index="1-1">
+              <template slot="title">个人信息</template>
+              <el-menu-item index="1-1-1">详细信息</el-menu-item>
+              <el-menu-item index="1-1-2">项目进展</el-menu-item>
+              <el-menu-item index="1-1-3">出勤汇总</el-menu-item>
+              <el-menu-item index="1-1-4">数据分析</el-menu-item>
+              <el-menu-item index="1-1-5">事务申请</el-menu-item>
+              <el-menu-item index="1-1-6">每周周报</el-menu-item>
+            </el-submenu>
+            <el-menu-item index="1-2">系统通知</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
         <el-divider></el-divider>

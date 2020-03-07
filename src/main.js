@@ -13,6 +13,7 @@ import 'nprogress/nprogress.css'
 import qs from 'qs'
 import App from './components/base/App.vue'
 import { wow } from '_u/wow_config.js'
+// import wow from 'wowjs'
 import 'animate.css'
 import fontAwesome from 'font-awesome/css/font-awesome.min.css'
 
@@ -30,6 +31,5 @@ new Vue({
   el: '#app',
   router,
   store,
-  wow,
   render: h => h(App)
 })

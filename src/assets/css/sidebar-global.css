@@ -39,23 +39,35 @@
         border-right-color: goldenrod;
         transform: scaleY(1);
         transition: .35s ease-in-out; }
-    .side .el-submenu.is-active .el-submenu__title :nth-child(1) {
+    .side .el-submenu.is-active > .el-submenu__title :nth-child(1) {
       color: #ffd04b !important; }
-    .side .el-submenu.is-active .el-submenu__title :nth-child(2) {
+    .side .el-submenu.is-active > .el-submenu__title :nth-child(2) {
       color: #ffd04b !important; }
-  .side .bottomBarGroup {
-    min-width: 70px;
-    max-width: 100%;
-    width: 100%; }
-    .side .bottomBarGroup .sideBarButtons {
-      background: #090a39;
-      color: whitesmoke;
-      margin: 0 !important;
-      font-size: 18px;
-      border-color: transparent;
-      max-height: 100%;
-      width: auto;
-      box-sizing: border-box; }
+    .side .el-submenu.is-active > .el-submenu__title :nth-child(3) {
+      color: #ffd04b !important; }
+
+.el-menu-item-group .el-submenu {
+  color: #909399; }
+  .el-menu-item-group .el-submenu.is-active .el-submenu__title {
+    color: #ffd04b !important; }
+    .el-menu-item-group .el-submenu.is-active .el-submenu__title :nth-child(1) {
+      color: #ffd04b !important; }
+    .el-menu-item-group .el-submenu.is-active .el-submenu__title i {
+      color: #ffd04b !important; }
+  .el-menu-item-group .el-submenu .el-submenu__title::before {
+    content: '';
+    position: absolute;
+    height: 100%;
+    right: 0;
+    transform: scaleY(0);
+    border-right: 3px solid transparent;
+    transition: .35s ease-in-out; }
+  .el-menu-item-group .el-submenu .el-submenu__title:hover {
+    background-color: rgba(196, 202, 202, 0.5) !important; }
+    .el-menu-item-group .el-submenu .el-submenu__title:hover::before {
+      border-right-color: goldenrod;
+      transform: scaleY(1);
+      transition: .35s ease-in-out; }
 
 .el-menu-item::before {
   content: '';

@@ -9,7 +9,7 @@
       </el-aside>
       <el-main class="main">
         <default />
-        <el-backtop target=".main" :visibility-height="200" :bottom="60" :right="50" >
+        <el-backtop target=".main" :visibility-height="200" :bottom="60" :right="50">
           <el-tooltip effect="dark" content="回到顶部" placement="top">
             <div class="backTop">
               UP

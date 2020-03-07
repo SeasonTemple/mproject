@@ -1,6 +1,8 @@
 .pbx {
   height: 100%;
-  width: 100%; }
+  width: 100%;
+  outline: hidden;
+  outline: none !important; }
 
 .leftCard {
   width: 30vw;
@@ -39,11 +41,14 @@
 .rightCard {
   width: 100%;
   height: auto;
-  padding: 10px;
-  outline: none; }
+  padding: 10px; }
 
 .rightContent {
-  height: 100vh; }
+  overflow: auto; }
+
+.inner {
+  height: 100%;
+  overflow-y: auto !important; }
 
 .avatar {
   transform-origin: 70% 70%;
@@ -73,7 +78,7 @@
   border-radius: 50%;
   transform: translate(-50%);
   top: 10%;
-  border: 8px solid rgba(211, 211, 211, 0.8);
+  border: 8px solid rgba(200, 200, 200, 0.8);
   transition: 1s ease-in-out;
   box-sizing: border-box; }
   .wel span {

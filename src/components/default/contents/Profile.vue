@@ -14,8 +14,7 @@
             </div>
             <el-avatar :size="110" class="avatar"
               src="https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif" fit="contain"></el-avatar>
-            <el-tag type="success" class="authTag" effect="dark">当前权限<el-divider direction="vertical"></el-divider>管理员
-            </el-tag>
+            <el-tag type="success" class="authTag" effect="dark">管理员</el-tag>
           </div>
           <section class="tagWall">
             <el-divider></el-divider>
@@ -36,11 +35,15 @@
     </el-col>
     <el-col :xs="18" :sm="18" :md="18" :lg="18" :xl="18" class="rightCard">
       <el-card shadow="always" class="rightContent">
-        <el-tabs v-model="activeName" @tab-click="handleClick">
-          <el-tab-pane label="信息修改" name="first">信息修改</el-tab-pane>
-          <el-tab-pane label="任务进度" name="second">工作进展</el-tab-pane>
-          <el-tab-pane label="角色管理" name="third">出勤情况</el-tab-pane>
-          <el-tab-pane label="定时任务补偿" name="fourth">定时任务补偿</el-tab-pane>
+        <el-tabs v-model="activeName" @tab-click="handleClick" class="animated fadeIn">
+          <el-tab-pane label="详细信息" name="detail" class="inner">
+            <span slot="label">详细信息</span>
+            <detail v-if="activeName == 'detail'" ></detail>
+          </el-tab-pane>
+          <el-tab-pane label="项目进展" name="process">项目进展</el-tab-pane>
+          <el-tab-pane label="数据分析" name="analyze">数据分析</el-tab-pane>
+          <el-tab-pane label="事务申请" name="apply">事务申请</el-tab-pane>
+          <el-tab-pane label="每周周报" name="report">每周周报</el-tab-pane>
         </el-tabs>
       </el-card>
     </el-col>
@@ -50,8 +53,11 @@
 <script>
   export default {
     name: 'profile',
+    components: {
+      detail: () => import('@/components/default/contents/Detail'),
+    },
     data() {
-      let activeName = 'second';
+      let activeName = 'detail';
       let tags = [{
           name: '姓名',
           type: '',
@@ -118,13 +124,15 @@
         let inputValue = this.inputValue;
         const randomType = _ => _[Math.random() * _.length | 0];
         const opts = ['', 'info', 'danger', 'warning', 'success'];
+        const reg =
+          /[\s+|\~|\`|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\-|\_|\+|\=|\||\\|\[|\]|\{|\}|\;|\:|\"|\'|\,|\<|\.|\>|\/|\?]/g;
         if (inputValue) {
-          let arry = inputValue.split('/');
-          let [name, ...description] = arry;
+          let ary = inputValue.trim().replace(/<[^>]+>/ig, '').replace(reg, '/').split('/');
+          console.log(ary)
+          let [name, ...description] = ary;
           this.tags.push({
             name,
             type: randomType(opts),
-            // description: description.reduce((_, __) => _ + __)
             description: description.reduce((prev, cur) => prev + cur)
           });
         }
@@ -137,6 +145,9 @@
     },
     watch: {
 
+    },
+    mounted() {
+      this.wow({});
     }
 
   }

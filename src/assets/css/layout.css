@@ -42,7 +42,7 @@ body,
 
 .main {
   width: auto;
-  overflow-y: auto;
+  overflow: auto;
   padding: 6px; }
 
 .backTop {

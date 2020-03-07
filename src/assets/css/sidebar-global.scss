@@ -64,7 +64,7 @@
     }
 
     &.is-active {
-      .el-submenu__title {
+      >.el-submenu__title {
         :nth-child(1) {
           color: #ffd04b !important;
         }
@@ -72,30 +72,77 @@
         :nth-child(2) {
           color: #ffd04b !important;
         }
+
+        :nth-child(3) {
+          color: #ffd04b !important;
+        }
       }
     }
   }
+}
 
-  .bottomBarGroup {
-    min-width: 70px;
-    max-width: 100%;
-    width: 100%;
-    // text-align: center;
-    .sideBarButtons {
-      background: rgb(9, 10, 57);
-      color: whitesmoke;
-      margin: 0 !important;
-      // width: 6vw;
-      font-size: 18px;
-      // vertical-align: middle;
-      border-color: transparent;
-      max-height: 100%;
-      width: auto;
-      // padding-right: 4vw;
-      box-sizing: border-box;
+.el-menu-item-group {
+  & .el-submenu {
+    color: rgb(144, 147, 153);
+
+    &.is-active {
+      .el-submenu__title {
+        :nth-child(1) {
+          color: #ffd04b !important;
+        }
+
+        i {
+          color: #ffd04b !important;
+        }
+
+        color: #ffd04b !important;
+      }
+    }
+
+    .el-submenu__title {
+      &::before {
+        content: '';
+        position: absolute;
+        height: 100%;
+        right: 0;
+        transform: scaleY(0);
+        border-right: 3px solid transparent;
+        transition: .35s ease-in-out;
+      }
+
+      &:hover {
+        background-color: rgba(196, 202, 202, 0.5) !important;
+
+        &::before {
+          border-right-color: goldenrod;
+          transform: scaleY(1);
+          transition: .35s ease-in-out;
+        }
+      }
     }
   }
 }
+
+
+// .bottomBarGroup {
+//   min-width: 70px;
+//   max-width: 100%;
+//   width: 100%;
+//   // text-align: center;
+//   .sideBarButtons {
+//     background: rgb(9, 10, 57);
+//     color: whitesmoke;
+//     margin: 0 !important;
+//     // width: 6vw;
+//     font-size: 18px;
+//     // vertical-align: middle;
+//     border-color: transparent;
+//     max-height: 100%;
+//     width: auto;
+//     // padding-right: 4vw;
+//     box-sizing: border-box;
+//   }
+// }
 
 
 .el-menu-item {

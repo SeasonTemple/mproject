@@ -1,0 +1,13 @@
+@charset 'UTF-8';
+@import 'sassConfig';
+
+.box {
+  display: block;
+  // height: 100%;
+  // width: 50%;
+  // text-align: center;
+  overflow-y: auto;
+  overflow-x: hidden;
+  width: auto;
+}
+
