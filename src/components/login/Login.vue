@@ -56,9 +56,9 @@
         <!-- 叼你马人事 -->
       </div>
     </transition>
-    <transition leave-active-class="disappear">
+    <transition appear appear-active-class="rollIn" leave-active-class="disappear">
       <el-tooltip content="登录" enterable placement="top" key="logBtnPop" v-if="showStatus == 0" popper-class="logPop">
-        <el-button round class="continue" v-if="showStatus == 0" @click="showLogForm()" key="logBtn"></el-button>
+        <el-button round class="continue animated" v-if="showStatus == 0" @click="showLogForm()" key="logBtn"></el-button>
       </el-tooltip>
     </transition>
     <el-button class="btnCss" @click="reset">重置状态</el-button>

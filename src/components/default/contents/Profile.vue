@@ -41,9 +41,9 @@
             <detail v-if="activeName == 'detail'" ></detail>
           </el-tab-pane>
           <el-tab-pane label="项目进展" name="process">项目进展</el-tab-pane>
-          <el-tab-pane label="数据分析" name="analyze">数据分析</el-tab-pane>
+          <el-tab-pane label="考勤汇总" name="analyze">考勤汇总</el-tab-pane>
           <el-tab-pane label="事务申请" name="apply">事务申请</el-tab-pane>
-          <el-tab-pane label="每周周报" name="report">每周周报</el-tab-pane>
+          <el-tab-pane label="数据分析" name="report">数据分析</el-tab-pane>
         </el-tabs>
       </el-card>
     </el-col>

@@ -2,12 +2,20 @@
 @import 'sassConfig';
 
 .box {
-  display: block;
-  // height: 100%;
-  // width: 50%;
-  // text-align: center;
+  display: flex;
+  height: 90vh;
+  width: 100%;
+  text-align: left;
   overflow-y: auto;
-  overflow-x: hidden;
+  // overflow-x: auto;
   width: auto;
 }
 
+// .user-avatar {
+//   text-align: left;
+// }
+.detailStyle {
+  float: right;
+  // left: 50%;
+  // transform: translate(-50%);
+}

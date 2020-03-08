@@ -1,7 +1,12 @@
 .box {
-  display: block;
+  display: flex;
+  height: 90vh;
+  width: 100%;
+  text-align: left;
   overflow-y: auto;
-  overflow-x: hidden;
   width: auto; }
+
+.detailStyle {
+  float: right; }
 
 /*# sourceMappingURL=detail.css.map */

@@ -673,9 +673,14 @@ body {
 }
 
 @keyframes goLog {
-  0% {}
+  0% {
+    opacity: 0.99
+  }
 
   50% {
+    opacity: 0.6;
+  }
+  51%{
     opacity: 0.5;
   }
 
