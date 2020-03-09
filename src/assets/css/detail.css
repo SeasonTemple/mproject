@@ -1,12 +1,9 @@
 .box {
-  display: flex;
-  height: 90vh;
-  width: 100%;
+  width: auto;
   text-align: left;
-  overflow-y: auto;
   width: auto; }
 
 .detailStyle {
-  float: right; }
+  display: block; }
 
 /*# sourceMappingURL=detail.css.map */
