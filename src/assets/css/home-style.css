@@ -1,69 +1,58 @@
-@keyframes scaleDraw {
-  from {
-    transform: scale(1); }
-  to {
-    transform: scale(1.1); } }
-.administrators-card {
-  font-size: 1.5vw;
-  text-align: center; }
-  .administrators-card > :hover {
-    animation: scaleDraw 3s ease-out infinite; }
-  .administrators-card > .el-avatar--square {
-    text-align: center; }
+/*
+Error: Invalid CSS after "    height: 112px": expected "{", was ";"
+        on line 67 of D:\Vue\deemo\src\assets\css\home-style.scss
 
-#top-card {
-  margin-bottom: 15px;
-  box-sizing: border-box; }
+62: 
+63:   .el-card {
+64:     margin-bottom: 0;
+65:     padding: 0;
+66: >>>>>>> dev
+67:     height: 112px;
+68:   }
+69: 
+70:   .el-divider {
+71:     margin: 12px 0 12px 0;
+72:   }
 
-.top-card-body .el-card {
-  margin-bottom: 0; }
-
-.top-card-body {
-  height: fit-content; }
-  .top-card-body .el-card {
-    height: 112px; }
-  .top-card-body .el-divider {
-    margin: 12px 0 12px 0; }
-
-@keyframes top-card-frames {
-  0% {
-    background-color: white; }
-  50% {
-    background-color: rgba(146, 202, 212, 0.507); }
-  100% {
-    background-color: white; } }
-.top-left-card > :hover,
-.top-centerRight-card > :hover,
-.top-center-card > :hover,
-.top-centerLeft-card > :hover {
-  animation: top-card-frames 5s ease-out infinite; }
-
-.top-right-card {
-  font-family: Helvetica, Arial, sans-serif;
-  background-color: blanchedalmond;
-  text-align: center; }
-  .top-right-card > :not(#autoClock) {
-    padding: 0 auto;
-    box-sizing: border-box; }
-
-.top-left-card,
-.top-centerLeft-card,
-.top-center-card,
-.top-centerRight-card {
-  padding: 20px;
-  box-sizing: border-box;
-  text-align: center; }
-  .top-left-card div,
-  .top-centerLeft-card div,
-  .top-center-card div,
-  .top-centerRight-card div {
-    font-size: 1.5vw;
-    display: block; }
-
-#autoClock {
-  display: block;
-  font-size: 1.88vw;
-  color: white;
-  text-shadow: 0px -1px 3px rgba(0, 0, 0, 0.6), 2px -2px 2px rgba(0, 0, 0, 0.7), 4px -2px 4px rgba(0, 0, 0, 0.72), 4px -3px 4px rgba(0, 0, 0, 0.75), 5px -3px 4px rgba(0, 0, 0, 0.5), 6px -3px 2px rgba(0, 0, 0, 0.8); }
-
-/*# sourceMappingURL=home-style.css.map */
+Backtrace:
+D:\Vue\deemo\src\assets\css\home-style.scss:67
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:1278:in `expected'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:1208:in `expected'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:1203:in `tok!'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:677:in `block'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:747:in `declaration_or_ruleset'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:697:in `block_child'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:689:in `block_contents'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:678:in `block'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:747:in `declaration_or_ruleset'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:697:in `block_child'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:689:in `block_contents'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:678:in `block'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:747:in `declaration_or_ruleset'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:697:in `block_child'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:689:in `block_contents'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:678:in `block'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:747:in `declaration_or_ruleset'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:697:in `block_child'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:689:in `block_contents'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:678:in `block'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:670:in `ruleset'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:696:in `block_child'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:689:in `block_contents'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:137:in `stylesheet'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:41:in `parse'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/engine.rb:414:in `_to_tree'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/engine.rb:389:in `_render_with_sourcemap'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/engine.rb:307:in `render_with_sourcemap'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/exec/sass_scss.rb:391:in `run'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/exec/sass_scss.rb:63:in `process_result'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/exec/base.rb:52:in `parse'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/exec/base.rb:19:in `parse!'
+D:/Koala/rubygems/gems/sass-3.5.2/bin/sass:13:in `<top (required)>'
+D:/Koala/bin/sass:22:in `load'
+D:/Koala/bin/sass:22:in `<main>'
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Error: Invalid CSS after \"    height: 112px\": expected \"{\", was \";\"\A         on line 67 of D:\Vue\deemo\src\assets\css\home-style.scss\A \A 62: \A 63:   .el-card {\A 64:     margin-bottom: 0;\A 65:     padding: 0;\A 66: >>>>>>> dev\A 67:     height: 112px;\A 68:   }\A 69: \A 70:   .el-divider {\A 71:     margin: 12px 0 12px 0;\A 72:   }"; }

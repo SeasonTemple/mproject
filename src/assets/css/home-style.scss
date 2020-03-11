@@ -1,6 +1,7 @@
 @charset 'UTF-8';
 @import 'sassConfig';
 
+<<<<<<< HEAD
 @keyframes scaleDraw {
   from {
     transform: scale(1);
@@ -40,6 +41,29 @@
   height: fit-content;
 
   & .el-card {
+=======
+.administrators-card {
+  font-size: 1.5vw;
+  text-align: center;
+}
+
+.administrators-card> :hover {
+  animation: scaleDraw 3s ease-out infinite;
+}
+
+.administrators-card>.el-avatar--square {
+  text-align: center;
+}
+
+
+.top-card-body {
+  height: 100%;
+  width: auto;
+
+  .el-card {
+    margin-bottom: 0;
+    padding: 0;
+>>>>>>> dev
     height: 112px;
   }
 
@@ -48,13 +72,21 @@
   }
 }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> dev
 @keyframes top-card-frames {
   0% {
     background-color: $defColor1;
   }
 
   50% {
+<<<<<<< HEAD
     background-color: $defColor2;
+=======
+    background-color: $defColor5;
+>>>>>>> dev
   }
 
   100% {
@@ -62,6 +94,7 @@
   }
 }
 
+<<<<<<< HEAD
 .top-left-card,
 .top-centerRight-card,
 .top-center-card,
@@ -108,3 +141,81 @@
     5px -3px 4px rgba(0, 0, 0, .5),
     6px -3px 2px rgba(0, 0, 0, .8),
 }
+=======
+.top-right-card {
+  font-family: Helvetica, Arial, sans-serif;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.autoClock {
+  display: table-cell;
+  vertical-align: middle;
+  font-size: 1vw;
+  min-height: 100%;
+  height: 100%;
+  padding-top: 15px;
+  text-align: left;
+  margin-left: -10px;
+  // font-weight: bold;
+  // color: rgba(95, 93, 86, 0.8);
+  color: #409EFF;
+  // text-shadow: 0px -1px 3px rgba(0, 0, 0, 0.6), 2px -2px 2px rgba(0, 0, 0, 0.7), 4px -2px 4px rgba(0, 0, 0, 0.72), 4px -3px 4px rgba(0, 0, 0, 0.75), 5px -3px 4px rgba(0, 0, 0, 0.5), 6px -3px 2px rgba(0, 0, 0, 0.8);
+}
+
+.topUnifyStyle {
+  // padding: auto;
+  box-sizing: border-box;
+  min-height: 100%;
+
+  .icon {
+    float: left;
+    font-size: 4vw;
+    text-align: center;
+    height: 100%;
+    line-height: 1em;
+    width: auto;
+    padding: 10px;
+  }
+
+  .msg {
+    float: none;
+    height: 100%;
+    text-align: justify;
+    width: auto;
+
+    & .title {
+      font-size: 1vw;
+      display: block;
+      line-height: 2em;
+      color: #8b9aa1;
+    }
+  }
+}
+
+.el-link--inner {
+  color: #409EFF;
+  padding-top: 10px;
+  font-size: 2vw !important;
+}
+
+.content {
+  display: block;
+}
+
+.el-card__body {
+  position: relative;
+  display: block;
+  max-height: 100%;
+}
+
+@keyframes scaleDraw {
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(1.1);
+  }
+}
+>>>>>>> dev

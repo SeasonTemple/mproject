@@ -1,0 +1,362 @@
+<template>
+  <div class="home">
+    <el-card shadow="never" :style="{background: '#fafafa', marginBottom: '30px' }">
+      <el-row class="top-card-body" type="flex" justify="start" :gutter="10">
+        <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
+          <template v-for="(card, index) in cards">
+            <el-col :key="index" class="topUnifyStyle" :xs="5" :sm="5" :md="5" :lg="5" :xl="5">
+              <el-card shadow="hover" v-loading="drawLoading">
+                <el-col :xs="10" :sm="10" :md="10" :lg="10" :xl="10" class="icon">
+                  <i :class="card.icon" :style="{color:card.iconColor}"></i>
+                </el-col>
+                <el-col :xs="14" :sm="14" :md="14" :lg="14" :xl="14" class="msg" :push="2">
+                  <el-link class="link" :underline="false">{{card.content}}</el-link>
+                  <span class="title">{{card.title}}</span>
+                </el-col>
+              </el-card>
+            </el-col>
+          </template>
+          <el-col class="topUnifyStyle" :xs="4" :sm="4" :md="4" :lg="4" :xl="4">
+            <el-card class="top-right-card" shadow="hover" v-loading="drawLoading">
+              <el-row>
+                <el-col :xs="12" :sm="12" :md="12" :lg="12" :xl="12" class="icon" :pull="2">
+                  <i class="el-icon-time"></i>
+                </el-col>
+                <el-col :xs="12" :sm="12" :md="12" :lg="12" :xl="12" :pull="1">
+                  <div class="autoClock" v-html="time"></div>
+                </el-col>
+              </el-row>
+            </el-card>
+          </el-col>
+        </el-col>
+      </el-row>
+    </el-card>
+    <!-- <el-divider></el-divider> -->
+    <el-row :gutter="20">
+      <template v-for="(item, index) in charts">
+        <el-col
+          :xs="item.span"
+          :sm="item.span"
+          :md="item.span"
+          :lg="item.span"
+          :xl="item.span"
+          :style="{ height: '400px' ,marginBottom: '30px'}"
+          :key="index"
+          v-loading="drawLoading"
+        >
+          <el-card :id="index" :style="{ height: '100%', width: '100%' }" shadow="hover"></el-card>
+        </el-col>
+      </template>
+    </el-row>
+  </div>
+</template>
+
+<script>
+import dayjs from "dayjs";
+export default {
+  name: "home",
+  data() {
+    let url = "#";
+    let drawLoading = true;
+    let cards = [
+      {
+        title: "欢迎使用",
+        content: "廖文岵",
+        icon: "el-icon-user-solid",
+        iconColor: "rgb(86, 172, 201)"
+      },
+      {
+        title: "系统消息",
+        content: "11",
+        icon: "el-icon-bell",
+        iconColor: "rgb(178, 92, 212)"
+      },
+      {
+        title: "工作报表",
+        content: "213",
+        icon: "el-icon-files",
+        iconColor: "rgb(101, 228, 63)"
+      },
+      {
+        title: "累积签到",
+        content: "721",
+        icon: "el-icon-date",
+        iconColor: "rgb(255, 57, 22)"
+      }
+    ];
+    let time = dayjs().format("YYYY/MM/DD</br>HH:mm:ss");
+    let loading = true;
+    let charts = [
+      {
+        title: {
+          text: "周工程情况报表"
+        },
+        tooltip: {
+          trigger: "axis",
+          axisPointer: {
+            type: "cross",
+            label: {
+              backgroundColor: "#6a7985"
+            }
+          }
+        },
+        legend: {
+          data: ["邮件营销", "联盟广告", "视频广告", "直接访问", "搜索引擎"]
+        },
+        grid: {
+          left: "3%",
+          right: "4%",
+          bottom: "3%",
+          containLabel: true
+        },
+        toolbox: {
+          feature: {
+            saveAsImage: {}
+          }
+        },
+        xAxis: {
+          type: "category",
+          boundaryGap: false,
+          data: ["周一", "周二", "周三", "周四", "周五", "周六", "周日"]
+        },
+        yAxis: {
+          type: "value"
+        },
+        series: [
+          {
+            name: "邮件营销",
+            type: "line",
+            stack: "总量",
+            areaStyle: {},
+            data: [120, 132, 101, 134, 90, 230, 210]
+          },
+          {
+            name: "联盟广告",
+            type: "line",
+            stack: "总量",
+            areaStyle: {},
+            data: [220, 182, 191, 234, 290, 330, 310]
+          },
+          {
+            name: "视频广告",
+            type: "line",
+            stack: "总量",
+            areaStyle: {},
+            data: [150, 232, 201, 154, 190, 330, 410]
+          },
+          {
+            name: "直接访问",
+            type: "line",
+            stack: "总量",
+            areaStyle: {},
+            data: [320, 332, 301, 334, 390, 330, 320]
+          },
+          {
+            name: "搜索引擎",
+            type: "line",
+            stack: "总量",
+            areaStyle: {},
+            label: {
+              normal: {
+                show: true,
+                position: "top"
+              }
+            },
+            data: [820, 932, 901, 934, 1290, 1330, 1320]
+          }
+        ],
+        span: 24
+      },
+      {
+        title: {
+          text: "权限变化一览",
+          left: "center"
+        },
+        tooltip: {
+          trigger: "axis",
+          axisPointer: {
+            type: "shadow"
+          }
+        },
+        legend: {
+          data: ["权限变化"]
+        },
+        grid: {
+          left: "3%",
+          right: "4%",
+          bottom: "3%",
+          containLabel: true
+        },
+        xAxis: {
+          type: "value",
+          boundaryGap: [0, 0.01]
+        },
+        yAxis: {
+          type: "category",
+          data: [
+            "普通",
+            "项目负责人",
+            "项目经理",
+            "部门主管",
+            "管理员",
+            "总经理"
+          ]
+        },
+        series: [
+          {
+            name: "持续天数",
+            type: "bar",
+            data: [1820, 189, 190, 80, 14, 0]
+          }
+        ],
+        span: 12
+      },
+      {
+        title: {
+          text: "项目分布",
+          left: "center"
+        },
+        tooltip: {
+          trigger: "item",
+          formatter: "{a} <br/>{b} : {c} ({d}%)"
+        },
+        legend: {
+          left: "center",
+          top: "bottom",
+          data: [
+            "rose1",
+            "rose2",
+            "rose3",
+            "rose4",
+            "rose5",
+            "rose6",
+            "rose7",
+            "rose8"
+          ]
+        },
+        toolbox: {
+          show: true,
+          feature: {
+            mark: {
+              show: true
+            },
+            dataView: {
+              show: true,
+              readOnly: false
+            },
+            magicType: {
+              show: true,
+              type: ["pie", "funnel"]
+            },
+            restore: {
+              show: true
+            },
+            saveAsImage: {
+              show: true
+            }
+          }
+        },
+        series: [
+          {
+            name: "面积模式",
+            type: "pie",
+            radius: [30, 110],
+            center: ["50%", "50%"],
+            roseType: "area",
+            data: [
+              {
+                value: 10,
+                name: "rose1"
+              },
+              {
+                value: 5,
+                name: "rose2"
+              },
+              {
+                value: 15,
+                name: "rose3"
+              },
+              {
+                value: 25,
+                name: "rose4"
+              },
+              {
+                value: 20,
+                name: "rose5"
+              },
+              {
+                value: 35,
+                name: "rose6"
+              },
+              {
+                value: 30,
+                name: "rose7"
+              },
+              {
+                value: 40,
+                name: "rose8"
+              }
+            ]
+          }
+        ],
+        span: 12
+      }
+    ];
+    return {
+      url,
+      drawLoading,
+      cards,
+      time,
+      charts,
+      loading
+    };
+  },
+  methods: {
+    getUsers: function() {
+      owl.send(
+        {
+          url: "http://localhost:8085/userInfo",
+          method: "post",
+          data: {
+            username: "5252342"
+          }
+        },
+        data => {
+          console.log(data);
+        }
+      );
+    },
+    drawCharts: function() {
+      this.charts.forEach((c, idx) => {
+        let myChart = this.echarts.init(document.getElementById(idx), {
+          render: "svg"
+        });
+        myChart.setOption(c);
+        window.addEventListener("resize", () => {
+          myChart.resize();
+        });
+        this.timer = setTimeout(() => {
+          this.drawLoading = false;
+        }, 2000);
+      });
+    }
+  },
+  computed: {},
+  mounted() {
+    //创建定时器更新最新的时间
+    var _this = this;
+    this.timer = setInterval(() => {
+      _this.time = dayjs().format("YYYY/MM/DD</br>HH:mm:ss");
+    }, 1000);
+    this.drawCharts();
+  },
+  beforeDestroy() {
+    //实例销毁前清除定时器
+    if (this.timer) {
+      clearTimeout(this.timer);
+      clearInterval(this.timer);
+    }
+  }
+};
+</script>
+<style src="@/assets/css/home-style.css"></style>

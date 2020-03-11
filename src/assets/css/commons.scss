@@ -3,7 +3,10 @@
 
 * {
   outline: none;
+<<<<<<< HEAD
   // -moz-user-select: -moz-none;
+=======
+>>>>>>> dev
   -moz-user-select: none;
   -o-user-select: none;
   -khtml-user-select: none;
@@ -13,7 +16,11 @@
 }
 
 #nprogress .bar {
+<<<<<<< HEAD
   background: $defColor6; //Nprogress 自定义颜色
+=======
+  background: $defColor6;
+>>>>>>> dev
   animation: loading 5s ease-out infinite;
 }
 
@@ -22,12 +29,21 @@
     background-color: $defColor1;
   }
 
+<<<<<<< HEAD
   35%{
     background-color: $defColor3
   }
 
   55% {
     background-color: $defColor5;
+=======
+  35% {
+    background-color: $defColor3;
+  }
+
+  55% {
+    background-color: $defColor4;
+>>>>>>> dev
   }
 
   80% {

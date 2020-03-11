@@ -1,0 +1,28 @@
+@charset 'UTF-8';
+@import 'sassConfig';
+
+.box {
+  // display: flex;
+  // height: 90vh;
+  width: auto;
+  text-align: left;
+  // overflow-y: auto;
+  // overflow-x: auto;
+  width: auto;
+}
+
+// .user-avatar {
+//   text-align: left;
+// }
+.detailStyle {
+  // width: 100%;
+  // position: relative;
+  // float: left;
+  display: block;
+  // left: 50%;
+  // transform: translate(-50%);
+}
+
+.circleGroup {
+  // margin: 0 10px 0 0;
+}

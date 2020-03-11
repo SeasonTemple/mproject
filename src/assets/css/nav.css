@@ -1,30 +1,50 @@
-#Nav {
-  width: 100%;
-  position: fixed;
-  z-index: 100;
-  font-size: 30px;
-  top: 0;
-  left: 0;
-  text-align: center;
-  align-content: center;
-  /* opacity: 0.5;
-    filter: alpha(opacity=50) */ }
+/*
+Error: Invalid CSS after "  position: fixed": expected "{", was ";"
+        on line 11 of D:\Vue\deemo\src\assets\css\nav.scss
 
-.el-menu > * {
-  border-bottom-width: 0px !important;
-  height: 80px !important; }
+6: =======
+7: 
+8: .Nav {
+9:   width: 100vw;
+10: >>>>>>> dev
+11:   position: fixed;
+12:   z-index: 100;
+13:   font-size: 30px;
+14:   top: 0;
+15:   left: 0;
+16:   text-align: center;
 
-.el-menu-item {
-  line-height: 79px !important; }
-
-.el-submenu {
-  line-height: 79px !important; }
-
-.el-avatar + .avatar-badge {
-  position: absolute; }
-
-.avatar-badge {
-  right: 28%;
-  top: 69%; }
-
-/*# sourceMappingURL=nav.css.map */
+Backtrace:
+D:\Vue\deemo\src\assets\css\nav.scss:11
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:1278:in `expected'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:1208:in `expected'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:1203:in `tok!'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:677:in `block'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:747:in `declaration_or_ruleset'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:697:in `block_child'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:689:in `block_contents'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:678:in `block'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:747:in `declaration_or_ruleset'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:697:in `block_child'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:689:in `block_contents'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:678:in `block'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:670:in `ruleset'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:696:in `block_child'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:689:in `block_contents'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:137:in `stylesheet'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:41:in `parse'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/engine.rb:414:in `_to_tree'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/engine.rb:389:in `_render_with_sourcemap'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/engine.rb:307:in `render_with_sourcemap'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/exec/sass_scss.rb:391:in `run'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/exec/sass_scss.rb:63:in `process_result'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/exec/base.rb:52:in `parse'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/exec/base.rb:19:in `parse!'
+D:/Koala/rubygems/gems/sass-3.5.2/bin/sass:13:in `<top (required)>'
+D:/Koala/bin/sass:22:in `load'
+D:/Koala/bin/sass:22:in `<main>'
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Error: Invalid CSS after \"  position: fixed\": expected \"{\", was \";\"\A         on line 11 of D:\Vue\deemo\src\assets\css\nav.scss\A \A 6: =======\A 7: \A 8: .Nav {\A 9:   width: 100vw;\A 10: >>>>>>> dev\A 11:   position: fixed;\A 12:   z-index: 100;\A 13:   font-size: 30px;\A 14:   top: 0;\A 15:   left: 0;\A 16:   text-align: center;"; }

@@ -1,34 +1,46 @@
-html,
-body {
-  padding: 0;
-  margin: 0;
-  overflow: scroll; }
+/*
+Error: Invalid CSS after "  padding: 0": expected "{", was ";"
+        on line 7 of D:\Vue\deemo\src\assets\css\login.scss
 
-#parent {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  margin-top: -175px;
-  margin-left: -200px;
-  height: 350px;
-  width: 400px;
-  border-color: rgba(113, 238, 190, 0.897);
-  background-color: rgba(252, 48, 41, 0.596); }
-  #parent > #userFrom {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-top: -75px;
-    margin-left: -75px;
-    height: 150px;
-    width: 150px;
-    background-color: rgba(146, 202, 212, 0.507); }
+2: @import 'sassConfig';
+3: 
+4: html,
+5: body {
+6: <<<<<<< HEAD
+7:   padding: 0;
+8:   margin: 0;
+9:   overflow: scroll;
+10: }
+11: 
+12: #parent {
 
-#userFrom .el-button {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  margin-top: 71px;
-  margin-left: -36px; }
-
-/*# sourceMappingURL=login.css.map */
+Backtrace:
+D:\Vue\deemo\src\assets\css\login.scss:7
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:1278:in `expected'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:1208:in `expected'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:1203:in `tok!'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:677:in `block'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:747:in `declaration_or_ruleset'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:697:in `block_child'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:686:in `block_contents'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:678:in `block'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:670:in `ruleset'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:696:in `block_child'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:689:in `block_contents'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:137:in `stylesheet'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:41:in `parse'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/engine.rb:414:in `_to_tree'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/engine.rb:389:in `_render_with_sourcemap'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/engine.rb:307:in `render_with_sourcemap'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/exec/sass_scss.rb:391:in `run'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/exec/sass_scss.rb:63:in `process_result'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/exec/base.rb:52:in `parse'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/exec/base.rb:19:in `parse!'
+D:/Koala/rubygems/gems/sass-3.5.2/bin/sass:13:in `<top (required)>'
+D:/Koala/bin/sass:22:in `load'
+D:/Koala/bin/sass:22:in `<main>'
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Error: Invalid CSS after \"  padding: 0\": expected \"{\", was \";\"\A         on line 7 of D:\Vue\deemo\src\assets\css\login.scss\A \A 2: @import 'sassConfig';\A 3: \A 4: html,\A 5: body {\A 6: <<<<<<< HEAD\A 7:   padding: 0;\A 8:   margin: 0;\A 9:   overflow: scroll;\A 10: }\A 11: \A 12: #parent {"; }

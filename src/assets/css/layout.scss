@@ -1,3 +1,91 @@
 @charset 'UTF-8';
 @import 'sassConfig';
 
+<<<<<<< HEAD
+=======
+.el-container {
+  overflow: hidden;
+}
+
+html,
+body,
+#base,
+.el-container {
+  padding: 0 0;
+  margin: 0px;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.el-main {
+  overflow: hidden;
+}
+
+.base {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+}
+
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 80px !important;
+  width: 100%;
+}
+
+.side-main {
+  height: calc(100% - #{$navheight});
+  margin-top: 80px;
+  overflow: hidden;
+  position: fixed;
+
+  background-color: rgba(128, 128, 128, 0.5);
+}
+
+.aside {
+  float: left;
+  width: auto !important;
+}
+
+.main {
+  width: auto;
+  overflow: auto;
+  padding: 6px;
+
+}
+
+.backTop {
+  height: 100%;
+  width: 100%;
+  background: transparent;
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(0, 0, 0, .12);
+  text-align: center;
+  line-height: 40px;
+  color: #1989fa;
+  box-sizing: border-box;
+}
+
+::-webkit-scrollbar {
+  /*血槽宽度*/
+  width: 8px;
+  height: 8px;
+  background-color: rgba(245, 245, 245, 0.8);
+}
+
+::-webkit-scrollbar-thumb {
+  /*拖动条*/
+  background-color: rgba(0, 0, 0, .4);
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-track {
+  /*背景槽*/
+  border-radius: 5px;
+}
+>>>>>>> dev

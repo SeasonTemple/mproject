@@ -1,16 +1,54 @@
 import Vue from 'vue'
 import Vuex from 'vuex';
+import main from './modules/main';
+import sideBar from './modules/sideBar';
+import nav from './modules/nav';
+import login from './modules/login';
+import home from './modules/home';
+Vue.use(Vuex);
+const state = {
+  permissions: []
+}
 
-Vue.use(Vuex)
+const getters = {
 
-export default new Vuex.Store ({
-  state: {
+}
 
-  },
-  actions: {
+const mutations = {
+  // SET_MODE: (state, data) => {
+  //   state.mode = data
+  // },
+  // SET_PERMISSION: (state, data) => {
+  //   state.permissions = data
+  // }
+}
 
-  },
-  mutations: {
+const actions = {
+  // SET_MODE({
+  //   commit
+  // }, payload) {
 
+  // },
+  GET_PERMISSION({
+    commit
+  }) {
+    return new Promise((resolve, reject) => {
+
+    })
+  }
+}
+
+export const store = new Vuex.Store({
+  namespaced: true,
+  state,
+  getters,
+  mutations,
+  actions,
+  modules: {
+    home,
+    nav,
+    sideBar,
+    main,
+    login
   }
 })

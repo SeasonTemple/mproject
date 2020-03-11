@@ -1,3 +1,38 @@
+/*
+Error: Invalid CSS after "@charset "UTF-8"": expected "{", was ";"
+        on line 2 of D:\Vue\deemo\src\assets\css\sassConfig.scss
 
+1: <<<<<<< HEAD
+2: @charset "UTF-8";
+3: $defColor1: rgba(255,255,255,1);
+4: $defColor2: rgba(146, 202, 212, 0.507);
+5: $defColor3: rgba(113, 238, 190, 0.897);
+6: $defColor4: rgba(238, 203, 90, 0.945);
+7: $defColor5: rgba(252, 164, 81, 0.856);
 
-/*# sourceMappingURL=sassConfig.css.map */
+Backtrace:
+D:\Vue\deemo\src\assets\css\sassConfig.scss:2
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:1278:in `expected'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:1208:in `expected'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:1203:in `tok!'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:677:in `block'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:670:in `ruleset'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:696:in `block_child'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:686:in `block_contents'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:137:in `stylesheet'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:41:in `parse'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/engine.rb:414:in `_to_tree'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/engine.rb:389:in `_render_with_sourcemap'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/engine.rb:307:in `render_with_sourcemap'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/exec/sass_scss.rb:391:in `run'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/exec/sass_scss.rb:63:in `process_result'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/exec/base.rb:52:in `parse'
+D:/Koala/rubygems/gems/sass-3.5.2/lib/sass/exec/base.rb:19:in `parse!'
+D:/Koala/rubygems/gems/sass-3.5.2/bin/sass:13:in `<top (required)>'
+D:/Koala/bin/sass:22:in `load'
+D:/Koala/bin/sass:22:in `<main>'
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Error: Invalid CSS after \"@charset \"UTF-8\"\": expected \"{\", was \";\"\A         on line 2 of D:\Vue\deemo\src\assets\css\sassConfig.scss\A \A 1: <<<<<<< HEAD\A 2: @charset \"UTF-8\";\A 3: $defColor1: rgba(255,255,255,1);\A 4: $defColor2: rgba(146, 202, 212, 0.507);\A 5: $defColor3: rgba(113, 238, 190, 0.897);\A 6: $defColor4: rgba(238, 203, 90, 0.945);\A 7: $defColor5: rgba(252, 164, 81, 0.856);"; }

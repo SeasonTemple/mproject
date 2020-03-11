@@ -1,17 +1,53 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-
+import NProgress from '../utils/NProgress'
 Vue.use(Router)
 
-export default new Router({
+//路由白名单
+const whiteRouters = ['/', '/login', '/404']
+
+//默认路由表(面向所有用户)
+const defaultRouterMap = [{
+    path: '/',
+    name: '无条件跳转',
+    redirect: '/login'
+  },
+  {
+    path: '/login',
+    name: '登录',
+    component: '',
+    meta: {
+      title: 'login'
+    },
+    component: () => import('@/components/login/Login')
+  },
+  {
+    path: '/index',
+    name: '主页',
+    component: () => import('@/components/base/Layout'),
+    meta: {
+      title: 'index'
+    }
+  }
+]
+
+//异步路由表(根据登录用户权限动态生成)
+export const asyncRouterMap = []
+
+export const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes: [{
-    path: '/',
-    components: {
-      top: () => import('@/components/base/Nav'),
-      left: () => import('@/components/base/Sidebar'),
-      default: () => import('@/components/base/Main.vue'),
-    }
-  }]
+  scrollBehavior: () => ({
+    y: 0
+  }),
+  routes: defaultRouterMap
+})
+
+router.beforeEach((to, from, next) => {
+  NProgress.set(0.2)
+  setTimeout(()=>next(),1000)
+})
+
+router.afterEach(() => {
+  NProgress.done()
 })

@@ -1,0 +1,128 @@
+@charset 'UTF-8';
+@import 'sassConfig';
+
+[v-cloak] {
+  display: none;
+}
+
+html,
+body {
+  margin: 0px;
+  min-height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.temp {
+  /* min-height: 60vh; */
+  height: fit-content;
+}
+
+.demo-form-inline {
+  //   width: 100%;
+  background-color: #f2f2f2;
+  // line-height: 100px;
+  //   // max-height: fit-content;
+  min-height: auto;
+  text-align: left;
+  padding: 30px 10px 10px 10px;
+  box-sizing: border-box;
+}
+
+// .el-table {
+//   display: block;
+//   height: auto;
+// }
+
+.demo-table-expand {
+  color: #808da0;
+  background: #f2f2f2;
+  padding: 0 30px;
+  font-size: 0;
+  transition: .6s ease-in-out;
+
+  // overflow: auto;
+  &:hover {
+    box-shadow: 1px 1px 10px rgba(128, 128, 128, 0.8);
+    transform: scale(1.02);
+    transition: .6s ease-in-out;
+  }
+}
+
+// .demo-table-expand label {
+//   width: 90px;
+//   color: #99a9bf;
+// }
+
+.demo-table-expand .el-form-item {
+  margin-right: 0;
+  margin-bottom: 0;
+  width: 50%;
+}
+
+.pager {
+  text-align: center;
+  // margin-bottom: 10px;
+  box-sizing: border-box;
+}
+
+// @media (min-width:800px) {
+//   .el-table {
+//     .el-table-column {
+//       background: #FFF !important;
+//       display: inline;
+//     }
+//   }
+
+//   .cell {
+//     display: inline-block;
+//     background: transparent !important;
+//   }
+// }
+
+.footer {
+  margin: 20px 0 0 0;
+  box-sizing: border-box;
+
+  .el-button {
+    margin-bottom: 10px;
+    float: left;
+  }
+}
+
+@media (max-width:800px) {
+  // .el-table {
+  //   .el-table-column {
+  //     height: 10% !important;
+  //   }
+  // }
+
+  .cell {
+    display: inline-block;
+    background: #FFF !important;
+
+    >.el-button {
+      float: left;
+      padding: 5px;
+      font-size: 5px;
+      border-radius: 0;
+      margin: 0;
+    }
+  }
+
+  .demo-table-expand {
+    * {
+      font-size: .8em;
+    }
+  }
+
+  .footer {
+    .el-button{
+      margin: 0;
+    }
+    .el-pagination {
+      display: inline-block;
+      font-size: 10px;
+    }
+  }
+}
