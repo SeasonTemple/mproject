@@ -21,14 +21,13 @@
           <el-menu-item-group>
             <el-submenu index="1-1">
               <template slot="title">个人信息</template>
-              <el-menu-item index="1-1-1">详细信息</el-menu-item>
-              <el-menu-item index="1-1-2">项目进展</el-menu-item>
-              <el-menu-item index="1-1-3">考勤汇总</el-menu-item>
-              <el-menu-item index="1-1-4">事务申请</el-menu-item>
-              <el-menu-item index="1-1-5">工作日志</el-menu-item>
-              <el-menu-item index="1-1-6">数据分析</el-menu-item>
+              <el-menu-item index="1-1-1">项目进展</el-menu-item>
+              <el-menu-item index="1-1-2">考勤汇总</el-menu-item>
+              <el-menu-item index="1-1-3">工作报表</el-menu-item>
+              <el-menu-item index="1-1-4">数据分析</el-menu-item>
+              <el-menu-item index="1-1-5">事务申请</el-menu-item>
+              <el-menu-item index="1-1-6">系统通知</el-menu-item>
             </el-submenu>
-            <el-menu-item index="1-2">系统通知</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
         <el-divider></el-divider>
@@ -41,8 +40,8 @@
             <el-menu-item index="2-1">职工管理</el-menu-item>
             <el-menu-item index="2-2">项目管理</el-menu-item>
             <el-menu-item index="2-3">部门管理</el-menu-item>
-            <el-menu-item index="2-4">日志管理</el-menu-item>
-            <el-menu-item index="2-5">申请审核</el-menu-item>
+            <el-menu-item index="2-4">报表管理</el-menu-item>
+            <el-menu-item index="2-5">申请管理</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
         <el-divider></el-divider>
@@ -65,10 +64,8 @@
             <span slot="title">使用帮助</span>
           </template>
           <el-menu-item-group>
-            <el-menu-item index="4-1">系统简介</el-menu-item>
-            <el-menu-item index="4-2">菜单介绍</el-menu-item>
-            <el-menu-item index="4-3">功能介绍</el-menu-item>
-            <el-menu-item index="4-3">智能引导</el-menu-item>
+            <el-menu-item index="4-1">说明文档</el-menu-item>
+            <el-menu-item index="4-2">操作向导</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
         <el-divider></el-divider>

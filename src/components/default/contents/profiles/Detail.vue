@@ -1,7 +1,8 @@
 <template>
-  <el-row class="box" :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-    <el-col :xs="12" :sm="12" :md="12" :lg="12" :xl="12">
-      <el-form ref="detailForm" :model="detailForm" label-width="auto" class="detailStyle">
+  <el-row :class="{box:true}" :xs="19" :sm="20" :md="22" :lg="24" :xl="24" type="flex" justify="space-around">
+    <el-col :xs="19" :sm="18" :md="18" :lg="14" :xl="16">
+      <el-form ref="detailForm" :model="detailForm" label-width="80px" label-position="left"
+        :class="{detailStyle:true}">
         <el-form-item class="user-avatar " label="我的头像" prop="imageUrl">
           <el-upload class="avatar-uploader" ref="upload" action="https://jsonplaceholder.typicode.com/posts/"
             :before-upload="beforeAvatarUpload" :on-preview="handlePictureCardPreview" list-type="picture-card"
@@ -42,10 +43,11 @@
             placeholder="你的年龄" v-bind="formState">
           </el-input-number>
         </el-form-item>
-        <!-- <el-form-item label="职位">
-        <el-input v-model="detailForm.position" maxlength="25" placeholder="请输入你的职位名称" :style="formItemWidth" clearable>
-        </el-input> -->
-        <!-- </el-form-item> -->
+        <el-form-item label="职位">
+          <el-input v-model="detailForm.position" maxlength="25" placeholder="请输入你的职位名称" :style="formItemWidth"
+            v-bind="formState">
+          </el-input>
+        </el-form-item>
         <el-form-item label="身份证号" prop="idNum">
           <el-input v-model="detailForm.idNum" maxlength="18" show-word-limit :style="formItemWidth"
             placeholder="填写你的身份证号码" v-bind="formState"></el-input>
@@ -55,9 +57,13 @@
             placeholder="填写你的职工编号" v-bind="formState">
           </el-input>
         </el-form-item>
-        <el-form-item label="所属" prop="belongTo">
-          <el-cascader v-model="detailForm.belongTo" :options="belongOpts" :props="{ expandTrigger: 'hover' }"
-            :style="formItemWidth" v-bind="formState">
+        <el-form-item label="职位所属" prop="belongTo">
+          <el-cascader :options="belongOpts" :style="formItemWidth" v-bind="formState"
+            :props="{ expandTrigger: 'hover' }">
+            <template slot-scope="{ node, data }">
+              <span>{{ data.label }}</span>
+              <span v-if="!node.isLeaf"> ({{ data.children.length }}) </span>
+            </template>
           </el-cascader>
         </el-form-item>
         <el-form-item label="直属上级" prop="leader">
@@ -80,20 +86,24 @@
         </el-form-item>
       </el-form>
     </el-col>
-    <el-col :xs="12" :sm="12" :md="12" :lg="12" :xl="12">
+    <!-- <el-col :xs="12" :sm="12" :md="12" :lg="12" :xl="12">
       <template v-for="(p, index) in progressGroup.progress">
-        <!-- <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" :class="{circleGroup:true}"> -->
-        <el-progress v-if="p.type == 'line'" type="p.type" :percentage="p.percentage" :text-inside="p.textInside" :color="progressGroup.colors" :key="index" :status="p.status" :stroke-width="p.strokeWidth" :show-text="p.showText" ></el-progress>
-        <el-progress v-else type="p.type" :percentage="p.percentage" :color="progressGroup.colors" :key="index" :status="p.status" :stroke-width="p.strokeWidth" :width="p.width" :show-text="p.showText" :stroke-linecap="p.strokeLineCap"></el-progress>
+        <el-col :xs="4" :sm="6" :md="8" :lg="8" :xl="8" :class="{circleGroup:true}" :key="index">
+          <el-progress v-if="p.type == 'line'" :type="p.type" :percentage="p.percentage" :text-inside="p.textInside"
+            :color="progressGroup.colors" :stroke-width="p.strokeWidth" :show-text="p.showText"></el-progress>
+          <el-progress v-else :type="p.type" :percentage="p.percentage" :color="progressGroup.colors"
+            :stroke-width="p.strokeWidth" :width="p.width" :show-text="p.showText" :stroke-linecap="p.strokeLineCap">
+          </el-progress>
+        </el-col>
       </template>
-    </el-col>
+    </el-col> -->
   </el-row>
 </template>
 <script>
   export default {
-    name: 'profile',
+    name: 'detail',
     data() {
-      let formItemWidth = 'width:70%';
+      let formItemWidth = 'width:90%';
       let dialogVisible = false;
       let disabled = false;
       let formState = {
@@ -102,15 +112,15 @@
         disabled: false
       };
       let belongOpts = [{
-        label: '指南',
+        label: '前端开发部',
         departmentName: 'zhinan',
         departmentId: '1',
         children: [{
-          label: '设计原则',
+          label: '天气App项目',
           groupName: 'shejiyuanze',
           groupId: '2',
           children: [{
-            label: '一致',
+            label: 'Python删库工程师',
             position: 'shejiyuanze',
             positionId: '2',
           }]
@@ -170,23 +180,32 @@
       };
       let progressGroup = {
         progress: [{
-          type: 'circle',
           percentage: 12,
-          strokeWidth: 6,
+          type: 'circle',
+          strokeWidth: 8,
           textInside: false,
-          status: 'success',
-          width: 150,
-          showText: false,
+          status: '',
+          width: 140,
+          showText: true,
           strokeLineCap: 'round'
-        },{
+        }, {
+          percentage: 21,
           type: 'circle',
-          percentage: 12,
-          strokeWidth: 6,
+          strokeWidth: 8,
           textInside: false,
-          status: 'success',
+          status: '',
+          width: 140,
+          showText: true,
+          strokeLineCap: 'round'
+        }, {
+          percentage: 24,
+          type: 'line',
+          strokeWidth: 20,
+          textInside: true,
+          status: '',
           width: 150,
-          showText: false,
-          strokeLinecap: 'round'
+          showText: true,
+          strokeLineCap: ''
         }],
         colors: [{
             color: '#f56c6c',

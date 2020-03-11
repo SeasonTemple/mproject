@@ -27,7 +27,8 @@ module.exports = {
     alias: {
       '@': resolve('src'),
       '_a': resolve('src/api'),
-      '_u': resolve('src/utils')
+      '_u': resolve('src/utils'),
+      '_d': resolve('src/components/default/contents/profiles')
     }
   },
   module: {

@@ -8,7 +8,9 @@
         </el-tab-pane>
         <el-tab-pane label="second" name="second" :key="'second'" v-loading='drawLoading'>
           <span slot="label"><i class=""></i> 个人中心</span>
-          <profile v-if="isChildUpdate2"></profile>
+          <keep-alive>
+            <profile v-if="isChildUpdate2"></profile>
+          </keep-alive>
         </el-tab-pane>
         <el-tab-pane label="third" name="third" :key="'third'" v-loading='drawLoading'>
           <span slot="label"><i class=""></i> 职工管理</span>
@@ -24,7 +26,7 @@
     name: "mainContent",
     components: {
       home: () => import('@/components/default/contents/Home'),
-      staff: () => import('@/components/default/contents/Staff'),
+      staff: () => import('@/components/default/contents/hr/Staff'),
       profile: () => import('@/components/default/contents/Profile')
     },
     data() {
