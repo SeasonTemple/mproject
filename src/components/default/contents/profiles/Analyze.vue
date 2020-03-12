@@ -1,5 +1,7 @@
 <template>
-  
+  <section class="msgContainer">
+
+  </section>
 </template>
 <script>
   export default {

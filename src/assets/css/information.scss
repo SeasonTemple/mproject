@@ -1,0 +1,11 @@
+@charset 'UTF-8';
+@import 'sassConfig';
+
+.infoPanel {
+    height: max-content;
+    text-align: left;
+    // border: 2px solid rgba(222,222,222,1);
+    .box-card{
+        // height: 80vh !important;
+    }
+}
