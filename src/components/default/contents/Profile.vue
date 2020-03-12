@@ -24,7 +24,7 @@
                 @close="handleClose(tag)">
                 {{tag.name}}<el-divider direction="vertical"></el-divider>{{tag.description}}
               </el-tag>
-              <el-input class="input-new-tag" v-if="inputVisible" v-model="tagInput" ref="saveTagInput" size="small"
+              <el-input class="input-new-tag" v-if="inputVisible" v-model.trim="tagInput" ref="saveTagInput" size="small"
                 @keyup.enter.native="handleInputConfirm" @blur="handleInputConfirm" clearable placeholder="请用标点符号隔开单词">
               </el-input>
               <el-button v-else class="button-new-tag" size="small" @click="showInput">+ 添加标签</el-button>
@@ -133,7 +133,7 @@
         const reg =
           /[\s+|\~|\`|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\-|\_|\+|\=|\||\\|\[|\]|\{|\}|\;|\:|\"|\'|\,|\<|\.|\>|\/|\?|\。|\、|\，]/g;
         if (tagInput) {
-          let ary = tagInput.trim().replace(/<[^>]+>/ig, '').replace(reg, '/').split('/');
+          let ary = tagInput.replace(/<[^>]+>/ig, '').replace(reg, '/').split('/');
           console.log(ary)
           let [name, ...description] = ary;
           this.tags.push({

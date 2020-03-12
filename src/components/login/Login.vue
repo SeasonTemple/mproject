@@ -162,21 +162,21 @@
         setTimeout(() => {
           this.bgStatus = 0;
           this.SET_URL();
-        }, 2000);
+        }, 1800);
       },
       showRegForm: function () {
         this.showStatus = 2;
         setTimeout(() => {
           this.bgStatus = 1;
           this.SET_URL();
-        }, 2000);
+        }, 1800);
       },
       showFogForm: function () {
         this.showStatus = 3;
         setTimeout(() => {
           this.bgStatus = 2;
           this.SET_URL();
-        }, 2000);
+        }, 1800);
       },
       showSwitch: function (flag) {
         this.SET_MODES(flag);

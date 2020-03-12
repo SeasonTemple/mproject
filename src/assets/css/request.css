@@ -1,4 +1,7 @@
 .reqForm {
   text-align: left; }
 
+.dialog {
+  overflow-y: auto; }
+
 /*# sourceMappingURL=request.css.map */

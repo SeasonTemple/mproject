@@ -4,25 +4,25 @@
     <el-form-item label="申请人" prop="applicant">
       <el-input v-model="ruleForm.applicant"></el-input>
     </el-form-item>
-    <el-form-item label="审核人" prop="reviewer">
-      <el-transfer filterable :filter-method="filterMethod" filter-placeholder="请输入城市拼音" v-model="ruleForm.reviewer"
-        :data="data">
+    <el-form-item label="审核人" prop="reviewers">
+      <el-transfer filterable :filter-method="filterMethod" filter-placeholder="请输入城市拼音" v-model="ruleForm.reviewers"
+        :data="data" :class="{transferCss:true}">
       </el-transfer>
     </el-form-item>
     <el-form-item label="申请类型" prop="type">
       <el-col :span="12">
         <el-radio-group v-model="ruleForm.type" text-color="#F2F6FC" fill="#67C23A" width="60%">
-          <el-radio-button :label="0">出差</el-radio-button>
-          <el-radio-button :label="1">结婚</el-radio-button>
-          <el-radio-button :label="2">生病</el-radio-button>
-          <el-radio-button :label="3">产假</el-radio-button>
-          <el-radio-button :label="4">丧事</el-radio-button>
-          <el-radio-button :label="5">其他</el-radio-button>
+          <el-radio-button :label=0>出差</el-radio-button>
+          <el-radio-button :label=1>结婚</el-radio-button>
+          <el-radio-button :label=2>生病</el-radio-button>
+          <el-radio-button :label=3>产假</el-radio-button>
+          <el-radio-button :label=4>丧事</el-radio-button>
+          <el-radio-button :label=5>其他</el-radio-button>
         </el-radio-group>
       </el-col>
       <el-col :span="12">
         <el-form-item prop="other">
-          <el-input v-if="ruleForm.type==5" placeholder="请输入其他申请类型" v-model="ruleForm.other">
+          <el-input v-if="ruleForm.type===5" v-model="ruleForm.other">
           </el-input>
         </el-form-item>
       </el-col>
@@ -55,7 +55,7 @@
     data() {
       let ruleForm = {
         applicant: '',
-        reviewer: [],
+        reviewers: [],
         type: 0,
         date1: '',
         date2: '',
@@ -64,8 +64,8 @@
       };
       const generateData = _ => {
         const data = [];
-        const cities = ['上海', '北京', '广州', '深圳', '南京', '西安', '成都'];
-        const pinyin = ['shanghai', 'beijing', 'guangzhou', 'shenzhen', 'nanjing', 'xian', 'chengdu'];
+        const cities = ['李茂杉', '小小人', '死风者', '憨批', '专家', '演员', '吊毛'];
+        const pinyin = ['shaBi', 'smallMan', 'dieInWind', 'hanPi', 'professor', 'actor', 'diaoMao'];
         cities.forEach((city, index) => {
           data.push({
             label: city,
@@ -88,10 +88,10 @@
             trigger: 'blur'
           }
         ],
-        reviewer: [{
+        reviewers: [{
           required: true,
           message: '请选择审核人',
-          trigger: 'change'
+          trigger: 'blur'
         }],
         type: [{
           required: true,
@@ -99,14 +99,14 @@
           trigger: 'change'
         }],
         other: [{
-          required: true,
+          required: false,
           message: '请输入其他申请类型',
           trigger: 'blur'
         }, {
           min: 2,
           max: 5,
           message: '长度在 2 到 5 个字符',
-          trigger: 'blur'
+          trigger: 'change'
         }],
         date1: [{
           type: 'date',
@@ -125,7 +125,7 @@
           message: '请填写申请的理由',
           trigger: 'blur'
         }]
-      }
+      };
       return {
         ruleForm,
         rules,
@@ -138,21 +138,63 @@
     methods: {
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
-          if (valid) {
-            alert('submit!');
-          } else {
-            console.log('error submit!!');
+          this.$confirm('你确定提交申请?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning',
+            lockScroll: 'true',
+            roundButton: true
+          }).then(() => {
+            if (valid) {
+              this.$message({
+                type: 'success',
+                message: '提交成功!',
+                offset: 230
+              });
+            } else {
+              this.$message({
+                type: 'error',
+                message: '验证失败，操作取消!!',
+                offset: 230
+              });
+            }
+          }).catch((error) => {
+            this.$message({
+              type: 'warning',
+              message: error + '：取消操作',
+              offset: 250
+            });
             return false;
-          }
+          });
+          // if (valid) {
+          //   this.$message({
+          //     message: '提交成功',
+          //     offset: 100,
+          //     type: 'success'
+          //   })
+          // } else {
+          //   this.$message({
+          //     message: '验证失败，操作取消',
+          //     offset: 100,
+          //     type: 'error'
+          //   })
+          // }
         });
       },
       resetForm(formName) {
         this.$refs[formName].resetFields();
+      },
+      otherCheck: function () {
+        this.ruleForm.type == 5 ? this.rules.other[0].required = true : this.rules.other[0].required = false;
       }
     },
-    mounted() {
-
-    }
+    computed: {},
+    watch: {
+      'ruleForm.type': {
+        handler: 'otherCheck',
+      }
+    },
+    mounted() {}
   }
 </script>
 

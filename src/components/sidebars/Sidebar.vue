@@ -19,15 +19,15 @@
             <span slot="title">个人中心</span>
           </template>
           <el-menu-item-group>
-            <el-submenu index="1-1">
-              <template slot="title">个人信息</template>
-              <el-menu-item index="1-1-1">项目进展</el-menu-item>
-              <el-menu-item index="1-1-2">考勤汇总</el-menu-item>
-              <el-menu-item index="1-1-3">工作报表</el-menu-item>
-              <el-menu-item index="1-1-4">数据分析</el-menu-item>
-              <el-menu-item index="1-1-5">事务申请</el-menu-item>
-              <el-menu-item index="1-1-6">系统通知</el-menu-item>
-            </el-submenu>
+            <!-- <el-submenu index="1-1">
+              <template slot="title">个人信息</template> -->
+              <el-menu-item index="1-1">个人详情</el-menu-item>
+              <el-menu-item index="1-2">项目进展</el-menu-item>
+              <el-menu-item index="1-3">工作报表</el-menu-item>
+              <el-menu-item index="1-4">数据分析</el-menu-item>
+              <el-menu-item index="1-5">事务申请</el-menu-item>
+              <el-menu-item index="1-6">系统消息</el-menu-item>
+            <!-- </el-submenu> -->
           </el-menu-item-group>
         </el-submenu>
         <el-divider></el-divider>
