@@ -51,10 +51,10 @@
             <span slot="title">系统管理</span>
           </template>
           <el-menu-item-group>
-            <el-menu-item index="3-1">账号管理</el-menu-item>
-            <el-menu-item index="3-2">权限管理</el-menu-item>
-            <el-menu-item index="3-3">通知管理</el-menu-item>
-            <el-menu-item index="3-4">系统日志</el-menu-item>
+            <el-menu-item index="3-1">角色管理</el-menu-item>
+            <!-- <el-menu-item index="3-2">权限管理</el-menu-item> -->
+            <el-menu-item index="3-2">通知管理</el-menu-item>
+            <el-menu-item index="3-3">系统日志</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
         <el-divider></el-divider>

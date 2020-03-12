@@ -1,5 +1,5 @@
 <template>
-  <el-container :class="{infoPanel:true}" direction="vertical">
+  <section :class="{infoPanel:true}" direction="vertical">
     <el-card class="box-card" shadow="always">
       <div class="clearfix">
         <el-tooltip effect="light" content="查看所有" placement="bottom">
@@ -20,7 +20,7 @@
       <!-- <div class="infoField">
       </div> -->
     </el-card>
-  </el-container>
+  </section>
 </template>
 
 <script>
@@ -42,11 +42,11 @@
         const h = this.$createElement;
         const sources = this.infomations;
         const postion = ['top-right', 'top-left', 'bottom-left', 'bottom-right'];
-        console.log((Math.random() * postion.length | 0));
+        // console.log((Math.random() * postion.length | 0));
         sources.forEach(s => {
           let offset = () => Math.random() * 20 | 0;
           this.timer = setTimeout(() => {
-            Notification({
+            this.$notify({
               title: s.title,
               type: s.type,
               message: h('i', {
@@ -54,7 +54,7 @@
               }, s.content),
               offset: offset(),
               position: postion[Math.random() * postion.length + 0 | 0],
-              customClass: 'i',
+            //   customClass: 'animated fadeIn',
               iconClass: 'el-icon' + s.type,
               duration: 0
             });
@@ -134,7 +134,7 @@
         console.log(item);
       },
       closeAll() {
-        Notification.closeAll();
+        this.$notify.closeAll();
       }
     },
     mounted() {
