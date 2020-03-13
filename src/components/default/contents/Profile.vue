@@ -20,12 +20,13 @@
             <el-divider></el-divider>
             <span class="header">标签墙</span>
             <div class="tags">
-              <el-tag v-for="tag in tags" :key="tag.name" closable :type="tag.type" effect="light"
+              <el-tag v-for="(tag,index) in tags" :key="index" closable :type="tag.type" effect="light"
                 @close="handleClose(tag)">
                 {{tag.name}}<el-divider direction="vertical"></el-divider>{{tag.description}}
               </el-tag>
-              <el-input class="input-new-tag" v-if="inputVisible" v-model.trim="tagInput" ref="saveTagInput" size="small"
-                @keyup.enter.native="handleInputConfirm" @blur="handleInputConfirm" clearable placeholder="请用标点符号隔开单词">
+              <el-input class="input-new-tag" v-if="inputVisible" v-model.trim="tagInput" ref="saveTagInput"
+                size="small" @keyup.enter.native="handleInputConfirm" @blur="handleInputConfirm" clearable
+                placeholder="使用标点符号隔开单词">
               </el-input>
               <el-button v-else class="button-new-tag" size="small" @click="showInput">+ 添加标签</el-button>
             </div>
@@ -131,13 +132,14 @@
         const randomType = _ => _[Math.random() * _.length | 0];
         const opts = ['', 'info', 'danger', 'warning', 'success'];
         const reg =
-          /[\s+|\~|\`|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\-|\_|\+|\=|\||\\|\[|\]|\{|\}|\;|\:|\"|\'|\,|\<|\.|\>|\/|\?|\。|\、|\，]/g;
+          /\s+|[\~|\`|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\-|\_|\+|\=|\||\\|\[|\]|\{|\}|\;|\:|\"|\'|\,|\<|\.|\>|\/|\?|\。|\、|\，]/g;
         if (tagInput) {
           let ary = tagInput.replace(/<[^>]+>/ig, '').replace(reg, '/').split('/');
-          console.log(ary)
-          let [name, ...description] = ary;
+          let name = '默认标题',
+            description = ['默认内容'];
+          ary.length > 1 ? [name, ...description] = ary : description = ary;
           this.tags.push({
-            name,
+            name: name,
             type: randomType(opts),
             description: description.reduce((prev, cur) => prev + cur)
           });
@@ -176,9 +178,10 @@
         });
       },
       formateTagValue: function () {
+        // \s+|
         const reg =
           /[\s+|\~|\`|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\-|\_|\+|\=|\||\\|\[|\]|\{|\}|\;|\:|\"|\'|\,|\<|\.|\>|\/|\?|\。|\、|\，]/g;
-        console.log(this.tagInput.replace(reg, '/'));
+        // console.log(this.tagInput.replace(reg, '/'));
         return this.tagInput.replace(reg, '/');
       }
 
@@ -195,7 +198,7 @@
       },
       tagInput: {
         handler: 'formateTagValue',
-        immediate: true
+        // immediate: true
       }
     },
     mounted() {

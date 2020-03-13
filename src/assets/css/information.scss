@@ -2,10 +2,13 @@
 @import 'sassConfig';
 
 .infoPanel {
-    height: max-content;
-    text-align: left;
-    // border: 2px solid rgba(222,222,222,1);
-    .box-card{
-        // height: 80vh !important;
-    }
+  text-align: left;
+
+  .boxCard {
+      margin: 10px 0;
+  }
+
+  .searchInfo {
+    float: right;
+  }
 }

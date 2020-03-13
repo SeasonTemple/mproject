@@ -91,7 +91,7 @@
         reviewers: [{
           required: true,
           message: '请选择审核人',
-          trigger: 'blur'
+          trigger: 'select'
         }],
         type: [{
           required: true,

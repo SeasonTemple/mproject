@@ -1,21 +1,30 @@
 <template>
   <section :class="{infoPanel:true}" direction="vertical">
-    <el-card class="box-card" shadow="always">
-      <div class="clearfix">
-        <el-tooltip effect="light" content="查看所有" placement="bottom">
-          <el-button type="primary" icon="el-icon-bell" plain circle @click="showInformations"></el-button>
-        </el-tooltip>
-        <el-tooltip effect="light" content="与我有关" placement="bottom">
-          <el-button type="info" icon="el-icon-thumb" plain circle></el-button>
-        </el-tooltip>
-        <el-tooltip effect="light" content="全部收起" placement="bottom">
-          <el-button type="danger" icon="el-icon-close-notification" plain circle @click="closeAll">
-          </el-button>
-        </el-tooltip>
-        <el-autocomplete class="inline-input" v-model="keyword" :fetch-suggestions="querySearch" placeholder="查询指定消息"
-          :trigger-on-focus="false" @select="handleSelect">
-          <el-button slot="append" icon="el-icon-search"></el-button>
-        </el-autocomplete>
+    <el-card :class="{boxCard:true}" shadow="hover">
+      <div class="clearfix animated">
+        <transition appear appear-active-class="bounceInLeft" enter-active-class="bounceInLeft">
+          <el-tooltip effect="light" content="查看所有" placement="top">
+            <el-button type="primary" class="animated" icon="el-icon-bell" plain circle @click="showInformations">
+            </el-button>
+          </el-tooltip>
+        </transition>
+        <transition appear appear-active-class="bounceInLeft" enter-active-class="bounceInLeft">
+          <el-tooltip effect="light" content="与我有关" placement="top">
+            <el-button type="info" class="animated delay-1s" icon="el-icon-thumb" plain circle></el-button>
+          </el-tooltip>
+        </transition>
+        <transition appear appear-active-class="bounceInLeft" enter-active-class="bounceInLeft">
+          <el-tooltip effect="light" content="全部收起" placement="top">
+            <el-button type="danger" class="animated delay-2s" icon="el-icon-close-notification" plain circle @click="closeAll">
+            </el-button>
+          </el-tooltip>
+        </transition>
+        <transition appear appear-active-class="fadeIn" enter-active-class="fadeIn">
+          <el-autocomplete :class="{searchInfo:true}" class="animated delay-2s"  v-model="keyword" :fetch-suggestions="querySearch"
+            placeholder="查询指定消息" :trigger-on-focus="false" @select="handleSelect">
+            <el-button slot="append" icon="el-icon-search"></el-button>
+          </el-autocomplete>
+        </transition>
       </div>
       <!-- <div class="infoField">
       </div> -->
@@ -54,9 +63,9 @@
               }, s.content),
               offset: offset(),
               position: postion[Math.random() * postion.length + 0 | 0],
-            //   customClass: 'animated fadeIn',
+              //   customClass: 'animated fadeIn',
               iconClass: 'el-icon' + s.type,
-              duration: 0
+              duration: 3000
             });
           }, offset() * 10);
         });
@@ -99,13 +108,13 @@
             id: 4,
             title: '卧槽',
             content: '得劲儿',
-            type: 'success',
+            type: 'warning',
             publish: new Date()
           }, {
             id: 5,
             title: '这饭',
             content: '真香',
-            type: 'info',
+            type: 'error',
             publish: new Date()
           },
           {

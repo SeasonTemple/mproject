@@ -1,5 +1,8 @@
 .infoPanel {
-  height: max-content;
   text-align: left; }
+  .infoPanel .boxCard {
+    margin: 10px 0; }
+  .infoPanel .searchInfo {
+    float: right; }
 
 /*# sourceMappingURL=information.css.map */
