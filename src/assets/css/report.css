@@ -5,4 +5,11 @@
   margin: 0;
   border: none; }
 
+.topBtn {
+  text-align: start;
+  border: none;
+  margin-bottom: 10px;
+  border-bottom: 1px solid rgba(1, 11, 1, 0.2);
+  border-radius: 0; }
+
 /*# sourceMappingURL=report.css.map */

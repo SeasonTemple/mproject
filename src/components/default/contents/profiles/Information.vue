@@ -3,7 +3,7 @@
     <el-card :class="{boxCard:true}" shadow="hover">
       <div class="clearfix animated">
         <transition appear appear-active-class="bounceInLeft" enter-active-class="bounceInLeft">
-          <el-tooltip effect="light" content="查看所有" placement="top">
+          <el-tooltip effect="light" content="全部显示" placement="top">
             <el-button type="primary" class="animated" icon="el-icon-bell" plain circle @click="showInformations">
             </el-button>
           </el-tooltip>
@@ -50,10 +50,10 @@
       showInformations() {
         const h = this.$createElement;
         const sources = this.infomations;
-        const postion = ['top-right', 'top-left', 'bottom-left', 'bottom-right'];
-        // console.log((Math.random() * postion.length | 0));
+        const position = ['top-right', 'top-left', 'bottom-left', 'bottom-right'];
+        // console.log((Math.random() * position.length | 0));
         sources.forEach(s => {
-          let offset = () => Math.random() * 20 | 0;
+          let offset = () => Math.random() * 20 + 20 | 0;
           this.timer = setTimeout(() => {
             this.$notify({
               title: s.title,
@@ -62,10 +62,10 @@
                 style: 'color: teal'
               }, s.content),
               offset: offset(),
-              position: postion[Math.random() * postion.length + 0 | 0],
+              position: position[Math.random() * position.length + 0 | 0],
               //   customClass: 'animated fadeIn',
               iconClass: 'el-icon' + s.type,
-              duration: 3000
+              duration: offset() * 100
             });
           }, offset() * 10);
         });
