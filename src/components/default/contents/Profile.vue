@@ -42,9 +42,9 @@
               <span slot="label">{{tab.label}}</span>
             </el-tab-pane>
           </template>
-          <keep-alive>
+          <!-- <keep-alive> -->
             <component :is="switchTab"></component>
-          </keep-alive>
+          <!-- </keep-alive> -->
         </el-tabs>
       </el-card>
     </el-col>
