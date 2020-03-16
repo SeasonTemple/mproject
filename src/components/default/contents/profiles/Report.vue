@@ -1,5 +1,5 @@
 <template>
-  <div class="infinite-list-wrapper" style="overflow:auto">
+  <div class="infinite-list-wrapper" >
     <el-card shadow="never" :class="{topBtn:true}">
       <div class="clearfix animated">
         <transition appear appear-active-class="bounceInLeft" enter-active-class="bounceInLeft">
@@ -21,7 +21,7 @@
         </transition>
       </div>
     </el-card>
-    <el-timeline v-infinite-scroll="load" infinite-scroll-disabled="disabled" >
+    <el-timeline v-infinite-scroll="load" infinite-scroll-disabled="disabled" :class="{timeLine: true}" >
       <el-timeline-item :timestamp="rep.timestamp" placement="top" v-for="(rep,i) in reports" :key="i">
         <el-card :key="'timeline' + i" shadow="hover">
           <h4>{{ rep.title }}</h4>
@@ -53,11 +53,15 @@
     },
     methods: {
       load() {
-        this.loading = true
-        setTimeout(() => {
-          this.count += 1
-          this.loading = false
-        }, 2000)
+        if (this.count > 4) {
+          this.loading = true
+          setTimeout(() => {
+            this.count += 1
+            this.loading = false
+          }, 2000)
+        } else {
+          this.count += 1;
+        }
       },
       initOrigin() {
         console.log('initOrigin ' + this.origin);
@@ -109,15 +113,18 @@
         }
       },
       SyncCount() {
-        const count = this.count;
-        console.log('SyncCount: ' + count);
-        this.reports = this.origin.slice(0, count);
+        let count = this.count;
+        let repLength = this.reports.length | 0;
+        console.log('SyncCount: ' + count + '||' + repLength + '||' + this.origin.slice(repLength, count++));
+        this.origin.slice(repLength, ++count).forEach(_ => {
+          this.reports.push(_);
+        });
       }
     },
     computed: {
       noMore() {
         console.log(`noMore: ${this.origin.length} , ${this.count}`);
-        return this.origin.length === this.reports.length;
+        return this.origin.length === this.count;
       },
       disabled() {
         console.log(`noMore: ${this.loading} , ${this.noMore}`);
