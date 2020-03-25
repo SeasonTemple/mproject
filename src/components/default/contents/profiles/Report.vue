@@ -1,5 +1,5 @@
 <template>
-  <div class="infinite-list-wrapper" >
+  <div class="infinite-list-wrapper">
     <el-card shadow="never" :class="{topBtn:true}">
       <div class="clearfix animated">
         <transition appear appear-active-class="bounceInLeft" enter-active-class="bounceInLeft">
@@ -21,18 +21,18 @@
         </transition>
       </div>
     </el-card>
-    <el-timeline v-infinite-scroll="load" infinite-scroll-disabled="disabled" :class="{timeLine: true}" >
+    <el-timeline v-infinite-scroll="load" infinite-scroll-disabled="disabled" :class="{timeLine: true}">
       <el-timeline-item :timestamp="rep.timestamp" placement="top" v-for="(rep,i) in reports" :key="i">
         <el-card :key="'timeline' + i" shadow="hover">
           <h4>{{ rep.title }}</h4>
           <p>{{ rep.content }}</p>
         </el-card>
       </el-timeline-item>
+      <el-card shadow="never" :class="{loadingCard:true}">
+        <span v-if="loading" v-loading="loading"></span>
+        <span v-if="noMore" :style="{marginLeft:'28px',fontWeight:'bold',color:'rgba(0,0,0,.6)'}">没有更多了</span>
+      </el-card>
     </el-timeline>
-    <el-card shadow="never" :class="{loadingCard:true}">
-      <span v-if="loading" v-loading="loading"></span>
-      <span v-if="noMore" :style="{marginLeft:'28px',fontWeight:'bold',color:'rgba(0,0,0,.6)'}">没有更多了</span>
-    </el-card>
   </div>
 </template>
 <script>
@@ -116,7 +116,7 @@
         let count = this.count;
         let repLength = this.reports.length | 0;
         console.log('SyncCount: ' + count + '||' + repLength + '||' + this.origin.slice(repLength, count++));
-        this.origin.slice(repLength, ++count).forEach(_ => {
+        this.origin.slice(repLength, count).forEach(_ => {
           this.reports.push(_);
         });
       }
