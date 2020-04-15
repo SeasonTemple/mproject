@@ -22,6 +22,24 @@ body {
     color: rgba(224, 224, 224, 0.959);
 
   }
+
+  .el-form-item__error {
+    position: relative;
+    padding: 0;
+    top: 9px;
+    color: rgba(252, 99, 99, 0.9);
+    left: 11%;
+    font-weight: bold;
+    transition: all ease-in-out .5s;
+    font-size: 15px;
+    // text-shadow: -1px 1px rgb(148, 5, 5),
+    //   1px -1px rgb(148, 5, 5);
+  }
+  .el-input__validateIcon {
+    position: relative;
+    padding: 0;
+    right: 30%;
+  }
 }
 
 .logPop {
@@ -104,7 +122,8 @@ body {
 
   &:focus {
     outline: none;
-    animation: btColor 4s linear infinite;
+    border-color: rgba(224, 224, 224, 0.959);
+    // animation: btColor 4s linear infinite;
 
 
   }
@@ -128,7 +147,7 @@ body {
   padding: 0 0 0 3px;
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   margin: 20px 0 0 0;
-  width: 53%;
+  width: 60%;
 }
 
 .left .el-input__count-inner {

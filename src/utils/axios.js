@@ -1,12 +1,14 @@
 import axios from 'axios'
-import { DEFAULT_URL } from './constant'
+import {
+  DEFAULT_URL
+} from './constant'
 import cookie from 'js-cookie'
 import qs from 'qs';
 
 axios.defaults.timeout = 20000; // 超时时间
 axios.defaults.baseURL = DEFAULT_URL; // 默认地址
 axios.defaults.responseType = 'json'; //响应类型动态设置
-
+// axios.defaults.headers = 'Access-Control-Allow-Origin:true';
 // axios.defaults.transformRequest = function (data) {
 //   data = qs.stringify(data);
 //   return data;
@@ -22,9 +24,12 @@ axios.defaults.transformRequest = [
 // http request 拦截器
 axios.interceptors.request.use(
   config => {
+    config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
     if (config.method == "post") {
       config.data = qs.stringify(config.data);
-      config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+      console.log(config)
+      // config.headers['Content-Type'] = 'application/json;charset=UTF-8';
+      config.headers['Access-Control-Allow-Origin'] = '*';
     } else {
       config.headers['Content-Type'] = 'application/json;charset=UTF-8';
     }

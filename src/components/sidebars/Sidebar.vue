@@ -13,7 +13,7 @@
           <span slot="title">控制台</span>
         </el-menu-item>
         <el-divider></el-divider>
-        <el-submenu index="index/userInfo" @click="addTab(editableTabsValue)">
+        <el-submenu index="index/center" @click="addTab(editableTabsValue)">
           <template slot="title">
             <i class="el-icon-user-solid"></i>
             <span slot="title">个人中心</span>

@@ -315,11 +315,14 @@ export default {
     getUsers: function() {
       owl.send(
         {
-          url: "http://localhost:8085/userInfo",
+          url: "/getVCode",
           method: "post",
-          data: {
-            username: "5252342"
-          }
+          headers:
+            "{'Pragma':'No-cache','Cache-Control', 'No-cache','Expires', '0','Content-Type':'image/gif'}"
+
+          // data: {
+          //   username: "5252342"
+          // }
         },
         data => {
           console.log(data);
@@ -349,6 +352,7 @@ export default {
       _this.time = dayjs().format("YYYY/MM/DD</br>HH:mm:ss");
     }, 1000);
     this.drawCharts();
+    this.getUsers();
   },
   beforeDestroy() {
     //实例销毁前清除定时器

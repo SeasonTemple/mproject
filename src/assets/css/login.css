@@ -41,8 +41,14 @@ body {
   background: transparent;
   position: relative;
   border: 1px solid rgba(252, 252, 252, 0.5);
-  transition: all ease-in-out 2s alternate-reverse;
-  z-index: 10; }
+  transition: all ease-in-out 2s;
+  z-index: 10;
+  border: 0px;
+  box-sizing: border-box;
+  padding: 0px;
+  height: auto;
+  width: auto;
+  border-radius: 20px; }
   .valiBtn:focus::after {
     content: '';
     position: absolute;
@@ -54,7 +60,6 @@ body {
     color: #fff;
     border-color: transparent;
     z-index: -1;
-    background-image: linear-gradient(35deg, rgba(70, 248, 210, 0.6) 8%, rgba(81, 173, 248, 0.6) 33%, rgba(123, 72, 182, 0.6), rgba(255, 30, 86, 0.6) 76%, rgba(250, 120, 60, 0.6) 100%);
     animation: Fill ease-in-out 2s; }
   .valiBtn:hover {
     background: rgba(255, 255, 255, 0.5);
@@ -78,7 +83,6 @@ body {
   .forget:visited {
     color: black; }
   .forget:hover {
-    transform: scale(1.2);
     font-weight: bold;
     transition: all ease-in-out .5s; }
   .forget:active {
@@ -446,10 +450,18 @@ body {
     background-image: linear-gradient(35deg, rgba(70, 248, 210, 0.863) 8%, rgba(81, 173, 248, 0.822) 33%, rgba(123, 72, 182, 0.845), rgba(255, 30, 86, 0.767) 76%, rgba(250, 120, 60, 0.87) 100%); }
 
 @keyframes Fill {
-  from {
-    width: 0; }
-  to {
-    width: 100%; } }
+  0% {
+    width: 1%;
+    background-image: transparent; }
+  98% {
+    width: 100%;
+    background-image: linear-gradient(35deg, rgba(0, 0, 0, 0.5) 95%, white 100%); }
+  99% {
+    width: 100%;
+    background-image: linear-gradient(35deg, black 99%, rgba(255, 255, 255, 0.85) 100%); }
+  100% {
+    background-image: transparent;
+    width: 0; } }
 @keyframes FadeMove1 {
   to {
     bottom: 60%; } }
