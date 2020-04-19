@@ -21,38 +21,50 @@ export const GetVCode = callback => {
 
 //登录API
 export const UserLogin = (userDto) => {
-  let data = userDto;
-  return new Promise(function (resolve) {
-    resolve(axios.request({
-      url: "/api/login",
-      method: 'post',
-      data: data
-    }))
+  // let data = userDto;
+  // return new Promise(function (resolve) {
+  // resolve(
+  return axios.request({
+    url: "/api/login",
+    method: 'post',
+    data: userDto
+  })
+  // )
+  // })
+}
+
+export const SSO = (token) => {
+  return axios.request({
+    url: "api/sso",
+    method: "get",
+    headers: {
+      "Authorization": token
+    }
   })
 }
 
 /**
  * 过滤特殊字符
  */
-export function stripscript(str) {
-  var pattern = new RegExp("[`~!@#$^&*()=|{}':;',\\[\\].<>/?~！@#￥……&*（）&;—|{ }【】‘；：”“'。，、？]")
-  var rs = "";
-  for (var i = 0; i < str.length; i++) {
-      rs = rs + str.substr(i, 1).replace(pattern, '');
+export function stripscript(str) {
+  var pattern = new RegExp("[`~!@#$^&*()=|{}':;',\\[\\].<>/?~！@#￥……&*（）&;—|{ }【】‘；：”“'。，、？]")
+  var rs = "";
+  for (var i = 0; i < str.length; i++) {
+    rs = rs + str.substr(i, 1).replace(pattern, '');
   }
-  return rs;
+  return rs;
 }
 /**
-* 验证邮箱
-*/
-export function validateEmail(value){
-  let reg = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/; 
+ * 验证邮箱
+ */
+export function validateEmail(value) {
+  let reg = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
   return !reg.test(value) ? true : false;
 }
 /**
-* 验证密码 6至20位的字母+数字 
-*/
-export function validatePass(value){
+ * 验证密码 6至20位的字母+数字 
+ */
+export function validatePass(value) {
   let reg = /^(?!\D+$)(?![^a-zA-Z]+$)\S{8,20}$/;
   return !reg.test(value) ? true : false;
 }

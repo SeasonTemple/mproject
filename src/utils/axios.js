@@ -2,9 +2,10 @@ import axios from 'axios'
 import {
   DEFAULT_URL
 } from './constant'
-import cookie from 'js-cookie'
 import qs from 'qs';
-
+import {
+  getToKen
+} from '_u/loginMsg.js';
 axios.defaults.timeout = 20000; // 超时时间
 axios.defaults.baseURL = DEFAULT_URL; // 默认地址
 axios.defaults.responseType = 'json'; //响应类型动态设置
@@ -25,6 +26,10 @@ axios.defaults.transformRequest = [
 axios.interceptors.request.use(
   config => {
     config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+    if(getToKen()!=null&&getToKen()!=""){
+      config.headers['Authorization'] = getToKen() 
+    }
+    // config.headers['UserName'] = getUserName()
     if (config.method == "post") {
       config.data = qs.stringify(config.data);
       console.log(config)

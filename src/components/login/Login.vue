@@ -167,11 +167,11 @@
               <el-button type="success" slot="suffix" :class="{valiBtn:true}" @click="getCode">
                 <el-tooltip
                   enterable
-                  content="获取验证码"
+                  content="更换验证码"
                   placement="top"
                   :style="{'fontSize':'5px'}"
                   popper-class="{valiPop:true}"
-                  effect="dark"
+                  effect="light"
                 >
                   <el-image :src="vCodeImg" fit="cover" :lazy="true"></el-image>
                 </el-tooltip>
@@ -181,7 +181,7 @@
           <el-form-item>
             <el-button-group :class="{regBtnGroup:true}">
               <el-button type="success">注册账号</el-button>
-              <el-button type="primary" plain>重置表单</el-button>
+              <el-button type="primary" plain @click="clean">重置表单</el-button>
             </el-button-group>
           </el-form-item>
         </el-form>
@@ -241,8 +241,8 @@
 import pexels2 from "@/assets/img/pexels-002.jpg";
 import pexels4 from "@/assets/img/pexels-004.jpg";
 import pexels5 from "@/assets/img/pexels-005.jpg";
-import { GetVCode, UserLogin } from "_a/login.js";
-import { mapState, mapGetters, mapMutations } from "vuex";
+import { GetVCode, UserLogin, stripscript } from "_a/login.js";
+import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
 export default {
   name: "login",
   data() {
@@ -373,6 +373,10 @@ export default {
       SET_MODES: "login/SET_MODES",
       SET_URL: "login/SET_URL"
     }),
+    ...mapActions({
+      LOGIN: "login/LOGIN",
+      AUTOLOGIN: "login/AUTOLOGIN"
+    }),
     switchMode: function(flag) {
       this.SET_MODES(flag);
       this.modes = this.getModes;
@@ -393,11 +397,13 @@ export default {
       }, 1800);
     },
     showRegForm: function() {
+      this.getCode();
+      this.$refs.form.resetFields();
       this.showStatus = 2;
       setTimeout(() => {
         this.bgStatus = 1;
         this.SET_URL();
-      }, 1400);
+      }, 1500);
     },
     showFogForm: function() {
       this.showStatus = 3;
@@ -435,63 +441,61 @@ export default {
       }
     },
     formValidate: function(formName) {
-      this.$refs[formName]
-        .validate(valid => {
-          if (valid) {
-            this.login();
-          } else {
-            this.$message({
-              type: "error",
-              message: "验证失败，请输入合法信息!!",
-              offset: 230,
-              duration: 2000
-            });
-          }
-        })
-        .catch(error => {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          this.login();
+        } else {
           this.$message({
-            type: "warning",
-            message: error + "：取消操作",
-            offset: 250,
+            type: "error",
+            message: "验证失败，请输入合法信息!!",
+            offset: 230,
             duration: 2000
           });
-          return false;
-        });
+        }
+      });
+      // .catch(error => {
+      //   this.$message({
+      //     type: "warning",
+      //     message: error + "：取消操作",
+      //     offset: 250,
+      //     duration: 2000
+      //   });
+      //   return false;
+      // });
     },
     login: function() {
       let { username: userName, password: passWord } = this.form;
-      UserLogin({ userName, passWord })
+      this.LOGIN({ userName, passWord })
         .then(res => {
-          let status = res.data.code;
-          console.log(res.data);
-          if (status == 10201 || status == 10200) {
-            this.$message({
-              type: "success",
-              dangerouslyUseHTMLString: true,
-              message: `<strong>${res.data.data.userName} 登录成功！</strong> `,
-              offset: 230,
-              duration: 2000
-            });
-            this.$router.push("/index");
-          } else {
-            console.log(status);
-            this.$message({
-              type: "error",
-              dangerouslyUseHTMLString: true,
-              message: `<strong>${res.data.msg}</strong>`,
-              offset: 230,
-              duration: 2000
-            });
-          }
-
-          this.$refs["form"].resetFields();
+          this.$message({
+            type: "success",
+            dangerouslyUseHTMLString: true,
+            message: `<strong>用户：${res} 登录成功！</strong> `,
+            offset: 230,
+            duration: 2000
+          });
+          this.$refs.form.resetFields();
           this.actFocus.isFocus = false;
           this.pwdFocus.isFocus = false;
           this.codeFocus.isFocus = false;
           this.$router.push("/index");
         })
+        .catch(error => {
+          this.$message({
+            type: "error",
+            dangerouslyUseHTMLString: true,
+            message: `<strong>${error}</strong>`,
+            offset: 230,
+            duration: 2000
+          });
+        });
 
-        .catch(res => new Error(`调用登录API失败: ${res}, 请稍后再试.`));
+      // this.$router.push("/index");
+      // })
+      // .catch(res => new Error(`调用登录API失败: ${res}, 请稍后再试.`));
+    },
+    clean: function() {
+      this.$refs.regForm.resetFields();
     },
     getCode: function() {
       let result;
@@ -501,6 +505,28 @@ export default {
           this.vCode = res.data.codeResult;
         });
       }, 2000);
+    },
+    autoLogin: function() {
+      this.AUTOLOGIN()
+        .then(res => {
+          this.$message({
+            type: "success",
+            dangerouslyUseHTMLString: true,
+            message: `<strong>用户：${res} 自动登录成功！</strong> `,
+            offset: 230,
+            duration: 2000
+          });
+          this.$router.push("/index");
+        })
+        .catch(error => {
+          this.$message({
+            type: "error",
+            dangerouslyUseHTMLString: true,
+            message: `<strong>${error} 登录超时，请重新登录！</strong> `,
+            offset: 230,
+            duration: 2000
+          });
+        });
     }
   },
   computed: {
@@ -575,7 +601,7 @@ export default {
           this.pwdFocus2.isFocus = false;
         } else if (vps === "" && tag === "valiPass") {
           this.vpsFocus.isFocus = false;
-        } else {
+        } else if (cd === "" && tag === "valiCode") {
           this.codeFocus.isFocus = false;
         }
       };
@@ -602,8 +628,15 @@ export default {
   mounted() {
     this.modes = this.getModes;
     this.url = this.getUrl;
+    this.autoLogin();
     // this.vCode = GetVCode();
     // console.log(this.modes);
+  },
+  beforeDestroy() {
+    if (this._timer) {
+      clearTimeout(this._timer);
+      this._timer = null;
+    }
   }
 };
 </script>
