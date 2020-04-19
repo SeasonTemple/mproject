@@ -19,20 +19,36 @@ export const GetVCode = callback => {
   }).catch(res => new Error(`调用验证码API失败: ${res}, 请稍后再试.`));
 }
 
-//登录API
+//登录(用户名、密码)API
 export const UserLogin = (userDto) => {
-  // let data = userDto;
-  // return new Promise(function (resolve) {
-  // resolve(
   return axios.request({
     url: "/api/login",
     method: 'post',
     data: userDto
   })
-  // )
-  // })
+}
+//登录(用户名、验证码)API
+export const UserNameLogin = (userDto) => {
+  return axios.request({
+    method: "get",
+    url: "/api/uLogin",
+    params: {
+      "username": userDto
+    }
+  })
 }
 
+
+//注册API
+export const Register = (mpUser) => {
+  return axios.request({
+    url: "/api/register",
+    method: 'post',
+    data: mpUser
+  })
+}
+
+//单点登录API
 export const SSO = (token) => {
   return axios.request({
     url: "api/sso",
@@ -42,6 +58,18 @@ export const SSO = (token) => {
     }
   })
 }
+/**
+ * 获取用户角色
+ */
+export function getUserRole(data = {}) {
+  return service.request({
+    method: "post",
+    url: "/userRole",
+    data
+    // data: data, 左边的data是变量名（key）后台接收的。右边的Data是接收的参数。如果两者都是同名的情况下，可以写成单一个即可（ES6的写法）
+  })
+}
+
 
 /**
  * 过滤特殊字符
@@ -62,9 +90,30 @@ export function validateEmail(value) {
   return !reg.test(value) ? true : false;
 }
 /**
- * 验证密码 6至20位的字母+数字 
+ * 验证账号 8至20位的字母+数字 
+ */
+export function validateAccount(value) {
+  let regHan = /^[\u4E00-\u9FA5]{2,10}$/;
+  let reg = /^(?!\D+$)(?![^a-zA-Z]+$)\S{8,20}$/;
+  if (regHan.test(value)) {
+    return !regHan.test(value) ? true : false;
+  } else {
+    return !reg.test(value) ? true : false;
+  }
+}
+/**
+ * 验证密码 8至20位的字母+数字 
  */
 export function validatePass(value) {
+  // console.log(value)
   let reg = /^(?!\D+$)(?![^a-zA-Z]+$)\S{8,20}$/;
+  return !reg.test(value) ? true : false;
+}
+
+/**
+ * 验证验证码
+ */
+export function validateVCode(value) {
+  let reg = /^[a-z0-9]{6}$/;
   return !reg.test(value) ? true : false;
 }

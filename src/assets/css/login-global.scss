@@ -67,14 +67,15 @@ body {
 .valiPop {
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   background: transparent !important;
-  border: 1px solid rgba(224, 224, 224, 0.959);
+  border: 2px solid rgba(224, 224, 224, 0.959) !important;
   text-align: center;
-  letter-spacing: 12px;
-  font-size: 1rem !important;
-  padding: 5px;
+  // letter-spacing: 12px;
+  color: whitesmoke;
+  font-size: 15px !important;
+  padding: 5px 10px 5px 10px;
 
   .popper__arrow {
-    border-top-color: rgba(255, 255, 255, .8) !important;
+    border-top-color: rgba(233, 227, 227, 0.8) !important;
     border-right-color: transparent;
     border-left-color: transparent;
     border-bottom-color: rgba(255, 255, 255, .8) !important;
@@ -126,7 +127,7 @@ body {
 }
 
 .el-form-item.regFocus {
-    .el-form-item__label {
+  .el-form-item__label {
     font-size: .9em !important;
     position: relative;
     padding: 0;
@@ -149,7 +150,7 @@ body {
   border: 1px solid transparent;
   border-radius: 10px;
   box-sizing: border-box;
-  animation-delay: all 6s !important;
+  // animation-delay: all 6s !important;
 
   // animation:  4s ease-in-out;
   // Special-Effects-Login
@@ -158,9 +159,19 @@ body {
     font-size: 16px;
     font-weight: 300;
     background: transparent !important;
-    color: rgba(0, 0, 0, 0.466);
-    // color: rgba(255, 255, 255, 0.76);
+    color: rgba(255, 255, 255, 0.76);
     padding: 20px 33px 0 0 !important;
+  }
+
+  .el-form-item__error {
+    position: relative;
+    padding: 0;
+    top: 9px;
+    color: rgba(252, 99, 99, 0.9);
+    left: 11%;
+    font-weight: bold;
+    transition: all ease-in-out .5s;
+    font-size: 15px;
   }
 
   .el-input__prefix {
@@ -169,6 +180,21 @@ body {
     font-size: 22px;
     color: rgba(0, 0, 0, 0.466);
   }
+
+
+  // .el-icon-circle-close {
+  //   // position: absolute;
+  //   // padding: 0;
+  //   // top: 5px;
+  //   // right: 50%;
+  //   // // left: 25%;
+  //   // font-weight: bold;
+  //   // transition: all ease-in-out .5s;
+  //   // font-size: 15px;
+  //   // z-index: 100;
+  // }
+
+
 
   .el-input .el-input__clear {
     font-size: 20px;
@@ -285,6 +311,8 @@ body {
   }
 }
 
+// .valiBtn.
+
 .left .el-input__inner {
   position: relative;
   font-size: 1.3em;
@@ -301,6 +329,7 @@ body {
   margin: 20px 0 0 0;
   left: 10%;
   width: 80%;
+  box-sizing: border-box;
 
   &:focus {
     outline: none;
@@ -320,7 +349,7 @@ body {
     padding-top: 1px !important;
     font-size: 14px !important;
     font-weight: 500 !important;
-    transition: all ease-in-out .5s;
+    // transition: all ease-in-out .5s;
 
     &:visited {
       color: rgb(0, 0, 0) !important;
@@ -342,7 +371,7 @@ body {
 
 }
 
-#valiCode {
+.valiCode {
   font-size: 1.3em;
   color: rgb(255, 249, 249);
   background-color: transparent;
@@ -354,8 +383,14 @@ body {
   border-bottom: 2px solid rgba(48, 39, 39, 0.432);
   padding: 0 0 0 3px;
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-  margin: 20px 0 0 0;
+  margin: 20px 0 20px 0;
   width: 60%;
+}
+
+.valiInput {
+  .el-input__validateIcon {
+    display: none;
+  }
 }
 
 .left .el-input__count-inner {

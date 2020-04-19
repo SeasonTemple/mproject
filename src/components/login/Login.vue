@@ -74,13 +74,15 @@
               class="animated"
               prop="valiCode"
               label="Validate Code"
+              :style="{marginBottom:'10px'}"
               v-if="form.usePassword == false"
-              :class="{isFocus: codeFocus.isFocus,push2:!form.usePassword}"
+              :class="{isFocus: codeFocus.isFocus,push1:form.usePassword}"
               key="userCode"
             >
               <el-input
+                :class="{valiInput:true}"
+                hide-required-asterisk
                 v-model="form.valiCode"
-                :class="{valiCode:true}"
                 maxlength="6"
                 @focus.stop="inputFocus(codeFocus.name)"
                 @blur.stop="inputBlur(codeFocus.name)"
@@ -88,10 +90,10 @@
                 <el-button type="success" slot="suffix" :class="{valiBtn:true}" @click="getCode">
                   <el-tooltip
                     enterable
-                    content="获取验证码"
+                    content="换一个"
                     placement="top"
                     :style="{'fontSize':'5px'}"
-                    popper-class="{valiPop:true}"
+                    popper-class="valiPop"
                     effect="dark"
                   >
                     <el-image :src="vCodeImg" fit="cover" :lazy="true"></el-image>
@@ -100,12 +102,13 @@
               </el-input>
             </el-form-item>
           </transition>
-          <el-row class="toolFloor" :span="24" type="flex" justify="space-around">
-            <el-col :span="12">
-              <el-checkbox v-model="form.remember" class="checkBox">保持登录</el-checkbox>
-            </el-col>
-            <el-col :span="12" :push="3">
-              <el-link class="forget" :underline="false" @click="logChoice">{{ form.choice }}</el-link>
+          <el-row :class="{toolFloor:true}" :span="24">
+            <el-col :span="18">
+              <el-link
+                :class="{forget:true}"
+                :underline="false"
+                @click="logChoice"
+              >{{ form.choice }}</el-link>
             </el-col>
           </el-row>
           <el-form-item>
@@ -121,18 +124,24 @@
       enter-active-class="flipInY"
       leave-active-class="flipOutY"
     >
-      <div class="animated regForm delay-6s" v-if="showStatus == 2" key="regForm">
-        <el-form ref="regForm" :model="regForm" status-icon hide-required-asterisk>
+      <div class="animated delay-4s" :class="{regForm:true}" v-if="showStatus == 2" key="regForm">
+        <el-form
+          ref="regForm"
+          :model="regForm"
+          status-icon
+          hide-required-asterisk
+          :rules="regRules"
+        >
           <el-form-item label="RegName" prop="userName" :class="{regFocus:actFocus2.isFocus}">
             <el-input
               v-model="regForm.userName"
               autocomplete
-              minlength="4"
-              maxlength="20"
               show-word-limit
               @focus.stop="regFocus(actFocus2.name)"
               @blur.stop="regBlur(actFocus2.name)"
             ></el-input>
+            <!-- minlength="4" -->
+            <!-- maxlength="20" -->
           </el-form-item>
           <el-form-item label="Password" prop="passWord" :class="{regFocus:pwdFocus2.isFocus}">
             <el-input
@@ -155,11 +164,11 @@
               @blur.stop="regBlur(vpsFocus.name)"
             ></el-input>
           </el-form-item>
-
           <el-form-item prop="valiCode" label="Validate Code" :class="{regFocus:codeFocus.isFocus}">
             <el-input
               v-model="regForm.valiCode"
-              :class="{valiCode:true}"
+              id="valiCode"
+              :class="{valiInput:true}"
               maxlength="6"
               @focus.stop="regFocus(codeFocus.name)"
               @blur.stop="regBlur(codeFocus.name)"
@@ -167,10 +176,10 @@
               <el-button type="success" slot="suffix" :class="{valiBtn:true}" @click="getCode">
                 <el-tooltip
                   enterable
-                  content="更换验证码"
+                  content="换一个"
                   placement="top"
                   :style="{'fontSize':'5px'}"
-                  popper-class="{valiPop:true}"
+                  popper-class="valiPop"
                   effect="light"
                 >
                   <el-image :src="vCodeImg" fit="cover" :lazy="true"></el-image>
@@ -180,8 +189,8 @@
           </el-form-item>
           <el-form-item>
             <el-button-group :class="{regBtnGroup:true}">
-              <el-button type="success">注册账号</el-button>
-              <el-button type="primary" plain @click="clean">重置表单</el-button>
+              <el-button type="success" @click="formValidate('regForm')">注册账号</el-button>
+              <el-button type="primary" plain @click="clean('regForm')">重置表单</el-button>
             </el-button-group>
           </el-form-item>
         </el-form>
@@ -196,7 +205,6 @@
     >
       <div class="animated greet" v-if="showStatus == 0">
         <span>通用人事管理系统</span>
-        <!-- 叼你马人事 -->
       </div>
     </transition>
     <transition appear appear-active-class="rollIn" leave-active-class="disappear">
@@ -241,7 +249,15 @@
 import pexels2 from "@/assets/img/pexels-002.jpg";
 import pexels4 from "@/assets/img/pexels-004.jpg";
 import pexels5 from "@/assets/img/pexels-005.jpg";
-import { GetVCode, UserLogin, stripscript } from "_a/login.js";
+import {
+  GetVCode,
+  validateAccount,
+  validatePass,
+  validateVCode,
+  UserLogin,
+  stripscript,
+  Register
+} from "_a/login.js";
 import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
 export default {
   name: "login",
@@ -279,45 +295,36 @@ export default {
       valiCode: ""
     };
     const logRules = {
-      username: [
-        {
-          required: true,
-          message: "请输入用户名",
-          trigger: "change"
-        },
-        {
-          min: 4,
-          max: 20,
-          message: "长度应介于 4 到 20 个字符",
-          trigger: "change"
-        }
-      ],
-      password: [
-        {
-          required: true,
-          message: "请输入密码",
-          trigger: "change"
-        },
-        {
-          min: 4,
-          max: 20,
-          message: "长度应介于 4 到 20 个字符",
-          trigger: "change"
-        }
-      ],
-      valiCode: [
-        {
-          required: true,
-          message: "请输入验证码",
-          trigger: "change"
-        },
-        {
-          min: 6,
-          max: 6,
-          message: "长度应为6位",
-          trigger: "change"
-        }
-      ]
+      username: {
+        validator: this.validateUsername,
+        trigger: "blur"
+      },
+      password: {
+        validator: this.validatePassword,
+        trigger: "blur"
+      },
+      valiCode: {
+        validator: this.validateCode,
+        trigger: "blur"
+      }
+    };
+    const regRules = {
+      userName: {
+        validator: this.validateUsername,
+        trigger: "blur"
+      },
+      passWord: {
+        validator: this.validatePassword,
+        trigger: "blur"
+      },
+      valiPass: {
+        validator: this.validatePasswords,
+        trigger: "blur"
+      },
+      valiCode: {
+        validator: this.validateCode,
+        trigger: "blur"
+      }
     };
     let actFocus = {
       name: "username",
@@ -365,7 +372,8 @@ export default {
       regForm,
       vpsFocus,
       actFocus2,
-      pwdFocus2
+      pwdFocus2,
+      regRules
     };
   },
   methods: {
@@ -375,9 +383,79 @@ export default {
     }),
     ...mapActions({
       LOGIN: "login/LOGIN",
-      AUTOLOGIN: "login/AUTOLOGIN"
+      AUTOLOGIN: "login/AUTOLOGIN",
+      UNLOGIN: "login/USERNAMELOGIN"
     }),
+    validateUsername: function(rule, value, callback) {
+      console.log(value);
+      if (value === "") {
+        callback(new Error("请输入用户名"));
+      } else if (validateAccount(value)) {
+        callback(new Error("格式错误,应由8至20个字母加数字或2到10个汉字组成"));
+      } else {
+        callback(); //true
+      }
+    },
+    validatePassword: function(rule, value, callback) {
+      // 过滤后的数据
+      if (this.modes == "login") {
+        this.form.password = stripscript(value);
+        value = this.form.password;
+      } else if (this.modes == "register") {
+        this.regForm.passWord = stripscript(value);
+        value = this.regForm.passWord;
+      } else {
+        this.fogForm.passWord = stripscript(value);
+        value = this.fogForm.password;
+      }
+      if (value === "") {
+        callback(new Error("请输入密码"));
+      } else if (validatePass(value)) {
+        callback(new Error("密码应由8至20个数字加字母组成"));
+      } else {
+        callback();
+      }
+    }, // 验证重复密码
+    validatePasswords: function(rule, value, callback) {
+      // 如果模块值为login, 直接通过
+      if (this.modes === "login") {
+        callback();
+      }
+      // 过滤后的数据
+      this.regForm.passwords = stripscript(value);
+      value = this.regForm.valiPass;
+      if (value === "") {
+        callback(new Error("请再次输入密码"));
+      } else if (value != this.regForm.passWord) {
+        callback(new Error("重复密码不正确"));
+      } else {
+        callback();
+      }
+    },
+    validateCode: function(rule, value, callback) {
+      const flag = this.form.usePassword;
+      console.log(value,this.vCode);
+      if (value === "") {
+        this.getCode();
+        return callback(new Error("请输入验证码"));
+      } else if (validateVCode(value)) {
+        this.getCode();
+        return callback(new Error("验证码格式有误"));
+      } else if (this.vCode == value && flag == false && this.modes == "login") {
+        console.log("form.valiCode")
+        this.getCode();
+        callback();
+      } else if (
+        this.vCode == value &&
+        this.modes == "register"
+      ) {
+        console.log("regForm.valiCode")
+        this.getCode();
+        callback();
+      }
+    },
     switchMode: function(flag) {
+      // this.$refs.form.resetFields();
       this.SET_MODES(flag);
       this.modes = this.getModes;
       console.log(`showSwitch now ${this.modes}`);
@@ -395,14 +473,15 @@ export default {
         this.bgStatus = 0;
         this.SET_URL();
       }, 1800);
+      this.clean("form");
     },
     showRegForm: function() {
       this.getCode();
-      this.$refs.form.resetFields();
       this.showStatus = 2;
       setTimeout(() => {
         this.bgStatus = 1;
         this.SET_URL();
+        this.clean("regForm");
       }, 1500);
     },
     showFogForm: function() {
@@ -426,7 +505,7 @@ export default {
       this.switchMode("login");
       this.showStatus = 0;
       this.showForm.display = "none";
-      this.$refs["form"].resetFields();
+      // this.$refs.form.resetFields();
       this.actFocus.isFocus = false;
       this.pwdFocus.isFocus = false;
       this.codeFocus.isFocus = false;
@@ -443,13 +522,21 @@ export default {
     formValidate: function(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.login();
+          if (this.modes == "register") {
+            this.userRegister();
+          } else if (this.modes == "login") {
+            if (this.form.usePassword) {
+              this.login();
+            } else {
+              this.loginByCode(this.form.username);
+            }
+          }
         } else {
           this.$message({
             type: "error",
             message: "验证失败，请输入合法信息!!",
             offset: 230,
-            duration: 2000
+            duration: 2500
           });
         }
       });
@@ -486,16 +573,63 @@ export default {
             dangerouslyUseHTMLString: true,
             message: `<strong>${error}</strong>`,
             offset: 230,
-            duration: 2000
+            duration: 2500
           });
         });
-
-      // this.$router.push("/index");
-      // })
-      // .catch(res => new Error(`调用登录API失败: ${res}, 请稍后再试.`));
     },
-    clean: function() {
-      this.$refs.regForm.resetFields();
+    loginByCode: function(userName) {
+      this.UNLOGIN(userName)
+        .then(res => {
+          this.$message({
+            type: "success",
+            dangerouslyUseHTMLString: true,
+            message: `<strong>用户：${res} 登录成功！</strong> `,
+            offset: 230,
+            duration: 2000
+          });
+          this.$refs.form.resetFields();
+          this.actFocus.isFocus = false;
+          this.pwdFocus.isFocus = false;
+          this.codeFocus.isFocus = false;
+          this.$router.push("/index");
+        })
+        .catch(error => {
+          this.$message({
+            type: "error",
+            dangerouslyUseHTMLString: true,
+            message: `<strong>${error}</strong>`,
+            offset: 230,
+            duration: 2500
+          });
+        });
+    },
+    userRegister: function() {
+      let mpUser = {
+        userName: this.regForm.userName,
+        passWord: this.regForm.passWord
+      };
+      Register(mpUser)
+        .then(res => {
+          console.log(res);
+          console.log(res.data.data.userName);
+          this.$message.success({
+            message: res.data.msg,
+            offset: 230,
+            duration: 2500
+          });
+          this.loginByCode(res.data.data.userName);
+        })
+        .catch(err => {
+          this.$message.error({
+            message: err.data.msg,
+            offset: 230,
+            duration: 2500
+          });
+          this.getCode();
+        });
+    },
+    clean: function(formName) {
+      this.$refs[formName].resetFields();
     },
     getCode: function() {
       let result;
@@ -548,12 +682,13 @@ export default {
       return function(tag) {
         let act = this.form.username;
         let pwd = this.form.password;
-        let vps = this.form.valiPass;
-        if (act === "" && tag === "username") {
+        let cd = this.form.valiCode;
+        //
+        if (act == "" && tag === "username") {
           return (this.actFocus.isFocus = !this.actFocus.isFocus);
-        } else if (pwd === "" && tag === "password") {
+        } else if (pwd == "" && tag === "password") {
           return (this.pwdFocus.isFocus = !this.pwdFocus.isFocus);
-        } else {
+        } else if (cd == "" && tag === "valiCode") {
           return (this.codeFocus.isFocus = !this.codeFocus.isFocus);
         }
       };
@@ -564,13 +699,13 @@ export default {
       let vps = this.regForm.valiPass;
       let cd = this.regForm.valiCode;
       return function(tag) {
-        if (act === "" && tag === "userName") {
+        if (act == "" && tag === "userName") {
           return (this.actFocus2.isFocus = !this.actFocus2.isFocus);
-        } else if (pwd === "" && tag === "passWord") {
+        } else if (pwd == "" && tag === "passWord") {
           return (this.pwdFocus2.isFocus = !this.pwdFocus2.isFocus);
-        } else if (vps === "" && tag === "valiPass") {
+        } else if (vps == "" && tag === "valiPass") {
           return (this.vpsFocus.isFocus = !this.vpsFocus.isFocus);
-        } else {
+        } else if (cd == "" && tag === "valiCode") {
           return (this.codeFocus.isFocus = !this.codeFocus.isFocus);
         }
       };
@@ -579,12 +714,12 @@ export default {
       return function(tag) {
         let act = this.form.username;
         let pwd = this.form.password;
-        let vps = this.form.valiPass;
-        if (act === "" && tag === "username") {
+        let cd = this.form.valiCode;
+        if (act == "" && tag === "username") {
           return (this.actFocus.isFocus = false);
-        } else if (pwd === "" && tag === "password") {
+        } else if (pwd == "" && tag === "password") {
           return (this.pwdFocus.isFocus = false);
-        } else {
+        } else if (cd == "" && tag === "valiCode") {
           return (this.codeFocus.isFocus = false);
         }
       };
@@ -595,13 +730,13 @@ export default {
       let vps = this.regForm.valiPass;
       let cd = this.regForm.valiCode;
       return function(tag) {
-        if (act === "" && tag === "userName") {
+        if (act == "" && tag === "userName") {
           this.actFocus2.isFocus = false;
-        } else if (pwd === "" && tag === "passWord") {
+        } else if (pwd == "" && tag === "passWord") {
           this.pwdFocus2.isFocus = false;
-        } else if (vps === "" && tag === "valiPass") {
+        } else if (vps == "" && tag === "valiPass") {
           this.vpsFocus.isFocus = false;
-        } else if (cd === "" && tag === "valiCode") {
+        } else if (cd == "" && tag === "valiCode") {
           this.codeFocus.isFocus = false;
         }
       };

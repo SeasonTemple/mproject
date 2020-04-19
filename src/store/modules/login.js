@@ -6,11 +6,11 @@ import {
   removeToKen,
   removeUserName,
   setUserName,
-  getUserName,
   getToKen
 } from '_u/loginMsg.js';
 import {
   UserLogin,
+  UserNameLogin,
   SSO
 } from "_a/login.js";
 const state = {
@@ -123,7 +123,30 @@ const actions = {
         })
       }
     })
-  }
+  },
+  USERNAMELOGIN({
+    commit
+  }, requestData) {
+    return new Promise((resolve, reject) => {
+      UserNameLogin(requestData).then((res) => {
+        console.log(res)
+        let data = res.data.data
+        let status = res.data.code;
+        let token = res.headers.authorization;
+        if (status == 10201 || status == 10200) {
+          commit('SET_TOKEN', token);
+          commit('SET_USERNAME', data.userName);
+          setToKen(token);
+          setUserName(data.userName);
+          resolve(data.userName)
+        } else {
+          reject(res.data.msg)
+        }
+      }).catch(error => {
+        reject(error)
+      })
+    })
+  },
 
 }
 
