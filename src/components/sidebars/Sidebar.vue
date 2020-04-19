@@ -38,9 +38,8 @@
           </template>
           <el-menu-item-group>
             <el-menu-item index="2-1">职工管理</el-menu-item>
-            <el-menu-item index="2-2">项目管理</el-menu-item>
-            <el-menu-item index="2-3">部门管理</el-menu-item>
-            <el-menu-item index="2-4">报表管理</el-menu-item>
+            <el-menu-item index="2-2">职门管理</el-menu-item>
+            <el-menu-item index="2-3">报表管理</el-menu-item>
             <el-menu-item index="2-5">申请管理</el-menu-item>
           </el-menu-item-group>
         </el-submenu>

@@ -77,22 +77,14 @@ body {
   font-weight: bold;
   line-height: 1em; }
 
-.forget {
-  color: white;
-  transition: all ease-in-out .5s; }
-  .forget:visited {
-    color: black; }
-  .forget:hover {
-    font-weight: bold;
-    transition: all ease-in-out .5s; }
-  .forget:active {
-    color: rgba(3, 31, 82, 0.877); }
-
 .push1 {
   margin-bottom: 40px; }
 
 .push2 {
   margin: 0px 0 40px 0; }
+
+.push3 {
+  margin: 40px 0 40px 0; }
 
 .isSwitch {
   animation: SwitchMode linear 1s;

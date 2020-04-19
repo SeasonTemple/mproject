@@ -1,6 +1,6 @@
 import logImg from '@/assets/img/pexels-002.jpg';
-import regImg from '@/assets/img/pexels-004.jpg';
-import fogImg from '@/assets/img/pexels-005.jpg';
+import regImg from '@/assets/img/pexels-007.jpg';
+import fogImg from '@/assets/img/pexels-004.jpg';
 const state = {
   modes: JSON.parse(sessionStorage.getItem('modes')) == null || 'login' ? 'login' : JSON.parse(sessionStorage.getItem('modes')),
   url: JSON.parse(sessionStorage.getItem('url')) == null || logImg+'' ? logImg : JSON.parse(sessionStorage.getItem('url'))

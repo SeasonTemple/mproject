@@ -44,6 +44,22 @@ body {
     .logPop .popper__arrow::after {
       border-color: transparent !important; }
 
+.valiPop {
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  background: transparent !important;
+  border: 1px solid rgba(224, 224, 224, 0.959);
+  text-align: center;
+  letter-spacing: 12px;
+  font-size: 1rem !important;
+  padding: 5px; }
+  .valiPop .popper__arrow {
+    border-top-color: rgba(255, 255, 255, 0.8) !important;
+    border-right-color: transparent;
+    border-left-color: transparent;
+    border-bottom-color: rgba(255, 255, 255, 0.8) !important; }
+    .valiPop .popper__arrow::after {
+      border-color: transparent !important; }
+
 .checkBox {
   color: rgba(255, 255, 255, 0.9); }
   .checkBox .el-checkbox__input.is-checked + .el-checkbox__label {
@@ -58,9 +74,126 @@ body {
   font-size: .9em;
   position: relative;
   padding: 0;
-  top: 35px;
+  top: 35px !important;
   left: 12%;
   transition: font-size .2s linear, top .2s linear; }
+
+.el-form-item.regFocus .el-form-item__label {
+  font-size: .9em !important;
+  position: relative;
+  padding: 0;
+  top: 35px !important;
+  left: 12%;
+  transition: font-size .2s linear, top .2s linear; }
+
+.regForm {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  margin-top: -230px;
+  margin-left: -200px;
+  height: 460px;
+  width: 400px;
+  background-color: transparent;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  box-sizing: border-box;
+  animation-delay: all 6s !important; }
+  .regForm .el-input__count-inner {
+    font-size: 16px;
+    font-weight: 300;
+    background: transparent !important;
+    color: rgba(0, 0, 0, 0.466);
+    padding: 20px 33px 0 0 !important; }
+  .regForm .el-input__prefix {
+    left: 42px;
+    top: 19px;
+    font-size: 22px;
+    color: rgba(0, 0, 0, 0.466); }
+  .regForm .el-input .el-input__clear {
+    font-size: 20px;
+    font-weight: 300;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.76);
+    padding: 14px 30px 0 0; }
+  .regForm .el-input-group__prepend {
+    background: transparent;
+    border: none;
+    color: rgba(0, 0, 0, 0.466);
+    padding: 20px 10px 0 28px;
+    font-size: 25px; }
+  .regForm .el-input-group__append {
+    background: transparent;
+    border: none;
+    color: rgba(0, 0, 0, 0.466);
+    padding: 20px 0 0 0;
+    font-size: 25px; }
+  .regForm .el-form-item__content {
+    top: 0px;
+    margin: 20px 0 0 0;
+    height: 20px;
+    box-sizing: border-box; }
+  .regForm .el-form-item {
+    margin-bottom: 0px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    height: 80px; }
+    .regForm .el-form-item .el-form-item__label {
+      position: relative;
+      padding: 0;
+      top: 58px;
+      left: 12%;
+      font-size: 1.3em;
+      color: rgba(224, 224, 224, 0.959); }
+  .regForm .el-form-item__content {
+    height: 60px !important; }
+  .regForm .el-input__inner {
+    position: relative;
+    font-size: 1.3em;
+    text-indent: 2%;
+    color: rgba(224, 224, 224, 0.959);
+    background-color: transparent;
+    border-top-style: none;
+    border-left-style: none;
+    border-right-style: none;
+    border-radius: 0;
+    border-bottom: 2px solid rgba(48, 39, 39, 0.432);
+    padding: 0 0 0 3px;
+    box-sizing: border-box;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    margin: 20px 0 0 0;
+    left: 10%;
+    width: 80%; }
+    .regForm .el-input__inner:focus {
+      outline: none;
+      border-color: rgba(224, 224, 224, 0.959); }
+    .regForm .el-input__inner:hover {
+      outline: none;
+      border-bottom: 2px solid rgba(224, 224, 224, 0.959); }
+  .regForm::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -230px;
+    margin-left: -200px;
+    height: 460px;
+    width: 400px;
+    border: 1px solid rgba(228, 221, 221, 0.5);
+    border-radius: 10px;
+    box-sizing: border-box;
+    background-color: rgba(119, 117, 117, 0.253);
+    filter: blur(1px); }
+  .regForm > .el-form {
+    margin: 10px 10px 20px 10px; }
+
+.regBtnGroup {
+  position: absolute;
+  display: block;
+  text-align: center;
+  width: 80%;
+  margin: 50px 0 0 40px; }
+  .regBtnGroup .el-button {
+    width: 50%; }
 
 .left .el-input__inner {
   position: relative;
@@ -84,6 +217,24 @@ body {
   .left .el-input__inner:hover {
     outline: none;
     border-bottom: 2px solid rgba(224, 224, 224, 0.959); }
+
+.forget .el-link--inner {
+  color: white !important;
+  padding-top: 1px !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  transition: all ease-in-out .5s; }
+  .forget .el-link--inner:visited {
+    color: black !important;
+    transition: all ease-in-out .5s; }
+  .forget .el-link--inner:hover {
+    transform: scale(1.2);
+    font-weight: 800 !important;
+    color: #409EFF !important;
+    transition: all ease-in-out .5s; }
+  .forget .el-link--inner:active {
+    color: #f9fce4 !important;
+    transition: all ease-in-out .5s; }
 
 #valiCode {
   font-size: 1.3em;

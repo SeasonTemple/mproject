@@ -35,6 +35,7 @@ body {
     // text-shadow: -1px 1px rgb(148, 5, 5),
     //   1px -1px rgb(148, 5, 5);
   }
+
   .el-input__validateIcon {
     position: relative;
     padding: 0;
@@ -50,6 +51,27 @@ body {
   letter-spacing: 12px;
   font-size: 1rem !important;
   padding: 8px 0px 8px 12px;
+
+  .popper__arrow {
+    border-top-color: rgba(255, 255, 255, .8) !important;
+    border-right-color: transparent;
+    border-left-color: transparent;
+    border-bottom-color: rgba(255, 255, 255, .8) !important;
+
+    &::after {
+      border-color: transparent !important;
+    }
+  }
+}
+
+.valiPop {
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  background: transparent !important;
+  border: 1px solid rgba(224, 224, 224, 0.959);
+  text-align: center;
+  letter-spacing: 12px;
+  font-size: 1rem !important;
+  padding: 5px;
 
   .popper__arrow {
     border-top-color: rgba(255, 255, 255, .8) !important;
@@ -97,9 +119,169 @@ body {
     font-size: .9em;
     position: relative;
     padding: 0;
-    top: 35px;
+    top: 35px !important;
     left: 12%;
     transition: font-size .2s linear, top .2s linear;
+  }
+}
+
+.el-form-item.regFocus {
+    .el-form-item__label {
+    font-size: .9em !important;
+    position: relative;
+    padding: 0;
+    top: 35px !important;
+    left: 12%;
+    transition: font-size .2s linear, top .2s linear;
+  }
+}
+
+
+.regForm {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  margin-top: -230px;
+  margin-left: -200px;
+  height: 460px;
+  width: 400px;
+  background-color: transparent;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  box-sizing: border-box;
+  animation-delay: all 6s !important;
+
+  // animation:  4s ease-in-out;
+  // Special-Effects-Login
+  // box-shadow: -8px 8px 6px rgba(88, 88, 88, .5);
+  .el-input__count-inner {
+    font-size: 16px;
+    font-weight: 300;
+    background: transparent !important;
+    color: rgba(0, 0, 0, 0.466);
+    // color: rgba(255, 255, 255, 0.76);
+    padding: 20px 33px 0 0 !important;
+  }
+
+  .el-input__prefix {
+    left: 42px;
+    top: 19px;
+    font-size: 22px;
+    color: rgba(0, 0, 0, 0.466);
+  }
+
+  .el-input .el-input__clear {
+    font-size: 20px;
+    font-weight: 300;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.76);
+    padding: 14px 30px 0 0;
+  }
+
+  .el-input-group__prepend {
+    background: transparent;
+    border: none;
+    color: rgba(0, 0, 0, 0.466);
+    padding: 20px 10px 0 28px;
+    font-size: 25px;
+  }
+
+  .el-input-group__append {
+    background: transparent;
+    border: none;
+    color: rgba(0, 0, 0, 0.466);
+    padding: 20px 0 0 0;
+    font-size: 25px;
+  }
+
+  .el-form-item__content {
+    top: 0px;
+    margin: 20px 0 0 0;
+    height: 20px;
+    box-sizing: border-box;
+  }
+
+  .el-form-item {
+    margin-bottom: 0px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    height: 80px;
+
+    .el-form-item__label {
+      position: relative;
+      padding: 0;
+      top: 58px;
+      left: 12%;
+      font-size: 1.3em;
+      color: rgba(224, 224, 224, 0.959);
+    }
+  }
+
+  .el-form-item__content {
+    height: 60px !important;
+  }
+
+  .el-input__inner {
+    position: relative;
+    font-size: 1.3em;
+    text-indent: 2%;
+    color: rgba(224, 224, 224, 0.959);
+    background-color: transparent;
+    border-top-style: none;
+    border-left-style: none;
+    border-right-style: none;
+    border-radius: 0;
+    border-bottom: 2px solid rgba(48, 39, 39, 0.432);
+    padding: 0 0 0 3px;
+    box-sizing: border-box;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    margin: 20px 0 0 0;
+    left: 10%;
+    width: 80%;
+
+    &:focus {
+      outline: none;
+      border-color: rgba(224, 224, 224, 0.959);
+    }
+
+    &:hover {
+      outline: none;
+      border-bottom: 2px solid rgba(224, 224, 224, 0.959);
+    }
+  }
+
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -230px;
+    margin-left: -200px;
+    height: 460px;
+    width: 400px;
+    border: 1px solid rgba(228, 221, 221, .5);
+    border-radius: 10px;
+    box-sizing: border-box;
+    background-color: rgba(119, 117, 117, 0.253);
+    // background-color: rgba(255, 255, 255, 0.253);
+    filter: blur(1px);
+  }
+
+  &>.el-form {
+    margin: 10px 10px 20px 10px;
+
+  }
+}
+
+.regBtnGroup {
+  position: absolute;
+  display: block;
+  text-align: center;
+  width: 80%;
+  margin: 50px 0 0 40px;
+
+  .el-button {
+    width: 50%;
   }
 }
 
@@ -124,14 +306,40 @@ body {
     outline: none;
     border-color: rgba(224, 224, 224, 0.959);
     // animation: btColor 4s linear infinite;
-
-
   }
 
   &:hover {
     outline: none;
     border-bottom: 2px solid rgba(224, 224, 224, 0.959);
   }
+}
+
+.forget {
+  .el-link--inner {
+    color: rgb(255, 255, 255) !important;
+    padding-top: 1px !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    transition: all ease-in-out .5s;
+
+    &:visited {
+      color: rgb(0, 0, 0) !important;
+      transition: all ease-in-out .5s;
+    }
+
+    &:hover {
+      transform: scale(1.2);
+      font-weight: 800 !important;
+      color: #409EFF !important;
+      transition: all ease-in-out .5s;
+    }
+
+    &:active {
+      color: rgb(249, 252, 228) !important;
+      transition: all ease-in-out .5s;
+    }
+  }
+
 }
 
 #valiCode {
@@ -172,14 +380,6 @@ body {
   color: rgba(255, 255, 255, 0.76);
   padding: 14px 30px 0 0;
 }
-
-// .el-icon-right{
-//   font-size: 30px;
-//   &:hover{
-//     width: 0%;
-//     transition: width linear 1s r;
-//   }
-// }
 
 .left .el-input-group__prepend {
   background: transparent;

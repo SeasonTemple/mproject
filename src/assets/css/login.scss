@@ -48,6 +48,8 @@ body {
   }
 }
 
+
+
 .valiBtn {
   margin: 19px 28px 0 0;
   background: transparent;
@@ -91,6 +93,8 @@ body {
   }
 }
 
+
+
 .toolFloor {
   position: relative;
   display: block;
@@ -101,32 +105,16 @@ body {
   line-height: 1em;
 }
 
-.forget {
-  color: rgb(255, 255, 255);
-  transition: all ease-in-out .5s;
-
-
-  &:visited {
-    color: rgb(0, 0, 0);
-  }
-
-  &:hover {
-    font-weight: bold;
-    transition: all ease-in-out .5s;
-  }
-
-  &:active {
-    color: rgba(3, 31, 82, 0.877);
-  }
-
-}
-
 .push1 {
   margin-bottom: 40px;
 }
 
 .push2 {
   margin: 0px 0 40px 0;
+}
+
+.push3 {
+  margin: 40px 0 40px 0;
 }
 
 .isSwitch {

@@ -352,7 +352,7 @@ export default {
       _this.time = dayjs().format("YYYY/MM/DD</br>HH:mm:ss");
     }, 1000);
     this.drawCharts();
-    this.getUsers();
+    // this.getUsers();
   },
   beforeDestroy() {
     //实例销毁前清除定时器

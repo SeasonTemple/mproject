@@ -4,7 +4,7 @@
       <div class="clearfix animated">
         <transition appear appear-active-class="bounceInLeft" enter-active-class="bounceInLeft">
           <el-tooltip effect="light" content="全部显示" placement="top">
-            <el-button type="primary" class="animated" icon="el-icon-bell" plain circle @click="showInformations">
+            <el-button type="primary" class="animated" icon="el-icon-bell" plain circle @click="showInformation">
             </el-button>
           </el-tooltip>
         </transition>
@@ -39,17 +39,17 @@
   export default {
     name: 'information',
     data() {
-      const infomations = [];
+      const informations = [];
       const keyword = '';
       return {
-        infomations,
+        informations,
         keyword
       }
     },
     methods: {
-      showInformations() {
+      showInformation() {
         const h = this.$createElement;
-        const sources = this.infomations;
+        const sources = this.informations;
         const position = ['top-right', 'top-left', 'bottom-left', 'bottom-right'];
         // console.log((Math.random() * position.length | 0));
         sources.forEach(s => {
@@ -73,14 +73,14 @@
         this.timer = null;
       },
       querySearch(queryString, cb) {
-        var infomations = this.infomations;
-        var results = queryString ? infomations.filter(this.createFilter(queryString)) : infomations;
+        var informations = this.informations;
+        var results = queryString ? informations.filter(this.createFilter(queryString)) : informations;
         // 调用 callback 返回建议列表的数据
         cb(results);
       },
       createFilter(queryString) {
-        return (infomation) => {
-          return (infomation.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+        return (information) => {
+          return (information.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
         };
       },
       loadAll() {
@@ -147,7 +147,7 @@
       }
     },
     mounted() {
-      this.infomations = this.loadAll();
+      this.informations = this.loadAll();
     }
   }
 </script>
