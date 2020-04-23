@@ -149,9 +149,7 @@ body {
   position: absolute;
   background-size: 100%;
   z-index: -10;
-  opacity: 0.8;
-  animation-timing-function: linear;
-  animation-duration: 2.22s; }
+  opacity: 0.8; }
 
 .goRegister {
   display: block;
@@ -239,6 +237,12 @@ body {
 
 .disappear2 {
   animation: hideGreet linear 1.5s; }
+
+.dialogFooter {
+  display: block;
+  width: 100%; }
+  .dialogFooter .el-button {
+    width: 100%; }
 
 .goForget {
   display: block;

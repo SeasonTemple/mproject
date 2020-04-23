@@ -6,7 +6,8 @@ import {
   removeToKen,
   removeUserName,
   setUserName,
-  getToKen
+  getToKen,
+  getUserName
 } from '_u/loginMsg.js';
 import {
   UserLogin,
@@ -16,15 +17,15 @@ import {
 const state = {
   roles: [],
   to_ken: '',
-  // username: getUserName() || '',
+  username: getUserName() || '',
   modes: JSON.parse(sessionStorage.getItem('modes')) == null || 'login' ? 'login' : JSON.parse(sessionStorage.getItem('modes')),
-  url: JSON.parse(sessionStorage.getItem('url')) == null || logImg + '' ? logImg : JSON.parse(sessionStorage.getItem('url'))
+  // url: JSON.parse(sessionStorage.getItem('url')) == null || logImg + '' ? logImg : JSON.parse(sessionStorage.getItem('url'))
   // JSON.parse(sessionStorage.getItem('modes')).length >  0
 }
 
 const getters = {
   GET_MODES: state => state.modes,
-  GET_URL: state => state.url,
+  // GET_URL: state => state.url,
   roles: state => state.roles,
 }
 
@@ -33,21 +34,21 @@ const mutations = {
     state.modes = payload + '';
     sessionStorage.setItem('modes', JSON.stringify(state.modes));
   },
-  SET_URL: ({
-    modes
-  }) => {
-    // if(state.modes == 'login'){
-    //   state.url = logImg
-    // }else if(state.modes == 'register'){
-    //   state.url = regImg
-    // }else{
-    //   state.url = fogImg; 
-    // }
-    console.log(`From store : ${modes}`)
-    modes == 'login' ? state.url = logImg : (modes == 'register' ? state.url = regImg : state.url = fogImg);
-    sessionStorage.setItem('url', JSON.stringify(state.url));
-    // console.log(`From store after : ${state.modes} / ${state.url}`)
-  },
+  // SET_URL: ({
+  //   modes
+  // }) => {
+  // if(state.modes == 'login'){
+  //   state.url = logImg
+  // }else if(state.modes == 'register'){
+  //   state.url = regImg
+  // }else{
+  //   state.url = fogImg; 
+  // }
+  //   console.log(`From store : ${modes}`)
+  //   modes == 'login' ? state.url = logImg : (modes == 'register' ? state.url = regImg : state.url = fogImg);
+  //   sessionStorage.setItem('url', JSON.stringify(state.url));
+  //   // console.log(`From store after : ${state.modes} / ${state.url}`)
+  // },
   SET_TOKEN(state, value) {
     state.to_ken = value
   },
@@ -68,6 +69,7 @@ const actions = {
   }, requestData) {
     return new Promise((resolve, reject) => {
       UserLogin(requestData).then((res) => {
+        console.log(res)
         let data = res.data.data
         let status = res.data.code;
         let token = res.headers.authorization;
@@ -76,9 +78,9 @@ const actions = {
           commit('SET_USERNAME', data.userName);
           setToKen(token);
           setUserName(data.userName);
-          resolve(data.userName)
+          resolve(data)
         } else {
-          reject(res.data.msg)
+          reject(data)
         }
       }).catch(error => {
         reject(error)
@@ -89,6 +91,7 @@ const actions = {
     commit
   }) {
     return new Promise((resolve, reject) => {
+      console.log("????")
       removeToKen();
       removeUserName();
       commit('SET_TOKEN', '');
@@ -102,10 +105,11 @@ const actions = {
     commit
   }) {
     return new Promise((resolve, reject) => {
-      let token = getToKen();
-      console.log(this.state.to_ken, getToKen())
-      if (token != "" && token != null) {
+      // let token = getToKen();
+      // console.log(this.state.to_ken, getToKen())
+      if (getToKen() != "" || getToKen() != null) {
         SSO(token).then((res) => {
+          console.log(res)
           let data = res.data.data
           let status = res.data.code;
           let token = res.headers.authorization;
@@ -116,11 +120,17 @@ const actions = {
             setUserName(data.userName);
             resolve(data.userName)
           } else {
+            setToKen("");
+            setUserName("");
             reject(res.data.msg)
           }
         }).catch(error => {
+          this.EXIT()
           reject(error)
         })
+      } else {
+        setToKen("");
+        setUserName("");
       }
     })
   },

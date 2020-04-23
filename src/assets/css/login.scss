@@ -195,8 +195,8 @@ body {
   background-size: 100%;
   z-index: -10;
   opacity: 0.8;
-  animation-timing-function: linear;
-  animation-duration: 2.22s;
+  // animation-timing-function: linear;
+  // animation-duration: 2.22s;
 }
 
 .goRegister {
@@ -297,6 +297,14 @@ body {
 
 .disappear2 {
   animation: hideGreet linear 1.5s;
+}
+
+.dialogFooter {
+  display: block;
+  width: 100%;
+  .el-button {
+    width: 100%;
+  }
 }
 
 .goForget {
@@ -509,7 +517,6 @@ body {
   height: 100%;
   transition: .5s;
 }
-
 
 .logBtn {
   display: block;

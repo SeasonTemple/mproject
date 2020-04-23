@@ -55,7 +55,7 @@
   const path = require('path')
   const files = require.context('_d/', false, /\.vue$/)
   const modules = {}
-  files.keys().forEach(key => {
+  files.keys().filter(key=>path.basename(key, '.vue')!="Analyze").forEach(key => {
     const name = path.basename(key, '.vue')
     modules[name] = files(key).default || files(key)
   });
@@ -153,7 +153,7 @@
         }
         let obj = modules;
         const nameMap = new Map();
-        nameMap.set('Detail', '详情信息');
+        nameMap.set('Detail', '用户详情');
         nameMap.set('Process', '项目进展');
         nameMap.set('Report', '工作报表');
         nameMap.set('Request', '事务申请');

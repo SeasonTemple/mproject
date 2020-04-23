@@ -1,0 +1,6 @@
+@charset 'UTF-8';
+@import 'sassConfig';
+
+#nprogress .bar {
+  background: $nprogress-color !important; //自定义颜色
+}

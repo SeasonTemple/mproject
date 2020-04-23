@@ -1,15 +1,8 @@
 <template>
   <section>
-    <transition enter-to-class="slideInUp" leave-active-class="slideOutUp">
-      <el-image
-        class="bgStyle animated"
-        :src="url"
-        fit="cover"
-        :lazy="true"
-        v-if="bgStatus == 0"
-        key="login"
-      ></el-image>
-      <el-image
+    <!-- <transition enter-to-class="slideInUp" leave-active-class="slideOutUp"> -->
+    <el-image class="bgStyle animated" :src="url" fit="cover" :lazy="true" key="login"></el-image>
+    <!-- <el-image
         class="bgStyle animated"
         :src="url"
         fit="cover"
@@ -24,8 +17,8 @@
         :lazy="true"
         v-if="bgStatus == 2"
         key="forget"
-      ></el-image>
-    </transition>
+    ></el-image>-->
+    <!-- </transition> -->
 
     <transition-group
       appear
@@ -124,7 +117,7 @@
       enter-active-class="flipInY"
       leave-active-class="flipOutY"
     >
-      <div class="animated delay-4s" :class="{regForm:true}" v-if="showStatus == 2" key="regForm">
+      <div class="animated delay-2s" :class="{regForm:true}" v-if="showStatus == 2" key="regForm">
         <el-form
           ref="regForm"
           :model="regForm"
@@ -232,7 +225,7 @@
       enter-active-class="bounceInRight"
       leave-to-class="fadeOutUpBig"
     >
-      <div class="animated goForget" v-if="showStatus < 2">账号找回</div>
+      <div class="animated goForget" v-if="showStatus < 2" @click="showFogForm">账号找回</div>
     </transition>
     <transition
       appear
@@ -240,8 +233,51 @@
       enter-active-class="bounceInUp"
       leave-to-class="fadeOutUpBig"
     >
-      <div class="animated goRegister" v-if="showStatus < 2" @click="switchMode('register')">点此前往注册</div>
+      <div class="animated goRegister" v-if="showStatus < 2" @click="switchMode('register')">点此注册</div>
     </transition>
+    <el-row :xs="12" :sm="18" :md="18" :lg="18" :xl="18">
+      <el-dialog
+        title="账号找回"
+        :visible.sync="dialogFormVisible"
+        center
+        width="30%"
+        class="animated fadeInDown"
+        custom-class="fogForm"
+      >
+        <el-form :model="fogForm" :style="{textAlign:'center'}" label-position="left">
+          <el-form-item label="用户名" :label-width="formLabelWidth">
+            <el-input v-model="fogForm.userName" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="邮箱" :label-width="formLabelWidth">
+            <el-input v-model="fogForm.email" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="验证码" :label-width="formLabelWidth">
+            <el-row :span="24">
+              <el-col :span="16">
+                <el-input v-model="fogForm.valiCode" autocomplete="off"></el-input>
+              </el-col>
+              <el-col :span="8">
+                <el-button plain type="success" class="block"  @click="getSms()" :disabled="codeButtonStatus.status" >
+                  {{ codeButtonStatus.text }}
+                  </el-button>
+              </el-col>
+            </el-row>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" :span="24">
+          <!-- <el-button-group > -->
+            <el-row>
+              <el-col :span="12">
+                <el-button type="success" plain @click="dialogFormVisible = false" :class="{fogBtn1:true}" >确 定</el-button>
+              </el-col>
+              <el-col :span="12">
+                <el-button type="primary" plain @click="dialogFormVisible = false" :class="{fogBtn2:true}" >取 消</el-button>
+              </el-col>
+            </el-row>
+          <!-- </el-button-group> -->
+        </div>
+      </el-dialog>
+    </el-row>
   </section>
 </template>
 
@@ -253,11 +289,14 @@ import {
   GetVCode,
   validateAccount,
   validatePass,
+  validateEmail,
   validateVCode,
   UserLogin,
   stripscript,
-  Register
+  Register,
+  GetMsg
 } from "_a/login.js";
+import { removeToKen, removeUserName } from "_u/loginMsg.js";
 import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
 export default {
   name: "login",
@@ -292,6 +331,11 @@ export default {
       userName: "",
       passWord: "",
       valiPass: "",
+      valiCode: ""
+    };
+    let fogForm = {
+      userName: "",
+      email: "",
       valiCode: ""
     };
     const logRules = {
@@ -355,7 +399,16 @@ export default {
     };
     let showStatus = 0;
     let bgStatus = 0;
+    let dialogFormVisible = false;
+    let formLabelWidth = "60px";
+    const codeButtonStatus = {
+      status: false,
+      text: "获取验证码"
+    };
+    const timer2 = null;
     return {
+      codeButtonStatus,
+      timer2,
       modes,
       url,
       bgImg,
@@ -373,19 +426,87 @@ export default {
       vpsFocus,
       actFocus2,
       pwdFocus2,
-      regRules
+      regRules,
+      dialogFormVisible,
+      formLabelWidth,
+      fogForm
     };
   },
   methods: {
     ...mapMutations({
-      SET_MODES: "login/SET_MODES",
-      SET_URL: "login/SET_URL"
+      SET_MODES: "login/SET_MODES"
+      // SET_URL: "login/SET_URL"
     }),
     ...mapActions({
       LOGIN: "login/LOGIN",
       AUTOLOGIN: "login/AUTOLOGIN",
       UNLOGIN: "login/USERNAMELOGIN"
     }),
+    getSms: function() {
+      // 进行提示
+      if (this.fogForm.email == "") {
+        this.$message.error("邮箱不能为空！！");
+        return false;
+      }
+      if (validateEmail(this.fogForm.email)) {
+        this.$message.error("邮箱格式有误，请重新输入！！");
+        return false;
+      }
+      // 修改获取验证按钮状态
+      this.updateButtonStatus({
+        status: true,
+        text: "发送中"
+      });
+      // 延时多长时间
+      GetMsg(this.fogForm.email)
+        .then(response => {
+          let data = response.data;
+          this.$message({
+            message: data.message,
+            type: "success",
+            dangerouslyUseHTMLString: true
+          });
+          this.countDown(60);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    updateButtonStatus: function(params) {
+      this.codeButtonStatus.status = params.status;
+      this.codeButtonStatus.text = params.text;
+    },
+    countDown: function(number) {
+      // 60 和 0不见了，故意留BUG
+      // setTimeout:clearTimeout(变量)  只执行一次
+      // setInterval:clearInterval(变量))  不断的执行，需要条件才会停止
+      // 判断定时器是否存在，存在则清除
+      if (this.timer2.value) {
+        clearInterval(this.timer2.value);
+      }
+      let time = number;
+      this.timer2.value = setInterval(() => {
+        time--;
+        if (time === 0) {
+          clearInterval(this.timer2.value);
+          this.updateButtonStatus({
+            status: false,
+            text: "再次获取"
+          });
+        } else {
+          this.codeButtonStatus.text = `倒计时${time}秒`; // es5 '倒计时' + time + '秒'
+        }
+      }, 1000);
+    },
+    clearCountDown: function() {
+      // 还原验证码按钮默认状态
+      updateButtonStatus({
+        status: false,
+        text: "获取验证码"
+      });
+      // 清除倒计时
+      clearInterval(this.timer2.value);
+    },
     validateUsername: function(rule, value, callback) {
       console.log(value);
       if (value === "") {
@@ -434,22 +555,23 @@ export default {
     },
     validateCode: function(rule, value, callback) {
       const flag = this.form.usePassword;
-      console.log(value,this.vCode);
+      console.log(value, this.vCode);
       if (value === "") {
-        this.getCode();
+        // this.getCode();
         return callback(new Error("请输入验证码"));
       } else if (validateVCode(value)) {
         this.getCode();
         return callback(new Error("验证码格式有误"));
-      } else if (this.vCode == value && flag == false && this.modes == "login") {
-        console.log("form.valiCode")
-        this.getCode();
-        callback();
       } else if (
         this.vCode == value &&
-        this.modes == "register"
+        flag == false &&
+        this.modes == "login"
       ) {
-        console.log("regForm.valiCode")
+        console.log("form.valiCode");
+        this.getCode();
+        callback();
+      } else if (this.vCode == value && this.modes == "register") {
+        console.log("regForm.valiCode");
         this.getCode();
         callback();
       }
@@ -464,32 +586,33 @@ export default {
         : this.modes == "register"
         ? this.showRegForm()
         : this.showFogForm();
-      console.log(`switchMode now ${this.modes} / ${this.url}`);
+      console.log(`switchMode now ${this.modes} `);
     },
     showLogForm: function() {
-      this.showStatus = 1;
-      // this.showForm.display = 'block';
       setTimeout(() => {
-        this.bgStatus = 0;
-        this.SET_URL();
-      }, 1800);
-      this.clean("form");
+        this.showStatus = 1;
+        // this.showForm.display = "block";
+        //   this.bgStatus = 0;
+        //   this.SET_URL();
+      }, 1000);
+      // this.clean("form");
     },
     showRegForm: function() {
       this.getCode();
-      this.showStatus = 2;
       setTimeout(() => {
-        this.bgStatus = 1;
-        this.SET_URL();
-        this.clean("regForm");
-      }, 1500);
+        this.showStatus = 2;
+        //   this.bgStatus = 1;
+        //   this.SET_URL();
+        //   this.clean("regForm");
+      }, 1000);
     },
     showFogForm: function() {
+      // setTimeout(() => {
       this.showStatus = 3;
-      setTimeout(() => {
-        this.bgStatus = 2;
-        this.SET_URL();
-      }, 1800);
+      this.dialogFormVisible = true;
+      // this.bgStatus = 2;
+      // this.SET_URL();
+      // }, 1000);
     },
     showSwitch: function(flag) {
       this.SET_MODES(flag);
@@ -504,7 +627,7 @@ export default {
     reset: function() {
       this.switchMode("login");
       this.showStatus = 0;
-      this.showForm.display = "none";
+      // this.showForm.display = "none";
       // this.$refs.form.resetFields();
       this.actFocus.isFocus = false;
       this.pwdFocus.isFocus = false;
@@ -522,13 +645,16 @@ export default {
     formValidate: function(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
+          let userName = this.form.username;
+          let passWord = this.form.password;
+          let usePassword = this.form.usePassword;
           if (this.modes == "register") {
             this.userRegister();
           } else if (this.modes == "login") {
-            if (this.form.usePassword) {
-              this.login();
+            if (usePassword) {
+              this.login(userName, passWord);
             } else {
-              this.loginByCode(this.form.username);
+              this.loginByCode(userName);
             }
           }
         } else {
@@ -550,14 +676,14 @@ export default {
       //   return false;
       // });
     },
-    login: function() {
-      let { username: userName, password: passWord } = this.form;
+    login: function(userName, passWord) {
+      // let { username: userName, password: passWord } = this.form;
       this.LOGIN({ userName, passWord })
         .then(res => {
           this.$message({
             type: "success",
             dangerouslyUseHTMLString: true,
-            message: `<strong>用户：${res} 登录成功！</strong> `,
+            message: `<strong>用户：${res.userName} 登录成功！</strong> `,
             offset: 230,
             duration: 2000
           });
@@ -610,18 +736,31 @@ export default {
       };
       Register(mpUser)
         .then(res => {
-          console.log(res);
-          console.log(res.data.data.userName);
-          this.$message.success({
-            message: res.data.msg,
-            offset: 230,
-            duration: 2500
-          });
-          this.loginByCode(res.data.data.userName);
+          console.log("Register:" + res);
+          // console.log(res.data.data.userName);
+          if (res.data.data.code == 10200 || res.data.data.code == 10201) {
+            this.$message.success({
+              message: res.data.data.msg,
+              offset: 230,
+              duration: 2500
+            });
+            this.switchMode("login");
+            this.showStatus = 0;
+            // this.form.username = mpUser.userName;
+            // this.form.password = mpUser.passWord;
+          } else {
+            this.$message.error({
+              message: err.msg,
+              offset: 230,
+              duration: 2500
+            });
+            this.getCode();
+          }
         })
         .catch(err => {
+          console.log(err);
           this.$message.error({
-            message: err.data.msg,
+            message: err.data,
             offset: 230,
             duration: 2500
           });
@@ -641,6 +780,7 @@ export default {
       }, 2000);
     },
     autoLogin: function() {
+      console.log("进入方法autoLogin");
       this.AUTOLOGIN()
         .then(res => {
           this.$message({
@@ -653,31 +793,66 @@ export default {
           this.$router.push("/index");
         })
         .catch(error => {
+          if (error.msg == null || error.msg == "") {
+            return;
+          }
           this.$message({
             type: "error",
             dangerouslyUseHTMLString: true,
-            message: `<strong>${error} 登录超时，请重新登录！</strong> `,
+            message: `<strong>${error.msg}</strong> `,
             offset: 230,
             duration: 2000
           });
+        });
+    },
+    findAccount: function() {
+      this.$confirm("你确定提交申请?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+        lockScroll: "true",
+        roundButton: true
+      })
+        .then(() => {
+          if (valid) {
+            this.$message({
+              type: "success",
+              message: "提交成功!",
+              offset: 230
+            });
+          } else {
+            this.$message({
+              type: "error",
+              message: "验证失败，操作取消!!",
+              offset: 230
+            });
+          }
+        })
+        .catch(error => {
+          this.$message({
+            type: "warning",
+            message: error + "：取消操作",
+            offset: 250
+          });
+          return false;
         });
     }
   },
   computed: {
     ...mapState({
-      store_modes: state => state.login.modes,
-      store_url: state => state.login.url
+      store_modes: state => state.login.modes
+      // store_url: state => state.login.url
     }),
     ...mapGetters({
-      GET_MODES: "login/GET_MODES",
-      GET_URL: "login/GET_URL"
+      GET_MODES: "login/GET_MODES"
+      // GET_URL: "login/GET_URL"
     }),
     getModes: function() {
       return this.store_modes;
     },
-    getUrl: function() {
-      return this.store_url;
-    },
+    // getUrl: function() {
+    //   return this.store_url;
+    // },
     inputFocus: function() {
       return function(tag) {
         let act = this.form.username;
@@ -762,7 +937,7 @@ export default {
   created() {},
   mounted() {
     this.modes = this.getModes;
-    this.url = this.getUrl;
+    // this.url = this.getUrl;
     this.autoLogin();
     // this.vCode = GetVCode();
     // console.log(this.modes);

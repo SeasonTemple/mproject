@@ -342,6 +342,9 @@ export default {
           this.drawLoading = false;
         }, 2000);
       });
+    },
+    cardsInit: function(){
+      
     }
   },
   computed: {},

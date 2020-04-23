@@ -40,11 +40,11 @@ export const UserNameLogin = (userDto) => {
 
 
 //注册API
-export const Register = (mpUser) => {
+export const Register = (data) => {
   return axios.request({
     url: "/api/register",
     method: 'post',
-    data: mpUser
+    data
   })
 }
 
@@ -61,16 +61,26 @@ export const SSO = (token) => {
 /**
  * 获取用户角色
  */
-export function getUserRole(data = {}) {
-  return service.request({
-    method: "post",
-    url: "/userRole",
-    data
+export function getUserRole(token) {
+  return axios.request({
+    method: "get",
+    url: "api/userRole",
+    headers: {
+      "Authorization": token
+    }
     // data: data, 左边的data是变量名（key）后台接收的。右边的Data是接收的参数。如果两者都是同名的情况下，可以写成单一个即可（ES6的写法）
   })
 }
-
-
+/**
+ * 获取邮箱验证码API
+ */
+export function GetMsg(data){
+  return axios.request({
+      method: "post",
+      url: "api/getSms",
+      data
+  })
+}
 /**
  * 过滤特殊字符
  */

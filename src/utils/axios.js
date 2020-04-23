@@ -6,7 +6,7 @@ import qs from 'qs';
 import {
   getToKen
 } from '_u/loginMsg.js';
-axios.defaults.timeout = 20000; // 超时时间
+axios.defaults.timeout = 30000; // 超时时间
 axios.defaults.baseURL = DEFAULT_URL; // 默认地址
 axios.defaults.responseType = 'json'; //响应类型动态设置
 // axios.defaults.headers = 'Access-Control-Allow-Origin:true';
@@ -26,9 +26,10 @@ axios.defaults.transformRequest = [
 axios.interceptors.request.use(
   config => {
     config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
-    if(getToKen()!=null&&getToKen()!=""){
-      config.headers['Authorization'] = getToKen() 
-    }
+    // if (!getToKen() || getToKen() != "") {
+    //   config.headers['Authorization'] = getToKen()
+    //   console.log(config.headers['Authorization'])
+    // }
     // config.headers['UserName'] = getUserName()
     if (config.method == "post") {
       config.data = qs.stringify(config.data);
