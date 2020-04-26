@@ -150,7 +150,7 @@
         groupName: '大国中医',
         belongTo: [],
         departmentName: '传销部',
-        leaderName: '习近平',
+        leaderName: '庄爱玲',
         lastLogin: new Date()
       };
       const pickerOptions = {

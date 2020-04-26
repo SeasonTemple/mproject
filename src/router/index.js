@@ -41,19 +41,28 @@ export const defaultRouterMap = [{
     path: '/index',
     name: 'Index',
     component: () => import('@/components/base/Layout'),
-    meta: {
-      title: '主页'
-    },
-    children: [{
-      path: "/console",
-      name: "Console",
-      meta: {
-        keepAlive: true,
-        title: "控制台",
-        icon: "el-icon-monitor"
-      },
-      component: () => import("@/components/default/Main")
-    }]
+    // children: [
+    // {
+    // path: "/home",
+    // name: "Home",
+    // redirect: "/console",
+    // meta: {
+    //   keepAlive: true,
+    //   title: "主页",
+    //   icon: "el-icon-monitor"
+    // },
+    // component: () => import("@/components/default/Main"),
+    // children: [{
+    //   path: "/console",
+    //   name: "Console",
+    //   meta: {
+    //     keepAlive: true,
+    //     title: "控制台",
+    //     icon: "el-icon-monitor"
+    //   },
+    //   component: () => import("@/components/default/contents/Home"),
+    // }]
+    // }]
   }
 ]
 
@@ -294,11 +303,19 @@ router.beforeEach((to, from, next) => {
           })
         }).catch((err) => {
           console.log("123123")
-          Message.error({
-            message: err || err.data.data.msg,
-            offset: 230,
-            duration: 2000
-          })
+          if (err != null || err != "") {
+            Message.error({
+              message: "您的令牌已失效，请重新登录！",
+              offset: 230,
+              duration: 2000
+            })
+          } else {
+            Message.error({
+              message: err.data.data.msg,
+              offset: 230,
+              duration: 2000
+            })
+          }
           setTimeout(() => next('/login'), 1000); // 路由指向
         });
       } else {

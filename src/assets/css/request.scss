@@ -2,12 +2,19 @@
 @import 'sassConfig';
 
 .reqForm {
-    text-align: left;
+  text-align: left;
 }
 
 .transferCss {
-    // display: inline-block
+  // display: inline-block
 }
-.dialog{
-    overflow-y: auto;
+
+.dialog {
+  overflow-y: auto;
 }
+
+.drawerFooter {
+  width: 100%;
+  display: block;
+}
+

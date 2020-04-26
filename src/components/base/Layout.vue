@@ -1,14 +1,14 @@
 <template>
   <el-container class="wrapper base" v-loading.fullscreen.lock="fullscreenLoading">
     <el-header class="nav">
-      <top />
+      <Nav />
     </el-header>
     <el-container class="side-main">
       <el-aside class="aside">
-        <left />
+        <SideBar />
       </el-aside>
       <el-main class="main">
-        <default />
+        <Main />
         <el-backtop target=".main" :visibility-height="200" :bottom="35" :right="50">
           <el-tooltip effect="dark" content="回到顶部" placement="top">
             <div class="backTop">
@@ -28,9 +28,9 @@
   export default {
     name: 'Layout',
     components: {
-      'top': Nav,
-      'left': SideBar,
-      'default': Main
+      Nav,
+      SideBar,
+      Main
     },
     data() {
       let fullscreenLoading = true;

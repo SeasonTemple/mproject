@@ -7,10 +7,11 @@
         :collapse="collapse"
         background-color="  #090a39"
         text-color="#fff"
+        unique-opened
         active-text-color="#ffd04b"
+        @select="activeTab"
       >
         <el-menu-item
-          index="/index"
           @click="changeCollapse"
           style="text-align:auto;"
           class="naviBar"
@@ -20,7 +21,7 @@
         </el-menu-item>
         <el-divider></el-divider>
         
-        <el-menu-item index="index/console">
+        <el-menu-item index="/console">
           <i class="el-icon-monitor"></i>
           <span slot="title">控制台</span>
         </el-menu-item>
@@ -29,7 +30,7 @@
           <el-submenu :index="router.path" :key="index">
             <template slot="title">
               <i :class="router.meta.icon"></i>
-              <span slot="title">{{router.meta.title}}</span>
+              <span slot="title">{{ router.meta.title }}</span>
             </template>
             <template v-for="child in router.children">
               <el-menu-item-group :key="child.name">
@@ -37,7 +38,7 @@
               </el-menu-item-group>
             </template>
           </el-submenu>
-          <el-divider :key="d-{index}"></el-divider>
+          <el-divider :key="'d'+{index}"></el-divider>
         </template>
         <!-- <el-submenu index="index/center" @click="addTab(editableTabsValue)">
           <template slot="title">
@@ -111,7 +112,8 @@ export default {
   },
   methods: {
     ...mapMutations({
-      SET_COLLAPSE: "sideBar/SET_COLLAPSE"
+      SET_COLLAPSE: "sideBar/SET_COLLAPSE",
+      ADD_TAB: "main/addTab"
     }),
     changeCollapse() {
       // this.NProgress.inc(0.2)
@@ -120,6 +122,11 @@ export default {
       this.SET_COLLAPSE();
       // this.NProgress.done()
       // }, 3000);
+    },
+    activeTab(index,indexPath){
+      if(index!=null){
+        this.ADD_TAB(index)
+      }
     }
   },
   computed: {
@@ -148,7 +155,7 @@ export default {
   mounted() {
     this.isCollapse = this.collapse;
     this.routers = this.Routers;
-    this.routers.forEach(e => e.children.forEach(e=>console.log(e.meta.title)));
+    // this.routers.forEach(e => e.children.forEach(e=>console.log(e.meta.title)));
   }
 };
 </script>

@@ -36,7 +36,7 @@
     </el-col>
     <el-col :xs="18" :sm="18" :md="18" :lg="18" :xl="18" class="rightCard">
       <el-card shadow="always" class="rightContent">
-        <el-tabs v-model="currentTab" class="animated fadeIn">
+        <el-tabs v-model="currentTab" class="animated fadeIn" >
           <template v-for="(tab,index) in tabPanels">
             <el-tab-pane :name="tab.name" class="inner" :key="index" @tab-click="currentTab == tab.name">
               <span slot="label">{{tab.label}}</span>

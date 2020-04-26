@@ -89,7 +89,7 @@ export default {
       }).then(() => {
           this.EXIT().then(() => {
             this.$router.push({
-              name: "登录"
+              name: "Login"
             });
           });
         })

@@ -4,4 +4,8 @@
 .dialog {
   overflow-y: auto; }
 
+.drawerFooter {
+  width: 100%;
+  display: block; }
+
 /*# sourceMappingURL=request.css.map */
