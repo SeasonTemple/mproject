@@ -2,7 +2,10 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import NProgress from '_u/NProgress'
 import '@/assets/css/nprogress.css'
-
+// import Nav from '@/components/navs/Nav'
+// import SideBar from '@/components/sidebars/Sidebar'
+// import Main from '@/components/default/Main'
+import Home from "@/components/default/contents/Home"
 import {
   Message
 } from 'element-ui'
@@ -31,7 +34,6 @@ export const defaultRouterMap = [{
   {
     path: '/login',
     name: 'Login',
-    component: '',
     meta: {
       title: '登录'
     },
@@ -39,35 +41,29 @@ export const defaultRouterMap = [{
   },
   {
     path: '/index',
-    name: 'Index',
     component: () => import('@/components/base/Layout'),
-    // children: [
-    // {
-    // path: "/home",
-    // name: "Home",
-    // redirect: "/console",
-    // meta: {
-    //   keepAlive: true,
-    //   title: "主页",
-    //   icon: "el-icon-monitor"
-    // },
-    // component: () => import("@/components/default/Main"),
-    // children: [{
-    //   path: "/console",
-    //   name: "Console",
-    //   meta: {
-    //     keepAlive: true,
-    //     title: "控制台",
-    //     icon: "el-icon-monitor"
-    //   },
-    //   component: () => import("@/components/default/contents/Home"),
-    // }]
-    // }]
+    children: [{
+      path: '',
+      name: 'Index',
+      components: {
+        Nav: () => import('@/components/navs/Nav'),
+        SideBar: () => import('@/components/sidebars/Sidebar'),
+        Main: () => import('@/components/default/Main')
+      }
+    }],
   }
 ]
 
 //异步路由表(根据登录用户权限动态生成)
-export const asyncRouterMap = [{
+export const asyncRouterMap = [
+  // {
+  //   path: "/main",
+  //   name: "Main",
+  //   alias: '/index/main',
+  //   component: () => import("@/components/default/Main"),
+  //   children: [
+  // {
+  {
     path: "/center",
     name: "Center",
     meta: {
@@ -78,7 +74,7 @@ export const asyncRouterMap = [{
     },
     component: () => import("@/components/default/contents/Profile"),
     children: [{
-      path: "/detail",
+      path: "detail",
       name: "Detail",
       meta: {
         role: ['USER', 'CUSTOM', 'ADMIN'],
@@ -87,7 +83,7 @@ export const asyncRouterMap = [{
       },
       component: () => import("@/components/default/contents/profiles/Detail")
     }, {
-      path: "/report",
+      path: "report",
       name: "Report",
       meta: {
         role: ['USER', 'CUSTOM', 'ADMIN'],
@@ -96,7 +92,7 @@ export const asyncRouterMap = [{
       },
       component: () => import("@/components/default/contents/profiles/Report")
     }, {
-      path: "/process",
+      path: "process",
       name: "Process",
       meta: {
         role: ['USER', 'CUSTOM', 'ADMIN'],
@@ -105,7 +101,7 @@ export const asyncRouterMap = [{
       },
       component: () => import("@/components/default/contents/profiles/Process")
     }, {
-      path: "/information",
+      path: "information",
       name: "Information",
       meta: {
         role: ['USER', 'CUSTOM', 'ADMIN'],
@@ -114,7 +110,7 @@ export const asyncRouterMap = [{
       },
       component: () => import("@/components/default/contents/profiles/Information")
     }, {
-      path: "/request",
+      path: "request",
       name: "Request",
       meta: {
         role: ['USER', 'CUSTOM', 'ADMIN'],
@@ -134,17 +130,17 @@ export const asyncRouterMap = [{
       icon: "el-icon-eleme"
     },
     children: [{
-        path: "/staff",
+        path: "staff",
         name: "Staff",
         meta: {
           role: ['ADMIN'],
           keepAlive: true,
-          title: "用户管理",
+          title: "职工管理",
         },
         component: () => import("@/components/default/contents/hr/Staff"),
       },
       {
-        path: "/department",
+        path: "department",
         name: "Department",
         meta: {
           role: ['ADMIN'],
@@ -154,17 +150,7 @@ export const asyncRouterMap = [{
         component: () => import("@/components/default/contents/hr/Department"),
       },
       {
-        path: "/reportMg",
-        name: "ReportMg",
-        meta: {
-          role: ['ADMIN'],
-          keepAlive: true,
-          title: "报表管理",
-        },
-        component: () => import("@/components/default/contents/hr/ReportMg"),
-      },
-      {
-        path: "/requestMg",
+        path: "requestMg",
         name: "RequestMg",
         meta: {
           role: ['ADMIN'],
@@ -172,6 +158,16 @@ export const asyncRouterMap = [{
           title: "申请管理",
         },
         component: () => import("@/components/default/contents/hr/RequestMg"),
+      },
+      {
+        path: "salaryMg",
+        name: "SalaryMg",
+        meta: {
+          role: ['ADMIN'],
+          keepAlive: true,
+          title: "薪资管理",
+        },
+        component: () => import("@/components/default/contents/hr/SalaryMg"),
       }
     ]
   },
@@ -185,7 +181,7 @@ export const asyncRouterMap = [{
       icon: "el-icon-setting"
     },
     children: [{
-        path: "/account",
+        path: "account",
         name: "Account",
         meta: {
           role: ['ADMIN'],
@@ -195,7 +191,7 @@ export const asyncRouterMap = [{
         component: () => import("@/components/default/contents/system/Account"),
       },
       {
-        path: "/infoMg",
+        path: "infoMg",
         name: "InfoMg",
         meta: {
           role: ['ADMIN'],
@@ -205,7 +201,7 @@ export const asyncRouterMap = [{
         component: () => import("@/components/default/contents/system/InfoMg"),
       },
       {
-        path: "/systemLog",
+        path: "systemLog",
         name: "SystemLog",
         meta: {
           role: ['ADMIN'],
@@ -226,7 +222,7 @@ export const asyncRouterMap = [{
       icon: "el-icon-question"
     },
     children: [{
-        path: "/document",
+        path: "document",
         name: "Document",
         meta: {
           role: ['USER', 'CUSTOM', 'ADMIN'],
@@ -236,7 +232,7 @@ export const asyncRouterMap = [{
         component: () => import("@/components/default/contents/faq/Document"),
       },
       {
-        path: "/guide",
+        path: "guide",
         name: "Guide",
         meta: {
           role: ['USER', 'CUSTOM', 'ADMIN'],
@@ -281,7 +277,7 @@ router.beforeEach((to, from, next) => {
       if (store.getters['login/roles'].length === 0) {
         store.dispatch('permission/getRoles').then(response => {
           console.log(response)
-          // let button = response.button; // 这是上学时说的内容
+          // let button = response.button; 
           // let btnPerm = response.btnPerm;
           store.commit("login/SET_ROLES", response);
           // store.commit("login/SET_BUTTON", btnPerm);
@@ -293,6 +289,7 @@ router.beforeEach((to, from, next) => {
             router.options.routes = allRouters;
             // 添加动态路由
             router.addRoutes(addRouters)
+            console.log(allRouters)
             console.log(addRouters)
             next({
               ...to,
@@ -305,7 +302,7 @@ router.beforeEach((to, from, next) => {
           console.log("123123")
           if (err != null || err != "") {
             Message.error({
-              message: "您的令牌已失效，请重新登录！",
+              message: "登录超时，请重新登录！",
               offset: 230,
               duration: 2000
             })

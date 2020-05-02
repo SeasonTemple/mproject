@@ -48,6 +48,11 @@
             v-bind="formState">
           </el-input>
         </el-form-item>
+        <el-form-item label="籍贯">
+          <el-input v-model="detailForm.from" maxlength="25" placeholder="请输入你的籍贯" :style="formItemWidth"
+            v-bind="formState">
+          </el-input>
+        </el-form-item>
         <el-form-item label="身份证号" prop="idNum">
           <el-input v-model="detailForm.idNum" maxlength="18" show-word-limit :style="formItemWidth"
             placeholder="填写你的身份证号码" v-bind="formState"></el-input>
@@ -144,6 +149,7 @@
         sex: '1',
         age: 21,
         position: 'Python删库员',
+        from: '',
         idNum: '51025198704013312',
         empId: '192382149870231001',
         createTime: new Date(),

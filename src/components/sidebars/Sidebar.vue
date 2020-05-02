@@ -11,17 +11,13 @@
         active-text-color="#ffd04b"
         @select="activeTab"
       >
-        <el-menu-item
-          @click="changeCollapse"
-          style="text-align:auto;"
-          class="naviBar"
-        >
+        <el-menu-item @click="changeCollapse" style="text-align:auto;" index>
           <i class="el-icon-s-unfold" :class="{'el-icon-s-fold':!collapse}"></i>
           <span slot="title">{{ swiBar }}</span>
         </el-menu-item>
         <el-divider></el-divider>
-        
-        <el-menu-item index="/console">
+
+        <el-menu-item index="home">
           <i class="el-icon-monitor"></i>
           <span slot="title">控制台</span>
         </el-menu-item>
@@ -40,57 +36,6 @@
           </el-submenu>
           <el-divider :key="'d'+{index}"></el-divider>
         </template>
-        <!-- <el-submenu index="index/center" @click="addTab(editableTabsValue)">
-          <template slot="title">
-            <i class="el-icon-user-solid"></i>
-            <span slot="title">个人中心</span>
-          </template>
-          <el-menu-item-group>
-            <el-menu-item index="1-1">个人详情</el-menu-item>
-            <el-menu-item index="1-2">项目进展</el-menu-item>
-            <el-menu-item index="1-3">工作报表</el-menu-item>
-            <el-menu-item index="1-4">事务申请</el-menu-item>
-            <el-menu-item index="1-5">系统消息</el-menu-item>
-          </el-menu-item-group>
-        </el-submenu>
-        <el-divider></el-divider> 
-        <el-submenu index="index/sysMsg" @click="addTab(editableTabsValue)">
-          <template slot="title">
-            <i class="el-icon-eleme"></i>
-            <span slot="title">人事管理</span>
-          </template>
-          <el-menu-item-group>
-            <el-menu-item index="2-1">职工管理</el-menu-item>
-            <el-menu-item index="2-2">职门管理</el-menu-item>
-            <el-menu-item index="2-3">报表管理</el-menu-item>
-            <el-menu-item index="2-5">申请管理</el-menu-item>
-          </el-menu-item-group>
-        </el-submenu>
-        <el-divider></el-divider>
-        <el-submenu index="index/setting" @click="addTab(editableTabsValue)">
-          <template slot="title">
-            <i class="el-icon-setting"></i>
-            <span slot="title">系统管理</span>
-          </template>
-          <el-menu-item-group>
-            <el-menu-item index="3-1">角色管理</el-menu-item>
-            <el-menu-item index="3-2">权限管理</el-menu-item> 
-            <el-menu-item index="3-2">通知管理</el-menu-item>
-            <el-menu-item index="3-3">系统日志</el-menu-item>
-          </el-menu-item-group>
-        </el-submenu>
-        <el-divider></el-divider>
-        <el-submenu index="index/help" @click="addTab(editableTabsValue)">
-          <template slot="title">
-            <i class="el-icon-question"></i>
-            <span slot="title">使用帮助</span>
-          </template>
-          <el-menu-item-group>
-            <el-menu-item index="4-1">说明文档</el-menu-item>
-            <el-menu-item index="4-2">操作向导</el-menu-item>
-          </el-menu-item-group>
-        </el-submenu>
-        <el-divider></el-divider>  -->
       </el-menu>
     </el-col>
   </el-row>
@@ -113,7 +58,8 @@ export default {
   methods: {
     ...mapMutations({
       SET_COLLAPSE: "sideBar/SET_COLLAPSE",
-      ADD_TAB: "main/addTab"
+      ADD_TAB: "main/addTab",
+      CHANGE_PROFILE: "profile/CHANGE_TAB"
     }),
     changeCollapse() {
       // this.NProgress.inc(0.2)
@@ -123,9 +69,16 @@ export default {
       // this.NProgress.done()
       // }, 3000);
     },
-    activeTab(index,indexPath){
-      if(index!=null){
-        this.ADD_TAB(index)
+    activeTab(index, indexPath) {
+      // console.log(`${index}||${indexPath}`);
+      let centers = ["detail", "information", "report", "request", "process"];
+      if (index != null) {
+        if (centers.indexOf(index) != -1) {
+          this.ADD_TAB("profile");
+          this.CHANGE_PROFILE(index)
+        } else {
+        this.ADD_TAB(index);
+        }
       }
     }
   },
@@ -142,7 +95,7 @@ export default {
     },
     Routers: function() {
       return this.$router.options.routes
-        .filter(r => r.name != "Index")
+        .filter(r => r.path != "/index")
         .filter(r => r.name != "Base")
         .filter(r => r.name != "Login");
     }
@@ -155,6 +108,8 @@ export default {
   mounted() {
     this.isCollapse = this.collapse;
     this.routers = this.Routers;
+    // console.log(this.Routers);
+
     // this.routers.forEach(e => e.children.forEach(e=>console.log(e.meta.title)));
   }
 };

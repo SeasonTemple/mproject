@@ -6,31 +6,26 @@
         :style="{ background: '#fafafa' }"
         type="card"
         closable
+        @tab-click="handleClickTab($event.name)"
         @tab-remove="removeTab"
       >
-        <el-tab-pane name="控制台" :key="'first'" v-loading="drawLoading" :closable="false">
+        <!-- <el-tab-pane name="home" :key="'first'" v-loading="drawLoading" :closable="false">
           <span slot="label">
             <i class="el-icon-monitor"></i> 控制台
           </span>
-          <!-- <home v-if="isChildUpdate1"></home> @tab-click="handleClick($event.name)"-->
           <keep-alive>
             <home />
           </keep-alive>
-        </el-tab-pane>
-        <el-tab-pane label="second" name="second" :key="'second'" v-loading="drawLoading">
-          <span slot="label">
-            <i class></i> 个人中心
-          </span>
-          <keep-alive>
-             <profile /> 
-          </keep-alive>
-        </el-tab-pane>
-        <el-tab-pane label="third" name="third" :key="'third'" v-loading="drawLoading">
-          <span slot="label">
-            <i class></i> 职工管理
-          </span>
-          <staff v-if="isChildUpdate3"></staff>
-        </el-tab-pane>
+        </el-tab-pane>-->
+        <template v-for="item in editableTabs">
+          <el-tab-pane v-if="editableTabs!=''" :key="item.name" :name="item.name">
+            <span slot="label">
+              <i class></i>
+              {{ item.title }}
+            </span>
+            <component :is="activeName"></component>
+          </el-tab-pane>
+        </template>
       </el-tabs>
     </el-col>
   </el-row>
@@ -42,25 +37,35 @@ export default {
   name: "mainContent",
   components: {
     home: () => import("@/components/default/contents/Home"),
+    profile: () => import("@/components/default/contents/Profile"),
     staff: () => import("@/components/default/contents/hr/Staff"),
-    profile: () => import("@/components/default/contents/Profile")
+    department: () => import("@/components/default/contents/hr/Department"),
+    requestMg: () => import("@/components/default/contents/hr/RequestMg"),
+    salaryMg: () => import("@/components/default/contents/hr/SalaryMg"),
+    account: () => import("@/components/default/contents/system/Account"),
+    menuMg: () => import("@/components/default/contents/system/MenuMg"),
+    infoMg: () => import("@/components/default/contents/system/InfoMg"),
+    systemLog: () => import("@/components/default/contents/system/SystemLog")
   },
   data() {
     let drawLoading = false;
     let routers = [];
-    let editableTabsValue= 'console';
-    let editableTabs= [{
-        title: 'index',
-        name: 'index'
-      }];
-    let tabIndex= '/console';
-    let openedTab= ['/console'];
+    let editableTabsValue = "home";
+    let editableTabs = [
+      {
+        title: "控制台",
+        name: "home"
+      }
+    ];
+    let tabIndex = 0;
+    let openedTab = ["home"];
+    let centers = ["detail", "information", "report", "request", "process"];
     return {
-      //默认第一个选项卡
+      centers,
       openedTab,
       editableTabs,
       editableTabsValue,
-      activeName: "控制台",
+      activeName: "home",
       isChildUpdate1: true,
       isChildUpdate2: false,
       isChildUpdate3: false,
@@ -71,44 +76,83 @@ export default {
     ...mapMutations({
       ADD_TAB: "main/addTab",
       CHANGE_TAB: "main/changeTab",
-      DEDUCT_TAB: "main/deductTab"
+      DEDUCT_TAB: "main/deductTab",
+      CHANGE_PROFILE: "profile/CHANGE_TAB"
     }),
-    handleClick(router) {
-      this.CHANGE_TAB(router)
-      this.$router.push(router)
+    handleClickTab(router) {
+      this.CHANGE_TAB(router);
+      this.activeName = router;
+      console.log(router);
+      // this.$router.push({ name: router });
+      // this.$router.replace({ name: `${router}` });
     },
     addTab(targetName) {
-      let newTabName = ++this.tabIndex + "";
+      // let newTabName = targetName;
+      console.log(this.routerNameMatcher(targetName));
       this.editableTabs.push({
-        title: "New Tab",
-        name: newTabName,
-        content: "New Tab content"
+        title: this.routerNameMatcher(targetName),
+        name: targetName
+        // content: "New Tab content"
       });
       this.editableTabsValue = newTabName;
     },
     removeTab(targetName) {
-       let tabs = this.editableTabs
-      let activeName = this.editableTabsValue
+      if (targetName == "home") {
+        return;
+      }
+      let tabs = this.editableTabs;
+      let activeName = this.editableTabsValue;
       if (activeName === targetName) {
         tabs.forEach((tab, index) => {
           if (tab.name === targetName) {
-            let nextTab = tabs[index + 1] || tabs[index - 1]
+            let nextTab = tabs[index + 1] || tabs[index - 1];
             if (nextTab) {
-              activeName = nextTab.name
+              console.log(nextTab);
+              activeName = nextTab.name;
             }
           }
-        })
+        });
       }
-      this.DEDUCT_TAB(targetName)
-      let deductIndex = this.openedTab.indexOf(targetName)
-      this.openedTab.splice(deductIndex, 1)
-      this.$router.push(activeName)
-      this.editableTabsValue = activeName
-      this.editableTabs = tabs.filter(tab => tab.name !== targetName)
+      this.DEDUCT_TAB(targetName);
+      let deductIndex = this.openedTab.indexOf(targetName);
+      this.openedTab.splice(deductIndex, 1);
+      // this.$router.push(activeName);
+      this.editableTabsValue = activeName;
+      this.editableTabs = tabs.filter(tab => tab.name !== targetName);
       if (this.openedTab.length === 0) {
-        this.ADD_TAB('/console')
-        this.$router.push('/console')
+        this.ADD_TAB("home");
+        // this.$router.replace("/index");
+        this.activeName = "控制台";
+      } else {
+        this.activeName = activeName;
       }
+    },
+    routerNameMatcher(router) {
+      let routers = this.$router.options.routes
+        .filter(r => r.path != "/index")
+        .filter(r => r.name != "Base")
+        .filter(r => r.name != "Login");
+      let res = { title: "", name: "" };
+      if (router == "profile") {
+        res.title = "个人中心";
+        res.name = "profile";
+        return res;
+      }
+      routers.find(r => {
+        r.children.find(c => {
+          if (c.path == router) {
+            console.log(c.meta.title);
+            name = c.meta.title;
+          }
+        });
+      });
+      res.title = name;
+      res.name = router;
+      return res;
+    },
+    changeProfileTab(router) {
+      console.log("changeProfileTab" + router);
+      this.CHANGE_PROFILE(router);
     }
   },
   computed: {
@@ -116,11 +160,12 @@ export default {
       OPEN_TAB: state => state.main.openedTab,
       ACTIVE_TAB: state => state.main.activeTab
     }),
-     getOpenedTab () {
-      console.log(this.OPEN_TAB)
+    getOpenedTab() {
+      console.log("OPEN_TAB:" + this.OPEN_TAB);
+      // this.openedTab = this.OPEN_TAB;
       return this.OPEN_TAB;
     },
-    changeTab () {
+    changeTab() {
       return this.ACTIVE_TAB;
     }
   },
@@ -130,24 +175,29 @@ export default {
     }, 2500);
   },
   watch: {
-    getOpenedTab (val) {
+    getOpenedTab(val) {
+      console.log("getOpenedTab" + val, this.openedTab);
       if (val.length > this.openedTab.length) {
-        let newTab = val[val.length - 1] // 新增的肯定在数组最后一个
-        console.log(newTab)
-        ++this.tabIndex
+        let newTab = val[val.length - 1]; // 新增的肯定在数组最后一个
+        let res = this.routerNameMatcher(newTab);
+        ++this.tabIndex;
         this.editableTabs.push({
-          title: newTab,
-          name: newTab,
-          content: ''
-        })
-        this.editableTabsValue = newTab
-        this.openedTab.push(newTab)
+          title: res.title,
+          name: res.name
+          // content: ""
+        });
+        this.activeName = res.name;
+        this.editableTabsValue = newTab;
+        this.openedTab.push(newTab);
+        // if (this.centers.indexOf(res.name) != -1) {
+        //   this.changeProfileTab(res.name);
+        // }
       }
     },
-    changeTab (val) {
+    changeTab(val) {
       // 监听activetab以实现点击左侧栏时激活已存在的标签
       if (val !== this.editableTabsValue) {
-        this.editableTabsValue = val
+        this.editableTabsValue = val;
       }
     }
   },

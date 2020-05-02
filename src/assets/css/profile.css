@@ -16,6 +16,7 @@
   .leftCard .leftContent {
     height: auto; }
     .leftCard .leftContent .userProfile {
+      position: relative;
       height: 25vh; }
       .leftCard .leftContent .userProfile .authTag {
         margin: 0;

@@ -91,8 +91,7 @@
               value-format="yyyy-MM-dd HH:mm:ss"
               type="datetime"
               :picker-options="pickerOptions"
-              :style="formItemWidth"
-              v-bind="formState"
+              :style="formLabelWidth"
             ></el-date-picker>
           </el-form-item>
           <el-form-item label="内容" :label-width="formLabelWidth" prop="content">
@@ -136,7 +135,7 @@ export default {
     let reports = [];
     const origin = [];
     let loading = false;
-    let editor = null;
+    // let editor = null;
     let reportForm = {
       id: "",
       title: "",
@@ -198,7 +197,7 @@ export default {
     };
     return {
       pickerOptions,
-      editor,
+      // editor,
       editorOption,
       reportForm,
       formLabelWidth,
@@ -223,7 +222,7 @@ export default {
       }
     },
     initOrigin() {
-      console.log("initOrigin " + this.origin);
+      // console.log("initOrigin " + this.origin);
       if (this.origin.length == 0) {
         const init = () => [
           {
@@ -283,14 +282,14 @@ export default {
     SyncCount() {
       let count = this.count;
       let repLength = this.reports.length | 0;
-      console.log(
-        "SyncCount: " +
-          count +
-          "||" +
-          repLength +
-          "||" +
-          this.origin.slice(repLength, count++)
-      );
+      // console.log(
+      //   "SyncCount: " +
+      //     count +
+      //     "||" +
+      //     repLength +
+      //     "||" +
+      //     this.origin.slice(repLength, count++)
+      // );
       this.origin.slice(repLength, count).forEach(_ => {
         this.reports.push(_);
       });
@@ -303,21 +302,24 @@ export default {
       alert(this.content);
     },
     handleClose(done) {
-      if (this.loading) {
-        return;
-      }
-      this.$confirm("确定要提交表单吗？")
-        .then(_ => {
-          this.loading = true;
-          this.timer = setTimeout(() => {
-            done();
-            // 动画关闭需要一定的时间
-            setTimeout(() => {
-              this.loading = false;
-            }, 400);
-          }, 2000);
-        })
-        .catch(_ => {});
+      // if (this.loading) {
+      //   return;
+      // }
+      this.loading = false;
+      this.dialog = false;
+      clearTimeout(this.timer);
+      // this.$confirm("确定要提交表单吗？")
+      //   .then(_ => {
+      //     this.loading = true;
+      //     this.timer = setTimeout(() => {
+      //       done();
+      //       // 动画关闭需要一定的时间
+      //       setTimeout(() => {
+      //         this.loading = false;
+      //       }, 400);
+      //     }, 2000);
+      //   })
+      //   .catch(_ => {});
     },
     cancelForm() {
       this.loading = false;
@@ -327,11 +329,11 @@ export default {
   },
   computed: {
     noMore() {
-      console.log(`noMore: ${this.origin.length} , ${this.count}`);
+      // console.log(`noMore: ${this.origin.length} , ${this.count}`);
       return this.origin.length === this.count;
     },
     disabled() {
-      console.log(`noMore: ${this.loading} , ${this.noMore}`);
+      // console.log(`noMore: ${this.loading} , ${this.noMore}`);
       return this.loading || this.noMore;
     },
     editor() {

@@ -4,7 +4,7 @@
 
 <script>
   export default {
-    name: 'authority',
+    name: 'menuMg',
     data() {
       return {
 

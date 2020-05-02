@@ -65,7 +65,7 @@ const actions = { // 可以回调处理事情
       let addRouters = []
       if (role.includes('ADMIN')) {
         addRouters = asyncRouterMap
-        console.log(asyncRouterMap)
+        // console.log(asyncRouterMap)
       } else { // 普通管理员
         addRouters = asyncRouterMap.filter(item => {
           if (hasPermission(role, item)) {

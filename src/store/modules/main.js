@@ -1,6 +1,6 @@
 const state = {
-  openedTab: ['/console'],
-  activeTab: '',
+  openedTab: ['home'],
+  activeTab: 'home',
 }
 
 const getters = {
