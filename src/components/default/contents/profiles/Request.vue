@@ -1,72 +1,76 @@
 <template>
-  <el-form
-    :model="ruleForm"
-    :rules="rules"
-    ref="ruleForm"
-    :label-width="InputWidth"
-    label-position="left"
-    :class="{reqForm: true}"
-  >
-    <el-form-item label="申请人" prop="applicant">
-      <el-input v-model="ruleForm.applicant"></el-input>
-    </el-form-item>
-    <el-form-item label="审核人" prop="reviewers">
-      <el-transfer
-        filterable
-        :filter-method="filterMethod"
-        filter-placeholder="请输入城市拼音"
-        v-model="ruleForm.reviewers"
-        :data="data"
-        :class="{transferCss:true}"
-      ></el-transfer>
-    </el-form-item>
-    <el-form-item label="申请类型" prop="type">
-      <el-col :span="12">
-        <el-radio-group v-model="ruleForm.type" text-color="#F2F6FC" fill="#67C23A" width="60%">
-          <el-radio-button :label="0">出差</el-radio-button>
-          <el-radio-button :label="1">结婚</el-radio-button>
-          <el-radio-button :label="2">生病</el-radio-button>
-          <el-radio-button :label="3">产假</el-radio-button>
-          <el-radio-button :label="4">丧事</el-radio-button>
-          <el-radio-button :label="5">其他</el-radio-button>
-        </el-radio-group>
-      </el-col>
-      <el-col :span="12" v-if="ruleForm.type==5">
-        <el-form-item prop="other">
-          <el-input v-model="ruleForm.other"></el-input>
+  <el-row type="flex">
+    <el-col :xs="16" :sm="16" :md="16" :lg="16" :xl="16">
+      <el-form
+        :model="ruleForm"
+        :rules="rules"
+        ref="ruleForm"
+        :label-width="InputWidth"
+        label-position="left"
+        :class="{reqForm: true}"
+      >
+        <el-form-item label="申请人" prop="applicant">
+          <el-input v-model="ruleForm.applicant"></el-input>
         </el-form-item>
-      </el-col>
-    </el-form-item>
-    <el-form-item label="申请日期" required>
-      <el-form-item prop="date1">
-        <el-date-picker
-          v-model="ruleForm.date1"
-          type="datetime"
-          placeholder="选择日期时间"
-          default-time="8:00:00"
-        ></el-date-picker>
-      </el-form-item>
-    </el-form-item>
-    <el-form-item label="请假日期" required>
-      <el-form-item prop="date2">
-        <el-date-picker
-          v-model="ruleForm.date2"
-          type="datetimerange"
-          align="right"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
-          :default-time="['8:00:00', '00:00:00']"
-        ></el-date-picker>
-      </el-form-item>
-    </el-form-item>
-    <el-form-item label="申请理由" prop="reason">
-      <el-input type="textarea" v-model="ruleForm.reason" :autosize="true"></el-input>
-    </el-form-item>
-    <el-form-item>
-      <el-button type="primary" @click="submitForm('ruleForm')">提交申请</el-button>
-      <el-button @click="resetForm('ruleForm')">重置</el-button>
-    </el-form-item>
-  </el-form>
+        <el-form-item label="审核人" prop="reviewers">
+          <el-transfer
+            filterable
+            :filter-method="filterMethod"
+            filter-placeholder="请输入城市拼音"
+            v-model="ruleForm.reviewers"
+            :data="data"
+            :class="{transferCss:true}"
+          ></el-transfer>
+        </el-form-item>
+        <el-form-item label="申请类型" prop="type">
+          <el-col :span="12">
+            <el-radio-group v-model="ruleForm.type" text-color="#F2F6FC" fill="#67C23A" width="60%">
+              <el-radio-button :label="0">出差</el-radio-button>
+              <el-radio-button :label="1">结婚</el-radio-button>
+              <el-radio-button :label="2">生病</el-radio-button>
+              <el-radio-button :label="3">产假</el-radio-button>
+              <el-radio-button :label="4">丧事</el-radio-button>
+              <el-radio-button :label="5">其他</el-radio-button>
+            </el-radio-group>
+          </el-col>
+          <el-col :span="12" v-if="ruleForm.type==5">
+            <el-form-item prop="other">
+              <el-input v-model="ruleForm.other"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-form-item>
+        <el-form-item label="申请日期" required>
+          <el-form-item prop="date1">
+            <el-date-picker
+              v-model="ruleForm.date1"
+              type="datetime"
+              placeholder="选择日期时间"
+              default-time="8:00:00"
+            ></el-date-picker>
+          </el-form-item>
+        </el-form-item>
+        <el-form-item label="请假日期" required>
+          <el-form-item prop="date2">
+            <el-date-picker
+              v-model="ruleForm.date2"
+              type="datetimerange"
+              align="right"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+              :default-time="['8:00:00', '00:00:00']"
+            ></el-date-picker>
+          </el-form-item>
+        </el-form-item>
+        <el-form-item label="申请理由" prop="reason">
+          <el-input type="textarea" v-model="ruleForm.reason" :autosize="true"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="submitForm('ruleForm')">提交申请</el-button>
+          <el-button @click="resetForm('ruleForm')">重置</el-button>
+        </el-form-item>
+      </el-form>
+    </el-col>
+  </el-row>
 </template>
 <script>
 export default {

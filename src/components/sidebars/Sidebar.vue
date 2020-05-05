@@ -71,7 +71,7 @@ export default {
     },
     activeTab(index, indexPath) {
       // console.log(`${index}||${indexPath}`);
-      let centers = ["detail", "information", "report", "request", "process"];
+      let centers = ["detail", "information", "report", "request", "process","analyze"];
       if (index != null) {
         if (centers.indexOf(index) != -1) {
           this.ADD_TAB("profile");

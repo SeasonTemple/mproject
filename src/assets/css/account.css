@@ -1,0 +1,31 @@
+.footer {
+  margin: 20px 0 0 0;
+  box-sizing: border-box; }
+  .footer .el-button {
+    margin-bottom: 10px;
+    float: left; }
+
+@media (max-width: 800px) {
+  .cell {
+    display: inline-block;
+    background: #FFF !important; }
+    .cell > .el-button {
+      float: left;
+      padding: 5px;
+      font-size: 5px;
+      border-radius: 0;
+      margin: 0; }
+
+  .demo-table-expand * {
+    font-size: .8em; }
+
+  .footer .el-button {
+    margin: 0; }
+  .footer .el-pagination {
+    display: inline-block;
+    font-size: 10px; } }
+.pager {
+  text-align: center;
+  box-sizing: border-box; }
+
+/*# sourceMappingURL=account.css.map */

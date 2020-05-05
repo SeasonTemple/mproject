@@ -73,13 +73,11 @@ import { mapState, mapMutations } from "vuex";
 const path = require("path");
 const files = require.context("_d/", false, /\.vue$/);
 const modules = {};
-files
-  .keys()
-  .filter(key => path.basename(key, ".vue") != "Analyze")
-  .forEach(key => {
-    const name = path.basename(key, ".vue");
-    modules[name] = files(key).default || files(key);
-  });
+// .filter(key => path.basename(key, ".vue") != "Analyze")
+files.keys().forEach(key => {
+  const name = path.basename(key, ".vue");
+  modules[name] = files(key).default || files(key);
+});
 export default {
   name: "profile",
   components: modules,
@@ -188,7 +186,7 @@ export default {
       nameMap.set("process", "项目进展");
       nameMap.set("report", "工作报表");
       nameMap.set("request", "事务申请");
-      // nameMap.set("analyze", "数据分析");
+      nameMap.set("analyze", "签到考勤");
       nameMap.set("information", "系统消息");
 
       for (let key in obj) {
@@ -201,7 +199,7 @@ export default {
       }
 
       return this.tabPanels.sort((p, c) => {
-        if (p.name == "Detail") {
+        if (p.name == "detail") {
           return -1;
         } else {
           return 0;
@@ -246,7 +244,7 @@ export default {
   },
   beforeMount() {
     this.currentTab = this.CURRENT_TAB;
-    console.log(this.currentTab)
+    console.log(this.currentTab);
     // this.switchTab;
   }
 };

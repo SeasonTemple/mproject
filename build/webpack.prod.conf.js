@@ -12,7 +12,7 @@ const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 const env = require('../config/prod.env')
-
+const SentryCliPlugin = require("@sentry/webpack-plugin");
 const webpackConfig = merge(baseWebpackConfig, {
   module: {
     rules: utils.styleLoaders({
@@ -41,6 +41,13 @@ const webpackConfig = merge(baseWebpackConfig, {
       },
       sourceMap: config.build.productionSourceMap,
       parallel: true
+    }),
+    new SentryCliPlugin({
+      include: "./dist", // 作用的文件夹
+      release: process.env.RELEASE_VERSION, // 一致的版本号
+      configFile: "sentry.properties", // 不用改
+      ignore: ['node_modules', 'webpack.config.js'],
+      // urlPrefix: "~/"  // 注意这个，解释往下看。
     }),
     // extract css into its own file
     new ExtractTextPlugin({

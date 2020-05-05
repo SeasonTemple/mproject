@@ -1,0 +1,50 @@
+@charset 'UTF-8';
+@import 'sassConfig';
+
+.baseBody {
+  height: max-content !important;
+  //   background: rgb(244, 245, 248) !important;
+}
+
+.baseHeader {
+  height: max-content !important;
+  // background: #F2F6FC !important;
+}
+
+.headerBtn {
+  display: block !important;
+  //   float: left !important;
+}
+
+.contentField {
+  border-right: 2px solid $divBorderColor;
+  border-left: 2px solid $divBorderColor;
+  border-top: 2px solid $divBorderColor;
+  border-bottom: 2px solid $divBorderColor;
+  //   text-indent: 10px;
+  border-radius: 10px;
+  margin: 5px 0 20px 0;
+  height: max-content;
+  // width: fit-content;
+}
+
+.cardBody {
+  display: block;
+  height: 100%;
+  width: 100%;
+  background: #EBEEF5 !important;
+
+}
+
+.ruleForm {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.dispatchContent {
+  height: max-content;
+  text-align: center;
+  width: fit-content;
+  margin-bottom: 5px;
+  // left: 50%;
+}

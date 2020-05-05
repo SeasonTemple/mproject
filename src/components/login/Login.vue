@@ -96,6 +96,16 @@
             </el-form-item>
           </transition>
           <el-row :class="{toolFloor:true}" :span="24">
+            <!-- <el-col :span="4"> -->
+            <!-- <button
+                style="display:block"
+                id="TencentCaptcha"
+                data-appid="2051056390"
+                data-cbfn="graphicVali"
+                type="button"
+            >验证</button>-->
+            <!-- <el-button @click="graphInit" plain="">滑块验证</el-button>
+            </el-col>-->
             <el-col :span="18">
               <el-link
                 :class="{forget:true}"
@@ -257,30 +267,43 @@
                 <el-input v-model="fogForm.valiCode" autocomplete="off"></el-input>
               </el-col>
               <el-col :span="8">
-                <el-button plain type="success" class="block"  @click="getSms()" :disabled="codeButtonStatus.status" >
-                  {{ codeButtonStatus.text }}
-                  </el-button>
+                <el-button
+                  plain
+                  type="success"
+                  class="block"
+                  @click="getSms()"
+                  :disabled="codeButtonStatus.status"
+                >{{ codeButtonStatus.text }}</el-button>
               </el-col>
             </el-row>
           </el-form-item>
         </el-form>
         <div slot="footer" :span="24">
           <!-- <el-button-group > -->
-            <el-row>
-              <el-col :span="12">
-                <el-button type="success" plain @click="dialogFormVisible = false" :class="{fogBtn1:true}" >确 定</el-button>
-              </el-col>
-              <el-col :span="12">
-                <el-button type="primary" plain @click="dialogFormVisible = false" :class="{fogBtn2:true}" >取 消</el-button>
-              </el-col>
-            </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-button
+                type="success"
+                plain
+                @click="dialogFormVisible = false"
+                :class="{fogBtn1:true}"
+              >确 定</el-button>
+            </el-col>
+            <el-col :span="12">
+              <el-button
+                type="primary"
+                plain
+                @click="dialogFormVisible = false"
+                :class="{fogBtn2:true}"
+              >取 消</el-button>
+            </el-col>
+          </el-row>
           <!-- </el-button-group> -->
         </div>
       </el-dialog>
     </el-row>
   </section>
 </template>
-
 <script>
 import pexels2 from "@/assets/img/pexels-002.jpg";
 import pexels4 from "@/assets/img/pexels-004.jpg";
@@ -645,21 +668,9 @@ export default {
     formValidate: function(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          let userName = this.form.username;
-          let passWord = this.form.password;
-          let usePassword = this.form.usePassword;
-          if (this.modes == "register") {
-            this.userRegister();
-          } else if (this.modes == "login") {
-            if (usePassword) {
-              this.login(userName, passWord);
-            } else {
-              this.loginByCode(userName);
-            }
-          }
+          this.graphInit();
         } else {
-          this.$message({
-            type: "error",
+          this.$message.error({
             message: "验证失败，请输入合法信息!!",
             offset: 230,
             duration: 2500
@@ -680,11 +691,10 @@ export default {
       // let { username: userName, password: passWord } = this.form;
       this.LOGIN({ userName, passWord })
         .then(res => {
-          this.$message({
-            type: "success",
+          this.$message.success({
             dangerouslyUseHTMLString: true,
             message: `<strong>用户：${res.userName} 登录成功！</strong> `,
-            offset: 230,
+            offset: 150,
             duration: 2000
           });
           this.$refs.form.resetFields();
@@ -694,11 +704,10 @@ export default {
           this.$router.push("/index");
         })
         .catch(error => {
-          this.$message({
-            type: "error",
+          this.$message.error({
             dangerouslyUseHTMLString: true,
             message: `<strong>${error}</strong>`,
-            offset: 230,
+            offset: 150,
             duration: 2500
           });
         });
@@ -706,11 +715,10 @@ export default {
     loginByCode: function(userName) {
       this.UNLOGIN(userName)
         .then(res => {
-          this.$message({
-            type: "success",
+          this.$message.success({
             dangerouslyUseHTMLString: true,
             message: `<strong>用户：${res} 登录成功！</strong> `,
-            offset: 230,
+            offset: 150,
             duration: 2000
           });
           this.$refs.form.resetFields();
@@ -720,11 +728,10 @@ export default {
           this.$router.push("/index");
         })
         .catch(error => {
-          this.$message({
-            type: "error",
+          this.$message.error({
             dangerouslyUseHTMLString: true,
             message: `<strong>${error}</strong>`,
-            offset: 230,
+            offset: 150,
             duration: 2500
           });
         });
@@ -836,6 +843,44 @@ export default {
           });
           return false;
         });
+    },
+    selectMethods() {
+      let userName = this.form.username;
+      let passWord = this.form.password;
+      let usePassword = this.form.usePassword;
+      if (this.modes == "register") {
+        this.userRegister();
+      } else if (this.modes == "login") {
+        if (usePassword) {
+          this.login(userName, passWord);
+        } else {
+          this.loginByCode(userName);
+        }
+      }
+    },
+    graphicVali(res) {
+      console.log(res);
+    },
+    graphInit() {
+      let captcha1 = new TencentCaptcha(
+        "2051056390",
+        rsp => {
+          if (rsp.ret === 0) {
+            this.$message.success({
+              message: "验证成功!",
+              offset: 130
+            });
+            this.selectMethods();
+          } else {
+            this.$message.error({
+              message: "操作取消!",
+              offset: 130
+            });
+          }
+        },
+        {}
+      );
+      captcha1.show();
     }
   },
   computed: {
@@ -930,9 +975,6 @@ export default {
       console.log(`watch: url ${curVal}`);
       this.url = curVal;
     }
-    // showStatus: function () {
-    //   this.showStatus
-    // }
   },
   created() {},
   mounted() {

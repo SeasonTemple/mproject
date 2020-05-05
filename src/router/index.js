@@ -118,7 +118,18 @@ export const asyncRouterMap = [
         title: "事务申请",
       },
       component: () => import("@/components/default/contents/profiles/Request")
-    }]
+    },
+    {
+      path: "analyze",
+      name: "Analyze",
+      meta: {
+        role: ['USER', 'CUSTOM', 'ADMIN'],
+        keepAlive: true,
+        title: "签到考勤",
+      },
+      component: () => import("@/components/default/contents/profiles/Request")
+    }
+  ]
   },
   {
     path: "/hr",
@@ -200,16 +211,16 @@ export const asyncRouterMap = [
         },
         component: () => import("@/components/default/contents/system/InfoMg"),
       },
-      {
-        path: "systemLog",
-        name: "SystemLog",
-        meta: {
-          role: ['ADMIN'],
-          keepAlive: true,
-          title: "系统日志",
-        },
-        component: () => import("@/components/default/contents/system/SystemLog"),
-      },
+      // {
+      //   path: "systemLog",
+      //   name: "SystemLog",
+      //   meta: {
+      //     role: ['ADMIN'],
+      //     keepAlive: true,
+      //     title: "系统日志",
+      //   },
+      //   component: () => import("@/components/default/contents/system/SystemLog"),
+      // },
     ]
   },
   {

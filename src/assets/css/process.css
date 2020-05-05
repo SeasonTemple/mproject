@@ -1,0 +1,35 @@
+.baseBody {
+  height: max-content !important; }
+
+.baseHeader {
+  height: max-content !important; }
+
+.headerBtn {
+  display: block !important; }
+
+.contentField {
+  border-right: 2px solid rgba(64, 160, 255, 0.5);
+  border-left: 2px solid rgba(64, 160, 255, 0.5);
+  border-top: 2px solid rgba(64, 160, 255, 0.5);
+  border-bottom: 2px solid rgba(64, 160, 255, 0.5);
+  border-radius: 10px;
+  margin: 5px 0 20px 0;
+  height: max-content; }
+
+.cardBody {
+  display: block;
+  height: 100%;
+  width: 100%;
+  background: #EBEEF5 !important; }
+
+.ruleForm {
+  margin-left: 10px;
+  margin-right: 10px; }
+
+.dispatchContent {
+  height: max-content;
+  text-align: center;
+  width: fit-content;
+  margin-bottom: 5px; }
+
+/*# sourceMappingURL=process.css.map */

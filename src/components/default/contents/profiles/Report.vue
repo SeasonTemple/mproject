@@ -110,7 +110,7 @@
             round
             plain
             type="success"
-            @click="$refs.drawer.closeDrawer()"
+            @click="reportSubmit"
             :loading="loading"
             :class="{drawerBtn1:true}"
           >{{ loading ? '提交中 ...' : '确 定' }}</el-button>
@@ -325,6 +325,13 @@ export default {
       this.loading = false;
       this.dialog = false;
       clearTimeout(this.timer);
+    },
+    reportSubmit(){
+      this.$message.success({
+        message: "提交成功！",
+        offset: 130
+      })
+      this.$refs.drawer.closeDrawer()
     }
   },
   computed: {

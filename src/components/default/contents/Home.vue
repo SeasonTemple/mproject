@@ -169,7 +169,7 @@ export default {
       },
       {
         title: {
-          text: "权限变化一览",
+          text: "公司年龄分布",
           left: "center"
         },
         tooltip: {
@@ -179,7 +179,7 @@ export default {
           }
         },
         legend: {
-          data: ["权限变化"]
+          data: ["年龄分布"]
         },
         grid: {
           left: "3%",
@@ -194,26 +194,25 @@ export default {
         yAxis: {
           type: "category",
           data: [
-            "普通",
-            "项目负责人",
-            "项目经理",
-            "部门主管",
-            "管理员",
-            "总经理"
+            "20岁",
+            "30岁",
+            "40岁",
+            "50岁",
+            "60岁",
           ]
         },
         series: [
           {
-            name: "持续天数",
+            name: "该年龄段人数",
             type: "bar",
-            data: [1820, 189, 190, 80, 14, 0]
+            data: [40, 30, 17, 21, 14]
           }
         ],
         span: 12
       },
       {
         title: {
-          text: "项目分布",
+          text: "月考勤情况",
           left: "center"
         },
         tooltip: {
@@ -224,14 +223,11 @@ export default {
           left: "center",
           top: "bottom",
           data: [
-            "rose1",
-            "rose2",
-            "rose3",
-            "rose4",
-            "rose5",
-            "rose6",
-            "rose7",
-            "rose8"
+            "缺席",
+            "缺勤一次",
+            "缺勤两次",
+            "缺勤两次以上",
+            "请假"
           ]
         },
         toolbox: {
@@ -266,35 +262,23 @@ export default {
             data: [
               {
                 value: 10,
-                name: "rose1"
+                name: "缺席"
               },
               {
                 value: 5,
-                name: "rose2"
+                name: "缺勤一次"
               },
               {
                 value: 15,
-                name: "rose3"
+                name: "缺勤两次"
               },
               {
                 value: 25,
-                name: "rose4"
+                name: "缺勤两次以上"
               },
               {
                 value: 20,
-                name: "rose5"
-              },
-              {
-                value: 35,
-                name: "rose6"
-              },
-              {
-                value: 30,
-                name: "rose7"
-              },
-              {
-                value: 40,
-                name: "rose8"
+                name: "请假出差"
               }
             ]
           }

@@ -59,7 +59,14 @@ export default {
     ];
     let tabIndex = 0;
     let openedTab = ["home"];
-    let centers = ["detail", "information", "report", "request", "process"];
+    let centers = [
+      "detail",
+      "information",
+      "report",
+      "request",
+      "process",
+      "analyze"
+    ];
     return {
       centers,
       openedTab,
@@ -176,7 +183,9 @@ export default {
   },
   watch: {
     getOpenedTab(val) {
-      console.log("getOpenedTab" + val, this.openedTab);
+      console.log(
+        "getOpenedTab: " + val + "||" + this.openedTab + "||" + this.OPEN_TAB
+      );
       if (val.length > this.openedTab.length) {
         let newTab = val[val.length - 1]; // 新增的肯定在数组最后一个
         let res = this.routerNameMatcher(newTab);
@@ -189,9 +198,6 @@ export default {
         this.activeName = res.name;
         this.editableTabsValue = newTab;
         this.openedTab.push(newTab);
-        // if (this.centers.indexOf(res.name) != -1) {
-        //   this.changeProfileTab(res.name);
-        // }
       }
     },
     changeTab(val) {
@@ -212,13 +218,3 @@ export default {
 </script>
 
 <style scoped src="@/assets/css/main.css"></style>
-<style>
-/* .container-tab>>>.el-tabs__content {
-    flex-grow: 1;
-    overflow-y: auto !important;
-  } */
-
-/* .el-tabs__header .is-top {
-    position: relative;
-  } */
-</style>
