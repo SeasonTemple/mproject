@@ -98,15 +98,29 @@ body {
   background: rgba(180, 180, 180, 0.2) !important;
   border-radius: 5%;
   border: 1px solid rgba(234, 231, 236, 0.5); }
+  .fogForm::after {
+    content: "";
+    border-radius: 5%;
+    border: 1px solid transparent;
+    position: absolute;
+    background-color: rgba(119, 117, 117, 0.253);
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: -10;
+    filter: blur(1px); }
   .fogForm .el-dialog__title,
   .fogForm .el-form-item__label {
     color: #e6e2df !important; }
   .fogForm .el-dialog__body {
     padding-bottom: 10px; }
   .fogForm .el-form-item .el-input__inner {
-    background: transparent !important; }
+    background: transparent !important;
+    color: #e6e2df !important; }
     .fogForm .el-form-item .el-input__inner:focus {
-      background: #b4ffb8 !important; }
+      background: #cdffc9 !important;
+      color: black !important; }
 
 .regForm {
   position: absolute;

@@ -152,6 +152,20 @@ body {
   border-radius: 5%;
   border: 1px solid rgba(234, 231, 236, 0.5);
 
+  &::after {
+    content: "";
+    border-radius: 5%;
+    border: 1px solid transparent;
+    position: absolute;
+    background-color: rgba(119, 117, 117, 0.253);
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: -10;
+    filter: blur(1px);
+  }
+
   .el-dialog__title,
   .el-form-item__label {
     color: rgb(230, 226, 223) !important;
@@ -164,9 +178,11 @@ body {
   .el-form-item {
     .el-input__inner {
       background: transparent !important;
+      color: rgb(230, 226, 223) !important;
 
       &:focus {
-        background: rgb(180, 255, 184) !important;
+        background: rgb(205, 255, 201) !important;
+        color: black !important;
       }
     }
   }

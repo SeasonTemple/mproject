@@ -115,7 +115,11 @@
             </el-col>
           </el-row>
           <el-form-item>
-            <el-button :class="{logBtn:true}" @click="formValidate('form')">登录</el-button>
+            <el-row type="flex" :span="24">
+              <el-col :span="20" :push="2">
+                <el-button :class="{logBtn:true}" @click="formValidate('form')">登录</el-button>
+              </el-col>
+            </el-row>
           </el-form-item>
         </el-form>
       </div>
@@ -193,7 +197,7 @@
           <el-form-item>
             <el-button-group :class="{regBtnGroup:true}">
               <el-button type="success" @click="formValidate('regForm')">注册账号</el-button>
-              <el-button type="primary" plain @click="clean('regForm')">重置表单</el-button>
+              <el-button type="primary" plain @click="cancelReg">取消</el-button>
             </el-button-group>
           </el-form-item>
         </el-form>
@@ -251,8 +255,8 @@
         :visible.sync="dialogFormVisible"
         center
         width="30%"
-        class="animated fadeInDown"
         custom-class="fogForm"
+        @closed="closeFogForm"
       >
         <el-form :model="fogForm" :style="{textAlign:'center'}" label-position="left">
           <el-form-item label="用户名" :label-width="formLabelWidth">
@@ -266,36 +270,25 @@
               <el-col :span="16">
                 <el-input v-model="fogForm.valiCode" autocomplete="off"></el-input>
               </el-col>
-              <el-col :span="8">
+              <el-col :xs="8" :sm="8" :md="8" :lg="8" :xl="8">
                 <el-button
                   plain
                   type="success"
-                  class="block"
-                  @click="getSms()"
+                  :style="{background:'transparent'}"
+                  @click="getSms"
                   :disabled="codeButtonStatus.status"
                 >{{ codeButtonStatus.text }}</el-button>
               </el-col>
             </el-row>
           </el-form-item>
         </el-form>
-        <div slot="footer" :span="24">
-          <!-- <el-button-group > -->
-          <el-row>
-            <el-col :span="12">
-              <el-button
-                type="success"
-                plain
-                @click="dialogFormVisible = false"
-                :class="{fogBtn1:true}"
-              >确 定</el-button>
+        <div slot="footer" >
+          <el-row :span="24">
+            <el-col :span="10" :push="2">
+              <el-button type="success" plain @click="findOut" :class="{fogBtn1:true}">确 定</el-button>
             </el-col>
-            <el-col :span="12">
-              <el-button
-                type="primary"
-                plain
-                @click="dialogFormVisible = false"
-                :class="{fogBtn2:true}"
-              >取 消</el-button>
+            <el-col :span="10" :push="4">
+              <el-button type="primary" plain @click="closeFogForm" :class="{fogBtn2:true}">取 消</el-button>
             </el-col>
           </el-row>
           <!-- </el-button-group> -->
@@ -317,7 +310,8 @@ import {
   UserLogin,
   stripscript,
   Register,
-  GetMsg
+  GetMsg,
+  Forget
 } from "_a/login.js";
 import { removeToKen, removeUserName } from "_u/loginMsg.js";
 import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
@@ -327,6 +321,7 @@ export default {
     let modes = "login";
     let url = pexels2;
     let vCode;
+    let fogCode;
     let vCodeImg;
     let bgImg = [
       {
@@ -430,6 +425,7 @@ export default {
     };
     const timer2 = null;
     return {
+      fogCode,
       codeButtonStatus,
       timer2,
       modes,
@@ -465,6 +461,13 @@ export default {
       AUTOLOGIN: "login/AUTOLOGIN",
       UNLOGIN: "login/USERNAMELOGIN"
     }),
+    cancelReg() {
+      this.showStatus = 0;
+    },
+    closeFogForm() {
+      this.showStatus = 0;
+      this.dialogFormVisible = false;
+    },
     getSms: function() {
       // 进行提示
       if (this.fogForm.email == "") {
@@ -484,12 +487,25 @@ export default {
       GetMsg(this.fogForm.email)
         .then(response => {
           let data = response.data;
-          this.$message({
-            message: data.message,
-            type: "success",
+          this.$message.success({
+            message: data.msg,
             dangerouslyUseHTMLString: true
           });
-          this.countDown(60);
+          this.fogCode = data.data;
+          this.countDown(30);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    findOut() {
+      Forget({ userName: this.fogForm.userName, email: this.fogForm.email })
+        .then(res => {
+          let data = res.data;
+          this.$message.success({
+            message: data.msg,
+            dangerouslyUseHTMLString: true
+          });
         })
         .catch(error => {
           console.log(error);
@@ -504,20 +520,23 @@ export default {
       // setTimeout:clearTimeout(变量)  只执行一次
       // setInterval:clearInterval(变量))  不断的执行，需要条件才会停止
       // 判断定时器是否存在，存在则清除
-      if (this.timer2.value) {
-        clearInterval(this.timer2.value);
+      if (this.timer2) {
+        this.fogCode = "";
+        number = number + 10;
+        clearInterval(this.timer2);
       }
       let time = number;
-      this.timer2.value = setInterval(() => {
+      this.timer2 = setInterval(() => {
         time--;
         if (time === 0) {
-          clearInterval(this.timer2.value);
+          clearInterval(this.timer2);
+          this.fogCode = "";
           this.updateButtonStatus({
             status: false,
             text: "再次获取"
           });
         } else {
-          this.codeButtonStatus.text = `倒计时${time}秒`; // es5 '倒计时' + time + '秒'
+          this.codeButtonStatus.text = `倒计时${time}秒`;
         }
       }, 1000);
     },
@@ -528,7 +547,7 @@ export default {
         text: "获取验证码"
       });
       // 清除倒计时
-      clearInterval(this.timer2.value);
+      clearInterval(this.timer2);
     },
     validateUsername: function(rule, value, callback) {
       console.log(value);
@@ -612,22 +631,22 @@ export default {
       console.log(`switchMode now ${this.modes} `);
     },
     showLogForm: function() {
-      setTimeout(() => {
-        this.showStatus = 1;
-        // this.showForm.display = "block";
-        //   this.bgStatus = 0;
-        //   this.SET_URL();
-      }, 1000);
+      // setTimeout(() => {
+      this.showStatus = 1;
+      // this.showForm.display = "block";
+      //   this.bgStatus = 0;
+      //   this.SET_URL();
+      // }, 1000);
       // this.clean("form");
     },
     showRegForm: function() {
       this.getCode();
-      setTimeout(() => {
-        this.showStatus = 2;
-        //   this.bgStatus = 1;
-        //   this.SET_URL();
-        //   this.clean("regForm");
-      }, 1000);
+      // setTimeout(() => {
+      this.showStatus = 2;
+      //   this.bgStatus = 1;
+      //   this.SET_URL();
+      //   this.clean("regForm");
+      // }, 1000);
     },
     showFogForm: function() {
       // setTimeout(() => {
@@ -635,7 +654,7 @@ export default {
       this.dialogFormVisible = true;
       // this.bgStatus = 2;
       // this.SET_URL();
-      // }, 1000);
+      // }, 1500);
     },
     showSwitch: function(flag) {
       this.SET_MODES(flag);

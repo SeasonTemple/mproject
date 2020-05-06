@@ -74,11 +74,23 @@ export function getUserRole(token) {
 /**
  * 获取邮箱验证码API
  */
-export function GetMsg(data){
+export function GetMsg(data) {
   return axios.request({
-      method: "post",
-      url: "api/getSms",
-      data
+    method: "get",
+    url: "api/getSms",
+    params: {
+      "email": data
+    }
+  })
+}
+/**
+ * 密码找回API
+ */
+export function Forget(userDto) {
+  return axios.request({
+    method: "post",
+    url: "api/forget",
+    data: userDto
   })
 }
 /**
