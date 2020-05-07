@@ -87,17 +87,21 @@ body {
   transition: font-size .2s linear, top .2s linear; }
 
 .fogBtn1 {
-  background: transparent !important;
+  background: rgba(103, 194, 58, 0.6);
   width: 100%; }
 
 .fogBtn2 {
-  background: transparent !important;
+  background: rgba(245, 108, 108, 0.6);
   width: 100%; }
 
 .fogForm {
   background: rgba(180, 180, 180, 0.2) !important;
   border-radius: 5%;
   border: 1px solid rgba(234, 231, 236, 0.5); }
+  .fogForm .el-input .el-input__count .el-input__count-inner {
+    background: transparent !important;
+    color: #e6e2df !important;
+    font-size: 14px; }
   .fogForm::after {
     content: "";
     border-radius: 5%;
@@ -267,18 +271,19 @@ body {
   color: white !important;
   padding-top: 1px !important;
   font-size: 14px !important;
-  font-weight: 500 !important; }
+  font-weight: 800 !important;
+  transition: all ease-in-out .4s; }
   .forget .el-link--inner:visited {
     color: black !important;
-    transition: all ease-in-out .5s; }
+    transition: all ease-in-out .4s; }
   .forget .el-link--inner:hover {
     transform: scale(1.2);
-    font-weight: 800 !important;
-    color: #409EFF !important;
-    transition: all ease-in-out .5s; }
+    color: #3197fd !important;
+    text-shadow: -1px -1px rgba(245, 245, 245, 0.5), 1px 1px rgba(245, 245, 245, 0.5);
+    transition: all ease-in-out .4s; }
   .forget .el-link--inner:active {
     color: #f9fce4 !important;
-    transition: all ease-in-out .5s; }
+    transition: all ease-in-out .4s; }
 
 .valiCode {
   font-size: 1.3em;

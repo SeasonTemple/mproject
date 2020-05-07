@@ -138,12 +138,12 @@ body {
 }
 
 .fogBtn1 {
-  background: transparent !important;
+  background: rgba(103, 194, 58, 0.6);
   width: 100%;
 }
 
 .fogBtn2 {
-  background: transparent !important;
+  background: rgba(245, 108, 108, 0.6);
   width: 100%;
 }
 
@@ -151,6 +151,12 @@ body {
   background: rgba(180, 180, 180, 0.2) !important;
   border-radius: 5%;
   border: 1px solid rgba(234, 231, 236, 0.5);
+
+  .el-input .el-input__count .el-input__count-inner{
+    background: transparent !important;
+    color: rgb(230, 226, 223) !important;
+    font-size: 14px;
+  }
 
   &::after {
     content: "";
@@ -394,24 +400,25 @@ body {
     color: rgb(255, 255, 255) !important;
     padding-top: 1px !important;
     font-size: 14px !important;
-    font-weight: 500 !important;
-    // transition: all ease-in-out .5s;
+    font-weight: 800 !important;
+    transition: all ease-in-out .4s;
 
     &:visited {
       color: rgb(0, 0, 0) !important;
-      transition: all ease-in-out .5s;
+      transition: all ease-in-out .4s;
     }
 
     &:hover {
       transform: scale(1.2);
-      font-weight: 800 !important;
-      color: #409EFF !important;
-      transition: all ease-in-out .5s;
+      color: rgb(49, 151, 253) !important;
+      text-shadow: -1px -1px rgba(245, 245, 245, 0.5),
+        1px 1px rgba(245, 245, 245, 0.5);
+      transition: all ease-in-out .4s;
     }
 
     &:active {
       color: rgb(249, 252, 228) !important;
-      transition: all ease-in-out .5s;
+      transition: all ease-in-out .4s;
     }
   }
 

@@ -249,49 +249,64 @@
     >
       <div class="animated goRegister" v-if="showStatus < 2" @click="switchMode('register')">点此注册</div>
     </transition>
-    <el-row :xs="12" :sm="18" :md="18" :lg="18" :xl="18">
+    <el-row :xs="18" :sm="18" :md="18" :lg="18" :xl="18">
       <el-dialog
         title="账号找回"
         :visible.sync="dialogFormVisible"
         center
+        destroy-on-close
+        append-to-body
+        :close-on-click-modal="false"
         width="30%"
         custom-class="fogForm"
-        @closed="closeFogForm"
+        @close="closeFogForm"
       >
-        <el-form :model="fogForm" :style="{textAlign:'center'}" label-position="left">
-          <el-form-item label="用户名" :label-width="formLabelWidth">
-            <el-input v-model="fogForm.userName" autocomplete="off"></el-input>
+        <el-form
+          :model="fogForm"
+          ref="fogForm"
+          :style="{textAlign:'center'}"
+          label-position="left"
+          :rules="fogRules"
+        >
+          <el-form-item label="用户名" :label-width="formLabelWidth" prop="userName">
+            <el-input
+              v-model="fogForm.userName"
+              autocomplete="off"
+              maxlength="20"
+              show-message
+              inline-message
+              error
+              show-word-limit
+            ></el-input>
           </el-form-item>
-          <el-form-item label="邮箱" :label-width="formLabelWidth">
+          <el-form-item label="邮箱" :label-width="formLabelWidth" prop="email">
             <el-input v-model="fogForm.email" autocomplete="off"></el-input>
           </el-form-item>
-          <el-form-item label="验证码" :label-width="formLabelWidth">
-            <el-row :span="24">
-              <el-col :span="16">
+          <el-form-item label="验证码" :label-width="formLabelWidth" prop="valiCode">
+            <el-row :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
+              <el-col :sm="14" :md="10" :lg="16" :xl="16">
                 <el-input v-model="fogForm.valiCode" autocomplete="off"></el-input>
               </el-col>
-              <el-col :xs="8" :sm="8" :md="8" :lg="8" :xl="8">
+              <el-col :sm="6" :md="6" :lg="6" :xl="8">
                 <el-button
-                  plain
                   type="success"
-                  :style="{background:'transparent'}"
                   @click="getSms"
+                  :style="{borderRadius: '5px'}"
                   :disabled="codeButtonStatus.status"
                 >{{ codeButtonStatus.text }}</el-button>
               </el-col>
             </el-row>
           </el-form-item>
         </el-form>
-        <div slot="footer" >
+        <div slot="footer">
           <el-row :span="24">
-            <el-col :span="10" :push="2">
-              <el-button type="success" plain @click="findOut" :class="{fogBtn1:true}">确 定</el-button>
+            <el-col :span="10" :push="3">
+              <el-button type="success" @click="findOut('fogForm')" :class="{fogBtn1:true}">找回密码</el-button>
             </el-col>
-            <el-col :span="10" :push="4">
-              <el-button type="primary" plain @click="closeFogForm" :class="{fogBtn2:true}">取 消</el-button>
+            <el-col :span="10" :push="3">
+              <el-button type="danger" @click="closeFogForm" :class="{fogBtn2:true}">返回登录</el-button>
             </el-col>
           </el-row>
-          <!-- </el-button-group> -->
         </div>
       </el-dialog>
     </el-row>
@@ -308,6 +323,7 @@ import {
   validateEmail,
   validateVCode,
   UserLogin,
+  validateFogCode,
   stripscript,
   Register,
   GetMsg,
@@ -388,6 +404,20 @@ export default {
         trigger: "blur"
       }
     };
+    const fogRules = {
+      userName: {
+        validator: this.validateUsername,
+        trigger: "blur"
+      },
+      email: {
+        validator: this.validateFogEmail,
+        trigger: "blur"
+      },
+      valiCode: {
+        validator: this.validateFogCode,
+        trigger: "blur"
+      }
+    };
     let actFocus = {
       name: "username",
       isFocus: false
@@ -425,6 +455,7 @@ export default {
     };
     const timer2 = null;
     return {
+      fogRules,
       fogCode,
       codeButtonStatus,
       timer2,
@@ -465,17 +496,28 @@ export default {
       this.showStatus = 0;
     },
     closeFogForm() {
-      this.showStatus = 0;
+      this.fogForm = {
+        userName: "",
+        email: "",
+        valiCode: ""
+      };
+      this.showStatus = 1;
       this.dialogFormVisible = false;
     },
     getSms: function() {
       // 进行提示
       if (this.fogForm.email == "") {
-        this.$message.error("邮箱不能为空！！");
+        this.$message.error({
+          message: "邮箱不能为空！",
+          offset: 40,
+        });
         return false;
       }
       if (validateEmail(this.fogForm.email)) {
-        this.$message.error("邮箱格式有误，请重新输入！！");
+        this.$message.error({
+          message: "邮箱格式有误，请重新输入！",
+          offset: 40
+        });
         return false;
       }
       // 修改获取验证按钮状态
@@ -489,40 +531,63 @@ export default {
           let data = response.data;
           this.$message.success({
             message: data.msg,
-            dangerouslyUseHTMLString: true
+            offset: 40
           });
           this.fogCode = data.data;
           this.countDown(30);
         })
         .catch(error => {
-          console.log(error);
+          this.$message.success({
+            message: error.data.msg,
+            offset: 40
+          });
+          this.updateButtonStatus({
+            status: false,
+            text: "获取验证码"
+          });
         });
     },
-    findOut() {
-      Forget({ userName: this.fogForm.userName, email: this.fogForm.email })
-        .then(res => {
-          let data = res.data;
-          this.$message.success({
-            message: data.msg,
-            dangerouslyUseHTMLString: true
-          });
-        })
-        .catch(error => {
-          console.log(error);
-        });
+    findOut(formName) {
+      console.log(formName);
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          Forget({ userName: this.fogForm.userName, email: this.fogForm.email })
+            .then(res => {
+              let data = res.data;
+              this.$message.success({
+                message: `<p>${data.msg}您的密码为：<i>${data.data.passWord}</i><p>`,
+                customClass: "messageSetting",
+                dangerouslyUseHTMLString: true,
+                offset: 60,
+                showClose: true,
+                duration: 8000
+              });
+              this.closeFogForm();
+            })
+            .catch(error => {
+              this.$message.error({
+                message: error.data.msg,
+                offset: 40
+              });
+            });
+        } else {
+          // this.$message.error({
+          //   message: "验证失败，请输入合法信息!!",
+          //   offset: 130,
+          //   duration: 2500
+          // });
+          return;
+        }
+      });
     },
     updateButtonStatus: function(params) {
       this.codeButtonStatus.status = params.status;
       this.codeButtonStatus.text = params.text;
     },
     countDown: function(number) {
-      // 60 和 0不见了，故意留BUG
-      // setTimeout:clearTimeout(变量)  只执行一次
-      // setInterval:clearInterval(变量))  不断的执行，需要条件才会停止
-      // 判断定时器是否存在，存在则清除
       if (this.timer2) {
         this.fogCode = "";
-        number = number + 10;
+        // number = number + 10;
         clearInterval(this.timer2);
       }
       let time = number;
@@ -618,6 +683,29 @@ export default {
         callback();
       }
     },
+    validateFogCode: function(rule, value, callback) {
+      console.log(value, this.fogCode);
+      if (value === "") {
+        return callback(new Error("请输入验证码！"));
+      } else if (this.fogCode == null) {
+        return callback(new Error("验证码错误，请先点击获取！"));
+      } else if (this.fogCode === "") {
+        return callback(new Error("验证码已过期，请重新获取！"));
+      } else if (validateFogCode(value)) {
+        return callback(new Error("验证码格式有误！"));
+      } else if (value == this.fogCode) {
+        callback();
+      }
+    },
+    validateFogEmail: function(rule, value, callback) {
+      if (value === "") {
+        return callback(new Error("邮箱不能为空！"));
+      } else if (validateEmail(value)) {
+        return callback(new Error("邮箱格式有误，请重新输入！"));
+      } else {
+        callback();
+      }
+    },
     switchMode: function(flag) {
       // this.$refs.form.resetFields();
       this.SET_MODES(flag);
@@ -650,6 +738,7 @@ export default {
     },
     showFogForm: function() {
       // setTimeout(() => {
+      this.modes = "forget";
       this.showStatus = 3;
       this.dialogFormVisible = true;
       // this.bgStatus = 2;

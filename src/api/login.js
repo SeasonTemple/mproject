@@ -108,7 +108,7 @@ export function stripscript(str) {
  * 验证邮箱
  */
 export function validateEmail(value) {
-  let reg = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
+  let reg = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{3,4})$/;
   return !reg.test(value) ? true : false;
 }
 /**
@@ -137,5 +137,13 @@ export function validatePass(value) {
  */
 export function validateVCode(value) {
   let reg = /^[a-z0-9]{6}$/;
+  return !reg.test(value) ? true : false;
+}
+
+/**
+ * 验证找回验证码
+ */
+export function validateFogCode(value) {
+  let reg = /^[a-z0-9]{8}$/;
   return !reg.test(value) ? true : false;
 }

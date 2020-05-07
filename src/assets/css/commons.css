@@ -1,11 +1,5 @@
 * {
-  outline: none;
-  -moz-user-select: none;
-  -o-user-select: none;
-  -khtml-user-select: none;
-  -webkit-user-select: none;
-  -ms-user-select: none;
-  user-select: none; }
+  outline: none; }
 
 #nprogress .bar {
   background: rgba(252, 48, 41, 0.596);
