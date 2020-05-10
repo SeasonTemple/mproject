@@ -11,7 +11,7 @@
         active-text-color="#ffd04b"
         @select="activeTab"
       >
-        <el-menu-item @click="changeCollapse" style="text-align:auto;" index>
+        <el-menu-item @click="changeCollapse" style="text-align:auto;" index="switch">
           <i class="el-icon-s-unfold" :class="{'el-icon-s-fold':!collapse}"></i>
           <span slot="title">{{ swiBar }}</span>
         </el-menu-item>
@@ -71,6 +71,9 @@ export default {
     },
     activeTab(index, indexPath) {
       // console.log(`${index}||${indexPath}`);
+      if( index == "switch" ){
+        return;
+      }
       let centers = ["detail", "information", "report", "request", "process","analyze"];
       if (index != null) {
         if (centers.indexOf(index) != -1) {

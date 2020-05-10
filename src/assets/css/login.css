@@ -244,6 +244,13 @@ body {
   .dialogFooter .el-button {
     width: 100%; }
 
+.change {
+  background: transparent;
+  color: red; }
+  .change.is-disabled {
+    background: transparent !important;
+    color: red !important; }
+
 .goForget {
   display: block;
   position: absolute;

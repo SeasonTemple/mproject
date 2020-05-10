@@ -10,7 +10,18 @@
                   <i :class="card.icon" :style="{color:card.iconColor}"></i>
                 </el-col>
                 <el-col :xs="14" :sm="14" :md="14" :lg="14" :xl="14" class="msg" :push="2">
-                  <el-link class="link" :underline="false">{{card.content}}</el-link>
+                  <el-link
+                    :class="{link: true}"
+                    v-if="index == '0'"
+                    :underline="false"
+                  >{{card.content}}</el-link>
+                  <el-link :class="{link: true}" v-else :underline="false">
+                    <countTo
+                      :startVal="0"
+                      :endVal="card.content"
+                      :duration="4000"
+                    ></countTo>
+                  </el-link>
                   <span class="title">{{card.title}}</span>
                 </el-col>
               </el-card>
@@ -31,7 +42,6 @@
         </el-col>
       </el-row>
     </el-card>
-    <!-- <el-divider></el-divider> -->
     <el-row :gutter="20">
       <template v-for="(item, index) in charts">
         <el-col
@@ -55,31 +65,34 @@
 import dayjs from "dayjs";
 export default {
   name: "home",
+  props: {
+    user: String
+  },
   data() {
     let url = "#";
     let drawLoading = true;
     let cards = [
       {
         title: "欢迎使用",
-        content: "廖文岵",
+        content: this.user + "",
         icon: "el-icon-user-solid",
         iconColor: "rgb(86, 172, 201)"
       },
       {
         title: "系统消息",
-        content: "11",
+        content: 11,
         icon: "el-icon-bell",
         iconColor: "rgb(178, 92, 212)"
       },
       {
         title: "工作报表",
-        content: "213",
+        content: 213,
         icon: "el-icon-files",
         iconColor: "rgb(101, 228, 63)"
       },
       {
-        title: "累积签到",
-        content: "721",
+        title: "月签到数",
+        content: 721,
         icon: "el-icon-date",
         iconColor: "rgb(255, 57, 22)"
       }
@@ -193,13 +206,7 @@ export default {
         },
         yAxis: {
           type: "category",
-          data: [
-            "20岁",
-            "30岁",
-            "40岁",
-            "50岁",
-            "60岁",
-          ]
+          data: ["20岁", "30岁", "40岁", "50岁", "60岁"]
         },
         series: [
           {
@@ -222,13 +229,7 @@ export default {
         legend: {
           left: "center",
           top: "bottom",
-          data: [
-            "缺席",
-            "缺勤一次",
-            "缺勤两次",
-            "缺勤两次以上",
-            "请假"
-          ]
+          data: ["缺席", "缺勤一次", "缺勤两次", "缺勤两次以上", "请假"]
         },
         toolbox: {
           show: true,
@@ -327,9 +328,7 @@ export default {
         }, 2000);
       });
     },
-    cardsInit: function(){
-      
-    }
+    cardsInit: function() {}
   },
   computed: {},
   mounted() {

@@ -33,7 +33,7 @@
               plain
             ></el-button>
           </el-tooltip>
-          <el-tooltip content="驳回申请" placement="top" effect="dark">
+          <el-tooltip content="删除通知" placement="top" effect="dark">
             <el-button
               type="danger"
               icon="el-icon-close"
@@ -94,7 +94,7 @@
               <el-input v-model="infoForm.publish"></el-input>
             </el-form-item>
             <el-form-item>
-              <el-button type="success" plain @click="submit('infoForm')">提交修改</el-button>
+              <el-button type="success" plain @click="submit('infoForm')">修改发布</el-button>
               <el-button type="primary" plain @click="dialogTableVisible = false">取消</el-button>
             </el-form-item>
           </el-form>

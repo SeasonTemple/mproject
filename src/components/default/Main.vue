@@ -23,7 +23,7 @@
               <i class></i>
               {{ item.title }}
             </span>
-            <component :is="activeName"></component>
+            <component :is="activeName" user="廖文岵"></component>
           </el-tab-pane>
         </template>
       </el-tabs>
@@ -129,7 +129,7 @@ export default {
       if (this.openedTab.length === 0) {
         this.ADD_TAB("home");
         // this.$router.replace("/index");
-        this.activeName = "控制台";
+        this.activeName = "home";
       } else {
         this.activeName = activeName;
       }
@@ -174,6 +174,9 @@ export default {
     },
     changeTab() {
       return this.ACTIVE_TAB;
+    },
+    fetchUserData(){
+
     }
   },
   mounted() {
@@ -184,7 +187,7 @@ export default {
   watch: {
     getOpenedTab(val) {
       console.log(
-        "getOpenedTab: " + val + "||" + this.openedTab + "||" + this.OPEN_TAB
+        "getOpenedTab: " + val + "||" + this.openedTab.length +"//"+ this.OPEN_TAB.length
       );
       if (val.length > this.openedTab.length) {
         let newTab = val[val.length - 1]; // 新增的肯定在数组最后一个

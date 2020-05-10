@@ -278,8 +278,8 @@ body {
     transition: all ease-in-out .4s; }
   .forget .el-link--inner:hover {
     transform: scale(1.2);
-    color: #3197fd !important;
-    text-shadow: -1px -1px rgba(245, 245, 245, 0.5), 1px 1px rgba(245, 245, 245, 0.5);
+    color: white !important;
+    text-shadow: 0px 0px 6px #ebb224;
     transition: all ease-in-out .4s; }
   .forget .el-link--inner:active {
     color: #f9fce4 !important;

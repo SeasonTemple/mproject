@@ -96,16 +96,6 @@
             </el-form-item>
           </transition>
           <el-row :class="{toolFloor:true}" :span="24">
-            <!-- <el-col :span="4"> -->
-            <!-- <button
-                style="display:block"
-                id="TencentCaptcha"
-                data-appid="2051056390"
-                data-cbfn="graphicVali"
-                type="button"
-            >验证</button>-->
-            <!-- <el-button @click="graphInit" plain="">滑块验证</el-button>
-            </el-col>-->
             <el-col :span="18">
               <el-link
                 :class="{forget:true}"
@@ -292,7 +282,9 @@
                   type="success"
                   @click="getSms"
                   :style="{borderRadius: '5px'}"
+                  :class="{change: codeButtonStatus.status}"
                   :disabled="codeButtonStatus.status"
+                  :icon="codeButtonStatus.text == '发送中'? 'el-icon-loading':null"
                 >{{ codeButtonStatus.text }}</el-button>
               </el-col>
             </el-row>
@@ -453,8 +445,10 @@ export default {
       status: false,
       text: "获取验证码"
     };
+    let countClock = 30;
     const timer2 = null;
     return {
+      countClock,
       fogRules,
       fogCode,
       codeButtonStatus,
@@ -496,20 +490,26 @@ export default {
       this.showStatus = 0;
     },
     closeFogForm() {
-      this.fogForm = {
-        userName: "",
-        email: "",
-        valiCode: ""
-      };
-      this.showStatus = 1;
+      // this.fogForm = {
+      //   userName: "",
+      //   email: "",
+      //   valiCode: ""
+      // };
+      this.clean("fogForm");
       this.dialogFormVisible = false;
+      this.showStatus = 1;
+    },
+    closeRegForm() {
+      this.clean("regForm");
+      this.switchMode("login");
+      this.showStatus = 1;
     },
     getSms: function() {
       // 进行提示
       if (this.fogForm.email == "") {
         this.$message.error({
           message: "邮箱不能为空！",
-          offset: 40,
+          offset: 40
         });
         return false;
       }
@@ -534,7 +534,7 @@ export default {
             offset: 40
           });
           this.fogCode = data.data;
-          this.countDown(30);
+          this.countDown(this.countClock);
         })
         .catch(error => {
           this.$message.success({
@@ -587,7 +587,7 @@ export default {
     countDown: function(number) {
       if (this.timer2) {
         this.fogCode = "";
-        // number = number + 10;
+        number = number >= 90 ? 90 : number + 15;
         clearInterval(this.timer2);
       }
       let time = number;
@@ -681,6 +681,9 @@ export default {
         console.log("regForm.valiCode");
         this.getCode();
         callback();
+      } else {
+        this.getCode();
+        return callback(new Error("验证码错误！请重新输入！"));
       }
     },
     validateFogCode: function(rule, value, callback) {
@@ -778,11 +781,12 @@ export default {
         if (valid) {
           this.graphInit();
         } else {
-          this.$message.error({
-            message: "验证失败，请输入合法信息!!",
-            offset: 230,
-            duration: 2500
-          });
+          // this.$message.error({
+          //   message: "验证失败，请输入合法信息!!",
+          //   offset: 60,
+          //   duration: 2500
+          // });
+          return;
         }
       });
       // .catch(error => {
@@ -799,23 +803,32 @@ export default {
       // let { username: userName, password: passWord } = this.form;
       this.LOGIN({ userName, passWord })
         .then(res => {
-          this.$message.success({
-            dangerouslyUseHTMLString: true,
-            message: `<strong>用户：${res.userName} 登录成功！</strong> `,
-            offset: 150,
-            duration: 2000
-          });
-          this.$refs.form.resetFields();
-          this.actFocus.isFocus = false;
-          this.pwdFocus.isFocus = false;
-          this.codeFocus.isFocus = false;
-          this.$router.push("/index");
+          if (res.code == 10201 || res.code == 10200) {
+            this.$message.success({
+              dangerouslyUseHTMLString: true,
+              message: `<strong>用户：${res.data.userName} 登录成功！</strong> `,
+              offset: 100,
+              duration: 2000
+            });
+            this.$refs.form.resetFields();
+            this.actFocus.isFocus = false;
+            this.pwdFocus.isFocus = false;
+            this.codeFocus.isFocus = false;
+            this.$router.push("/index");
+          } else {
+            this.$message.error({
+              dangerouslyUseHTMLString: true,
+              message: `<strong>${res.msg}</strong>`,
+              offset: 90,
+              duration: 2500
+            });
+          }
         })
         .catch(error => {
           this.$message.error({
             dangerouslyUseHTMLString: true,
             message: `<strong>${error}</strong>`,
-            offset: 150,
+            offset: 100,
             duration: 2500
           });
         });
@@ -851,23 +864,20 @@ export default {
       };
       Register(mpUser)
         .then(res => {
-          console.log("Register:" + res);
+          console.log(res.data);
           // console.log(res.data.data.userName);
-          if (res.data.data.code == 10200 || res.data.data.code == 10201) {
+          if (res.data.code == 10200 || res.data.code == 10201) {
             this.$message.success({
-              message: res.data.data.msg,
-              offset: 230,
+              message: res.data.msg,
+              offset: 100,
               duration: 2500
             });
-            this.switchMode("login");
-            this.showStatus = 0;
-            // this.form.username = mpUser.userName;
-            // this.form.password = mpUser.passWord;
+            this.closeRegForm();
           } else {
             this.$message.error({
-              message: err.msg,
-              offset: 230,
-              duration: 2500
+              message: res.data.data.msg,
+              offset: 60,
+              duration: 1500
             });
             this.getCode();
           }
@@ -875,8 +885,8 @@ export default {
         .catch(err => {
           console.log(err);
           this.$message.error({
-            message: err.data,
-            offset: 230,
+            message: err,
+            offset: 60,
             duration: 2500
           });
           this.getCode();
@@ -976,13 +986,15 @@ export default {
           if (rsp.ret === 0) {
             this.$message.success({
               message: "验证成功!",
-              offset: 130
+              offset: 80,
+              duration: 1000
             });
             this.selectMethods();
           } else {
             this.$message.error({
               message: "操作取消!",
-              offset: 130
+              offset: 80,
+              duration: 1000
             });
           }
         },

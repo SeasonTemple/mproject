@@ -18,13 +18,14 @@ import 'animate.css'
 import fontAwesome from 'font-awesome/css/font-awesome.min.css'
 import * as Sentry from '@sentry/browser';
 import * as Integrations from '@sentry/integrations';
+import countTo from '_u/countTo';
 process.env.NODE_ENV === "production" && Sentry.init({
   dsn: 'https://f12751ceccea42a3a4d7f661152c9e47@o388119.ingest.sentry.io/5224487',
   integrations: [new Integrations.Vue({Vue, attachProps: true})],
   release: 'test@1.0.0',
   logErrors: true
 });
-
+Vue.use(countTo)
 Vue.use(ElementUi)
 Vue.config.productionTip = false
 Vue.prototype.echarts = echarts

@@ -78,9 +78,9 @@ const actions = {
           commit('SET_USERNAME', data.userName);
           setToKen(token);
           setUserName(data.userName);
-          resolve(data)
+          resolve(res.data)
         } else {
-          reject(data)
+          resolve(res.data)
         }
       }).catch(error => {
         reject(error)

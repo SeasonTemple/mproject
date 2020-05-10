@@ -31,10 +31,5 @@ export let getWeather = function () {
     hover: "enabled",
     container: "tp-weather-widget"
   })
-  // console.log('调用完毕！');
-}
-
-export let appendCss = () => {
-  var t = document.getElementById('tp-weather-widget');
-  t.style.cssText = 'background:white;height:79px;line-height:79px;position:absolute;text-align:center;left:90px;';
+  console.log('调用完毕！');
 }
