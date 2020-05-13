@@ -1,17 +1,16 @@
 import axios from '_u/axios';
-import qs from 'qs';
 
 //初始化用户信息 API
-export const Register = (data) => {
+export const initUserData = (data) => {
   return axios.request({
-    url: "/api/userData",
+    url: "/api/initUserData",
     method: 'post',
     data
   })
 }
 
 //初始化Echarts API
-export const Register = (data) => {
+export const initEcharts = (data) => {
   return axios.request({
     url: "/api/initEcharts",
     method: 'post',

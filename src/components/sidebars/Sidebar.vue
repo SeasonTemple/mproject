@@ -71,16 +71,23 @@ export default {
     },
     activeTab(index, indexPath) {
       // console.log(`${index}||${indexPath}`);
-      if( index == "switch" ){
+      if (index == "switch") {
         return;
       }
-      let centers = ["detail", "information", "report", "request", "process","analyze"];
+      let centers = [
+        "detail",
+        "information",
+        "report",
+        "request",
+        "process",
+        "analyze"
+      ];
       if (index != null) {
         if (centers.indexOf(index) != -1) {
           this.ADD_TAB("profile");
-          this.CHANGE_PROFILE(index)
+          this.CHANGE_PROFILE(index);
         } else {
-        this.ADD_TAB(index);
+          this.ADD_TAB(index);
         }
       }
     }

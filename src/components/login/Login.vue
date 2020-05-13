@@ -497,6 +497,7 @@ export default {
       // };
       this.clean("fogForm");
       this.dialogFormVisible = false;
+      this.switchMode("login");
       this.showStatus = 1;
     },
     closeRegForm() {
@@ -839,7 +840,7 @@ export default {
           this.$message.success({
             dangerouslyUseHTMLString: true,
             message: `<strong>用户：${res} 登录成功！</strong> `,
-            offset: 150,
+            offset: 100,
             duration: 2000
           });
           this.$refs.form.resetFields();
@@ -852,7 +853,7 @@ export default {
           this.$message.error({
             dangerouslyUseHTMLString: true,
             message: `<strong>${error}</strong>`,
-            offset: 150,
+            offset: 100,
             duration: 2500
           });
         });
@@ -898,10 +899,27 @@ export default {
     getCode: function() {
       let result;
       this._timer = setTimeout(() => {
-        GetVCode(res => {
-          this.vCodeImg = "data:image/png;base64," + res.data.codeImg;
-          this.vCode = res.data.codeResult;
-        });
+        GetVCode()
+          .then(res => {
+            console.log(res)
+            let data = res.data;
+            let status =data.code;
+            if (data == 10201 || status == 10200) {
+              this.vCodeImg = "data:image/png;base64," + data.data.codeImg;
+              this.vCode = data.data.codeResult;
+            } else {
+              this.$message.error({
+                message: "验证码获取失败！"+ data.msg,
+                offset: 230
+              });
+            }
+          })
+          .catch(err => {
+            this.$message.error({
+              message: err.data.msg,
+              offset: 230
+            });
+          });
       }, 2000);
     },
     autoLogin: function() {
@@ -940,22 +958,19 @@ export default {
       })
         .then(() => {
           if (valid) {
-            this.$message({
-              type: "success",
+            this.$message.success({
               message: "提交成功!",
               offset: 230
             });
           } else {
-            this.$message({
-              type: "error",
+            this.$message.error({
               message: "验证失败，操作取消!!",
               offset: 230
             });
           }
         })
         .catch(error => {
-          this.$message({
-            type: "warning",
+          this.$message.warning({
             message: error + "：取消操作",
             offset: 250
           });

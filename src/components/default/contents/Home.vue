@@ -16,11 +16,7 @@
                     :underline="false"
                   >{{card.content}}</el-link>
                   <el-link :class="{link: true}" v-else :underline="false">
-                    <countTo
-                      :startVal="0"
-                      :endVal="card.content"
-                      :duration="4000"
-                    ></countTo>
+                    <countTo :startVal="0" :endVal="card.content" :duration="4000"></countTo>
                   </el-link>
                   <span class="title">{{card.title}}</span>
                 </el-col>
@@ -182,7 +178,7 @@ export default {
       },
       {
         title: {
-          text: "公司年龄分布",
+          text: "年龄结构",
           left: "center"
         },
         tooltip: {
@@ -191,14 +187,16 @@ export default {
             type: "shadow"
           }
         },
-        legend: {
-          data: ["年龄分布"]
-        },
         grid: {
           left: "3%",
           right: "4%",
           bottom: "3%",
           containLabel: true
+        },
+        legend: {
+          data: ["value"],
+          left: "center",
+          top: 30
         },
         xAxis: {
           type: "value",
@@ -210,16 +208,17 @@ export default {
         },
         series: [
           {
-            name: "该年龄段人数",
+            name: "20岁",
             type: "bar",
-            data: [40, 30, 17, 21, 14]
-          }
+            label: "20岁",
+            data: [40,30,17,21,6]
+          },
         ],
         span: 12
       },
       {
         title: {
-          text: "月考勤情况",
+          text: "月签到情况",
           left: "center"
         },
         tooltip: {

@@ -246,10 +246,10 @@ body {
 
 .change {
   background: transparent;
-  color: red; }
+  color: whitesmoke; }
   .change.is-disabled {
     background: transparent !important;
-    color: red !important; }
+    color: whitesmoke !important; }
 
 .goForget {
   display: block;

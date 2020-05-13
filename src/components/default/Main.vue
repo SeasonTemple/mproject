@@ -9,14 +9,6 @@
         @tab-click="handleClickTab($event.name)"
         @tab-remove="removeTab"
       >
-        <!-- <el-tab-pane name="home" :key="'first'" v-loading="drawLoading" :closable="false">
-          <span slot="label">
-            <i class="el-icon-monitor"></i> 控制台
-          </span>
-          <keep-alive>
-            <home />
-          </keep-alive>
-        </el-tab-pane>-->
         <template v-for="item in editableTabs">
           <el-tab-pane v-if="editableTabs!=''" :key="item.name" :name="item.name">
             <span slot="label">
@@ -160,6 +152,14 @@ export default {
     changeProfileTab(router) {
       console.log("changeProfileTab" + router);
       this.CHANGE_PROFILE(router);
+    },
+    initTabs() {
+      let tabs = this.OPEN_TAB;
+      let currentTabs = [];
+      console.log(tabs.length > this.openedTab.length)
+      if (tabs.length > this.openedTab.length) {
+        tabs.filter(t=>t!="home").forEach(t => this.editableTabs.push(this.routerNameMatcher(t)));
+      }
     }
   },
   computed: {
@@ -175,9 +175,7 @@ export default {
     changeTab() {
       return this.ACTIVE_TAB;
     },
-    fetchUserData(){
-
-    }
+    fetchUserData() {}
   },
   mounted() {
     this.timer = setTimeout(() => {
@@ -186,9 +184,6 @@ export default {
   },
   watch: {
     getOpenedTab(val) {
-      console.log(
-        "getOpenedTab: " + val + "||" + this.openedTab.length +"//"+ this.OPEN_TAB.length
-      );
       if (val.length > this.openedTab.length) {
         let newTab = val[val.length - 1]; // 新增的肯定在数组最后一个
         let res = this.routerNameMatcher(newTab);
@@ -216,6 +211,9 @@ export default {
   beforeDestroy() {
     clearTimeout(this.timer);
     this.timer = null;
+  },
+  beforeUpdate() {
+    this.initTabs();
   }
 };
 </script>

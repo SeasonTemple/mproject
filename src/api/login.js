@@ -1,22 +1,11 @@
 import axios from '_u/axios';
-import qs from 'qs';
 
 //获取验证码API
-export const GetVCode = callback => {
-  axios.request({
+export const GetVCode = function() {
+  return axios.request({
     method: "get",
     url: "/api/getVCode",
-    // headers: {
-    //   "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
-    // }
-  }).then(res => {
-    let status = res.status;
-    if (status == 201 || status == 200) {
-      callback(res.data)
-    } else {
-      throw new Error(`验证码获取失败！ ${qs.stringify(res.data+res.statusText)}.`)
-    }
-  }).catch(res => new Error(`调用验证码API失败: ${res}, 请稍后再试.`));
+  })
 }
 
 //登录(用户名、密码)API
@@ -127,7 +116,7 @@ export function validateAccount(value) {
  * 验证密码 8至20位的字母+数字 
  */
 export function validatePass(value) {
-  // console.log(value)
+  console.log(value)
   let reg = /^(?!\D+$)(?![^a-zA-Z]+$)\S{8,20}$/;
   return !reg.test(value) ? true : false;
 }

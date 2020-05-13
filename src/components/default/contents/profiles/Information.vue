@@ -34,7 +34,7 @@
         <transition appear appear-active-class="fadeIn" enter-active-class="fadeIn">
           <el-autocomplete
             :class="{searchInfo:true}"
-            class="animated delay-2s"
+            class="animated delay-3s"
             v-model="keyword"
             :fetch-suggestions="querySearch"
             placeholder="查询指定消息"

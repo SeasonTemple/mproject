@@ -310,11 +310,11 @@ body {
 
 .change {
   background: transparent;
-  color: red;
+  color: whitesmoke;
 
   &.is-disabled {
     background: transparent !important;
-    color: red !important;
+    color: whitesmoke !important;
   }
 }
 

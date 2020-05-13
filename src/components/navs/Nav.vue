@@ -22,7 +22,23 @@
           <el-col :xs="4" :sm="4" :md="4" :lg="4" :xl="4" id="tp-weather-widget" :class="{weather:true}" :push="7"></el-col>
         </keep-alive>
         <el-row :gutter="20" :style="{margin: '0 10px 0 0'}">
-          <el-col :xs="12" :sm="12" :md="12" :lg="12" :xl="12">
+          <el-col :xs="8" :sm="8" :md="8" :lg="8" :xl="8">
+            <transition
+              appear
+              appear-active-class="bounceInRight"
+              enter-active-class="bounceInRight"
+            >
+              <el-tooltip effect="dark" content="签到打卡" placement="bottom">
+                <el-button
+                  class="animated delay-3s"
+                  :class="{navConsole:true}"
+                  circle
+                  icon="el-icon-finished"
+                ></el-button>
+              </el-tooltip>
+            </transition>
+          </el-col>
+          <el-col :xs="8" :sm="8" :md="8" :lg="8" :xl="8">
             <transition
               appear
               appear-active-class="bounceInRight"
@@ -39,7 +55,7 @@
               </el-tooltip>
             </transition>
           </el-col>
-          <el-col :xs="12" :sm="12" :md="12" :lg="12" :xl="12">
+          <el-col :xs="8" :sm="8" :md="8" :lg="8" :xl="8">
             <transition
               appear
               appear-active-class="bounceInRight"
