@@ -52,15 +52,15 @@
       </el-card>
     </el-col>
     <el-col :xs="18" :sm="18" :md="18" :lg="18" :xl="18" class="rightCard">
-      <el-card shadow="always" class="rightContent">
+      <el-card shadow="always" :class="{rightContent:true}">
         <el-tabs v-model="currentTab" class="animated fadeIn" @tab-click="handleClick($event.name)">
           <template v-for="(tab,index) in tabPanels">
-            <el-tab-pane :name="tab.name" class="inner" :key="index" lazy>
+            <el-tab-pane :name="tab.name" :class="{inner:true}" :key="index" lazy>
               <span slot="label">{{ tab.label }}</span>
             </el-tab-pane>
           </template>
           <!-- <keep-alive> -->
-          <component :is="switchTab"></component>
+          <component :is="switchTab" :userDetail="userDetail"></component>
           <!-- </keep-alive> -->
         </el-tabs>
       </el-card>
@@ -81,6 +81,9 @@ files.keys().forEach(key => {
 export default {
   name: "profile",
   components: modules,
+  props: {
+    userDetail: Object
+  },
   data() {
     let tabPanels = [];
     let currentTab = "detail";

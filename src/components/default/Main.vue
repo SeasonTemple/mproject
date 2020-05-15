@@ -3,7 +3,7 @@
     <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" v-loading="drawLoading">
       <el-tabs
         v-model="activeName"
-        :style="{ background: '#fafafa' }"
+        :class="{tabStyle:true}"
         type="card"
         closable
         @tab-click="handleClickTab($event.name)"
@@ -15,7 +15,7 @@
               <i class></i>
               {{ item.title }}
             </span>
-            <component :is="activeName" user="廖文岵"></component>
+            <component :is="activeName" :userDetail="userDetail"></component>
           </el-tab-pane>
         </template>
       </el-tabs>
@@ -25,6 +25,8 @@
 
 <script>
 import { mapState, mapMutations } from "vuex";
+import { getUserName } from "_u/loginMsg.js";
+import { InitUserData } from "_a/main.js";
 export default {
   name: "mainContent",
   components: {
@@ -40,9 +42,11 @@ export default {
     systemLog: () => import("@/components/default/contents/system/SystemLog")
   },
   data() {
+    let userDetail = {};
     let drawLoading = false;
     let routers = [];
     let editableTabsValue = "home";
+    let activeName = "home";
     let editableTabs = [
       {
         title: "控制台",
@@ -60,11 +64,12 @@ export default {
       "analyze"
     ];
     return {
+      userDetail,
       centers,
       openedTab,
       editableTabs,
       editableTabsValue,
-      activeName: "home",
+      activeName,
       isChildUpdate1: true,
       isChildUpdate2: false,
       isChildUpdate3: false,
@@ -78,6 +83,34 @@ export default {
       DEDUCT_TAB: "main/deductTab",
       CHANGE_PROFILE: "profile/CHANGE_TAB"
     }),
+    getUsers: function() {
+      if (getUserName() != "" || getUserName() != null) {
+        InitUserData({ userName: getUserName() })
+          .then(res => {
+            let status = res.data.code;
+            let data = res.data.data;
+            if (status == 10200 || status == 10201) {
+              Object.assign(this.userDetail, data);
+              console.log(this.userDetail);
+            } else {
+              this.$message.error({
+                dangerouslyUseHTMLString: true,
+                message: `<strong>获取用户信息异常：${res.msg}</strong> `,
+                offset: 100,
+                duration: 2000
+              });
+            }
+          })
+          .catch(err => {
+            this.$message.error({
+              dangerouslyUseHTMLString: true,
+              message: `<strong>调用用户信息接口失败：${err.msg}</strong> `,
+              offset: 100,
+              duration: 2000
+            });
+          });
+      }
+    },
     handleClickTab(router) {
       this.CHANGE_TAB(router);
       this.activeName = router;
@@ -156,9 +189,11 @@ export default {
     initTabs() {
       let tabs = this.OPEN_TAB;
       let currentTabs = [];
-      console.log(tabs.length > this.openedTab.length)
+      console.log(tabs.length > this.openedTab.length);
       if (tabs.length > this.openedTab.length) {
-        tabs.filter(t=>t!="home").forEach(t => this.editableTabs.push(this.routerNameMatcher(t)));
+        tabs
+          .filter(t => t != "home")
+          .forEach(t => this.editableTabs.push(this.routerNameMatcher(t)));
       }
     }
   },
@@ -181,6 +216,7 @@ export default {
     this.timer = setTimeout(() => {
       this.drawLoading = false;
     }, 2500);
+    this.getUsers();
   },
   watch: {
     getOpenedTab(val) {

@@ -18,7 +18,7 @@
         :class="{detailStyle:true}"
         :rules="rules"
       >
-        <el-form-item class="user-avatar" label="我的头像" prop="imageUrl">
+        <el-form-item class="user-avatar" label="我的头像" prop="avatarUrl">
           <el-upload
             class="avatar-uploader"
             ref="upload"
@@ -33,12 +33,12 @@
             <i class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
           <el-dialog :visible.sync="dialogVisible" :append-to-body="true">
-            <img width="100%" :src="detailForm.imageUrl" alt="你的头像" />
+            <img width="100%" :src="detailForm.avatarUrl" alt="你的头像" />
           </el-dialog>
         </el-form-item>
-        <el-form-item label="用户名" prop="username">
+        <el-form-item label="用户名" prop="userName">
           <el-input
-            v-model="detailForm.username"
+            v-model="detailForm.userName"
             minlength="8"
             maxlength="20"
             show-word-limit
@@ -47,9 +47,9 @@
             v-bind="formState"
           ></el-input>
         </el-form-item>
-        <el-form-item label="密码" prop="password">
+        <el-form-item label="密码" prop="passWord">
           <el-input
-            v-model="detailForm.password"
+            v-model="detailForm.passWord"
             minlength="8"
             maxlength="20"
             show-password
@@ -87,8 +87,8 @@
             size="medium"
             v-bind="formState"
           >
-            <el-radio-button label="1">男</el-radio-button>
-            <el-radio-button label="0">女</el-radio-button>
+            <el-radio-button :label=1>男</el-radio-button>
+            <el-radio-button :label=0>女</el-radio-button>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="年龄" prop="age">
@@ -113,16 +113,16 @@
         </el-form-item>
         <el-form-item label="籍贯">
           <el-input
-            v-model="detailForm.from"
+            v-model="detailForm.origin"
             maxlength="25"
             placeholder="请输入你的籍贯"
             :style="formItemWidth"
             v-bind="formState"
           ></el-input>
         </el-form-item>
-        <el-form-item label="身份证号" prop="idNum">
+        <el-form-item label="身份证号" prop="idNumber">
           <el-input
-            v-model="detailForm.idNum"
+            v-model="detailForm.idNumber"
             maxlength="18"
             show-word-limit
             :style="formItemWidth"
@@ -130,11 +130,9 @@
             v-bind="formState"
           ></el-input>
         </el-form-item>
-        <el-form-item label="职工号" prop="empId">
+        <el-form-item label="职工号" prop="id">
           <el-input
-            v-model="detailForm.empId"
-            maxlength="18"
-            show-word-limit
+            v-model="detailForm.id"
             :style="formItemWidth"
             placeholder="填写你的职工编号"
             v-bind="formState"
@@ -205,12 +203,15 @@
 <script>
 export default {
   name: "detail",
+  props: {
+    userDetail: Object
+  },
   data() {
     let formItemWidth = "width:90%";
     let dialogVisible = false;
     let disabled = false;
     let formState = {
-      readonly: false,
+      readonly: true,
       clearable: true,
       disabled: false
     };
@@ -248,18 +249,18 @@ export default {
       }
     ];
     let detailForm = {
-      imageUrl:
+      avatarUrl:
         "https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif",
-      username: "廖某人",
-      password: ".z54564",
+      userName: "廖某人",
+      passWord: ".z54564",
       realName: "廖文岵",
       phone: "110",
       sex: "1",
       age: 21,
       email: "512743568@qq.com",
-      from: "四川省成都市金牛区",
-      idNum: "51025198704013312",
-      empId: "192382149870231001",
+      origin: "四川省成都市金牛区",
+      idNumber: "51025198704013312",
+      id: "192382149870231001",
       createTime: new Date(),
       groupName: "大国中医",
       belongTo: [],
@@ -372,8 +373,15 @@ export default {
     };
   },
   methods: {
+    initDetail() {
+      let data = this.userDetail;
+      console.log(data)
+      if (data != "" || data != null) {
+        Object.assign(this.detailForm, data);
+      }
+    },
     handleAvatarSuccess(res, file) {
-      this.detailForm.imageUrl = URL.createObjectURL(file.raw);
+      this.detailForm.avatarUrl = URL.createObjectURL(file.raw);
     },
     beforeAvatarUpload(file) {
       const isRightType =
@@ -400,7 +408,7 @@ export default {
       this.$refs.upload.clearFiles();
     },
     handlePictureCardPreview(file) {
-      this.detailForm.imageUrl = file.url;
+      this.detailForm.avatarUrl = file.url;
       this.dialogVisible = true;
     },
     handleUpload(event, file, fileList) {
@@ -433,36 +441,9 @@ export default {
       uid: "20200012",
       url: "https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif"
     });
+    this.initDetail();
   }
 };
 </script>
 
 <style scoped src="@/assets/css/detail.css"></style>
-<style>
-/* .avatar-uploader .el-upload {
-    border: 1px dashed #d9d9d9;
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .avatar-uploader .el-upload:hover {
-    border-color: #409EFF;
-  }
-
-  .avatar-uploader-icon {
-    font-size: 28px;
-    color: #8c939d;
-    width: 178px;
-    height: 178px;
-    line-height: 178px;
-    text-align: center;
-  }
-
-  .avatar {
-    width: 178px;
-    height: 178px;
-    display: block;
-  } */
-</style>

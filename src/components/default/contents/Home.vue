@@ -62,15 +62,14 @@ import dayjs from "dayjs";
 export default {
   name: "home",
   props: {
-    user: String
+    userDetail: Object,
   },
   data() {
-    let url = "#";
     let drawLoading = true;
     let cards = [
       {
         title: "欢迎使用",
-        content: this.user + "",
+        content: this.userDetail.realName + "",
         icon: "el-icon-user-solid",
         iconColor: "rgb(86, 172, 201)"
       },
@@ -211,8 +210,8 @@ export default {
             name: "20岁",
             type: "bar",
             label: "20岁",
-            data: [40,30,17,21,6]
-          },
+            data: [40, 30, 17, 21, 6]
+          }
         ],
         span: 12
       },
@@ -287,7 +286,6 @@ export default {
       }
     ];
     return {
-      url,
       drawLoading,
       cards,
       time,
@@ -296,23 +294,6 @@ export default {
     };
   },
   methods: {
-    getUsers: function() {
-      owl.send(
-        {
-          url: "/getVCode",
-          method: "post",
-          headers:
-            "{'Pragma':'No-cache','Cache-Control', 'No-cache','Expires', '0','Content-Type':'image/gif'}"
-
-          // data: {
-          //   username: "5252342"
-          // }
-        },
-        data => {
-          console.log(data);
-        }
-      );
-    },
     drawCharts: function() {
       this.charts.forEach((c, idx) => {
         let myChart = this.echarts.init(document.getElementById(idx), {
@@ -337,7 +318,6 @@ export default {
       _this.time = dayjs().format("YYYY/MM/DD</br>HH:mm:ss");
     }, 1000);
     this.drawCharts();
-    // this.getUsers();
   },
   beforeDestroy() {
     //实例销毁前清除定时器
