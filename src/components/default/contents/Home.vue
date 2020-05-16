@@ -62,36 +62,11 @@ import dayjs from "dayjs";
 export default {
   name: "home",
   props: {
-    userDetail: Object,
+    userDetail: Object
   },
   data() {
     let drawLoading = true;
-    let cards = [
-      {
-        title: "欢迎使用",
-        content: this.userDetail.realName + "",
-        icon: "el-icon-user-solid",
-        iconColor: "rgb(86, 172, 201)"
-      },
-      {
-        title: "系统消息",
-        content: 11,
-        icon: "el-icon-bell",
-        iconColor: "rgb(178, 92, 212)"
-      },
-      {
-        title: "工作报表",
-        content: 213,
-        icon: "el-icon-files",
-        iconColor: "rgb(101, 228, 63)"
-      },
-      {
-        title: "月签到数",
-        content: 721,
-        icon: "el-icon-date",
-        iconColor: "rgb(255, 57, 22)"
-      }
-    ];
+    let cards = [];
     let time = dayjs().format("YYYY/MM/DD</br>HH:mm:ss");
     let loading = true;
     let charts = [
@@ -294,6 +269,38 @@ export default {
     };
   },
   methods: {
+    initTopCards: function() {
+      let data = [
+        {
+          title: "欢迎使用",
+          content: "",
+          icon: "el-icon-user-solid",
+          iconColor: "rgb(86, 172, 201)"
+        },
+        {
+          title: "系统消息",
+          content: 11,
+          icon: "el-icon-bell",
+          iconColor: "rgb(178, 92, 212)"
+        },
+        {
+          title: "工作报表",
+          content: 213,
+          icon: "el-icon-files",
+          iconColor: "rgb(101, 228, 63)"
+        },
+        {
+          title: "月签到数",
+          content: 721,
+          icon: "el-icon-date",
+          iconColor: "rgb(255, 57, 22)"
+        }
+      ];
+      if (this.userDetail != null || this.userDetail != "") {
+        console.log(data[0] + "..." +  typeof this.userDetail.realName);
+      }
+      this.cards = data;
+    },
     drawCharts: function() {
       this.charts.forEach((c, idx) => {
         let myChart = this.echarts.init(document.getElementById(idx), {
@@ -307,10 +314,20 @@ export default {
           this.drawLoading = false;
         }, 2000);
       });
-    },
-    cardsInit: function() {}
+    }
   },
-  computed: {},
+  computed: {
+    initDetail: function() {
+      this.initTopCards();
+    }
+  },
+  watch: {
+    initDetail: function() {
+      if (this.cards == [] && this.userDetail != null) {
+        this.initTopCards();
+      }
+    }
+  },
   mounted() {
     //创建定时器更新最新的时间
     var _this = this;
@@ -318,6 +335,11 @@ export default {
       _this.time = dayjs().format("YYYY/MM/DD</br>HH:mm:ss");
     }, 1000);
     this.drawCharts();
+  },
+  activated() {
+    if (this.cards == [] && this.userDetail != null) {
+      this.initTopCards();
+    }
   },
   beforeDestroy() {
     //实例销毁前清除定时器

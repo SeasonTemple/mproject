@@ -866,7 +866,7 @@ export default {
       Register(mpUser)
         .then(res => {
           console.log(res.data);
-          // console.log(res.data.data.userName);
+          console.log(res.data.code);
           if (res.data.code == 10200 || res.data.code == 10201) {
             this.$message.success({
               message: res.data.msg,
@@ -876,10 +876,11 @@ export default {
             this.closeRegForm();
           } else {
             this.$message.error({
-              message: res.data.data.msg,
+              message: res.data.msg,
               offset: 60,
               duration: 1500
             });
+            this.clean("regForm");
             this.getCode();
           }
         })
@@ -890,6 +891,7 @@ export default {
             offset: 60,
             duration: 2500
           });
+          this.clean("regForm");
           this.getCode();
         });
     },

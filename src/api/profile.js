@@ -1,11 +1,19 @@
 import axios from '_u/axios';
 
+//详情页面：职位数据获取API
+export const BelongTo = () => {
+  return axios.request({
+    url: "/api/belongTo",
+    method: 'post',
+  })
+}
+
 //详情页面：用户信息修改API
-export const ModifyDetail = (data) => {
+export const ModifyDetail = (userDetail) => {
   return axios.request({
     url: "/api/modifyDetail",
     method: 'post',
-    data
+    data: userDetail
   })
 }
 

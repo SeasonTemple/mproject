@@ -189,11 +189,20 @@ export default {
     initTabs() {
       let tabs = this.OPEN_TAB;
       let currentTabs = [];
-      console.log(tabs.length > this.openedTab.length);
+      console.log(tabs +"///"+ this.openedTab);
       if (tabs.length > this.openedTab.length) {
         tabs
           .filter(t => t != "home")
-          .forEach(t => this.editableTabs.push(this.routerNameMatcher(t)));
+          .forEach(t => {
+            if (this.editableTabs.indexOf(t) == -1) {
+              if(this.centers.indexOf(t) === -1){
+                this.editableTabs.push(this.routerNameMatcher(t));
+              }else{
+                this.editableTabs.push(this.routerNameMatcher("profile"));
+                this.changeProfileTab(t);
+              }
+            }
+          });
       }
     }
   },
@@ -202,6 +211,11 @@ export default {
       OPEN_TAB: state => state.main.openedTab,
       ACTIVE_TAB: state => state.main.activeTab
     }),
+    initUserDetail() {
+      // if (this.userDetail == []) {
+        return this.getUsers();
+      // }
+    },
     getOpenedTab() {
       console.log("OPEN_TAB:" + this.OPEN_TAB);
       // this.openedTab = this.OPEN_TAB;
@@ -216,7 +230,7 @@ export default {
     this.timer = setTimeout(() => {
       this.drawLoading = false;
     }, 2500);
-    this.getUsers();
+    this.initUserDetail;
   },
   watch: {
     getOpenedTab(val) {
@@ -248,7 +262,7 @@ export default {
     clearTimeout(this.timer);
     this.timer = null;
   },
-  beforeUpdate() {
+  updated() {
     this.initTabs();
   }
 };

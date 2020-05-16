@@ -87,48 +87,7 @@ export default {
   data() {
     let tabPanels = [];
     let currentTab = "detail";
-    let tags = [
-      {
-        name: "姓名",
-        type: "",
-        description: "廖文岵"
-      },
-      {
-        name: "职位",
-        type: "success",
-        description: "Python开发"
-      },
-      {
-        name: "年龄",
-        type: "info",
-        description: "21"
-      },
-      {
-        name: "性别",
-        type: "warning",
-        description: "男"
-      },
-      {
-        name: "出勤",
-        type: "",
-        description: "连续613天"
-      },
-      {
-        name: "入职时间",
-        type: "info",
-        description: "2019-9-12"
-      },
-      {
-        name: "所属部门",
-        type: "success",
-        description: "开发"
-      },
-      {
-        name: "等级",
-        type: "danger",
-        description: "Lv2"
-      }
-    ];
+    let tags = [];
     let inputVisible = false;
     let tagInput = "";
     return {
@@ -230,6 +189,31 @@ export default {
       console.log(`nowTab: ${this.CURRENT_TAB}`);
       this.currentTab = this.CURRENT_TAB;
       this.CHANGE_TAB(this.currentTab);
+    },
+    initTags() {
+      const tagMap = new Map();
+      tagMap.set("userName", "用户名");
+      tagMap.set("realName", "姓名");
+      tagMap.set("position", "职位");
+      tagMap.set("age", "年龄");
+      tagMap.set("sex", "性别");
+      tagMap.set("createTime", "入职时间");
+      tagMap.set("lastLogin", "上次登录");
+      const randomType = _ => _[(Math.random() * _.length) | 0];
+      const opts = ["", "info", "danger", "warning", "success"];
+      const userData = this.userDetail;
+      const _tags = [];
+      const index = Object.keys(userData);
+      tagMap.forEach((value, key) => {
+        if (index.indexOf(key) != -1) {
+          _tags.push({
+            name: value,
+            type: randomType(opts),
+            description: userData[key]
+          });
+        }
+      });
+      this.tags = _tags;
     }
   },
   watch: {
@@ -243,11 +227,15 @@ export default {
     },
     nowTab: {
       handler: "nowTab"
-    }
+    },
+    // initTag: {
+    //   handler: "initTags"
+    // }
   },
-  beforeMount() {
+  mounted() {
     this.currentTab = this.CURRENT_TAB;
-    console.log(this.currentTab);
+    this.initTags;
+    // console.log(this.currentTab);
     // this.switchTab;
   }
 };

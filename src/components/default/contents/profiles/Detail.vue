@@ -17,6 +17,7 @@
         label-position="left"
         :class="{detailStyle:true}"
         :rules="rules"
+        hide-required-asterisk
       >
         <el-form-item class="user-avatar" label="我的头像" prop="avatarUrl">
           <el-upload
@@ -87,8 +88,8 @@
             size="medium"
             v-bind="formState"
           >
-            <el-radio-button :label=1>男</el-radio-button>
-            <el-radio-button :label=0>女</el-radio-button>
+            <el-radio-button :label="1">男</el-radio-button>
+            <el-radio-button :label="0">女</el-radio-button>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="年龄" prop="age">
@@ -138,22 +139,32 @@
             v-bind="formState"
           ></el-input>
         </el-form-item>
-        <el-form-item label="职位所属" prop="belongTo">
-          <el-cascader
-            :options="belongOpts"
+        <el-form-item label="职位" prop="position">
+          <el-input
+            v-model="detailForm.position"
             :style="formItemWidth"
+            placeholder="填写你的职工编号"
             v-bind="formState"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="职能所属" prop="belongTo">
+          <el-cascader
+            v-model="detailForm.belongTo"
+            :style="formItemWidth"
+            :options="belongOpts"
+            :formState="formState"
             :props="{ expandTrigger: 'hover' }"
+            @change="handleChange"
           >
             <template slot-scope="{ node, data }">
-              <span>{{ data.label }}</span>
+              <span class="demonstration">{{ data.label }}</span>
               <span v-if="!node.isLeaf">({{ data.children.length }})</span>
             </template>
           </el-cascader>
         </el-form-item>
-        <el-form-item label="直属上级" prop="leaderName">
+        <el-form-item label="直属上级" prop="leader">
           <el-input
-            v-model="detailForm.leaderName"
+            v-model="detailForm.leader"
             minlength="2"
             maxlength="10"
             placeholder="您的直属上级姓名"
@@ -187,89 +198,47 @@
         </el-form-item>
       </el-form>
     </el-col>
-    <!-- <el-col :xs="12" :sm="12" :md="12" :lg="12" :xl="12">
-      <template v-for="(p, index) in progressGroup.progress">
-        <el-col :xs="4" :sm="6" :md="8" :lg="8" :xl="8" :class="{circleGroup:true}" :key="index">
-          <el-progress v-if="p.type == 'line'" :type="p.type" :percentage="p.percentage" :text-inside="p.textInside"
-            :color="progressGroup.colors" :stroke-width="p.strokeWidth" :show-text="p.showText"></el-progress>
-          <el-progress v-else :type="p.type" :percentage="p.percentage" :color="progressGroup.colors"
-            :stroke-width="p.strokeWidth" :width="p.width" :show-text="p.showText" :stroke-linecap="p.strokeLineCap">
-          </el-progress>
-        </el-col>
-      </template>
-    </el-col>-->
   </el-row>
 </template>
 <script>
+import dayjs from "dayjs";
+import { BelongTo, ModifyDetail } from "_a/profile.js";
 export default {
   name: "detail",
   props: {
     userDetail: Object
   },
   data() {
+    let backup = {};
     let formItemWidth = "width:90%";
     let dialogVisible = false;
     let disabled = false;
     let formState = {
-      readonly: true,
+      readonly: false,
       clearable: true,
       disabled: false
     };
-    let belongOpts = [
-      {
-        label: "前端开发部",
-        departmentName: "zhinan",
-        departmentId: "1",
-        children: [
-          {
-            label: "天气App项目",
-            groupName: "shejiyuanze",
-            groupId: "2",
-            children: [
-              {
-                label: "Python删库工程师",
-                position: "shejiyuanze",
-                positionId: "2"
-              }
-            ]
-          },
-          {
-            label: "设计原则",
-            groupName: "shejiyuanze",
-            groupId: "2",
-            children: [
-              {
-                label: "一致",
-                position: "shejiyuanze",
-                positionId: "2"
-              }
-            ]
-          }
-        ]
-      }
-    ];
+    let belongOpts = [];
     let detailForm = {
-      avatarUrl:
-        "https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif",
-      userName: "廖某人",
-      passWord: ".z54564",
-      realName: "廖文岵",
-      phone: "110",
-      sex: "1",
-      age: 21,
-      email: "512743568@qq.com",
-      origin: "四川省成都市金牛区",
-      idNumber: "51025198704013312",
-      id: "192382149870231001",
-      createTime: new Date(),
-      groupName: "大国中医",
+      avatarUrl: "",
+      userName: "",
+      passWord: "",
+      realName: "",
+      phone: "",
+      sex: "",
+      age: Number,
+      email: "",
+      origin: "",
+      idNumber: "",
+      id: "",
+      position: "",
+      createTime: "",
       belongTo: [],
-      departmentName: "传销部",
-      leaderName: "庄爱玲" || "无",
-      lastLogin: new Date()
+      leader: "",
+      lastLogin: ""
     };
     let rules = {
-      leaderName: {
+      leader: {
         required: true,
         message: "请输入您的上级姓名",
         trigger: "blur"
@@ -304,63 +273,8 @@ export default {
         }
       ]
     };
-    let progressGroup = {
-      progress: [
-        {
-          percentage: 12,
-          type: "circle",
-          strokeWidth: 8,
-          textInside: false,
-          status: "",
-          width: 140,
-          showText: true,
-          strokeLineCap: "round"
-        },
-        {
-          percentage: 21,
-          type: "circle",
-          strokeWidth: 8,
-          textInside: false,
-          status: "",
-          width: 140,
-          showText: true,
-          strokeLineCap: "round"
-        },
-        {
-          percentage: 24,
-          type: "line",
-          strokeWidth: 20,
-          textInside: true,
-          status: "",
-          width: 150,
-          showText: true,
-          strokeLineCap: ""
-        }
-      ],
-      colors: [
-        {
-          color: "#f56c6c",
-          percentage: 20
-        },
-        {
-          color: "#e6a23c",
-          percentage: 40
-        },
-        {
-          color: "#5cb87a",
-          percentage: 60
-        },
-        {
-          color: "#1989fa",
-          percentage: 80
-        },
-        {
-          color: "#6f7ad3",
-          percentage: 100
-        }
-      ]
-    };
     return {
+      backup,
       rules,
       dialogVisible,
       disabled,
@@ -368,17 +282,61 @@ export default {
       formItemWidth,
       pickerOptions,
       belongOpts,
-      formState,
-      progressGroup
+      formState
     };
   },
   methods: {
     initDetail() {
       let data = this.userDetail;
-      console.log(data)
+      console.log(this.userDetail);
       if (data != "" || data != null) {
         Object.assign(this.detailForm, data);
+        this.backup = data;
+        this.$refs.upload.fileList.push({
+          url: data.avatarUrl
+        });
+        this.initOpts();
       }
+    },
+    initOpts() {
+      BelongTo()
+        .then(res => {
+          let data = res.data.data;
+          let code = res.data.code;
+          if (code == 10200 || code == 10201) {
+            console.log(data.projects.filter(pro => pro.depId == 4));
+            let nodes = data.departments.map(dep => ({
+              label: dep.depName,
+              value: {
+                depId: dep.id
+              },
+              children: data.projects
+                .filter(pro => pro.depId == dep.id)
+                .map(pro => ({
+                  label: pro.projectName,
+                  value: {
+                    proId: pro.id
+                  }
+                }))
+            }));
+            this.belongOpts = nodes;
+          } else {
+            this.$message.error({
+              dangerouslyUseHTMLString: true,
+              message: `<strong>获取部门、组信息失败：${res.msg}</strong> `,
+              offset: 100,
+              duration: 2000
+            });
+          }
+        })
+        .catch(err => {
+          this.$message.error({
+            dangerouslyUseHTMLString: true,
+            message: `<strong>接口调用失败：${err}</strong> `,
+            offset: 100,
+            duration: 2000
+          });
+        });
     },
     handleAvatarSuccess(res, file) {
       this.detailForm.avatarUrl = URL.createObjectURL(file.raw);
@@ -422,25 +380,35 @@ export default {
       });
     },
     resetForm(formName) {
-      this.$refs[formName].resetFields();
+      Object.assign(this.$refs[formName].model, this.backup);
     },
     submit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          alert("submit!");
+          let send = this.detailForm;
+          let { attendance, salt, salary, ...o } = this.detailForm;
+          console.log(o);
+          // ModifyDetail(this.detailForm).then(res=>{
+          //   console.log(res)
+          // }).catch(err=>{
+          //   console.log(err)
+          // })
         } else {
           console.log("error submit!!");
           return false;
         }
       });
+    },
+    handleChange(value) {
+      console.log(value);
     }
   },
   mounted() {
     this.wow().init();
-    this.$refs.upload.fileList.push({
-      uid: "20200012",
-      url: "https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif"
-    });
+    // this.$refs.upload.fileList.push({
+    //   uid: "20200012",
+    //   url: "https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif"
+    // });
     this.initDetail();
   }
 };
