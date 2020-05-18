@@ -23,11 +23,11 @@
           <el-upload
             class="avatar-uploader"
             ref="upload"
-            action="https://jsonplaceholder.typicode.com/posts/"
+            action="/tusu/?a=upload"
+            :http-request="handleUpload"
             :before-upload="beforeAvatarUpload"
             :on-preview="handlePictureCardPreview"
             list-type="picture-card"
-            :on-progress="handleUpload"
             :on-remove="handleRemove"
             :on-success="handleAvatarSuccess"
           >
@@ -45,7 +45,6 @@
             show-word-limit
             :style="formItemWidth"
             placeholder="填写你的用户名"
-            v-bind="formState"
           ></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="passWord">
@@ -56,7 +55,6 @@
             show-password
             :style="formItemWidth"
             placeholder="填写你的密码"
-            v-bind="formState"
           ></el-input>
         </el-form-item>
         <el-form-item label="真实姓名" prop="realName">
@@ -67,7 +65,6 @@
             :style="formItemWidth"
             show-word-limit
             placeholder="填写你的真实姓名"
-            v-bind="formState"
           ></el-input>
         </el-form-item>
         <el-form-item label="手机号" prop="phone">
@@ -77,7 +74,6 @@
             show-word-limit
             :style="formItemWidth"
             placeholder="填写你的手机号"
-            v-bind="formState"
           ></el-input>
         </el-form-item>
         <el-form-item label="性别" prop="sex">
@@ -86,7 +82,6 @@
             text-color="#F2F6FC"
             fill="#67C23A"
             size="medium"
-            v-bind="formState"
           >
             <el-radio-button :label="1">男</el-radio-button>
             <el-radio-button :label="0">女</el-radio-button>
@@ -100,7 +95,6 @@
             size="small"
             controls-position="right"
             placeholder="你的年龄"
-            v-bind="formState"
           ></el-input-number>
         </el-form-item>
         <el-form-item label="邮箱">
@@ -109,7 +103,6 @@
             maxlength="25"
             placeholder="请输入你的职位名称"
             :style="formItemWidth"
-            v-bind="formState"
           ></el-input>
         </el-form-item>
         <el-form-item label="籍贯">
@@ -118,7 +111,6 @@
             maxlength="25"
             placeholder="请输入你的籍贯"
             :style="formItemWidth"
-            v-bind="formState"
           ></el-input>
         </el-form-item>
         <el-form-item label="身份证号" prop="idNumber">
@@ -128,7 +120,6 @@
             show-word-limit
             :style="formItemWidth"
             placeholder="填写你的身份证号码"
-            v-bind="formState"
           ></el-input>
         </el-form-item>
         <el-form-item label="职工号" prop="id">
@@ -136,41 +127,45 @@
             v-model="detailForm.id"
             :style="formItemWidth"
             placeholder="填写你的职工编号"
-            v-bind="formState"
+            :readonly="formState.readonly"
+            :disabled="formState.disabled"
+            :clearable="formState.clearable"
           ></el-input>
         </el-form-item>
         <el-form-item label="职位" prop="position">
           <el-input
             v-model="detailForm.position"
             :style="formItemWidth"
-            placeholder="填写你的职工编号"
-            v-bind="formState"
+            placeholder="填写你的职位"
+            :readonly="formState.readonly"
+            :disabled="formState.disabled"
+            :clearable="formState.clearable"
           ></el-input>
         </el-form-item>
-        <el-form-item label="职能所属" prop="belongTo">
-          <el-cascader
+        <el-form-item label="所属" prop="belongTo">
+          <el-input
+            v-model="detailForm.belongTo"
+            :style="formItemWidth"
+            placeholder="填写你的所在 部门/组"
+            :readonly="formState.readonly"
+            :disabled="formState.disabled"
+            :clearable="formState.clearable"
+          ></el-input>
+          <!-- <el-cascader
+            clearable
             v-model="detailForm.belongTo"
             :style="formItemWidth"
             :options="belongOpts"
             :formState="formState"
             :props="{ expandTrigger: 'hover' }"
             @change="handleChange"
+            value-key="belongTo"
           >
             <template slot-scope="{ node, data }">
               <span class="demonstration">{{ data.label }}</span>
               <span v-if="!node.isLeaf">({{ data.children.length }})</span>
             </template>
-          </el-cascader>
-        </el-form-item>
-        <el-form-item label="直属上级" prop="leader">
-          <el-input
-            v-model="detailForm.leader"
-            minlength="2"
-            maxlength="10"
-            placeholder="您的直属上级姓名"
-            :style="formItemWidth"
-            v-bind="formState"
-          ></el-input>
+          </el-cascader>-->
         </el-form-item>
         <el-form-item label="入职日期" prop="createTime">
           <el-date-picker
@@ -179,7 +174,9 @@
             type="datetime"
             :picker-options="pickerOptions"
             :style="formItemWidth"
-            v-bind="formState"
+            :readonly="formState.readonly"
+            :disabled="formState.disabled"
+            :clearable="formState.clearable"
           ></el-date-picker>
         </el-form-item>
         <el-form-item label="上次登录" prop="lastLogin">
@@ -189,7 +186,9 @@
             type="datetime"
             :picker-options="pickerOptions"
             :style="formItemWidth"
-            v-bind="formState"
+            :readonly="formState.readonly"
+            :disabled="formState.disabled"
+            :clearable="formState.clearable"
           ></el-date-picker>
         </el-form-item>
         <el-form-item>
@@ -202,23 +201,25 @@
 </template>
 <script>
 import dayjs from "dayjs";
-import { BelongTo, ModifyDetail } from "_a/profile.js";
+import { BelongTo, ModifyDetail, UploadImg } from "_a/profile.js";
+import { mapState, mapMutations, mapActions } from "vuex";
 export default {
   name: "detail",
   props: {
     userDetail: Object
   },
   data() {
-    let backup = {};
+    let backup = {
+      belongTo: ""
+    };
     let formItemWidth = "width:90%";
     let dialogVisible = false;
-    let disabled = false;
     let formState = {
-      readonly: false,
-      clearable: true,
-      disabled: false
+      readonly: true,
+      disabled: true,
+      clearable: false
     };
-    let belongOpts = [];
+    let belongOpts = "";
     let detailForm = {
       avatarUrl: "",
       userName: "",
@@ -233,8 +234,7 @@ export default {
       id: "",
       position: "",
       createTime: "",
-      belongTo: [],
-      leader: "",
+      belongTo: "",
       lastLogin: ""
     };
     let rules = {
@@ -277,7 +277,6 @@ export default {
       backup,
       rules,
       dialogVisible,
-      disabled,
       detailForm,
       formItemWidth,
       pickerOptions,
@@ -286,40 +285,43 @@ export default {
     };
   },
   methods: {
-    initDetail() {
-      let data = this.userDetail;
-      console.log(this.userDetail);
-      if (data != "" || data != null) {
-        Object.assign(this.detailForm, data);
-        this.backup = data;
-        this.$refs.upload.fileList.push({
-          url: data.avatarUrl
-        });
-        this.initOpts();
-      }
+    ...mapActions({
+      GET_UserDetail: "main/GET_UserDetail"
+    }),
+    uploadImage() {
+      console.log("图片上传！");
     },
-    initOpts() {
+    initDetail() {
+      this.GET_UserDetail()
+        .then(res => {
+          let { depId, groupId } = res;
+          this.initOpts({ depId, groupId }, res);
+        })
+        .catch(err => {
+          this.$message.error({
+            dangerouslyUseHTMLString: true,
+            message: `<strong>获取用户信息异常：${err.msg}</strong> `,
+            offset: 100,
+            duration: 2000
+          });
+        });
+    },
+    initOpts(flag, value) {
       BelongTo()
         .then(res => {
           let data = res.data.data;
           let code = res.data.code;
           if (code == 10200 || code == 10201) {
-            console.log(data.projects.filter(pro => pro.depId == 4));
-            let nodes = data.departments.map(dep => ({
-              label: dep.depName,
-              value: {
-                depId: dep.id
-              },
-              children: data.projects
-                .filter(pro => pro.depId == dep.id)
-                .map(pro => ({
-                  label: pro.projectName,
-                  value: {
-                    proId: pro.id
-                  }
-                }))
-            }));
-            this.belongOpts = nodes;
+            let dep = data.departments.find(dep => flag.depId == dep.id);
+            let group = data.projects
+              .filter(pro => flag.depId == pro.depId)
+              .find(pro => pro.id == flag.groupId);
+            Object.assign(this.detailForm, value);
+            this.detailForm.belongTo = dep.depName + " / " + group.projectName;
+            Object.assign(this.backup, this.detailForm);
+            this.$refs.upload.fileList.push({
+              url: this.detailForm.avatarUrl
+            });
           } else {
             this.$message.error({
               dangerouslyUseHTMLString: true,
@@ -346,17 +348,15 @@ export default {
         file.type === "image/jpeg" || "image/jpg" || "image/png";
       const isLt2M = file.size / 1024 / 1024 < 2;
       if (!isRightType) {
-        this.$message({
+        this.$message.error({
           message: "上传头像图片只能是 JPG 格式!",
           offset: 100,
-          type: "error"
         });
       }
       if (!isLt2M) {
-        this.$message({
+        this.$message.error({
           message: "上传头像图片大小不能超过 2MB!",
           offset: 200,
-          type: "error"
         });
       }
       return isRightType && isLt2M;
@@ -369,18 +369,33 @@ export default {
       this.detailForm.avatarUrl = file.url;
       this.dialogVisible = true;
     },
-    handleUpload(event, file, fileList) {
-      return fileList.splice(0).push.call(fileList, file);
+    handleUpload(event) {
+      console.log("正在上传图片！");
+      console.log(event.file);
+      // console.log(new File(event.file, event.file.name))
+      // const reader = new FileReader();
+      // reader.readAsBinaryString(event.file);
+      // let target = [];
+      // reader.onload = function(y) {
+      //   let binary = this.result;
+      UploadImg(event.file)
+        .then(res => {
+          console.log(res);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+      // };
+      // return fileList.splice(0).push.call(fileList, file);
     },
     uploadFailed(err, file) {
-      this.$message({
+      this.$message.error({
         message: `${err}`,
         offset: 300,
-        type: "error"
       });
     },
-    resetForm(formName) {
-      Object.assign(this.$refs[formName].model, this.backup);
+    resetForm: function(formName) {
+      Object.assign(this.detailForm, this.backup);
     },
     submit(formName) {
       this.$refs[formName].validate(valid => {
@@ -388,11 +403,13 @@ export default {
           let send = this.detailForm;
           let { attendance, salt, salary, ...o } = this.detailForm;
           console.log(o);
-          // ModifyDetail(this.detailForm).then(res=>{
-          //   console.log(res)
-          // }).catch(err=>{
-          //   console.log(err)
-          // })
+          ModifyDetail(o)
+            .then(res => {
+              console.log(res);
+            })
+            .catch(err => {
+              console.log(err);
+            });
         } else {
           console.log("error submit!!");
           return false;
@@ -401,7 +418,19 @@ export default {
     },
     handleChange(value) {
       console.log(value);
+    },
+    formatBelongTo: function(value) {
+      this.belongOpts = value;
     }
+  },
+  computed: {},
+  watch: {
+    // formatBelongTo(value) {
+    //   let flag = this.detailForm.belongTo;
+    //   console.log("formatBelongTo");
+    //   if (flag == "" || flag == null)
+    //     this.detailForm.belongTo = this.belongOpts;
+    // }
   },
   mounted() {
     this.wow().init();
@@ -409,7 +438,9 @@ export default {
     //   uid: "20200012",
     //   url: "https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif"
     // });
-    this.initDetail();
+    if (this.detailForm.userName == "") {
+      this.initDetail();
+    }
   }
 };
 </script>

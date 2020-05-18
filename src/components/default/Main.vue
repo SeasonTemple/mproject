@@ -15,7 +15,7 @@
               <i class></i>
               {{ item.title }}
             </span>
-            <component :is="activeName" :userDetail="userDetail"></component>
+            <component :is="activeName" :userDetail="initUserDetail"></component>
           </el-tab-pane>
         </template>
       </el-tabs>
@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from "vuex";
+import { mapState, mapMutations, mapActions } from "vuex";
 import { getUserName } from "_u/loginMsg.js";
 import { InitUserData } from "_a/main.js";
 export default {
@@ -83,33 +83,24 @@ export default {
       DEDUCT_TAB: "main/deductTab",
       CHANGE_PROFILE: "profile/CHANGE_TAB"
     }),
+    ...mapActions({
+      GET_UserDetail: "main/GET_UserDetail"
+    }),
     getUsers: function() {
-      if (getUserName() != "" || getUserName() != null) {
-        InitUserData({ userName: getUserName() })
-          .then(res => {
-            let status = res.data.code;
-            let data = res.data.data;
-            if (status == 10200 || status == 10201) {
-              Object.assign(this.userDetail, data);
-              console.log(this.userDetail);
-            } else {
-              this.$message.error({
-                dangerouslyUseHTMLString: true,
-                message: `<strong>获取用户信息异常：${res.msg}</strong> `,
-                offset: 100,
-                duration: 2000
-              });
-            }
-          })
-          .catch(err => {
-            this.$message.error({
-              dangerouslyUseHTMLString: true,
-              message: `<strong>调用用户信息接口失败：${err.msg}</strong> `,
-              offset: 100,
-              duration: 2000
-            });
+      let userDetail = {};
+      this.GET_UserDetail()
+        .then(res => {
+          Object.assign(userDetail, res);
+        })
+        .catch(err => {
+          this.$message.error({
+            dangerouslyUseHTMLString: true,
+            message: `<strong>获取用户信息异常：${err.msg}</strong> `,
+            offset: 100,
+            duration: 2000
           });
-      }
+        });
+      return userDetail;
     },
     handleClickTab(router) {
       this.CHANGE_TAB(router);
@@ -189,15 +180,15 @@ export default {
     initTabs() {
       let tabs = this.OPEN_TAB;
       let currentTabs = [];
-      console.log(tabs +"///"+ this.openedTab);
+      console.log(tabs + "///" + this.openedTab);
       if (tabs.length > this.openedTab.length) {
         tabs
           .filter(t => t != "home")
           .forEach(t => {
             if (this.editableTabs.indexOf(t) == -1) {
-              if(this.centers.indexOf(t) === -1){
+              if (this.centers.indexOf(t) === -1) {
                 this.editableTabs.push(this.routerNameMatcher(t));
-              }else{
+              } else {
                 this.editableTabs.push(this.routerNameMatcher("profile"));
                 this.changeProfileTab(t);
               }
@@ -212,7 +203,7 @@ export default {
       ACTIVE_TAB: state => state.main.activeTab
     }),
     initUserDetail() {
-      // if (this.userDetail == []) {
+      // if (this.userDetail == {}) {
         return this.getUsers();
       // }
     },
@@ -230,7 +221,6 @@ export default {
     this.timer = setTimeout(() => {
       this.drawLoading = false;
     }, 2500);
-    this.initUserDetail;
   },
   watch: {
     getOpenedTab(val) {

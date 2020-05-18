@@ -18,6 +18,14 @@ module.exports = {
         pathRewrite: {
           '^/api': ''
         }
+      },
+      '/tusu': {
+        target: 'http://free-cn-01.oss.bilnn.com',
+        // ws: true,
+        changeOrigin: true,
+        pathRewrite: {
+          '^/tusu': ''
+        }
       }
     },
 

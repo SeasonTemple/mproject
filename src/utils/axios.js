@@ -33,6 +33,7 @@ axios.interceptors.request.use(
     // config.headers['UserName'] = getUserName()
     if (config.method == "post") {
       config.data = qs.stringify(config.data);
+      // console.log(config.headers)
       console.log(config)
       // config.headers['Content-Type'] = 'application/json;charset=UTF-8';
       config.headers['Access-Control-Allow-Origin'] = '*';

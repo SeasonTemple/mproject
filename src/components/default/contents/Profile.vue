@@ -69,7 +69,8 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from "vuex";
+import { mapState, mapMutations, mapActions } from "vuex";
+import dayjs from "dayjs";
 const path = require("path");
 const files = require.context("_d/", false, /\.vue$/);
 const modules = {};
@@ -101,6 +102,9 @@ export default {
   methods: {
     ...mapMutations({
       CHANGE_TAB: "profile/CHANGE_TAB"
+    }),
+    ...mapActions({
+      GET_UserDetail: "main/GET_UserDetail"
     }),
     handleClick(tab) {
       console.log("handleClick: " + tab + "//" + this.CURRENT_TAB);
@@ -173,6 +177,54 @@ export default {
       const reg = /[\s+|\~|\`|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\-|\_|\+|\=|\||\\|\[|\]|\{|\}|\;|\:|\"|\'|\,|\<|\.|\>|\/|\?|\。|\、|\，]/g;
       // console.log(this.tagInput.replace(reg, '/'));
       return this.tagInput.replace(reg, "/");
+    },
+    initTags() {
+      const tagMap = new Map();
+      tagMap.set("userName", "用户名");
+      tagMap.set("realName", "姓名");
+      tagMap.set("position", "职位");
+      tagMap.set("age", "年龄");
+      tagMap.set("sex", "性别");
+      tagMap.set("createTime", "入职时间");
+      tagMap.set("lastLogin", "上次登录");
+      tagMap.set("phone", "手机号");
+      tagMap.set("email", "邮箱");
+      const randomType = _ => _[(Math.random() * _.length) | 0];
+      const opts = ["", "info", "danger", "warning", "success"];
+      this.GET_UserDetail()
+        .then(res => {
+          const userData = res;
+          console.log(res);
+          const _tags = [];
+          const index = Object.keys(userData);
+          tagMap.forEach((value, key) => {
+            if (index.indexOf(key) != -1) {
+              if (key == "createTime" || key == "lastLogin") {
+                userData[key] = this.convertTime(userData[key]);
+              }
+              if (key == "sex") {
+                userData[key] = userData[key] == 1 ? "男" : "女";
+              }
+              _tags.push({
+                name: value,
+                type: randomType(opts),
+                description: userData[key]
+              });
+            }
+          });
+          this.tags = _tags;
+        })
+        .catch(err => {
+          this.$message.error({
+            dangerouslyUseHTMLString: true,
+            message: `<strong>获取用户信息异常：${err.msg}</strong> `,
+            offset: 100,
+            duration: 2000
+          });
+        });
+    },
+    convertTime(time) {
+      return dayjs(time).format("YYYY/MM/DD");
     }
   },
   computed: {
@@ -189,31 +241,6 @@ export default {
       console.log(`nowTab: ${this.CURRENT_TAB}`);
       this.currentTab = this.CURRENT_TAB;
       this.CHANGE_TAB(this.currentTab);
-    },
-    initTags() {
-      const tagMap = new Map();
-      tagMap.set("userName", "用户名");
-      tagMap.set("realName", "姓名");
-      tagMap.set("position", "职位");
-      tagMap.set("age", "年龄");
-      tagMap.set("sex", "性别");
-      tagMap.set("createTime", "入职时间");
-      tagMap.set("lastLogin", "上次登录");
-      const randomType = _ => _[(Math.random() * _.length) | 0];
-      const opts = ["", "info", "danger", "warning", "success"];
-      const userData = this.userDetail;
-      const _tags = [];
-      const index = Object.keys(userData);
-      tagMap.forEach((value, key) => {
-        if (index.indexOf(key) != -1) {
-          _tags.push({
-            name: value,
-            type: randomType(opts),
-            description: userData[key]
-          });
-        }
-      });
-      this.tags = _tags;
     }
   },
   watch: {
@@ -223,20 +250,20 @@ export default {
     },
     tagInput: {
       handler: "formateTagValue"
-      // immediate: true
     },
     nowTab: {
       handler: "nowTab"
-    },
+    }
     // initTag: {
     //   handler: "initTags"
     // }
   },
   mounted() {
-    this.currentTab = this.CURRENT_TAB;
-    this.initTags;
+    // this.currentTab = this.CURRENT_TAB;
+    // this.initTags;
     // console.log(this.currentTab);
     // this.switchTab;
+    this.initTags();
   }
 };
 </script>

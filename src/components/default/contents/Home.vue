@@ -59,6 +59,8 @@
 
 <script>
 import dayjs from "dayjs";
+import { getUserName } from "_u/loginMsg.js";
+import { mapState, mapMutations, mapActions } from "vuex";
 export default {
   name: "home",
   props: {
@@ -269,6 +271,9 @@ export default {
     };
   },
   methods: {
+    ...mapActions({
+      GET_UserDetail: "main/GET_UserDetail"
+    }),
     initTopCards: function() {
       let data = [
         {
@@ -296,9 +301,18 @@ export default {
           iconColor: "rgb(255, 57, 22)"
         }
       ];
-      if (this.userDetail != null || this.userDetail != "") {
-        console.log(data[0] + "..." +  typeof this.userDetail.realName);
-      }
+      this.GET_UserDetail()
+        .then(res => {
+          data[0].content = res.realName;
+        })
+        .catch(err => {
+          this.$message.error({
+            dangerouslyUseHTMLString: true,
+            message: `<strong>获取用户信息异常：${err.msg}</strong> `,
+            offset: 100,
+            duration: 2000
+          });
+        });
       this.cards = data;
     },
     drawCharts: function() {
@@ -322,10 +336,8 @@ export default {
     }
   },
   watch: {
-    initDetail: function() {
-      if (this.cards == [] && this.userDetail != null) {
-        this.initTopCards();
-      }
+    initDetail: {
+      handler: "initDetail",
     }
   },
   mounted() {
@@ -336,11 +348,11 @@ export default {
     }, 1000);
     this.drawCharts();
   },
-  activated() {
-    if (this.cards == [] && this.userDetail != null) {
-      this.initTopCards();
-    }
-  },
+  // beforeMount() {
+  //   if (this.cards == [] && this.userDetail != null) {
+  //     this.initTopCards();
+  //   }
+  // },
   beforeDestroy() {
     //实例销毁前清除定时器
     if (this.timer) {
