@@ -1,5 +1,6 @@
 import axios from '_u/axios';
 const fs = require('fs');
+import qs from "qs";
 import {
   getToKen
 } from '_u/loginMsg';
@@ -59,7 +60,10 @@ export const SubmitReport = (data) => {
   return axios.request({
     url: "/api/submitReport",
     method: 'post',
-    data
+    data,
+    headers: {
+      "Authorization": getToKen()
+    }
   })
 }
 
@@ -68,7 +72,10 @@ export const UploadReport = (data) => {
   return axios.request({
     url: "/api/uploadReport",
     method: 'post',
-    data
+    data,
+    headers: {
+      "Authorization": getToKen()
+    }
   })
 }
 
@@ -77,7 +84,10 @@ export const DownloadReport = (data) => {
   return axios.request({
     url: "/api/downloadReport",
     method: 'post',
-    data
+    data,
+    headers: {
+      "Authorization": getToKen()
+    }
   })
 }
 
@@ -86,7 +96,10 @@ export const InitProjects = (data) => {
   return axios.request({
     url: "/api/initProjects",
     method: 'post',
-    data
+    data,
+    headers: {
+      "Authorization": getToKen()
+    }
   })
 }
 
@@ -104,7 +117,10 @@ export const ModifyProjects = (data) => {
   return axios.request({
     url: "/api/modifyProjects",
     method: 'post',
-    data
+    data,
+    headers: {
+      "Authorization": getToKen()
+    }
   })
 }
 
@@ -118,11 +134,16 @@ export const ModifyProjects = (data) => {
 // }
 
 //系统消息：初始化消息API
-export const InitInfo = (data) => {
+export const InitInfo = (userName) => {
   return axios.request({
+    method: 'get',
     url: "/api/initInfo",
-    method: 'post',
-    data
+    params: {
+      "userName": userName
+    },
+    headers: {
+      "Authorization": getToKen()
+    }
   })
 }
 
@@ -131,24 +152,30 @@ export const SubmitRequest = (data) => {
   return axios.request({
     url: "/api/submitRequest",
     method: 'post',
-    data
+    data,
+    headers: {
+      "Authorization": getToKen()
+    }
   })
 }
 
 //签到考勤：初始化签到信息API
-export const InitAttendance = (data) => {
-  return axios.request({
-    url: "/api/initAttendance",
-    method: 'post',
-    data
-  })
-}
+// export const InitAttendance = (data) => {
+//   return axios.request({
+//     url: "/api/initAttendance",
+//     method: 'post',
+//     data
+//   })
+// }
 
-//签到考勤：签到API
+//签到考勤：打卡签到API
 export const MarkAttendance = () => {
   return axios.request({
     url: "/api/markAttendance",
     method: 'post',
+    headers: {
+      "Authorization": getToKen()
+    }
   })
 }
 

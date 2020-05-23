@@ -31,6 +31,9 @@ const mutations = {
   },
   SET_USERDETAIL(state, data) {
     state.userDetail = data;
+  },
+  CLEAN_TABS(state) {
+    state.openedTab = ['home']
   }
 }
 

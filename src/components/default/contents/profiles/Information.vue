@@ -15,8 +15,15 @@
           </el-tooltip>
         </transition>
         <transition appear appear-active-class="bounceInLeft" enter-active-class="bounceInLeft">
-          <el-tooltip effect="light" content="与我有关" placement="top">
-            <el-button type="info" class="animated delay-1s" icon="el-icon-thumb" plain circle></el-button>
+          <el-tooltip effect="light" content="我的消息" placement="top">
+            <el-button
+              type="info"
+              class="animated delay-1s"
+              icon="el-icon-thumb"
+              plain
+              circle
+              @click="relatedToMe"
+            ></el-button>
           </el-tooltip>
         </transition>
         <transition appear appear-active-class="bounceInLeft" enter-active-class="bounceInLeft">
@@ -31,168 +38,175 @@
             ></el-button>
           </el-tooltip>
         </transition>
+        <transition appear appear-active-class="bounceInLeft" enter-active-class="bounceInLeft">
+          <el-tooltip effect="light" :content="autoClose? '禁用自动关闭':'开启自动关闭'" placement="top">
+            <el-button
+              :type="autoClose? 'success':'warning'"
+              class="animated delay-3s"
+              :icon="autoClose? 'el-icon-star-on': 'el-icon-star-off'"
+              :plain="!autoClose"
+              circle
+              @click="autoClose = !autoClose"
+            ></el-button>
+          </el-tooltip>
+        </transition>
         <transition appear appear-active-class="fadeIn" enter-active-class="fadeIn">
           <el-autocomplete
             :class="{searchInfo:true}"
-            class="animated delay-3s"
+            class="animated delay-2s"
             v-model="keyword"
             :fetch-suggestions="querySearch"
-            placeholder="查询指定消息"
+            :placeholder="placeHolder"
             :trigger-on-focus="false"
             @select="handleSelect"
+            @blur="handleBlur"
+            clearable
           >
-            <el-button slot="append" icon="el-icon-search"></el-button>
+            <template slot-scope="{ item }">
+              <i
+                :class="'el-icon-'+item.content.type"
+                :style="{color: matchColor(item.content.type)}"
+              ></i>
+              {{ item.value }}
+            </template>
           </el-autocomplete>
         </transition>
       </div>
-      <!-- <div class="infoField">
-      </div>-->
     </el-card>
   </section>
 </template>
 
 <script>
 import { Notification } from "element-ui";
+import { getUserName } from "_u/loginMsg";
+import { mapState, mapMutations, mapActions } from "vuex";
 import dayjs from "dayjs";
 export default {
   name: "information",
   data() {
     const informations = [];
     const keyword = "";
+    const autoClose = true;
+    const queryResult = [];
+    let placeHolder = "输入关键字查询";
     return {
+      placeHolder,
+      queryResult,
+      autoClose,
       informations,
       keyword
     };
   },
   methods: {
-    showInformation() {
+    ...mapActions({
+      INIT_INFORMATION: "profile/INIT_INFORMATION"
+    }),
+    showInformation(informations) {
       const h = this.$createElement;
-      const sources = this.informations;
+      const sources =
+        informations.length > 0 ? informations : this.informations;
+      console.log(sources.length);
       const position = ["top-right", "top-left", "bottom-left", "bottom-right"];
-      // console.log((Math.random() * position.length | 0));
+      let offset = () => (Math.random() * sources.length + 20) | 0;
       sources.forEach(s => {
-        let offset = () => (Math.random() * 20 + 20) | 0;
-        this.timer = setTimeout(() => {
+        setTimeout(() => {
           this.$notify({
             title: s.title,
             type: s.type,
             dangerouslyUseHTMLString: true,
-            message: 
-            // h(
-              // "i",
-              // {
-              //   style: "color: teal"
-              // },
-              "<span style='color:teal'><b>消息内容：</b>"+s.content +"。</br><b>发布日期：</b>"+s.publish + "</span>"
-            // )
-            ,
-            offset: offset(),
-            position: position[(Math.random() * position.length + 0) | 0],
+            message: `<span style='color:teal'><b>消息内容：</b>${s.content}。</br><b>发布日期：</b> ${s.timeStamp}</br><b>发布者：</b>${s.publisher} </span>`,
+            offset: sources.length == 1 ? 50 : offset(),
+            position:
+              sources.length == 1
+                ? "top-left"
+                : position[(Math.random() * position.length + 0) | 0],
             iconClass: "el-icon" + s.type,
-            duration: offset() * 100
+            duration: this.autoClose ? offset() * 100 : 0
           });
         }, offset() * 10);
       });
-      clearTimeout(this.timer);
-      this.timer = null;
     },
     querySearch(queryString, cb) {
-      var informations = this.informations;
-      var results = queryString
+      this.placeHolder = "匹配的消息标题如下";
+      let informations = this.informations;
+      let results = queryString
         ? informations.filter(this.createFilter(queryString))
         : informations;
-      cb(results);
+      let res = [];
+      Object.values(results).forEach(v => {
+        res.push({
+          value: `${dayjs(v.timeStamp).format("MM月DD日")}的${v.title}`,
+          content: v
+        });
+      });
+      this.queryResult = results;
+      if (results.length == 0) {
+        this.placeHolder = "没有匹配信息，请重新输入";
+      }
+      cb(res);
+      this.keyword = "";
+      // this.resetAll();
     },
     createFilter(queryString) {
       return information => {
-        return (
-          information.value.toLowerCase().indexOf(queryString.toLowerCase()) ===
-          0
-        );
+        for (let [key, value] of Object.entries(information)) {
+          if ((key !== "id") & (key !== "type")) {
+            return value.search(queryString) != -1;
+          }
+        }
       };
     },
-    loadAll() {
-      return [
-        {
-          id: 1,
-          title: "您的ID为013的申请已受理",
-          content: "恭喜您，审核已通过！",
-          type: "success",
-          publish: dayjs().format("YYYY-MM-DD")
-        },
-        {
-          id: 2,
-          title: "您的ID为031的申请已受理",
-          content: "很遗憾，审核未通过：请假时间过长！",
-          type: "error",
-          publish: dayjs().format("YYYY-MM-DD")
-        },
-        {
-          id: 3,
-          title: "您的ID为031的申请已受理",
-          content: "很遗憾，审核未通过：审核过期！",
-          type: "error",
-          publish: dayjs().format("YYYY-MM-DD")
-        },
-        {
-          id: 4,
-          title: "通知：受疫情影响，本月仍需戴口罩上岗",
-          content: "未戴口罩者，按旷工处理",
-          type: "warning",
-          publish: dayjs().format("YYYY-MM-DD")
-        },
-        {
-          id: 5,
-          title: "通知：本周五一假期为5月1号至5号",
-          content: "祝全体员工节日快乐！",
-          type: "info",
-          publish: dayjs().format("YYYY-MM-DD")
-        },
-        {
-          id: 6,
-          title: "您的ID为031的申请已受理",
-          content: "很遗憾，审核未通过：理由不够充分！",
-          type: "error",
-          publish: dayjs().format("YYYY-MM-DD")
-        },
-        {
-          id: 7,
-          title: "您的ID为021的申请已受理",
-          content: "很遗憾，审核未通过：日期选择错误！",
-          type: "error",
-          publish: dayjs().format("YYYY-MM-DD")
-        },
-        {
-          id: 8,
-          title: "您的ID为113的申请已受理",
-          content: "恭喜您，审核已通过！",
-          type: "success",
-          publish: dayjs().format("YYYY-MM-DD")
-        },{
-          id: 9,
-          title: "测试",
-          content: ".......",
-          type: "info",
-          publish: dayjs("2019-12-31").format("YYYY-MM-DD")
-        },
-        {
-          id: 11,
-          title: "测试",
-          content: ".......",
-          type: "info",
-          publish: dayjs("2019-12-31").format("YYYY-MM-DD")
-        },
-      ];
+    relatedToMe() {
+      const rtm = this.informations.filter(i => i.receiver != "全体员工");
+      this.showInformation(rtm);
     },
-    handleSelect(item) {
-      console.log(item);
+    loadAll() {
+      if (getUserName() !== null || getUserName !== "") {
+        this.INIT_INFORMATION(getUserName())
+          .then(res => {
+            console.log(res);
+            this.informations = Array.from(res);
+          })
+          .catch(err => {
+            this.$message.error({
+              message: "初始化系统消息接口调用异常！",
+              offset: 230,
+              duration: 2000
+            });
+          });
+      }
+    },
+    handleSelect(value) {
+      this.queryResult
+        ? this.showInformation([value.content])
+        : (this.queryResult = []);
+    },
+    handleBlur() {
+      // console.log(this.keyword);
+      this.resetAll();
     },
     closeAll() {
       this.$notify.closeAll();
+    },
+    resetAll() {
+      this.keyword = "";
+      this.queryResult = [];
+      this.querySearch(queryResult);
+      this.placeHolder = "输入关键字查询";
+    },
+    matchColor(color) {
+      const panel = {
+        success: { color: "#67C23A" },
+        info: { color: "#909399" },
+        warning: { color: "#E6A23C" },
+        error: { color: "#F56C6C" }
+      };
+      return panel[color].color;
     }
   },
+  computed: {},
   mounted() {
-    this.informations = this.loadAll();
+    this.loadAll();
   }
 };
 </script>

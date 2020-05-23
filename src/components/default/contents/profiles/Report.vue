@@ -48,7 +48,7 @@
       :class="{timeLine: true}"
     >
       <el-timeline-item
-        :timestamp="rep.timestamp"
+        :timestamp="rep.publish"
         placement="top"
         v-for="(rep,i) in reports"
         :key="i"
@@ -85,9 +85,9 @@
           <el-form-item label="标题" :label-width="formLabelWidth" prop="title">
             <el-input v-model="reportForm.title" autocomplete="off" placeholder="请输入标题"></el-input>
           </el-form-item>
-          <el-form-item label="发布日期" :label-width="formLabelWidth" prop="timestamp">
+          <el-form-item label="发布日期" :label-width="formLabelWidth" prop="publish">
             <el-date-picker
-              v-model="reportForm.timestamp"
+              v-model="reportForm.publish"
               value-format="yyyy-MM-dd HH:mm:ss"
               type="datetime"
               :picker-options="pickerOptions"
@@ -140,7 +140,7 @@ export default {
       id: "",
       title: "",
       content: "",
-      timestamp: dayjs().format("YYYY-MM-DD HH:mm:ss")
+      publish: dayjs().format("YYYY-MM-DD HH:mm:ss")
     };
     let dialog = false;
     const formLabelWidth = "80px";
@@ -229,49 +229,49 @@ export default {
             id: 1,
             title: "工作总结",
             content: "更新GitHub模板",
-            timestamp: dayjs().format("YYYY-MM-DD HH:mm:ss")
+            publish: dayjs().format("YYYY-MM-DD HH:mm:ss")
           },
           {
             id: 2,
             title: "工作总结",
             content: "完成销售信息展示",
-            timestamp: dayjs().format("YYYY-MM-DD HH:mm:ss")
+            publish: dayjs().format("YYYY-MM-DD HH:mm:ss")
           },
           {
             id: 3,
             title: "工作总结",
             content: "吃的很饱",
-            timestamp: dayjs().format("YYYY-MM-DD HH:mm:ss")
+            publish: dayjs().format("YYYY-MM-DD HH:mm:ss")
           },
           {
             id: 4,
             title: "工作总结",
             content: "下饭下饭",
-            timestamp: dayjs().format("YYYY-MM-DD HH:mm:ss")
+            publish: dayjs().format("YYYY-MM-DD HH:mm:ss")
           },
           {
             id: 5,
             title: "工作总结",
             content: "我擦",
-            timestamp: dayjs().format("YYYY-MM-DD HH:mm:ss")
+            publish: dayjs().format("YYYY-MM-DD HH:mm:ss")
           },
           {
             id: 6,
             title: "工作总结",
             content: "绝了",
-            timestamp: dayjs().format("YYYY-MM-DD HH:mm:ss")
+            publish: dayjs().format("YYYY-MM-DD HH:mm:ss")
           },
           {
             id: 7,
             title: "工作总结",
             content: "是的",
-            timestamp: dayjs().format("YYYY-MM-DD HH:mm:ss")
+            publish: dayjs().format("YYYY-MM-DD HH:mm:ss")
           },
           {
             id: 8,
             title: "工作总结",
             content: "淦",
-            timestamp: dayjs().format("YYYY-MM-DD HH:mm:ss")
+            publish: dayjs().format("YYYY-MM-DD HH:mm:ss")
           }
         ];
         this.origin = init();

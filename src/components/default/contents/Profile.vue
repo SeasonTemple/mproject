@@ -8,15 +8,14 @@
         <div :class="{leftContent:true}">
           <div :class="{userProfile:true}">
             <div class="wel">
-              <span>廖文岵</span>
+              <span>{{ simpleData.realName }}</span>
             </div>
-            <el-avatar
-              :size="110"
-              class="avatar"
-              src="https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif"
-              fit="contain"
-            ></el-avatar>
-            <el-tag type="success" class="authTag" effect="dark">管理员</el-tag>
+            <el-avatar :size="110" class="avatar" :src="simpleData.avatarUrl" fit="contain"></el-avatar>
+            <el-tag
+              type="success"
+              class="authTag"
+              effect="dark"
+            >{{ simpleData.role == "ADMIN"? "管理员":"员工" }}</el-tag>
           </div>
           <section class="tagWall">
             <el-divider></el-divider>
@@ -86,6 +85,11 @@ export default {
     userDetail: Object
   },
   data() {
+    let simpleData = {
+      realName: "",
+      avatar: "",
+      role: ""
+    };
     let tabPanels = [];
     let currentTab = "detail";
     let tags = [];
@@ -93,6 +97,7 @@ export default {
     let tagInput = "";
     return {
       tags,
+      simpleData,
       inputVisible,
       tagInput,
       tabPanels,
@@ -101,7 +106,8 @@ export default {
   },
   methods: {
     ...mapMutations({
-      CHANGE_TAB: "profile/CHANGE_TAB"
+      CHANGE_TAB: "profile/CHANGE_TAB",
+      SET_ATTENDANCE: "profile/SET_ATTENDANCE"
     }),
     ...mapActions({
       GET_UserDetail: "main/GET_UserDetail"
@@ -178,7 +184,7 @@ export default {
       // console.log(this.tagInput.replace(reg, '/'));
       return this.tagInput.replace(reg, "/");
     },
-    initTags() {
+    initData() {
       const tagMap = new Map();
       tagMap.set("userName", "用户名");
       tagMap.set("realName", "姓名");
@@ -194,7 +200,13 @@ export default {
       this.GET_UserDetail()
         .then(res => {
           const userData = res;
+          this.SET_ATTENDANCE(res.attendance);
           console.log(res);
+          this.simpleData = {
+            realName: res.realName,
+            avatarUrl: res.avatarUrl,
+            role: this.GET_ROLES
+          };
           const _tags = [];
           const index = Object.keys(userData);
           tagMap.forEach((value, key) => {
@@ -229,7 +241,8 @@ export default {
   },
   computed: {
     ...mapState({
-      CURRENT_TAB: state => state.profile.currentTab
+      CURRENT_TAB: state => state.profile.currentTab,
+      GET_ROLES: state => state.login.roles
     }),
     switchTab: function() {
       console.log("switchTab: " + this.currentTab);
@@ -246,7 +259,7 @@ export default {
   watch: {
     tabPanels: {
       handler: "initTabs",
-      immediate: true
+      immediate: false
     },
     tagInput: {
       handler: "formateTagValue"
@@ -263,7 +276,9 @@ export default {
     // this.initTags;
     // console.log(this.currentTab);
     // this.switchTab;
-    this.initTags();
+    this.initData();
+    this.initTabs();
+    console.log(this.simpleData);
   }
 };
 </script>

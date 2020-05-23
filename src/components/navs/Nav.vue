@@ -105,6 +105,9 @@ export default {
     };
   },
   methods: {
+    ...mapMutations({
+      CLEAN_TABS: "main/CLEAN_TABS"
+    }),
     ...mapActions({
       EXIT: "login/EXIT"
     }),
@@ -134,6 +137,7 @@ export default {
         width: "100"
       })
         .then(() => {
+          this.CLEAN_TABS();
           this.EXIT().then(() => {
             this.$router.push({
               name: "Login"

@@ -321,7 +321,7 @@ import {
   GetMsg,
   Forget
 } from "_a/login.js";
-import { removeToKen, removeUserName } from "_u/loginMsg.js";
+import { removeToKen, removeUserName, setUserName } from "_u/loginMsg.js";
 import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
 export default {
   name: "login",
@@ -843,6 +843,7 @@ export default {
             offset: 100,
             duration: 2000
           });
+          this.setUserName(res);
           this.$refs.form.resetFields();
           this.actFocus.isFocus = false;
           this.pwdFocus.isFocus = false;
