@@ -59,7 +59,7 @@
             </el-tab-pane>
           </template>
           <!-- <keep-alive> -->
-          <component :is="switchTab" :userDetail="userDetail"></component>
+          <component :is="switchTab"></component>
           <!-- </keep-alive> -->
         </el-tabs>
       </el-card>
@@ -81,9 +81,6 @@ files.keys().forEach(key => {
 export default {
   name: "profile",
   components: modules,
-  props: {
-    userDetail: Object
-  },
   data() {
     let simpleData = {
       realName: "",
@@ -197,43 +194,45 @@ export default {
       tagMap.set("email", "邮箱");
       const randomType = _ => _[(Math.random() * _.length) | 0];
       const opts = ["", "info", "danger", "warning", "success"];
-      this.GET_UserDetail()
-        .then(res => {
-          const userData = res;
-          this.SET_ATTENDANCE(res.attendance);
-          console.log(res);
-          this.simpleData = {
-            realName: res.realName,
-            avatarUrl: res.avatarUrl,
-            role: this.GET_ROLES
-          };
-          const _tags = [];
-          const index = Object.keys(userData);
-          tagMap.forEach((value, key) => {
-            if (index.indexOf(key) != -1) {
-              if (key == "createTime" || key == "lastLogin") {
-                userData[key] = this.convertTime(userData[key]);
-              }
-              if (key == "sex") {
-                userData[key] = userData[key] == 1 ? "男" : "女";
-              }
-              _tags.push({
-                name: value,
-                type: randomType(opts),
-                description: userData[key]
-              });
+      // this.GET_UserDetail()
+      //   .then(res => {
+      if (this.USERDETAIL) {
+        const userData = Object.assign({},this.USERDETAIL);
+        // this.SET_ATTENDANCE(res.attendance);
+        // console.log(this.USERDETAIL);
+        this.simpleData = {
+          realName: userData.realName,
+          avatarUrl: userData.avatarUrl,
+          role: this.GET_ROLES
+        };
+        const _tags = [];
+        const index = Object.keys(userData);
+        tagMap.forEach((value, key) => {
+          if (index.indexOf(key) != -1) {
+            if (key == "createTime" || key == "lastLogin") {
+              userData[key] = this.convertTime(userData[key]);
             }
-          });
-          this.tags = _tags;
-        })
-        .catch(err => {
-          this.$message.error({
-            dangerouslyUseHTMLString: true,
-            message: `<strong>获取用户信息异常：${err.msg}</strong> `,
-            offset: 100,
-            duration: 2000
-          });
+            if (key == "sex") {
+              userData[key] = userData[key] == 1 ? "男" : "女";
+            }
+            _tags.push({
+              name: value,
+              type: randomType(opts),
+              description: userData[key]
+            });
+          }
         });
+        this.tags = _tags;
+        // })
+        // .catch(err => {
+        //   this.$message.error({
+        //     dangerouslyUseHTMLString: true,
+        //     message: `<strong>获取用户信息异常：${err.msg}</strong> `,
+        //     offset: 100,
+        //     duration: 2000
+        //   });
+        // });
+      }
     },
     convertTime(time) {
       return dayjs(time).format("YYYY/MM/DD");
@@ -242,7 +241,9 @@ export default {
   computed: {
     ...mapState({
       CURRENT_TAB: state => state.profile.currentTab,
-      GET_ROLES: state => state.login.roles
+      USERDETAIL: state => state.main.userDetail,
+      GET_ROLES: state => state.login.roles,
+      ACTIVETAB: state => state.main.activeTab
     }),
     switchTab: function() {
       console.log("switchTab: " + this.currentTab);
@@ -254,6 +255,14 @@ export default {
       console.log(`nowTab: ${this.CURRENT_TAB}`);
       this.currentTab = this.CURRENT_TAB;
       this.CHANGE_TAB(this.currentTab);
+    },
+    initProfile: function(params) {
+      const tp = this.tabPanels.length;
+      const tg = this.tags.length;
+      if (!tp && !tg ) {
+        this.initData();
+        this.initTabs();
+      }
     }
   },
   watch: {
@@ -267,18 +276,14 @@ export default {
     nowTab: {
       handler: "nowTab"
     }
-    // initTag: {
-    //   handler: "initTags"
-    // }
   },
   mounted() {
+    this.initProfile;
     // this.currentTab = this.CURRENT_TAB;
     // this.initTags;
     // console.log(this.currentTab);
     // this.switchTab;
-    this.initData();
-    this.initTabs();
-    console.log(this.simpleData);
+    // console.log(this.simpleData);
   }
 };
 </script>

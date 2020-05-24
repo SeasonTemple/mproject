@@ -19,16 +19,16 @@
             <el-tag
               effect="plain"
               type="warning"
-              v-if="handleSelected(data.day) == 1 "
+              v-else-if="handleSelected(data.day) == 1 "
             >{{data.day == toDay.day?'今日':''}}已打卡一次</el-tag>
             <el-tag
               effect="light"
               type="success"
-              v-if="handleSelected(data.day) == 2 "
+              v-else-if="handleSelected(data.day) == 2 "
             >{{data.day == toDay.day?'今日':''}}打卡正常</el-tag>
-            <el-tag v-if="handleSelected(data.day) == -1" effect="light" type="info">尚未计入</el-tag>
+            <el-tag v-else-if="handleSelected(data.day) == -1" effect="light" type="info">尚未计入</el-tag>
           </div>
-          <el-tag v-else effect="light" type="info">待计入</el-tag>
+          <el-tag v-else effect="light" type="info">尚未计入</el-tag>
         </div>
       </template>
     </el-calendar>
@@ -83,34 +83,43 @@ export default {
     };
   },
   methods: {
+    ...mapMutations({
+      CHECK_IN: "profile/CHECK_IN"
+    }),
+    ...mapActions({
+      INIT_ATTENDANCE: "profile/INIT_ATTENDANCE",
+      USER_CHECK_IN: "profile/USER_CHECK_IN"
+    }),
     initToDay() {
       let dates = this.attendanceDetailsData;
-      console.log(this.GET_ATTENDANCE)
-      if (dates.length < 1) {
-        Object.assign(this.attendanceDetailsData, this.GET_ATTENDANCE);
-      }
-      Object.assign(this.toDay, this.GET_ATTENDANCE.find(a=> dayjs().isSame(a.day, "date")))
-      console.log(this.toDay)
+      this.INIT_ATTENDANCE(this.USERDETAIL.id)
+        .then(res => {
+          console.log(this.GET_ATTENDANCE);
+          if (dates.length < 1) {
+            Object.assign(this.attendanceDetailsData, this.GET_ATTENDANCE);
+            Object.assign(this.toDay, this.TODAY);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+      // console.log(this.TODAY);
     },
     handleSelected(day) {
       let flag = 0;
       this.attendanceDetailsData.forEach(item => {
-        // console.log(day, item.time == day);
-        if (day < dayjs().format("YYYY-MM-DD")) {
-          if (item.time == day) {
-            flag = item.number;
+        if (dayjs().isAfter(day, "date")) {
+          if (dayjs(day).isSame(item.day, "date")) {
+            flag = item.time;
             return;
           }
-        } else if (day == dayjs(this.toDay.day).format("YYYY-MM-DD")) {
+        } else if (dayjs().isSame(day, "date")) {
           flag = this.toDay.time;
         } else {
           flag = -1;
-          console.log(day);
           return;
         }
       });
-      // console.log(flag);
-
       return flag;
     },
     pickDate(date, data) {
@@ -118,13 +127,22 @@ export default {
       if (data.day == dayjs(this.toDay.day).format("YYYY-MM-DD")) {
         if (this.toDay.time == 2) {
           this.$message.error({
-            message: "打卡次数已达两次，请勿再打！",
+            message: "打卡次数已达两次，请勿重复打卡！",
             offset: 230,
             duration: 2000
           });
-          return;
         } else {
           this.toDay.time += 1;
+          if (this.toDay.time == 2) {
+            this.$message.success({
+              message: "同步签到信息中！",
+              iconClass: "el-icon-loading",
+              offset: 230,
+              duration: 2000
+            });
+            this.toDay.userId = this.USERDETAIL.id;
+            this.syncAttendance();
+          }
           this.toDay.time == 1
             ? (this.toDay.first = dayjs().format("YYYY-MM-DD HH:MM:ss"))
             : (this.toDay.second = dayjs().format("YYYY-MM-DD HH:MM:ss"));
@@ -145,45 +163,62 @@ export default {
           duration: 3000
         });
       }
-      // console.log(this.toDay);
+    },
+    syncAttendance() {
+      // console.log(this.TODAY)
+      if (this.toDay.time == 2 && this.TODAY) {
+        this.USER_CHECK_IN(this.toDay)
+          .then(res => {
+            this.$message.success({
+              dangerouslyUseHTMLString: true,
+              message: `同步${res}！`,
+              offset: 230,
+              duration: 3000
+            });
+          })
+          .catch(err => {
+            this.$message.error({
+              dangerouslyUseHTMLString: true,
+              message: `同步签到信息异常：${err}`,
+              offset: 230,
+              duration: 3000
+            });
+          });
+      }
     }
   },
   computed: {
     ...mapState({
       USERDETAIL: state => state.main.userDetail,
-      GET_ATTENDANCE: state => state.profile.attendance
+      GET_ATTENDANCE: state => state.profile.attendance,
+      TODAY: state => state.profile.toDay
     })
   },
-  mounted() {
+  watch: {
+    // TODAY: function(params) {
+    // if (this.TODAY.time == 2) {
+    //   this.USER_CHECK_IN(this.TODAY)
+    //     .then(res => {
+    //       this.$message.success({
+    //         dangerouslyUseHTMLString: true,
+    //         message: `同步${res}！`,
+    //         offset: 230,
+    //         duration: 3000
+    //       });
+    //     })
+    //     .catch(err => {
+    //       this.$message.error({
+    //         dangerouslyUseHTMLString: true,
+    //         message: `同步签到信息异常：${err}`,
+    //         offset: 230,
+    //         duration: 3000
+    //       });
+    //     });
+    // }
+    // }
+  },
+  beforeMount() {
     this.initToDay();
-    // console.log(
-    //   dayjs()
-    //     .endOf("month")
-    //     .endOf("week")
-    //     .day(
-    //       dayjs()
-    //         .startOf("month")
-    //         .day() - 2
-    //     )
-    //     .format("YYYY-MM-DD")
-    //     .toString()
-    // );
-    // console.log(
-    //   dayjs()
-    //     .endOf("month")
-    //     .endOf("week")
-    //     .format("YYYY-MM-DD")
-    // );
-    // console.log(
-    //   dayjs()
-    //     .startOf("month")
-    //     .startOf("week")
-    //     .day()+1
-    // );
-    // this.$message.success({
-    //   message: "打卡成功！",
-    //   offset: 130
-    // });
   }
 };
 </script>

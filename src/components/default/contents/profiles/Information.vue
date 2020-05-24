@@ -127,7 +127,6 @@ export default {
       });
     },
     querySearch(queryString, cb) {
-      this.placeHolder = "匹配的消息标题如下";
       let informations = this.informations;
       let results = queryString
         ? informations.filter(this.createFilter(queryString))
@@ -140,17 +139,18 @@ export default {
         });
       });
       this.queryResult = results;
-      if (results.length == 0) {
+      if (results.length < 1) {
         this.placeHolder = "没有匹配信息，请重新输入";
       }
       cb(res);
+      this.placeHolder = "匹配的消息标题如下";
       this.keyword = "";
       // this.resetAll();
     },
     createFilter(queryString) {
       return information => {
         for (let [key, value] of Object.entries(information)) {
-          if ((key !== "id") & (key !== "type")) {
+          if (key !== "id" && key !== "type") {
             return value.search(queryString) != -1;
           }
         }
@@ -184,6 +184,8 @@ export default {
     handleBlur() {
       // console.log(this.keyword);
       this.resetAll();
+      this.placeHolder = "输入关键字查询";
+
     },
     closeAll() {
       this.$notify.closeAll();

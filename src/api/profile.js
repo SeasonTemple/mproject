@@ -159,20 +159,27 @@ export const SubmitRequest = (data) => {
   })
 }
 
-//签到考勤：初始化签到信息API
-// export const InitAttendance = (data) => {
-//   return axios.request({
-//     url: "/api/initAttendance",
-//     method: 'post',
-//     data
-//   })
-// }
+// 签到考勤：初始化签到信息API
+export const InitAttendance = (userId) => {
+  return axios.request({
+    url: "/api/initAttendance",
+    method: 'get',
+    params: {
+      "userId": userId
+    },
+    headers: {
+      "Authorization": getToKen()
+    }
+  })
+}
 
 //签到考勤：打卡签到API
-export const MarkAttendance = () => {
+export const MarkAttendance = (data) => {
+  console.log(data)
   return axios.request({
     url: "/api/markAttendance",
     method: 'post',
+    data,
     headers: {
       "Authorization": getToKen()
     }

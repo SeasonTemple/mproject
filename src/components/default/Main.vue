@@ -15,7 +15,7 @@
               <i class></i>
               {{ item.title }}
             </span>
-            <component :is="activeName" :userDetail="initUserDetail"></component>
+            <component :is="activeName"></component>
           </el-tab-pane>
         </template>
       </el-tabs>
@@ -86,11 +86,13 @@ export default {
     ...mapActions({
       GET_UserDetail: "main/GET_UserDetail"
     }),
-    getUsers: function() {
+    InitUser: function() {
       let userDetail = {};
       this.GET_UserDetail()
         .then(res => {
-          Object.assign(userDetail, res);
+          console.log(res);
+          console.log("Main.vue:");
+          console.log(this.USERDETAIL);
         })
         .catch(err => {
           this.$message.error({
@@ -100,7 +102,6 @@ export default {
             duration: 2000
           });
         });
-      return userDetail;
     },
     handleClickTab(router) {
       this.CHANGE_TAB(router);
@@ -200,13 +201,9 @@ export default {
   computed: {
     ...mapState({
       OPEN_TAB: state => state.main.openedTab,
+      USERDETAIL: state => state.main.userDetail,
       ACTIVE_TAB: state => state.main.activeTab
     }),
-    initUserDetail() {
-      // if (this.userDetail == {}) {
-        return this.getUsers();
-      // }
-    },
     getOpenedTab() {
       console.log("OPEN_TAB:" + this.OPEN_TAB);
       // this.openedTab = this.OPEN_TAB;
@@ -221,6 +218,7 @@ export default {
     this.timer = setTimeout(() => {
       this.drawLoading = false;
     }, 2500);
+    this.InitUser();
   },
   watch: {
     getOpenedTab(val) {
@@ -251,9 +249,6 @@ export default {
   beforeDestroy() {
     clearTimeout(this.timer);
     this.timer = null;
-  },
-  updated() {
-    this.initTabs();
   }
 };
 </script>

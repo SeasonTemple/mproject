@@ -70,16 +70,28 @@
                     </el-form-item>
                     <el-row :class="{ dispatchContent:true }">
                       <span style="text-align:left;float:left;font-size:14px;">项目组成员</span>
-                      <template v-for="tag in tags">
-                        <el-col :key="tag.name" :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-                          <el-tag
-                            style="margin:0 2px 0 2px"
-                            closable
-                            :type="tag.type"
-                            @close="tagClose(tag)"
+                      <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
+                        <template v-for="tag in tags">
+                          <el-popover
+                            :key="tag.name"
+                            placement="top-start"
+                            width="150"
+                            trigger="hover"
+                            :content="'负责：'+tag.responsible"
                           >
-                            {{tag.name}} :
-                            <el-select
+                            <el-tag
+                              slot="reference"
+                              :key="tag.name"
+                              style="margin:0 2px 0 2px;float:right;"
+                              closable
+                              :type="tag.type"
+                              @close="tagClose(tag)"
+                            >{{tag.name}}</el-tag>
+                          </el-popover>
+                        </template>
+                      </el-col>
+                    </el-row>
+                    <!-- <el-select
                               v-model="ruleForm.value"
                               placeholder="请分配任务"
                               size="small"
@@ -91,12 +103,8 @@
                                 :label="item.label"
                                 :value="item.value"
                               ></el-option>
-                            </el-select>
-                          </el-tag>
-                        </el-col>
-                      </template>
-                    </el-row>
-                    <el-form-item style="float:left">
+                    </el-select>-->
+                    <el-form-item style="float:left;margin-top:10px;">
                       <el-button
                         size="mini"
                         plain
@@ -200,15 +208,16 @@ export default {
       name: "斗鱼人气处理",
       leader: "赵浩辉",
       description: "通过...为斗鱼平台实现一种操作相对简单的人气监控工具",
-      value: ""
+      value: []
     };
     let active = 2;
     let tags = [
-      { name: "刘辉", type: "" },
-      { name: "堇菜", type: "primary" },
-      { name: "何发辉", type: "info" },
-      { name: "张佳琪", type: "success" },
-      { name: "叶丹", type: "danger" }
+      { name: "刘辉", type: "", responsible: "前端开发" },
+      { name: "堇菜", type: "primary", responsible: "运维" },
+      { name: "何发辉", type: "info", responsible: "测试" },
+      { name: "张佳琪", type: "success", responsible: "后端开发" },
+      { name: "叶丹", type: "danger", responsible: "项目总监" },
+      { name: "白金", type: "warning", responsible: "设计" }
     ];
     return {
       options,

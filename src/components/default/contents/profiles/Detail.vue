@@ -78,7 +78,7 @@
         </el-form-item>
         <el-form-item label="性别" prop="sex">
           <el-radio-group
-            v-model="detailForm.sex"
+            v-model.number="detailForm.sex"
             text-color="#F2F6FC"
             fill="#67C23A"
             size="medium"
@@ -205,9 +205,6 @@ import { BelongTo, ModifyDetail, UploadImg } from "_a/profile.js";
 import { mapState, mapMutations, mapActions } from "vuex";
 export default {
   name: "detail",
-  props: {
-    userDetail: Object
-  },
   data() {
     let backup = {
       belongTo: ""
@@ -226,7 +223,7 @@ export default {
       passWord: "",
       realName: "",
       phone: "",
-      sex: "",
+      sex: Number,
       age: Number,
       email: "",
       origin: "",
@@ -292,19 +289,12 @@ export default {
       console.log("图片上传！");
     },
     initDetail() {
-      this.GET_UserDetail()
-        .then(res => {
-          let { depId, groupId } = res;
-          this.initOpts({ depId, groupId }, res);
-        })
-        .catch(err => {
-          this.$message.error({
-            dangerouslyUseHTMLString: true,
-            message: `<strong>获取用户信息异常：${err.msg}</strong> `,
-            offset: 100,
-            duration: 2000
-          });
-        });
+      if (this.USERDETAIL && this.detailForm.userName == "") {
+        let detail = this.USERDETAIL;
+        console.log(this.USERDETAIL);
+        let { depId, groupId } = detail;
+        this.initOpts({ depId, groupId }, detail);
+      }
     },
     initOpts(flag, value) {
       BelongTo()
@@ -350,13 +340,13 @@ export default {
       if (!isRightType) {
         this.$message.error({
           message: "上传头像图片只能是 JPG 格式!",
-          offset: 100,
+          offset: 100
         });
       }
       if (!isLt2M) {
         this.$message.error({
           message: "上传头像图片大小不能超过 2MB!",
-          offset: 200,
+          offset: 200
         });
       }
       return isRightType && isLt2M;
@@ -391,7 +381,7 @@ export default {
     uploadFailed(err, file) {
       this.$message.error({
         message: `${err}`,
-        offset: 300,
+        offset: 300
       });
     },
     resetForm: function(formName) {
@@ -423,7 +413,11 @@ export default {
       this.belongOpts = value;
     }
   },
-  computed: {},
+  computed: {
+    ...mapState({
+      USERDETAIL: state => state.main.userDetail
+    })
+  },
   watch: {
     // formatBelongTo(value) {
     //   let flag = this.detailForm.belongTo;
@@ -434,13 +428,11 @@ export default {
   },
   mounted() {
     this.wow().init();
+    this.initDetail();
     // this.$refs.upload.fileList.push({
     //   uid: "20200012",
     //   url: "https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif"
     // });
-    if (this.detailForm.userName == "") {
-      this.initDetail();
-    }
   }
 };
 </script>

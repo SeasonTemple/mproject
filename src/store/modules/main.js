@@ -39,7 +39,7 @@ const mutations = {
 
 const actions = {
   GET_UserDetail({
-    commit
+    commit,state
   }) {
     return new Promise((resolve, reject) => {
       if (getUserName() != "" || getUserName() != null) {
@@ -50,10 +50,12 @@ const actions = {
             let status = res.data.code;
             let data = res.data.data;
             if (status == 10200 || status == 10201) {
+              console.log(data)
               commit("SET_USERDETAIL", data)
-              resolve(data)
+              console.log(state.userDetail)
+              resolve(res.data.msg)
             } else {
-              reject(data.msg)
+              reject(res.data.msg)
             }
           })
           .catch(err => {
