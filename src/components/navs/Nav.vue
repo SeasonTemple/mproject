@@ -131,7 +131,7 @@ export default {
         showConfirmButton: true,
         confirmButtonText: "退出",
         cancelButtonText: "取消",
-        type: "warning",
+        type: "error",
         confirmButtonClass: "exitBtn",
         lockScroll: true,
         width: "100"

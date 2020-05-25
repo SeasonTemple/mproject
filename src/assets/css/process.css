@@ -32,4 +32,9 @@
   width: fit-content;
   margin-bottom: 5px; }
 
+.popClass {
+  background-color: rgba(153, 201, 248, 0.1);
+  color: lightseagreen;
+  border: none; }
+
 /*# sourceMappingURL=process.css.map */

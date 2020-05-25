@@ -4,6 +4,9 @@ import {
 import {
   InitUserData
 } from "_a/main.js";
+import {
+  ModifyDetail
+} from "_a/profile";
 const state = {
   openedTab: ['home'],
   activeTab: 'home',
@@ -39,7 +42,8 @@ const mutations = {
 
 const actions = {
   GET_UserDetail({
-    commit,state
+    commit,
+    state
   }) {
     return new Promise((resolve, reject) => {
       if (getUserName() != "" || getUserName() != null) {
@@ -62,6 +66,23 @@ const actions = {
             reject(err)
           });
       }
+    })
+  },
+  MODIFY_DETAIL({
+    commit
+  }, userDetail) {
+    return new Promise((resolve, reject) => {
+      ModifyDetail(userDetail).then(res => {
+        let status = res.data.code;
+        if (status == 10200 || status == 10201) {
+          commit("SET_USERDETAIL",userDetail);
+          resolve(res.data.msg)
+        }else{
+          reject(res.data)
+        }
+      }).catch(err => {
+        reject(err)
+      });
     })
   }
 }

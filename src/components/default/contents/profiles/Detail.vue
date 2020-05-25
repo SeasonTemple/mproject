@@ -201,7 +201,7 @@
 </template>
 <script>
 import dayjs from "dayjs";
-import { BelongTo, ModifyDetail, UploadImg } from "_a/profile.js";
+import { BelongTo, ModifyDetail, UploadImg } from "_a/profile";
 import { mapState, mapMutations, mapActions } from "vuex";
 export default {
   name: "detail",
@@ -283,7 +283,8 @@ export default {
   },
   methods: {
     ...mapActions({
-      GET_UserDetail: "main/GET_UserDetail"
+      GET_UserDetail: "main/GET_UserDetail",
+      MODIFY_DETAIL: "main/MODIFY_DETAIL"
     }),
     uploadImage() {
       console.log("图片上传！");
@@ -307,7 +308,7 @@ export default {
               .filter(pro => flag.depId == pro.depId)
               .find(pro => pro.id == flag.groupId);
             Object.assign(this.detailForm, value);
-            this.detailForm.belongTo = dep.depName + " / " + group.projectName;
+            this.detailForm.belongTo = `${dep.depName}部 / ${group.projectName}项目组`;
             Object.assign(this.backup, this.detailForm);
             this.$refs.upload.fileList.push({
               url: this.detailForm.avatarUrl
@@ -393,12 +394,18 @@ export default {
           let send = this.detailForm;
           let { attendance, salt, salary, ...o } = this.detailForm;
           console.log(o);
-          ModifyDetail(o)
+          this.MODIFY_DETAIL(o)
             .then(res => {
-              console.log(res);
+              this.$message.success({
+                message: `${res}`,
+                offset: 230
+              });
             })
             .catch(err => {
-              console.log(err);
+              this.$message.error({
+                message: `${err}`,
+                offset: 230
+              });
             });
         } else {
           console.log("error submit!!");

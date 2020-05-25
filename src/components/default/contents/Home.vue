@@ -301,18 +301,18 @@ export default {
           iconColor: "rgb(255, 57, 22)"
         }
       ];
-      this.GET_UserDetail()
-        .then(res => {
-          data[0].content = res.realName;
-        })
-        .catch(err => {
-          this.$message.error({
-            dangerouslyUseHTMLString: true,
-            message: `<strong>获取用户信息异常：${err.msg}</strong> `,
-            offset: 100,
-            duration: 2000
-          });
-        });
+      // this.USERDETAIL
+      // .then(res => {
+      data[0].content = this.USERDETAIL.realName;
+      // })
+      // .catch(err => {
+      //   this.$message.error({
+      //     dangerouslyUseHTMLString: true,
+      //     message: `<strong>获取用户信息异常：${err.msg}</strong> `,
+      //     offset: 100,
+      //     duration: 2000
+      //   });
+      // });
       this.cards = data;
     },
     drawCharts: function() {
@@ -331,17 +331,19 @@ export default {
     }
   },
   computed: {
+    ...mapState({
+      USERDETAIL: state => state.main.userDetail
+    }),
     initDetail: function() {
       this.initTopCards();
     }
   },
   watch: {
     initDetail: {
-      handler: "initDetail",
+      handler: "initDetail"
     }
   },
   mounted() {
-    //创建定时器更新最新的时间
     var _this = this;
     this.timer = setInterval(() => {
       _this.time = dayjs().format("YYYY/MM/DD</br>HH:mm:ss");
@@ -354,7 +356,6 @@ export default {
   //   }
   // },
   beforeDestroy() {
-    //实例销毁前清除定时器
     if (this.timer) {
       clearTimeout(this.timer);
       clearInterval(this.timer);
