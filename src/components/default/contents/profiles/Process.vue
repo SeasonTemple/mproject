@@ -4,13 +4,40 @@
       <el-card class="box-card" shadow="shadow" :class="{ baseBody: true }">
         <div class="clearfix" slot="header" :class="{ baseHeader:true }">
           <el-button-group :class="{ headerBtn:true }">
-            <el-button type="info" plain @click="showProjects(0)">未开始</el-button>
-            <el-button type="warning" plain @click="showProjects(1)">进行中</el-button>
-            <el-button type="success" plain @click="showProjects(5)">已完成</el-button>
-            <el-button type="primary" plain @click="showProjects(-1)">查看全部</el-button>
+            <el-button
+              type="info"
+              :plain="isFocus != 0"
+              :style="{filter: 'opacity(.88) hue-rotate(-65deg)',transitionOrigin:'left',transition: '.8s ease-in-out'}"
+              @click="showProjects(0)"
+            >未开始</el-button>
+            <el-button
+              type="warning"
+              :plain="isFocus != 1"
+              :style="{filter: 'opacity(.88) hue-rotate(-65deg)',transitionOrigin:'left',transition: '.8s ease-in-out'}"
+              @click="showProjects(1)"
+            >进行中</el-button>
+            <el-button
+              type="success"
+              :plain="isFocus != 5"
+              :style="{filter: 'opacity(.88) hue-rotate(-65deg)',transitionOrigin:'right',transition: '.8s ease-in-out'}"
+              @click="showProjects(5)"
+            >已完成</el-button>
+            <el-button
+              type="primary"
+              :plain="isFocus != -1"
+              :style="{filter: 'opacity(.88) hue-rotate(-65deg)',transitionOrigin:'right',transition: '.8s ease-in-out'}"
+              @click="showProjects(-1)"
+            >查看全部</el-button>
           </el-button-group>
         </div>
-        <div v-if="showData.length==0" style="color:#909399">暂无数据</div>
+        <transition
+          appear
+          appear-active-class="bounceIn delay-2s"
+          enter-active-class="bounceIn delay-2s"
+          leave-active-class="bounceOut"
+        >
+          <div v-if="showData.length==0" class="animated" :style="{color:'#909399'}">暂无数据</div>
+        </transition>
         <template v-for="(project,index) in showData">
           <transition
             appear
@@ -21,7 +48,7 @@
           >
             <el-col
               class="animated"
-              :style="{animationDelay: index == 1? index + 's':index-0.5 + 's'}"
+              :style="{animationDelay: index == 0? '1s':index-0.5 + 's',transition: '2s'}"
               :xs="autoSpan"
               :sm="autoSpan"
               :md="autoSpan"
@@ -69,7 +96,7 @@
                         <el-form-item label="负责人" prop="realName">
                           <el-input
                             type="text"
-                            v-model="project.leader.realName"
+                            v-model="project.leader"
                             autocomplete="off"
                             placeholder="负责人"
                           ></el-input>
@@ -77,7 +104,7 @@
                         <el-form-item label="项目描述" prop="description">
                           <el-input
                             type="textarea"
-                            v-model.number="project.description"
+                            v-model="project.description"
                             placeholder="项目描述"
                           ></el-input>
                         </el-form-item>
@@ -90,7 +117,7 @@
                                   shadow="hover"
                                   :class="{popClass: true}"
                                   :body-style="{padding:'10px'}"
-                                >负责职位：{{ tag.position }}</el-card>
+                                >职位：{{ tag.position }}</el-card>
                                 <el-tag
                                   slot="reference"
                                   :key="tag.realName"
@@ -139,77 +166,33 @@
   </el-row>
 </template>
 <script>
+import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
 export default {
   name: "process",
   data() {
     let dispatchVisible = false;
-    let projects = [
-      {
-        id: 1,
-        projectName: "斗鱼人气处理",
-        description: "通过...为斗鱼平台实现一种操作相对简单的人气监控工具",
-        leader: {
-          realName: "赵浩辉",
-          id: "user-sd1kdj2a3s23d23a4dsa"
-        },
-        schedule: 2,
-        depId: "",
-        members: [
-          { realName: "刘辉", type: this.getTagType(), position: "前端开发" },
-          { realName: "堇菜", type: this.getTagType(), position: "产品经理" },
-          { realName: "何发辉", type: this.getTagType(), position: "前端测试" },
-          { realName: "张佳琪", type: this.getTagType(), position: "后端开发" },
-          { realName: "叶丹", type: this.getTagType(), position: "系统架构" },
-          { realName: "白金", type: this.getTagType(), position: "UI设计" }
-        ]
-      },
-      {
-        id: 2,
-        projectName: "车载智能调节",
-        description: "通过...为斗鱼平台实现一种操作相对简单的人气监控工具",
-        leader: {
-          realName: "赵浩辉",
-          id: "user-sd1kdj2a3s23d23a4dsa"
-        },
-        schedule: 0,
-        depId: "",
-        members: [
-          { realName: "刘辉", type: this.getTagType(), position: "前端开发" },
-          { realName: "堇菜", type: this.getTagType(), position: "产品经理" },
-          { realName: "何发辉", type: this.getTagType(), position: "前端测试" },
-          { realName: "张佳琪", type: this.getTagType(), position: "后端开发" },
-          { realName: "叶丹", type: this.getTagType(), position: "系统架构" },
-          { realName: "白金", type: this.getTagType(), position: "UI设计" }
-        ]
-      },
-      {
-        id: 3,
-        projectName: "微博好评工具",
-        description: "通过...为斗鱼平台实现一种操作相对简单的人气监控工具",
-        leader: {
-          realName: "赵浩辉",
-          id: "user-sd1kdj2a3s23d23a4dsa"
-        },
-        schedule: 5,
-        depId: "",
-        members: [
-          { realName: "刘辉", type: this.getTagType(), position: "前端开发" },
-          { realName: "堇菜", type: this.getTagType(), position: "产品经理" },
-          { realName: "何发辉", type: this.getTagType(), position: "前端测试" },
-          { realName: "张佳琪", type: this.getTagType(), position: "后端开发" },
-          { realName: "叶丹", type: this.getTagType(), position: "系统架构" },
-          { realName: "白金", type: this.getTagType(), position: "UI设计" }
-        ]
-      }
-    ];
+    let isFocus = -1;
+    let projects = [];
     let showData = [];
     return {
+      isFocus,
       showData,
       projects,
       dispatchVisible
     };
   },
   methods: {
+    ...mapMutations({
+      SET_PROJECTS: "profile/SET_PROJECTS"
+    }),
+    ...mapGetters({
+      Get_UserDetail: "main/USERDETAIL",
+      Get_PROJECTS: "profile/projects"
+    }),
+    ...mapActions({
+      USER_CHECK_IN: "profile/USER_CHECK_IN",
+      INIT_PROJECTS: "profile/INIT_PROJECTS"
+    }),
     next(project) {
       let flag = project.schedule;
       if (flag++ > 4) {
@@ -219,7 +202,26 @@ export default {
       }
     },
     initProjects() {
-      this.showData = this.projects;
+      if (this.projects.length == 0) {
+        let pros = this.Get_PROJECTS();
+        if (pros.length > 0) {
+          this.showData = this.projects;
+          Object.assign(this.projects, pros);
+        } else {
+          this.INIT_PROJECTS(this.Get_UserDetail().groupId)
+            .then(res => {
+              this.showData = this.projects;  
+              Object.assign(this.projects, res);
+            })
+            .catch(err => {
+              this.$message.error({
+                message: err,
+                offset: 200,
+                duration: 1500
+              });
+            });
+        }
+      }
     },
     getTagType() {
       const type = ["primary", "info", "warning", "danger", "success"];
@@ -264,6 +266,7 @@ export default {
     },
     showProjects(flag) {
       console.log(flag);
+      this.isFocus = flag;
       if (0 < flag && flag < 5) {
         this.showData = this.projects
           .filter(p => p.schedule != 0)
@@ -277,11 +280,15 @@ export default {
     }
   },
   computed: {
+    ...mapState({
+      store_projects: state => state.profile.projects
+    }),
     autoSpan() {
       return this.showData.length == 1 ? 24 : 12;
     }
   },
-  mounted() {
+  watch: {},
+  beforeMount() {
     this.initProjects();
   }
 };

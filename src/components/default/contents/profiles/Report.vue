@@ -15,19 +15,20 @@
           </el-tooltip>
         </transition>
         <transition appear appear-active-class="bounceInLeft" enter-active-class="bounceInLeft">
-          <el-tooltip effect="light" content="反序" placement="top">
-            <el-button type="primary" class="animated delay-1s" circle icon="el-icon-sort" plain></el-button>
+          <el-tooltip effect="light" :content="!reverseBtn?'反序显示':'正序显示'" placement="top">
+            <el-button
+              type="primary"
+              class="animated delay-1s"
+              circle
+              icon="el-icon-sort"
+              :plain="!reverseBtn"
+              @click="reverse"
+            ></el-button>
           </el-tooltip>
         </transition>
         <transition appear appear-active-class="bounceInLeft" enter-active-class="bounceInLeft">
           <el-tooltip effect="light" content="导入工作日志" placement="top">
-            <el-button
-              type="warning"
-              class="animated delay-2s"
-              icon="el-icon-upload2"
-              circle
-              plain
-            ></el-button>
+            <el-button type="warning" class="animated delay-2s" icon="el-icon-upload2" circle plain></el-button>
           </el-tooltip>
         </transition>
         <transition appear appear-active-class="bounceInLeft" enter-active-class="bounceInLeft">
@@ -36,7 +37,7 @@
               class="animated delay-3s"
               icon="el-icon-download"
               circle
-              plain
+              @click="editFormVisible = true"
             ></el-button>
           </el-tooltip>
         </transition>
@@ -55,7 +56,7 @@
       >
         <el-card :key="'timeline' + i" shadow="hover">
           <h4>{{ rep.title }}</h4>
-          <p>{{ rep.content }}</p>
+          <p v-html="rep.content"></p>
         </el-card>
       </el-timeline-item>
       <el-card shadow="never" :class="{loadingCard:true}">
@@ -118,9 +119,29 @@
         </div>
       </div>
     </el-drawer>
+    <el-dialog
+      title="导出日志"
+      :visible.sync="editFormVisible"
+      :append-to-body="true"
+      top="25vh"
+      width="400px"
+    >
+      <el-card shadow="never">
+        <el-radio-group v-model="radio" :style="{userSelect: 'false',outlineStyle: 'none'}">
+          <el-radio-button :label="0">最近一周</el-radio-button>
+          <el-radio-button :label="1">最近两周</el-radio-button>
+          <el-radio-button :label="2">最近一个月</el-radio-button>
+        </el-radio-group>
+      </el-card>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="danger" @click="editFormVisible = false">取 消</el-button>
+        <el-button type="success" @click="generateExcel">下 载</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>
+import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
 import dayjs from "dayjs";
 import { quillEditor } from "vue-quill-editor"; // 调用富文本编辑器
 import "quill/dist/quill.snow.css"; // 富文本编辑器外部引用样式  三种样式三选一引入即可
@@ -131,18 +152,23 @@ export default {
     quillEditor
   },
   data() {
-    let count = 4;
+    let count = 8;
     let reports = [];
     const origin = [];
+    let radio = 0;
+    let reverseBtn = false;
     let loading = false;
+    let editFormWidth = "90px";
     // let editor = null;
     let reportForm = {
       id: "",
       title: "",
       content: "",
-      publish: dayjs().format("YYYY-MM-DD HH:mm:ss")
+      publish: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+      owner: ""
     };
     let dialog = false;
+    let editFormVisible = false;
     const formLabelWidth = "80px";
     let timer = null;
     const editorOption = {
@@ -164,7 +190,7 @@ export default {
           // ['image','video'] //上传图片、上传视频
         ]
       },
-      placeholder: "请输入内容"
+      placeholder: "请输入内容（最多100字）"
     };
     const pickerOptions = {
       disabledDate(time) {
@@ -196,8 +222,11 @@ export default {
       ]
     };
     return {
+      radio,
+      editFormVisible,
+      editFormWidth,
       pickerOptions,
-      // editor,
+      reverseBtn,
       editorOption,
       reportForm,
       formLabelWidth,
@@ -210,86 +239,57 @@ export default {
     };
   },
   methods: {
+    ...mapActions({
+      INIT_REPORTS: "profile/INIT_REPORTS",
+      SUBMIT_REPORT: "profile/SUBMIT_REPORT"
+    }),
+    ...mapGetters({
+      Get_UserDetail: "main/USERDETAIL",
+      Get_REPORTS: "profile/reports"
+    }),
     load() {
-      if (this.count > 4) {
+      if (this.count > 8) {
         this.loading = true;
         setTimeout(() => {
           this.count += 1;
           this.loading = false;
-        }, 2000);
+        }, 1200);
       } else {
         this.count += 1;
       }
     },
     initOrigin() {
-      // console.log("initOrigin " + this.origin);
-      if (this.origin.length == 0) {
-        const init = () => [
-          {
-            id: 1,
-            title: "工作总结",
-            content: "更新GitHub模板",
-            publish: dayjs().format("YYYY-MM-DD HH:mm:ss")
-          },
-          {
-            id: 2,
-            title: "工作总结",
-            content: "完成销售信息展示",
-            publish: dayjs().format("YYYY-MM-DD HH:mm:ss")
-          },
-          {
-            id: 3,
-            title: "工作总结",
-            content: "吃的很饱",
-            publish: dayjs().format("YYYY-MM-DD HH:mm:ss")
-          },
-          {
-            id: 4,
-            title: "工作总结",
-            content: "下饭下饭",
-            publish: dayjs().format("YYYY-MM-DD HH:mm:ss")
-          },
-          {
-            id: 5,
-            title: "工作总结",
-            content: "我擦",
-            publish: dayjs().format("YYYY-MM-DD HH:mm:ss")
-          },
-          {
-            id: 6,
-            title: "工作总结",
-            content: "绝了",
-            publish: dayjs().format("YYYY-MM-DD HH:mm:ss")
-          },
-          {
-            id: 7,
-            title: "工作总结",
-            content: "是的",
-            publish: dayjs().format("YYYY-MM-DD HH:mm:ss")
-          },
-          {
-            id: 8,
-            title: "工作总结",
-            content: "淦",
-            publish: dayjs().format("YYYY-MM-DD HH:mm:ss")
-          }
-        ];
-        this.origin = init();
-      } else {
-        return this.origin;
+      if (
+        this.Get_REPORTS().length == 0 ||
+        this.Get_REPORTS().length > this.origin.length
+      ) {
+        this.INIT_REPORTS(this.Get_UserDetail().userName)
+          .then(res => {
+            this.origin = res;
+          })
+          .catch(err => {
+            console.log(res);
+          });
       }
+      this.SyncCount();
     },
     SyncCount() {
+      // let origin = [];
+      if (this.origin.length < 1) {
+        return;
+      }
+      //   origin = this.origin;
+      //   console.log(origin);
+      // } else if (this.Get_REPORTS().length > 0) {
+      //   origin = this.Get_REPORTS();
+      //   console.log(origin);
+      // } else {
+      //   this.initOrigin();
+      //   console.log(this.origin);
+      // }
+      console.log(this.origin);
       let count = this.count;
       let repLength = this.reports.length | 0;
-      // console.log(
-      //   "SyncCount: " +
-      //     count +
-      //     "||" +
-      //     repLength +
-      //     "||" +
-      //     this.origin.slice(repLength, count++)
-      // );
       this.origin.slice(repLength, count).forEach(_ => {
         this.reports.push(_);
       });
@@ -326,15 +326,62 @@ export default {
       this.dialog = false;
       clearTimeout(this.timer);
     },
-    reportSubmit(){
-      this.$message.success({
-        message: "提交成功！",
-        offset: 130
-      })
-      this.$refs.drawer.closeDrawer()
+    reportSubmit() {
+      let form = this.reportForm;
+      form.owner = this.Get_UserDetail().userName;
+      console.log(this.reportForm);
+      this.SUBMIT_REPORT(this.reportForm)
+        .then(res => {
+          this.$message.success({
+            message: res,
+            offset: 150
+          });
+        })
+        .catch(err => {
+          this.$message.error({
+            message: err,
+            offset: 150
+          });
+        });
+      this.origin.push(this.reportForm);
+      this.$refs.drawer.closeDrawer();
+    },
+    reverse() {
+      this.reverseBtn = !this.reverseBtn;
+      this.reports.reverse();
+      // console.log(this.reports);
+    },
+    generateExcel() {
+      let flag = this.radio;
+      let origin = this.origin;
+      let res = [];
+      if (flag == 0) {
+        res = origin.filter(o =>
+          dayjs()
+            .subtract(1, "week")
+            .isBefore(o.publish, "date")
+        );
+        console.log(res);
+      } else if (flag == 1) {
+        res = origin.filter(o =>
+          dayjs()
+            .subtract(2, "week")
+            .isBefore(o.publish, "date")
+        );
+        console.log(res);
+      } else {
+        res = origin.filter(o =>
+          dayjs()
+            .subtract(1, "month")
+            .isBefore(o.publish, "date")
+        );
+        console.log(res);
+        
+      }
     }
   },
   computed: {
+    ...mapState({}),
     noMore() {
       // console.log(`noMore: ${this.origin.length} , ${this.count}`);
       return this.origin.length === this.count;
@@ -357,7 +404,7 @@ export default {
       immediate: true
     }
   },
-  mounted() {}
+  beforeMount() {}
 };
 </script>
 

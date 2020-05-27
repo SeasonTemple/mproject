@@ -55,19 +55,34 @@ export const UploadImg = (binary) => {
     }
   })
 }
-//工作报告：报告提交API
-export const SubmitReport = (data) => {
+
+//工作日志：日志初始化API
+export const InitReport = (userName) => {
   return axios.request({
-    url: "/api/submitReport",
+    url: "/api/initReport",
     method: 'post',
-    data,
+    params: {
+      "userName": userName
+    },
     headers: {
       "Authorization": getToKen()
     }
   })
 }
 
-//工作报告：报告上传API
+//工作日志：日志提交API
+export const SubmitReport = (report) => {
+  return axios.request({
+    url: "/api/submitReport",
+    method: 'post',
+    data: report  ,
+    headers: {
+      "Authorization": getToKen()
+    }
+  })
+}
+
+//工作日志：日志上传API
 export const UploadReport = (data) => {
   return axios.request({
     url: "/api/uploadReport",
@@ -79,7 +94,7 @@ export const UploadReport = (data) => {
   })
 }
 
-//工作报告：报告下载API
+//工作日志：日志下载API
 export const DownloadReport = (data) => {
   return axios.request({
     url: "/api/downloadReport",
@@ -92,11 +107,13 @@ export const DownloadReport = (data) => {
 }
 
 //项目进展：初始化项目信息API
-export const InitProjects = (data) => {
+export const InitProjects = (groupId) => {
   return axios.request({
     url: "/api/initProjects",
     method: 'post',
-    data,
+    params: {
+      "groupId": groupId
+    },
     headers: {
       "Authorization": getToKen()
     }
@@ -175,7 +192,7 @@ export const InitAttendance = (userId) => {
 
 //签到考勤：打卡签到API
 export const MarkAttendance = (data) => {
-  console.log(data)
+  // console.log(data)
   return axios.request({
     url: "/api/markAttendance",
     method: 'post',
@@ -185,7 +202,6 @@ export const MarkAttendance = (data) => {
     }
   })
 }
-
 
 function UUID(len, radix) {
   var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');

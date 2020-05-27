@@ -27,6 +27,7 @@
 // import Nav from "@/components/navs/Nav";
 // import SideBar from "@/components/sidebars/Sidebar";
 // import Main from "@/components/default/Main";
+import { mapState, mapMutations, mapActions } from "vuex";
 export default {
   name: "Layout",
   // components: {
@@ -40,10 +41,36 @@ export default {
       fullscreenLoading
     };
   },
+  methods: {
+    ...mapActions({
+      GET_UserDetail: "main/GET_UserDetail"
+    }),
+    InitUser: function() {
+      let userDetail = {};
+      this.GET_UserDetail()
+        .then(res => {
+          console.log(this.USERDETAIL);
+          this.fullscreenLoading = false;
+        })
+        .catch(err => {
+          this.$message.error({
+            dangerouslyUseHTMLString: true,
+            message: `<strong>获取用户信息异常：${err.msg}</strong> `,
+            offset: 100,
+            duration: 2000
+          });
+        });
+    }
+  },
+  computed: {
+    ...mapState({
+      OPEN_TAB: state => state.main.openedTab,
+      USERDETAIL: state => state.main.userDetail,
+      ACTIVE_TAB: state => state.main.activeTab
+    })
+  },
   mounted() {
-    setTimeout(() => {
-      this.fullscreenLoading = false;
-    }, 1000);
+    this.InitUser();
   }
 };
 </script>

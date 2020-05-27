@@ -34,7 +34,7 @@ axios.interceptors.request.use(
     if (config.method == "post") {
       config.data = qs.stringify(config.data);
       // console.log(config.headers)
-      console.log(config)
+      // console.log(config)
       // config.headers['Content-Type'] = 'application/json;charset=UTF-8';
       config.headers['Access-Control-Allow-Origin'] = '*';
     } else {

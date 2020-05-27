@@ -29,9 +29,11 @@
   background: transparent !important;
   height: 79px;
   line-height: 79px;
-  text-align: center; }
+  text-align: center;
+  float: right; }
   .weather :nth-child(1) :nth-last-child(1) {
-    position: relative !important; }
+    position: relative !important;
+    transition: .75s ease-in-out; }
 
 .logOutBtn {
   background: transparent !important;

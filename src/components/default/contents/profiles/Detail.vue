@@ -304,11 +304,12 @@ export default {
           let code = res.data.code;
           if (code == 10200 || code == 10201) {
             let dep = data.departments.find(dep => flag.depId == dep.id);
-            let group = data.projects
-              .filter(pro => flag.depId == pro.depId)
-              .find(pro => pro.id == flag.groupId);
+            let group = data.groups
+              .filter(group => flag.depId == group.depId)
+              .find(group => group.id == flag.groupId);
+            console.log(group)
             Object.assign(this.detailForm, value);
-            this.detailForm.belongTo = `${dep.depName}部 / ${group.projectName}项目组`;
+            this.detailForm.belongTo = `${dep.depName}部 / ${group.groupName}项目组`;
             Object.assign(this.backup, this.detailForm);
             this.$refs.upload.fileList.push({
               url: this.detailForm.avatarUrl

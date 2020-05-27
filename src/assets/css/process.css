@@ -5,7 +5,11 @@
   height: max-content !important; }
 
 .headerBtn {
-  display: block !important; }
+  display: block !important;
+  transition: 1.2s ease-in-out; }
+  .headerBtn :focus {
+    filter: opacity(0.88) hue-rotate(-65deg);
+    transition: 1.2s ease-in-out; }
 
 .contentField {
   border-right: 2px solid rgba(64, 160, 255, 0.5);

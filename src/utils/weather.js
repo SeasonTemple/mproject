@@ -26,10 +26,10 @@ export let getWeather = function () {
     geolocation: true,
     language: "auto",
     unit: "c",
-    theme: "dark",
+    theme: "auto",
     token: "dd74f6a3-1b93-4a5b-93a6-ef6767178ccb",
     hover: "enabled",
     container: "tp-weather-widget"
   })
-  console.log('调用完毕！');
+  console.log('心知天气API调用完毕！');
 }

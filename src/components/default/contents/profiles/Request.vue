@@ -12,12 +12,18 @@
         <el-form-item label="申请人" prop="applicant">
           <el-input v-model="ruleForm.applicant"></el-input>
         </el-form-item>
-        <el-form-item label="审核人" prop="reviewers">
+        <el-form-item label="审核人" prop="auditors">
           <el-transfer
             filterable
+            :props="{
+              key: 'id',
+              label: 'realName'
+            }"
+            :titles="['可选审核人', '被选审核人']"
             :filter-method="filterMethod"
-            filter-placeholder="请输入城市拼音"
-            v-model="ruleForm.reviewers"
+            filter-placeholder="请输入审核人姓名"
+            @change="selectedApplicant"
+            v-model="ruleForm.auditors"
             :data="data"
             :class="{transferCss:true}"
           ></el-transfer>
@@ -78,7 +84,7 @@ export default {
   data() {
     let ruleForm = {
       applicant: "",
-      reviewers: [],
+      auditors: [],
       type: 0,
       date1: "",
       date2: "",
@@ -86,35 +92,7 @@ export default {
       other: ""
     };
     let InputWidth = "auto";
-    const generateData = _ => {
-      const data = [];
-      const cities = [
-        "李茂杉",
-        "小小人",
-        "死风者",
-        "憨批",
-        "专家",
-        "演员",
-        "吊毛"
-      ];
-      const pinyin = [
-        "shaBi",
-        "smallMan",
-        "dieInWind",
-        "hanPi",
-        "professor",
-        "actor",
-        "diaoMao"
-      ];
-      cities.forEach((city, index) => {
-        data.push({
-          label: city,
-          key: index,
-          pinyin: pinyin[index]
-        });
-      });
-      return data;
-    };
+    let data = [];
     const rules = {
       applicant: [
         {
@@ -129,11 +107,10 @@ export default {
           trigger: "blur"
         }
       ],
-      reviewers: [
+      applicant: [
         {
-          required: true,
-          message: "请选择审核人",
-          trigger: "select"
+          validator: this.validateApplicant,
+          trigger: "blur"
         }
       ],
       type: [
@@ -184,13 +161,33 @@ export default {
       InputWidth,
       ruleForm,
       rules,
-      data: generateData(),
-      filterMethod(query, item) {
-        return item.pinyin.indexOf(query) > -1;
-      }
+      data
     };
   },
   methods: {
+    initData() {
+      const data = [];
+      const auditors = [
+        { realName: "李茂杉", id: "1" },
+        { realName: "小小人", id: "2" },
+        { realName: "死风者", id: "3" },
+        { realName: "憨批", id: "4" },
+        { realName: "专家", id: "5" },
+        { realName: "演员", id: "6" },
+        { realName: "吊毛", id: "7" }
+      ];
+      auditors.forEach(a =>
+        data.push({
+          id: a.id,
+          realName: a.realName
+        })
+      );
+      Object.assign(this.data, data);
+    },
+    filterMethod(query, item) {
+      return item.realName.indexOf(query) > -1;
+      // return item.cities.indexOf(query) > -1;
+    },
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         this.$confirm("你确定提交申请?", "提示", {
@@ -245,6 +242,12 @@ export default {
       this.ruleForm.type == 5
         ? (this.rules.other[0].required = true)
         : (this.rules.other[0].required = false);
+    },
+    selectedApplicant(value, direction, movedKeys) {
+      console.log(value, direction, movedKeys);
+    },
+    validateApplicant(value) {
+      console.log(value);
     }
   },
   computed: {},
@@ -253,6 +256,9 @@ export default {
       handler: "otherCheck",
       immediate: false
     }
+  },
+  beforeMount() {
+    this.initData();
   },
   mounted() {
     this.InputWidth = "80px";

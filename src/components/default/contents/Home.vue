@@ -296,7 +296,7 @@ export default {
         },
         {
           title: "月签到数",
-          content: 721,
+          content: 41,
           icon: "el-icon-date",
           iconColor: "rgb(255, 57, 22)"
         }

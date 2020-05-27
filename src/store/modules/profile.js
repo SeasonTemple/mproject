@@ -1,21 +1,38 @@
 import {
   MarkAttendance,
   InitAttendance,
-  InitInfo
+  InitInfo,
+  InitProjects,
+  ModifyProjects,
+  InitReport,
+  SubmitReport,
+  DownloadReport,
+  UploadReport,
+  SubmitRequest
 } from '_a/profile';
 import dayjs from "dayjs";
 const state = {
   currentTab: "detail",
   attendance: [],
-  toDay: {},
-  informations: []
+  toDay: {
+    time: 0,
+    day: dayjs().format("YYYY-MM-DD"),
+    first: Date,
+    second: Date,
+    userId: ""
+  },
+  informations: [],
+  projects: [],
+  reports: []
 }
 
 const getters = {
   currentTab: state => state.currentTab,
   attendance: state => state.attendance,
   toDay: state => state.toDay,
-  informations: state => state.informations
+  informations: state => state.informations,
+  projects: state => state.projects,
+  reports: state => state.reports
 }
 
 const mutations = {
@@ -23,30 +40,48 @@ const mutations = {
     state.currentTab = tabName;
   },
   SET_ATTENDANCE(state, value) {
-    // console.log(value)
     state.attendance = value
   },
   CHECK_IN(state, value) {
-    console.log(state.toDay.length ? 1 : 0)
-    state.toDay = value
+    state.toDay = value;
   },
   SET_INFO(state, value) {
     state.informations = value
+  },
+  SET_PROJECTS(state, value) {
+    Object.assign(state.projects, value)
+  },
+  SET_REPORTS(state, value) {
+    // Object.assign(state.reports, value)
+    state.reports = value
   }
 }
 
 const actions = {
   INIT_ATTENDANCE({
-    commit
+    commit,
+    state
   }, userId) {
     return new Promise((resolve, reject) => {
       InitAttendance(userId).then(res => {
         let code = res.data.code;
         let attendances = res.data.data.attendances;
-        console.log(attendances.find(a => dayjs().isSame(a.day, "date")));
         if (code == 10200 || code == 10201) {
-          commit("SET_ATTENDANCE", attendances);
-          commit("CHECK_IN", attendances.find(a => dayjs().isSame(a.day, "date")));
+          if (attendances.length != state.attendance.length) {
+            commit("SET_ATTENDANCE", attendances);
+          }
+          if (attendances.find(a => dayjs().isSame(a.day, "date"))) {
+            commit("CHECK_IN", attendances.find(a => dayjs().isSame(a.day, "date")));
+          } else {
+            commit("CHECK_IN", {
+              time: 0,
+              day: dayjs().format("YYYY-MM-DD"),
+              first: Date,
+              second: Date,
+              userId: ""
+            });
+            console.log(state.toDay)
+          }
           resolve(res.data.msg);
         }
       }).catch(err => {
@@ -55,12 +90,13 @@ const actions = {
     })
   },
   USER_CHECK_IN({
-    commit
+    commit,
+    state
   }, data) {
-    console.log(data);
+    // console.log(data);
     if (data.length) {
       commit("CHECK_IN", data);
-      commit("SET_ATTENDANCE", data)
+      state.attendance.push(data);
     }
     return new Promise((resolve, reject) => {
       MarkAttendance(data).then(res => {
@@ -91,6 +127,77 @@ const actions = {
         }
       }).catch(err => {
         reject(err)
+      });
+    })
+  },
+  INIT_PROJECTS({
+    commit,
+    state
+  }, groupId) {
+    return new Promise((resolve, reject) => {
+      InitProjects(groupId).then(res => {
+        let code = res.data.code;
+        let data = res.data.data.projects
+        if (code == 10200 || code == 10201) {
+          if (data.length != state.projects.length) {
+            commit("SET_PROJECTS", data)
+            resolve(data);
+          } else {
+            resolve(data);
+          }
+          console.log(state.projects)
+        }
+      }).catch(err => {
+        reject(err)
+      });
+    })
+  },
+  INIT_REPORTS({
+    commit,
+    state
+  }, userName) {
+    return new Promise((resolve, reject) => {
+      InitReport(userName).then(res => {
+        let code = res.data.code;
+        let data = res.data.data.reports;
+        if (code == 10200 || code == 10201) {
+          data.length > 0 ? data.length != state.reports.length ? commit("SET_REPORTS", data) : null : null;
+          resolve(data);
+        }
+      }).catch(err => {
+        reject(err);
+      });
+    })
+  },
+  SUBMIT_REPORT({
+    commit,
+    state
+  }, report) {
+    return new Promise((resolve, reject) => {
+      SubmitReport(report).then(res => {
+        let code = res.data.code;
+        let msg = res.data.data.msg;
+        if (code == 10200 || code == 10201) {
+          state.reports.push(report);
+          resolve(msg);
+        }
+      }).catch(err => {
+        reject(err)
+      });
+    })
+  },
+  DOWNLOAD_REPORTS(reports) {
+    return new Promise((resolve, reject) => {
+      DownloadReport(reports).then(res => {
+        let code = res.data.code;
+        let data = res.data.data;
+        if (code == 10200 || code == 10201) {
+          console.log(data);
+          // resolve(data.url);
+        }
+      }).catch(err => {
+        console.log(err);
+        // reject(err);
       });
     })
   }

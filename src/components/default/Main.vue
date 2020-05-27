@@ -83,26 +83,26 @@ export default {
       DEDUCT_TAB: "main/deductTab",
       CHANGE_PROFILE: "profile/CHANGE_TAB"
     }),
-    ...mapActions({
-      GET_UserDetail: "main/GET_UserDetail"
-    }),
-    InitUser: function() {
-      let userDetail = {};
-      this.GET_UserDetail()
-        .then(res => {
-          console.log(res);
-          console.log("Main.vue:");
-          console.log(this.USERDETAIL);
-        })
-        .catch(err => {
-          this.$message.error({
-            dangerouslyUseHTMLString: true,
-            message: `<strong>获取用户信息异常：${err.msg}</strong> `,
-            offset: 100,
-            duration: 2000
-          });
-        });
-    },
+    // ...mapActions({
+    //   GET_UserDetail: "main/GET_UserDetail"
+    // }),
+    // InitUser: function() {
+    //   let userDetail = {};
+    //   this.GET_UserDetail()
+    //     .then(res => {
+    //       console.log(res);
+    //       console.log("Main.vue:");
+    //       console.log(this.USERDETAIL);
+    //     })
+    //     .catch(err => {
+    //       this.$message.error({
+    //         dangerouslyUseHTMLString: true,
+    //         message: `<strong>获取用户信息异常：${err.msg}</strong> `,
+    //         offset: 100,
+    //         duration: 2000
+    //       });
+    //     });
+    // },
     handleClickTab(router) {
       this.CHANGE_TAB(router);
       this.activeName = router;
@@ -218,7 +218,6 @@ export default {
     this.timer = setTimeout(() => {
       this.drawLoading = false;
     }, 2500);
-    this.InitUser();
   },
   watch: {
     getOpenedTab(val) {

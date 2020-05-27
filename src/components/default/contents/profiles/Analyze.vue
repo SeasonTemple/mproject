@@ -35,18 +35,12 @@
   </section>
 </template>
 <script>
-import { mapState, mapMutations, mapActions } from "vuex";
+import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
 import dayjs from "dayjs";
 export default {
   name: "analyze",
   data() {
-    let attendanceDetailsData = [
-      // { number: 2, time: "2020-05-01" },
-      // { number: 0, time: "2020-05-02" },
-      // { number: 1, time: "2020-05-03" },
-      // { number: 1, time: "2020-05-04" },
-      // { number: 1, time: "2020-05-05" }
-    ];
+    let attendanceDetailsData = [];
     let value = dayjs().month() + 1;
     const firstDayOfMonth = dayjs()
       .startOf("month")
@@ -86,6 +80,10 @@ export default {
     ...mapMutations({
       CHECK_IN: "profile/CHECK_IN"
     }),
+    ...mapGetters({
+      Get_Attendance: "profile/attendance",
+      Get_ToDay: "profile/toDay"
+    }),
     ...mapActions({
       INIT_ATTENDANCE: "profile/INIT_ATTENDANCE",
       USER_CHECK_IN: "profile/USER_CHECK_IN"
@@ -94,16 +92,17 @@ export default {
       let dates = this.attendanceDetailsData;
       this.INIT_ATTENDANCE(this.USERDETAIL.id)
         .then(res => {
-          console.log(this.GET_ATTENDANCE);
           if (dates.length < 1) {
-            Object.assign(this.attendanceDetailsData, this.GET_ATTENDANCE);
+            this.attendanceDetailsData = Array.from(this.GET_ATTENDANCE);
+            // if (Object.entries(this.TODAY).length > 1) {
             Object.assign(this.toDay, this.TODAY);
+            // }
+            // console.log(this.toDay);
           }
         })
         .catch(err => {
           console.log(err);
         });
-      // console.log(this.TODAY);
     },
     handleSelected(day) {
       let flag = 0;
@@ -113,17 +112,17 @@ export default {
             flag = item.time;
             return;
           }
+        } else if (dayjs().isBefore(day, "date")) {
+          flag = -1;
+          return;
         } else if (dayjs().isSame(day, "date")) {
           flag = this.toDay.time;
-        } else {
-          flag = -1;
           return;
         }
       });
       return flag;
     },
     pickDate(date, data) {
-      // console.log(dayjs(date).format("YYYY-MM-DD"));
       if (data.day == dayjs(this.toDay.day).format("YYYY-MM-DD")) {
         if (this.toDay.time == 2) {
           this.$message.error({
@@ -165,22 +164,22 @@ export default {
       }
     },
     syncAttendance() {
-      // console.log(this.TODAY)
-      if (this.toDay.time == 2 && this.TODAY) {
+      if (this.toDay.time == 2) {
         this.USER_CHECK_IN(this.toDay)
           .then(res => {
             this.$message.success({
               dangerouslyUseHTMLString: true,
               message: `同步${res}！`,
-              offset: 230,
+              offset: 200,
               duration: 3000
             });
+            // Object.assign(this.toDay, this.TODAY);
           })
           .catch(err => {
             this.$message.error({
               dangerouslyUseHTMLString: true,
               message: `同步签到信息异常：${err}`,
-              offset: 230,
+              offset: 200,
               duration: 3000
             });
           });
@@ -191,31 +190,28 @@ export default {
     ...mapState({
       USERDETAIL: state => state.main.userDetail,
       GET_ATTENDANCE: state => state.profile.attendance,
-      TODAY: state => state.profile.toDay
+      TODAY: state => state.profile.toDay,
+      attendance: state => state.profile.attendance
     })
   },
   watch: {
-    // TODAY: function(params) {
-    // if (this.TODAY.time == 2) {
-    //   this.USER_CHECK_IN(this.TODAY)
-    //     .then(res => {
-    //       this.$message.success({
-    //         dangerouslyUseHTMLString: true,
-    //         message: `同步${res}！`,
-    //         offset: 230,
-    //         duration: 3000
-    //       });
-    //     })
-    //     .catch(err => {
-    //       this.$message.error({
-    //         dangerouslyUseHTMLString: true,
-    //         message: `同步签到信息异常：${err}`,
-    //         offset: 230,
-    //         duration: 3000
-    //       });
-    //     });
-    // }
-    // }
+    attendance: function(params) {
+      console.log(params);
+      this.attendanceDetailsData = Array.from(params);
+    },
+    TODAY: function(params) {
+      console.log(params);
+      // if (Object.entries(params).length < 1) {
+      //   this.toDay = {
+      //     time: 0,
+      //     day: dayjs().format("YYYY-MM-DD"),
+      //     first: Date,
+      //     second: Date,
+      //     userId: ""
+      //   };
+      // }
+      this.toDay = params;
+    }
   },
   beforeMount() {
     this.initToDay();

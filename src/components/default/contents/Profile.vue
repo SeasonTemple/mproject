@@ -110,7 +110,7 @@ export default {
       GET_UserDetail: "main/GET_UserDetail"
     }),
     handleClick(tab) {
-      console.log("handleClick: " + tab + "//" + this.CURRENT_TAB);
+      // console.log("handleClick: " + tab + "//" + this.CURRENT_TAB);
       this.currentTab = tab;
       this.switchTab;
     },
@@ -153,7 +153,7 @@ export default {
       const nameMap = new Map();
       nameMap.set("detail", "用户详情");
       nameMap.set("process", "项目进展");
-      nameMap.set("report", "工作报表");
+      nameMap.set("report", "工作日志");
       nameMap.set("request", "事务申请");
       nameMap.set("analyze", "签到考勤");
       nameMap.set("information", "系统消息");
@@ -246,13 +246,13 @@ export default {
       ACTIVETAB: state => state.main.activeTab
     }),
     switchTab: function() {
-      console.log("switchTab: " + this.currentTab);
+      // console.log("switchTab: " + this.currentTab);
       this.CHANGE_TAB(this.currentTab);
       // this.nowTab;
       return this.currentTab;
     },
     nowTab: function() {
-      console.log(`nowTab: ${this.CURRENT_TAB}`);
+      // console.log(`nowTab: ${this.CURRENT_TAB}`);
       this.currentTab = this.CURRENT_TAB;
       this.CHANGE_TAB(this.currentTab);
     },

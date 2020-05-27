@@ -88,7 +88,7 @@ export const asyncRouterMap = [
       meta: {
         role: ['USER', 'CUSTOM', 'ADMIN'],
         keepAlive: true,
-        title: "工作报告",
+        title: "工作日志",
       },
       component: () => import("@/components/default/contents/profiles/Report")
     }, {

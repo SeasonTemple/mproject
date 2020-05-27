@@ -3,7 +3,7 @@
 
 .baseBody {
   height: max-content !important;
-    //   background: rgb(244, 245, 248) !important;
+  //   background: rgb(244, 245, 248) !important;
 }
 
 .baseHeader {
@@ -13,7 +13,12 @@
 
 .headerBtn {
   display: block !important;
-  //   float: left !important;
+  transition: 1.2s ease-in-out;
+  :focus {
+    filter: opacity(.88) hue-rotate(-65deg);
+    transition: 1.2s ease-in-out;
+  }
+
 }
 
 .contentField {
