@@ -28,7 +28,14 @@
         </transition>
         <transition appear appear-active-class="bounceInLeft" enter-active-class="bounceInLeft">
           <el-tooltip effect="light" content="导入工作日志" placement="top">
-            <el-button type="warning" class="animated delay-2s" icon="el-icon-upload2" circle plain></el-button>
+            <el-button
+              type="warning"
+              class="animated delay-2s"
+              icon="el-icon-upload2"
+              circle
+              plain
+              @click="uploadVisible = true"
+            ></el-button>
           </el-tooltip>
         </transition>
         <transition appear appear-active-class="bounceInLeft" enter-active-class="bounceInLeft">
@@ -47,6 +54,7 @@
       v-infinite-scroll="load"
       infinite-scroll-disabled="disabled"
       :class="{timeLine: true}"
+      v-loading="isPrepared"
     >
       <el-timeline-item
         :timestamp="rep.publish"
@@ -138,10 +146,52 @@
         <el-button type="success" @click="generateExcel">下 载</el-button>
       </div>
     </el-dialog>
+    <el-dialog
+      title="上传日志"
+      :visible.sync="uploadVisible"
+      :append-to-body="true"
+      top="25vh"
+      width="500px"
+    >
+      <el-card shadow="never">
+        <el-upload
+          ref="upload"
+          :style="{textAlign: 'center'}"
+          :on-preview="handlePreview"
+          :on-remove="handleRemove"
+          :before-upload="beforeUpload"
+          :before-remove="beforeRemove"
+          multiple
+          action="#"
+          :http-request="uploadReport"
+          drag
+          :auto-upload="false"
+          :limit="1"
+          :on-exceed="handleExceed"
+          :file-list="fileList"
+        >
+          <i class="el-icon-upload"></i>
+          <div class="el-upload__text">
+            将文件拖到此处，或
+            <em>点击上传</em>
+          </div>
+          <div slot="tip" class="el-upload__tip">只能上传xsl/xlsx文件，且不超过2M</div>
+        </el-upload>
+      </el-card>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="danger" @click="uploadVisible = false">取 消</el-button>
+        <el-button
+          type="success"
+          @click="readyUpload"
+          :icon="isUploading?'el-icon-loading':''"
+        >{{isUploading?"上传中":"上传文件"}}</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>
 import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
+import fileDownload from "js-file-download";
 import dayjs from "dayjs";
 import { quillEditor } from "vue-quill-editor"; // 调用富文本编辑器
 import "quill/dist/quill.snow.css"; // 富文本编辑器外部引用样式  三种样式三选一引入即可
@@ -154,10 +204,12 @@ export default {
   data() {
     let count = 8;
     let reports = [];
+    let isPrepared = true;
     const origin = [];
     let radio = 0;
     let reverseBtn = false;
     let loading = false;
+    let isUploading = false;
     let editFormWidth = "90px";
     // let editor = null;
     let reportForm = {
@@ -167,8 +219,10 @@ export default {
       publish: dayjs().format("YYYY-MM-DD HH:mm:ss"),
       owner: ""
     };
+    let fileList = [];
     let dialog = false;
     let editFormVisible = false;
+    let uploadVisible = false;
     const formLabelWidth = "80px";
     let timer = null;
     const editorOption = {
@@ -222,6 +276,10 @@ export default {
       ]
     };
     return {
+      isUploading,
+      fileList,
+      isPrepared,
+      uploadVisible,
       radio,
       editFormVisible,
       editFormWidth,
@@ -241,7 +299,9 @@ export default {
   methods: {
     ...mapActions({
       INIT_REPORTS: "profile/INIT_REPORTS",
-      SUBMIT_REPORT: "profile/SUBMIT_REPORT"
+      SUBMIT_REPORT: "profile/SUBMIT_REPORT",
+      DOWNLOAD_REPORTS: "profile/DOWNLOAD_REPORTS",
+      UPLOAD_REPORT: "profile/UPLOAD_REPORT"
     }),
     ...mapGetters({
       Get_UserDetail: "main/USERDETAIL",
@@ -293,6 +353,9 @@ export default {
       this.origin.slice(repLength, count).forEach(_ => {
         this.reports.push(_);
       });
+      setTimeout(() => {
+        this.isPrepared = !this.isPrepared;
+      }, 1500);
     },
     onEditorReady(editor) {}, // 准备编辑器
     onEditorBlur() {}, // 失去焦点事件
@@ -355,29 +418,101 @@ export default {
       let flag = this.radio;
       let origin = this.origin;
       let res = [];
+      let fileName = "";
       if (flag == 0) {
         res = origin.filter(o =>
           dayjs()
             .subtract(1, "week")
             .isBefore(o.publish, "date")
         );
-        console.log(res);
+        fileName = "最近一周工作日志";
+        // console.log(res);
       } else if (flag == 1) {
         res = origin.filter(o =>
           dayjs()
             .subtract(2, "week")
             .isBefore(o.publish, "date")
         );
-        console.log(res);
+        fileName = "最近两周工作日志";
+
+        // console.log(res);
       } else {
         res = origin.filter(o =>
           dayjs()
             .subtract(1, "month")
             .isBefore(o.publish, "date")
         );
-        console.log(res);
-        
+        fileName = "最近一个月工作日志";
       }
+      this.editFormVisible = false;
+      this.downloadReports(res, fileName);
+    },
+    downloadReports(reports, fileName) {
+      if (reports.length > 0) {
+        this.DOWNLOAD_REPORTS(reports)
+          .then(res => {
+            console.log(res);
+            fileDownload(res.data, fileName + ".xsl");
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      }
+    },
+    beforeUpload(file) {
+      const isXsl = file.type === "text/xml";
+      const isLt2M = file.size / 1024 / 1024 < 2;
+
+      if (!isXsl) {
+        this.$message.error("上传文件只能是 xsl/xlsx 格式!");
+      }
+      if (!isLt2M) {
+        this.$message.error("上传文件大小不能超过 2MB!");
+      }
+      return isXsl && isLt2M;
+    },
+    handleRemove(file, fileList) {
+      console.log(file, fileList);
+    },
+    handlePreview(file) {
+      console.log(file);
+    },
+    handleExceed(files, fileList) {
+      this.$message.error({
+        message: `当前限制选择 1 个文件，本次选择了 ${
+          files.length
+        } 个文件，共选择了 ${files.length + fileList.length} 个文件`,
+        offset: 200
+      });
+    },
+    beforeRemove(file, fileList) {
+      console.log(`确定移除 ${file.name}？`);
+    },
+    readyUpload() {
+      this.$refs.upload.submit();
+    },
+    uploadReport(event) {
+      this.isUploading = true;
+      this.fileList.push(event.file);
+      if (this.fileList.length > 1) {
+        this.$message.error({
+          message: `一次最多上传1个文件`,
+          offset: 200
+        });
+        return;
+      } else {
+        console.log(event.file);
+        this.UPLOAD_REPORT(event.file)
+          .then(res => {})
+          .catch(err => {});
+      }
+      this.$refs.upload.clearFiles();
+      setTimeout(() => {
+        this.isUploading = false;
+        this.fileList = [];
+        this.uploadVisible = false;
+        console.log(this.fileList);
+      }, 2000);
     }
   },
   computed: {

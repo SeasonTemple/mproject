@@ -8,23 +8,24 @@
         :label-width="InputWidth"
         label-position="left"
         :class="{reqForm: true}"
+        hide-required-asterisk
       >
         <el-form-item label="申请人" prop="applicant">
-          <el-input v-model="ruleForm.applicant"></el-input>
+          <el-input v-model="ruleForm.applicant" disabled></el-input>
         </el-form-item>
         <el-form-item label="审核人" prop="auditors">
           <el-transfer
             filterable
             :props="{
               key: 'id',
-              label: 'realName'
+              label: 'userName'
             }"
             :titles="['可选审核人', '被选审核人']"
             :filter-method="filterMethod"
             filter-placeholder="请输入审核人姓名"
             @change="selectedApplicant"
             v-model="ruleForm.auditors"
-            :data="data"
+            :data.sync="auditorsData"
             :class="{transferCss:true}"
           ></el-transfer>
         </el-form-item>
@@ -39,16 +40,16 @@
               <el-radio-button :label="5">其他</el-radio-button>
             </el-radio-group>
           </el-col>
-          <el-col :span="12" v-if="ruleForm.type==5">
+          <!-- <el-col :span="12" v-if="ruleForm.type==5">
             <el-form-item prop="other">
               <el-input v-model="ruleForm.other"></el-input>
             </el-form-item>
-          </el-col>
+          </el-col>-->
         </el-form-item>
         <el-form-item label="申请日期" required>
-          <el-form-item prop="date1">
+          <el-form-item prop="requestTime">
             <el-date-picker
-              v-model="ruleForm.date1"
+              v-model="ruleForm.requestTime"
               type="datetime"
               placeholder="选择日期时间"
               default-time="8:00:00"
@@ -56,14 +57,14 @@
           </el-form-item>
         </el-form-item>
         <el-form-item label="请假日期" required>
-          <el-form-item prop="date2">
+          <el-form-item prop="restTime">
             <el-date-picker
-              v-model="ruleForm.date2"
+              v-model="ruleForm.restTime"
               type="datetimerange"
               align="right"
               start-placeholder="开始日期"
               end-placeholder="结束日期"
-              :default-time="['8:00:00', '00:00:00']"
+              :default-time="['8:00:00', '18:00:00']"
             ></el-date-picker>
           </el-form-item>
         </el-form-item>
@@ -79,20 +80,45 @@
   </el-row>
 </template>
 <script>
+import dayjs from "dayjs";
+var isSameOrBefore = require("dayjs/plugin/isSameOrBefore");
+dayjs.extend(isSameOrBefore);
+import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
+import { InitAuditors } from "_a/profile";
 export default {
   name: "request",
   data() {
+    const getAuditors = () => {
+      // if (this.auditorsData.length < 1) {
+      const data = [];
+      InitAuditors()
+        .then(res => {
+          let auditors = res.data.data.auditors;
+          auditors.forEach(a =>
+            data.push({
+              id: a.id,
+              userName: a.userName
+            })
+          );
+        })
+        .catch(err => {
+          this.$message.warning({
+            message: err,
+            offset: 250
+          });
+        });
+      return data;
+    };
     let ruleForm = {
       applicant: "",
       auditors: [],
       type: 0,
-      date1: "",
-      date2: "",
-      reason: "",
-      other: ""
+      requestTime: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+      restTime: [],
+      reason: ""
     };
-    let InputWidth = "auto";
-    let data = [];
+    let InputWidth = "80px";
+    let auditorsData = [];
     const rules = {
       applicant: [
         {
@@ -107,7 +133,7 @@ export default {
           trigger: "blur"
         }
       ],
-      applicant: [
+      auditors: [
         {
           validator: this.validateApplicant,
           trigger: "blur"
@@ -133,20 +159,16 @@ export default {
           trigger: "change"
         }
       ],
-      date1: [
+      requestTime: [
         {
-          type: "date",
-          required: true,
-          message: "请选择提交申请的日期",
-          trigger: "blur"
+          validator: this.validateRequestDate,
+          trigger: "select"
         }
       ],
-      date2: [
+      restTime: [
         {
-          type: "date",
-          required: true,
-          message: "请选择请假时间段",
-          trigger: "blur"
+          validator: this.validateRestDate,
+          trigger: "select"
         }
       ],
       reason: [
@@ -154,6 +176,12 @@ export default {
           required: true,
           message: "请填写申请的理由",
           trigger: "blur"
+        },
+        {
+          min: 2,
+          max: 32,
+          message: "长度在 2 到 32 个字符",
+          trigger: "change"
         }
       ]
     };
@@ -161,107 +189,115 @@ export default {
       InputWidth,
       ruleForm,
       rules,
-      data
+      auditorsData: getAuditors()
     };
   },
   methods: {
+    ...mapGetters({
+      Get_UserDetail: "main/USERDETAIL"
+    }),
+    ...mapActions({
+      SUBMIT_REQUEST: "profile/SUBMIT_REQUEST"
+    }),
     initData() {
-      const data = [];
-      const auditors = [
-        { realName: "李茂杉", id: "1" },
-        { realName: "小小人", id: "2" },
-        { realName: "死风者", id: "3" },
-        { realName: "憨批", id: "4" },
-        { realName: "专家", id: "5" },
-        { realName: "演员", id: "6" },
-        { realName: "吊毛", id: "7" }
-      ];
-      auditors.forEach(a =>
-        data.push({
-          id: a.id,
-          realName: a.realName
-        })
-      );
-      Object.assign(this.data, data);
+      this.ruleForm.applicant = this.Get_UserDetail().realName;
+      // Object.assign(this.auditorsData, data);
+      // console.log(this.auditorsData);
     },
     filterMethod(query, item) {
-      return item.realName.indexOf(query) > -1;
+      return item.userName.indexOf(query) > -1;
       // return item.cities.indexOf(query) > -1;
     },
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
-        this.$confirm("你确定提交申请?", "提示", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning",
-          lockScroll: "true",
-          roundButton: true
-        })
-          .then(() => {
-            if (valid) {
-              this.$message({
-                type: "success",
-                message: "提交成功!",
-                offset: 230
-              });
-            } else {
-              this.$message({
-                type: "error",
-                message: "验证失败，操作取消!!",
-                offset: 230
-              });
-            }
+        if (valid) {
+          this.$confirm("提交申请?", "提示", {
+            confirmButtonText: "确定",
+            cancelButtonText: "取消",
+            type: "warning",
+            lockScroll: "true",
+            roundButton: true
           })
-          .catch(error => {
-            this.$message({
-              type: "warning",
-              message: error + "：取消操作",
-              offset: 250
+            .then(() => {
+              let o = this.ruleForm;
+              console.log(o);
+              let request = {
+                applicant: o.applicant,
+                auditor: o.auditors[0],
+                type: o.type,
+                requestTime: o.requestTime,
+                startTime: dayjs(o.restTime[0]).format("YYYY-MM-DD HH:mm:ss"),
+                endTime: dayjs(o.restTime[1]).format("YYYY-MM-DD HH:mm:ss"),
+                reason: o.reason
+              };
+              this.SUBMIT_REQUEST(request)
+                .then(res => {})
+                .catch(err => {});
+              this.$message.success({
+                message: "提交成功!",
+                offset: 150
+              });
+            })
+            .catch(err => {
+              this.$message.warning({
+                message: err + "：取消操作",
+                offset: 250
+              });
+              return false;
             });
-            return false;
+        } else {
+          this.$message.error({
+            message: "你的输入有误，请根据提示填写!!",
+            offset: 150
           });
-        // if (valid) {
-        //   this.$message({
-        //     message: '提交成功',
-        //     offset: 100,
-        //     type: 'success'
-        //   })
-        // } else {
-        //   this.$message({
-        //     message: '验证失败，操作取消',
-        //     offset: 100,
-        //     type: 'error'
-        //   })
-        // }
+        }
       });
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
-    otherCheck: function() {
-      this.ruleForm.type == 5
-        ? (this.rules.other[0].required = true)
-        : (this.rules.other[0].required = false);
-    },
+    // otherCheck: function() {
+    //   this.ruleForm.type == 5
+    //     ? (this.rules.other[0].required = true)
+    //     : (this.rules.other[0].required = false);
+    // },
     selectedApplicant(value, direction, movedKeys) {
       console.log(value, direction, movedKeys);
     },
-    validateApplicant(value) {
-      console.log(value);
+    validateApplicant(rule, value, callback) {
+      if (value.length < 1) {
+        callback(new Error("请选择一名审核人"));
+      } else if (value.length > 1) {
+        callback(new Error("只能选择一名审核人"));
+      } else {
+        callback();
+      }
+    },
+    validateRequestDate(rule, value, callback) {
+      if (value == "") {
+        callback(new Error("请选择申请日期时间"));
+      } else if (dayjs().isSameOrBefore(value, "date")) {
+        callback();
+      } else {
+        callback(new Error("请选择不早于当前的日期时间"));
+      }
+    },
+    validateRestDate(rule, value, callback) {
+      // console.log(value[0]);
+      if (value.length < 2) {
+        callback(new Error("请选择请假的时间范围"));
+      } else if (dayjs().isSameOrBefore(value[0], "day")) {
+        callback();
+      } else {
+        callback(new Error("请选择正确的时间范围"));
+      }
     }
   },
   computed: {},
-  watch: {
-    "ruleForm.type": {
-      handler: "otherCheck",
-      immediate: false
-    }
-  },
-  beforeMount() {
-    this.initData();
-  },
+  watch: {},
+  beforeMount() {},
   mounted() {
-    this.InputWidth = "80px";
+    this.ruleForm.applicant = this.Get_UserDetail().realName;
   }
 };
 </script>

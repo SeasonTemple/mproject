@@ -186,18 +186,48 @@ const actions = {
       });
     })
   },
-  DOWNLOAD_REPORTS(reports) {
+  DOWNLOAD_REPORTS({
+    commit
+  }, reports) {
     return new Promise((resolve, reject) => {
+      // console.log(typeof reports)
       DownloadReport(reports).then(res => {
-        let code = res.data.code;
-        let data = res.data.data;
-        if (code == 10200 || code == 10201) {
-          console.log(data);
-          // resolve(data.url);
+        let code = res.status;
+        // let data = res.data.data;
+        // console.log(res);
+        if (code == 200 || code == 201) {
+          // console.log(res);
+          resolve(res);
         }
       }).catch(err => {
         console.log(err);
         // reject(err);
+      });
+    })
+  },
+  UPLOAD_REPORT({
+    commit,
+    state
+  }, report) {
+    return new Promise((resolve, reject) => {
+      UploadReport(report).then(res => {
+        console.log(res)
+        // state.push(report)
+      }).catch(err => {
+        console.log(err)
+      });
+    })
+  },
+  SUBMIT_REQUEST({}, request) {
+    return new Promise((resolve, reject) => {
+      SubmitRequest(request).then(res => {
+        let code = res.data.code;
+        let msg = res.data.data.msg;
+        if (code == 10200 || code == 10201){
+          console.log(msg)
+        }
+      }).catch(err => {
+        reject(err)
       });
     })
   }

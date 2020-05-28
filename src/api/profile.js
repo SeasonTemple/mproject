@@ -75,7 +75,7 @@ export const SubmitReport = (report) => {
   return axios.request({
     url: "/api/submitReport",
     method: 'post',
-    data: report  ,
+    data: report,
     headers: {
       "Authorization": getToKen()
     }
@@ -84,11 +84,15 @@ export const SubmitReport = (report) => {
 
 //工作日志：日志上传API
 export const UploadReport = (data) => {
+  let params = new URLSearchParams();
+  params.append("file", JSON.stringify(data))
+  console.log(params.get("file"));
   return axios.request({
     url: "/api/uploadReport",
     method: 'post',
-    data,
+    params,
     headers: {
+      'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
       "Authorization": getToKen()
     }
   })
@@ -96,11 +100,15 @@ export const UploadReport = (data) => {
 
 //工作日志：日志下载API
 export const DownloadReport = (data) => {
+  let params = new URLSearchParams()
+  params.append('reports', JSON.stringify(data))
   return axios.request({
     url: "/api/downloadReport",
     method: 'post',
-    data,
+    params,
+    responseType: 'arraybuffer',
     headers: {
+      'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
       "Authorization": getToKen()
     }
   })
@@ -164,7 +172,18 @@ export const InitInfo = (userName) => {
   })
 }
 
-//事务申请：申请提交API
+//事务申请：初始化审核人API
+export const InitAuditors = () => {
+  return axios.request({
+    url: "/api/initAuditors",
+    method: 'get',
+    headers: {
+      "Authorization": getToKen()
+    }
+  })
+}
+
+//事务申请：提交申请API
 export const SubmitRequest = (data) => {
   return axios.request({
     url: "/api/submitRequest",
