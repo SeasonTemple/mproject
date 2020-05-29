@@ -109,8 +109,11 @@ export default {
         });
       return data;
     };
+    const getApplicant= ()=>{
+      return this.Get_UserDetail().realName;
+    };
     let ruleForm = {
-      applicant: "",
+      applicant: getApplicant(),
       auditors: [],
       type: 0,
       requestTime: dayjs().format("YYYY-MM-DD HH:mm:ss"),
@@ -206,7 +209,6 @@ export default {
     },
     filterMethod(query, item) {
       return item.userName.indexOf(query) > -1;
-      // return item.cities.indexOf(query) > -1;
     },
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
@@ -231,17 +233,24 @@ export default {
                 reason: o.reason
               };
               this.SUBMIT_REQUEST(request)
-                .then(res => {})
-                .catch(err => {});
-              this.$message.success({
-                message: "提交成功!",
-                offset: 150
-              });
+                .then(res => {
+                  this.$message.success({
+                    message: res,
+                    offset: 150
+                  });
+                  this.resetForm(formName);
+                })
+                .catch(err => {
+                  this.$message.success({
+                    message: err,
+                    offset: 150
+                  });
+                });
             })
             .catch(err => {
               this.$message.warning({
                 message: err + "：取消操作",
-                offset: 250
+                offset: 150
               });
               return false;
             });
@@ -297,7 +306,7 @@ export default {
   watch: {},
   beforeMount() {},
   mounted() {
-    this.ruleForm.applicant = this.Get_UserDetail().realName;
+    
   }
 };
 </script>

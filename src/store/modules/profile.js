@@ -222,9 +222,9 @@ const actions = {
     return new Promise((resolve, reject) => {
       SubmitRequest(request).then(res => {
         let code = res.data.code;
-        let msg = res.data.data.msg;
+        let msg = res.data.msg;
         if (code == 10200 || code == 10201){
-          console.log(msg)
+          resolve(msg)
         }
       }).catch(err => {
         reject(err)

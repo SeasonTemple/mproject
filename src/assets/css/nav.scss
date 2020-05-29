@@ -40,11 +40,14 @@
   text-align: center;
 
   :nth-child(1) {
+    color: whitesmoke;
+
     :nth-last-child(1) {
       position: relative !important;
       transition: .75s ease-in-out;
     }
   }
+
   float: right;
 }
 

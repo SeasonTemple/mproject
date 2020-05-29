@@ -10,7 +10,13 @@
   overflow-y: auto;
   overflow-x: hidden; }
   .side .el-menu {
-    border-right: none; }
+    border-right: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none; }
     .side .el-menu .el-divider {
       box-sizing: border-box;
       margin: 1px 0 0 0;
@@ -20,7 +26,13 @@
   .side .el-menu-vertical-demo:not(.el-menu--collapse) {
     width: 30vh;
     min-height: 100%;
-    overflow: hidden; }
+    overflow: hidden;
+    -moz-user-select: none;
+    -o-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none; }
   .side .el-submenu {
     text-align: left; }
     .side .el-submenu i {

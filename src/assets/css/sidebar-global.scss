@@ -14,8 +14,15 @@
   overflow-y: auto;
   overflow-x: hidden;
 
+
   .el-menu {
     border-right: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 
     .el-divider {
       box-sizing: border-box;
@@ -32,6 +39,12 @@
     width: 30vh;
     min-height: 100%;
     overflow: hidden;
+    -moz-user-select: none;
+    -o-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
   }
 
   .el-submenu {
