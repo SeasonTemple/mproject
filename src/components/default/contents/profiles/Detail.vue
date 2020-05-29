@@ -170,8 +170,8 @@
         <el-form-item label="入职日期" prop="createTime">
           <el-date-picker
             v-model="detailForm.createTime"
-            value-format="yyyy-MM-dd HH:mm:ss"
-            type="datetime"
+            value-format="yyyy-MM-dd"
+            type="date"
             :picker-options="pickerOptions"
             :style="formItemWidth"
             :readonly="formState.readonly"
@@ -307,7 +307,7 @@ export default {
             let group = data.groups
               .filter(group => flag.depId == group.depId)
               .find(group => group.id == flag.groupId);
-            console.log(group)
+            // console.log(group);
             Object.assign(this.detailForm, value);
             this.detailForm.belongTo = `${dep.depName}部 / ${group.groupName}项目组`;
             Object.assign(this.backup, this.detailForm);

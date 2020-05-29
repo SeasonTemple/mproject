@@ -104,6 +104,7 @@ export default {
       return this.store_switchBar;
     },
     Routers: function() {
+      console.log(this.$router.options.routes)
       return this.$router.options.routes
         .filter(r => r.path != "/index")
         .filter(r => r.name != "Base")

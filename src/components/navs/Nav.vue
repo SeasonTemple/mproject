@@ -71,7 +71,7 @@
               appear-active-class="bounceInRight"
               enter-active-class="bounceInRight"
             >
-              <el-tooltip effect="dark" content="个人中心" placement="bottom">
+              <!-- <el-tooltip effect="dark" content="个人中心" placement="bottom"> -->
                 <el-avatar
                   class="animated delay-1s"
                   :size="46"
@@ -80,7 +80,7 @@
                   fit="contain"
                   :lazy="true"
                 ></el-avatar>
-              </el-tooltip>
+              <!-- </el-tooltip> -->
             </transition>
           </el-col>
         </el-row>

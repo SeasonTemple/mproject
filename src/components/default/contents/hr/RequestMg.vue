@@ -1,20 +1,19 @@
 <template>
   <div>
-    <el-row type="flex">
+    <!-- <el-row type="flex">
       <el-col :span="24">
         <el-form :inline="true" :model="formInline" class="demo-form-inline">
-          <el-form-item prop="keyword">
-            <el-input v-model="formInline.keyword" placeholder="模糊查询"></el-input>
+          <el-form-item prop="search">
+            <el-input v-model="formInline.search" placeholder="模糊查询"></el-input>
           </el-form-item>
           <el-form-item>
             <el-button plain type="info" @click="onSubmit">查询</el-button>
-            <!-- <el-button plain type="success" @click="onSubmit">添加</el-button> -->
           </el-form-item>
         </el-form>
       </el-col>
-    </el-row>
+    </el-row>-->
     <el-table
-      :data="tableData"
+      :data="tableData.filter(data => !search || data.name == search)"
       style="width:100%;"
       fit
       max-height="700"
@@ -28,7 +27,7 @@
       <el-table-column prop="requestor" label="申请人" show-overflow-tooltip></el-table-column>
       <el-table-column prop="reqTime" label="申请日期" show-overflow-tooltip></el-table-column>
       <el-table-column prop="restTime" label="请假日期" show-overflow-tooltip></el-table-column>
-      <el-table-column prop="reason" label="申请理由" show-overflow-tooltip></el-table-column>
+      <el-table-column prop="reason" label="申请理由" show-overflow-tooltip effect="light"></el-table-column>
       <el-table-column prop="state" label="申请状态" show-overflow-tooltip>
         <el-tooltip :content="tableData.state == 0?'申请驳回':'审核通过'" placement="top">
           <el-switch
@@ -41,7 +40,10 @@
         </el-tooltip>
       </el-table-column>
 
-      <el-table-column label="操作">
+      <el-table-column align="right" width="200">
+        <template slot="header">
+          <el-input v-model="search" size="medium" placeholder="输入关键字搜索" />
+        </template>
         <template slot-scope="scope">
           <el-tooltip content="同意申请" placement="top" effect="dark">
             <el-button
@@ -79,10 +81,10 @@
           class="pager"
           @current-change="handleCurrentChange"
           :current-page="currentPage4"
-          :page-size="5"
+          :page-size="20"
           layout="total, prev, pager, next, jumper"
-          :total="40"
-          :hide-on-single-page="true"
+          :total="1"
+          :hide-on-single-page="false"
         ></el-pagination>
       </div>
     </el-table>
@@ -93,9 +95,7 @@
 export default {
   name: "requestMsg",
   data() {
-    let formInline = {
-      keyword: ""
-    };
+    let search = "";
     let tableData = [
       {
         requestor: "李华",
@@ -108,10 +108,10 @@ export default {
     let currentPage1 = 5;
     let currentPage2 = 5;
     let currentPage3 = 5;
-    let currentPage4 = 4;
+    let currentPage4 = 1;
     let drawLoading = false;
     return {
-      formInline,
+      search,
       currentPage1,
       currentPage2,
       currentPage3,

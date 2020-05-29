@@ -105,10 +105,10 @@
                   class="pager"
                   @current-change="handleCurrentChange"
                   :current-page="currentPage4"
-                  :page-size="5"
+                  :page-size="3"
                   layout="total, prev, pager, next, jumper"
-                  :total="40"
-                  :hide-on-single-page="true"
+                  :total="3"
+                  :hide-on-single-page="false"
                 ></el-pagination>
               </el-col>
             </el-row>
@@ -202,7 +202,7 @@ export default {
     let currentPage1 = 5;
     let currentPage2 = 5;
     let currentPage3 = 5;
-    let currentPage4 = 4;
+    let currentPage4 = 1;
     let drawLoading = false;
     let dialogTableVisible = false;
     let search = "";
@@ -263,7 +263,7 @@ export default {
       this.dialogTableVisible = true;
     },
     deleteRows() {
-      let ids = this.selectRows.map(item => item.eid);
+      let ids = this.selectRows.map(item => item.id);
       console.log(ids);
     },
     handleCheckedAuthChange(value) {

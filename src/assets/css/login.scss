@@ -562,7 +562,9 @@ body {
   &:active {
     color: black;
     background: rgba(64, 160, 255, 0.8);
-    filter: hue-rotate(-88deg);
+    filter: hue-rotate(-38deg);
+    font-size: 1.10em;
+    font-weight: 600;
     text-shadow: 0px 0px 8px whitesmoke,
       1px 1px 8px whitesmoke,
       -1px -1px 8px whitesmoke,

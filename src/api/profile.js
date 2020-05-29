@@ -36,7 +36,7 @@ export const UploadImg = (binary) => {
   // formData.append("path", '/');
   return axios.request({
     method: 'post',
-    url: '/tusu/?a=upload',
+    // url: '/tusu/?a=upload',
     headers: {
       'cache-control': 'no-cache',
       'content-type': 'multipart/form-data; boundary=---011000010111000001101001'

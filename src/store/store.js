@@ -7,6 +7,7 @@ import login from './modules/login';
 import home from './modules/home';
 import permission from './modules/permission'
 import profile from './modules/profile'
+import hr from './modules/hr'
 Vue.use(Vuex);
 const state = {
   permissions: []
@@ -53,6 +54,7 @@ export const store = new Vuex.Store({
     main,
     login,
     permission,
-    profile
+    profile,
+    hr
   }
 })
