@@ -67,12 +67,32 @@ export const InitDuty = () => {
 }
 
 //职工管理：职能信息新增、修改API
-export const ModifyDuty = (user) => {
+export const AddDuty = (data) => {
+  let params = new URLSearchParams()
+  params.append('type', JSON.stringify(data.flag))
+  params.append('dutyDto', JSON.stringify(data.change))
+  return axios.request({
+    url: "/api/addDuty",
+    method: 'post',
+    params,
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+      "Authorization": getToKen()
+    }
+  })
+}
+
+//职工管理：职能信息新增、修改API
+export const ModifyDuty = (data) => {
+  let params = new URLSearchParams()
+  params.append('type', JSON.stringify(data.flag))
+  params.append('dutyDto', JSON.stringify(data.change))
   return axios.request({
     url: "/api/modifyDuty",
     method: 'post',
-    data: user,
+    params,
     headers: {
+      'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
       "Authorization": getToKen()
     }
   })
@@ -103,11 +123,15 @@ export const InitRequest = () => {
 }
 
 //申请管理：申请信息审核API
-export const HandleRequest = () => {
+export const HandleRequest = (requests) => {
+  let params = new URLSearchParams();
+  params.append('requests', JSON.stringify(requests));
   return axios.request({
     url: "/api/handleRequest",
     method: 'post',
+    params,
     headers: {
+      'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
       "Authorization": getToKen()
     }
   })

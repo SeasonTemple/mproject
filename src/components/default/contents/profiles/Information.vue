@@ -67,7 +67,7 @@
                 :class="'el-icon-'+item.content.type"
                 :style="{color: matchColor(item.content.type)}"
               ></i>
-              {{ item.value }}
+              {{ item.value?item.value: "输入关键字查询" }}
             </template>
           </el-autocomplete>
         </transition>
@@ -87,7 +87,7 @@ export default {
     const informations = [];
     const keyword = "";
     const autoClose = true;
-    const queryResult = [];
+    let queryResult = [];
     let placeHolder = "输入关键字查询";
     return {
       placeHolder,
@@ -143,14 +143,15 @@ export default {
         this.placeHolder = "没有匹配信息，请重新输入";
       }
       cb(res);
-      this.placeHolder = "匹配的消息标题如下";
+      // this.placeHolder = "匹配的消息标题如下";
       this.keyword = "";
       // this.resetAll();
     },
     createFilter(queryString) {
       return information => {
         for (let [key, value] of Object.entries(information)) {
-          if (key !== "id" && key !== "type") {
+          console.log(key, value);
+          if (key != "id") {
             return value.search(queryString) != -1;
           }
         }
@@ -180,12 +181,12 @@ export default {
       this.queryResult
         ? this.showInformation([value.content])
         : (this.queryResult = []);
+      this.keyword = "";
     },
     handleBlur() {
       // console.log(this.keyword);
       this.resetAll();
       this.placeHolder = "输入关键字查询";
-
     },
     closeAll() {
       this.$notify.closeAll();
@@ -193,7 +194,7 @@ export default {
     resetAll() {
       this.keyword = "";
       this.queryResult = [];
-      this.querySearch(queryResult);
+      // this.querySearch(this.queryResult,this.createFilter());
       this.placeHolder = "输入关键字查询";
     },
     matchColor(color) {

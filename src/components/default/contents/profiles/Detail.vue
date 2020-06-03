@@ -235,6 +235,30 @@ export default {
       lastLogin: ""
     };
     let rules = {
+      userName: [
+        {
+          required: true,
+          message: "请输入您的用户名名",
+          trigger: "blur"
+        },
+        {
+          max: 20,
+          min: 8,
+          message: "用户名应由8-20个字母或汉字和数字组成",
+          trigger: "blur"
+        }
+      ],
+
+      passWord: {
+        required: true,
+        message: "请输入您的密码",
+        trigger: "blur"
+      },
+      realName: {
+        required: true,
+        message: "请输入您的真实姓名",
+        trigger: "blur"
+      },
       leader: {
         required: true,
         message: "请输入您的上级姓名",

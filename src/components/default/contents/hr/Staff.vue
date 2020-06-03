@@ -135,7 +135,6 @@
       <el-table-column prop="id" label="职工号" show-overflow-tooltip></el-table-column>
       <el-table-column prop="userName" label="账号" show-overflow-tooltip></el-table-column>
       <!-- <el-table-column prop="passWord" label="密码" show-overflow-tooltip></!-->
-      -->
       <!-- <el-table-column prop="realName" label="真实姓名" show-overflow-tooltip>
       </el-table-column>-->
       <el-table-column label="角色" show-overflow-tooltip>
@@ -212,8 +211,8 @@
           :current-page="currentPage1"
           :page-size="5"
           layout="total, prev, pager, next, jumper"
-          :total="40"
-          :hide-on-single-page="true"
+          :total="tableData.length"
+          :hide-on-single-page="false"
         ></el-pagination>
       </div>
     </el-table>
@@ -694,17 +693,18 @@ export default {
     },
     submitEdit() {
       // this.editFormVisible = true;
-      console.log(this.editForm);
-      // this.MODIFY_TableData(this.editForm)
-      //   .then(res => {
-      let flag = this.tableData.findIndex(t => t.id == this.editForm.id);
-      console.log(flag);
-      this.tableData.splice(flag, 1, this.editForm);
-      console.log(this.tableData);
-      // })
-      // .catch(err => {
-      //   console.log(err);
-      // });
+      // console.log(this.editForm);
+      this.MODIFY_TableData(this.editForm)
+        .then(res => {
+          let flag = this.tableData.findIndex(t => t.id == this.editForm.id);
+          console.log(1111);
+          console.log(flag);
+          this.tableData.splice(flag, 1, this.editForm);
+          // console.log(this.tableData);
+        })
+        .catch(err => {
+          console.log(err);
+        });
       this.editFormVisible = false;
     },
     initData() {

@@ -22,7 +22,6 @@
           :render-after-expand="false"
           :props="config"
           :class="{treeNode:true}"
-          accordion
           :data="treeData"
           node-key="id"
           ref="treeData"
@@ -37,8 +36,19 @@
           <span class="custom-tree-node" slot-scope="{ node, data }">
             <span>{{ node.label }}</span>
             <span>
-              <el-button type="text" size="mini" @click="() => append(data)">添加</el-button>
-              <!-- <el-button type="text" size="mini">编辑</el-button> -->
+              <el-button
+                type="text"
+                size="mini"
+                v-if="node.key == 1"
+                @click="() => append(node,data)"
+              >添加同级</el-button>
+              <el-button
+                v-if="node.childNodes.length == 0 && node.level < 3"
+                type="text"
+                size="mini"
+                @click="() => append(node,data, 1)"
+              >添加下一级</el-button>
+              <el-button type="text" size="mini" @click="() => edit(node,data)">编辑</el-button>
               <el-button type="text" size="mini" @click="() => remove(node, data)">删除</el-button>
             </span>
           </span>
@@ -65,15 +75,43 @@
             <span :class="{symbol:true}">部门信息</span>
           </el-row>
           <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-            <el-form :model="department" ref="department" label-width="80px">
-              <el-form-item label="部门名称" prop="name">
-                <el-input v-model="department.depName" clearable></el-input>
+            <el-form
+              :model="isAddDep? addDep:department"
+              :ref="isAddDep? addDep:department"
+              label-width="80px"
+            >
+              <el-form-item label="部门名称" prop="depName">
+                <el-input v-if="isAddDep" v-model="addDep.depName" clearable placeholder="请输入部门名称"></el-input>
+                <el-input v-else v-model="department.depName" clearable placeholder="请输入部门名称"></el-input>
               </el-form-item>
               <el-form-item label="部长姓名" prop="leader">
-                <el-input v-model="department.leader" clearable></el-input>
+                <el-input v-if="isAddDep" v-model="addDep.leader" clearable placeholder="请输入部长名称"></el-input>
+                <el-input v-else v-model="department.depName" clearable placeholder="请输入部长名称"></el-input>
               </el-form-item>
               <el-form-item style="float:left;">
-                <el-button type="primary" @click="submitForm('department')">提交修改</el-button>
+                <transition
+                  appear
+                  appear-active-class="fadeInRight"
+                  enter-active-class="fadeInLeft"
+                  leave-active-class="fadeOutLeft"
+                  mode="out-in"
+                >
+                  <el-button
+                    key="add"
+                    class="animated"
+                    type="success"
+                    v-if="isAddDep"
+                    @click="addDuty('department')"
+                  >添加部门</el-button>
+                  <el-button
+                    key="modify"
+                    class="animated"
+                    type="primary"
+                    plain
+                    v-else
+                    @click="submitForm('department')"
+                  >提交修改</el-button>
+                </transition>
                 <el-button plain type="danger" @click="isDep = false">取消</el-button>
               </el-form-item>
             </el-form>
@@ -98,21 +136,65 @@
           :style="{zIndex:'999',margin: '0 10px 0 0',transition: '1s linear'}"
         >
           <el-row :class="{topTitle:true}">
-            <span :class="{symbol:true}">项目组信息</span>
+            <span :class="{symbol:true}">组信息</span>
           </el-row>
           <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-            <el-form :model="group" ref="group" label-width="80px">
-              <el-form-item label="组名称" prop="name">
-                <el-input v-model="group.groupName" clearable></el-input>
+            <el-form
+              :model="isAddGroup? addGroup:group"
+              :ref="isAddGroup? addGroup:group"
+              label-width="80px"
+            >
+              <el-form-item label="组名称" prop="groupName">
+                <el-input
+                  v-if="isAddGroup"
+                  v-model="addGroup.groupName"
+                  clearable
+                  placeholder="请输入组名称"
+                ></el-input>
+                <el-input v-else v-model="group.groupName" clearable placeholder="请输入组名称"></el-input>
               </el-form-item>
               <el-form-item label="组长" prop="leader">
-                <el-input v-model="group.leader" clearable></el-input>
+                <el-input
+                  v-if="isAddGroup"
+                  v-model="addGroup.leader"
+                  clearable
+                  placeholder="请输入组长姓名"
+                ></el-input>
+                <el-input v-else v-model="group.leader" clearable placeholder="请输入组长姓名"></el-input>
               </el-form-item>
-              <el-form-item label="所属部门" prop="description">
-                <el-input v-model="group.depName" clearable></el-input>
+              <el-form-item label="所属部门" prop="depName">
+                <el-input
+                  v-if="isAddGroup"
+                  v-model="addGroup.depName"
+                  clearable
+                  placeholder="请输入所属部门"
+                ></el-input>
+                <el-input v-else v-model="group.depName" clearable placeholder="请输入所属部门"></el-input>
               </el-form-item>
               <el-form-item style="float:left">
-                <el-button type="primary" @click="submitForm('group')">提交修改</el-button>
+                <transition
+                  appear
+                  appear-active-class="fadeInRight"
+                  enter-active-class="fadeInLeft"
+                  leave-active-class="fadeOutLeft"
+                  mode="out-in"
+                >
+                  <el-button
+                    key="modify"
+                    type="success"
+                    class="animated"
+                    v-if="isAddGroup"
+                    @click="addDuty('group')"
+                  >添加组</el-button>
+                  <el-button
+                    key="add"
+                    class="animated"
+                    plain
+                    type="primary"
+                    v-else
+                    @click="submitForm('group')"
+                  >提交修改</el-button>
+                </transition>
                 <el-button plain type="danger" @click="isGroup = false">取消</el-button>
               </el-form-item>
             </el-form>
@@ -140,15 +222,39 @@
             <span :class="{symbol:true}">项目信息</span>
           </el-row>
           <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-            <el-form :model="project" ref="project" label-width="90px">
+            <el-form
+              :model="isAddPro? addPro: project"
+              ref="isAddPro? addPro: project"
+              label-width="90px"
+            >
               <el-form-item label="项目名称" prop="projectName">
-                <el-input v-model="project.projectName" clearable></el-input>
+                <el-input
+                  v-if="isAddPro"
+                  v-model="addPro.projectName"
+                  clearable
+                  placeholder="请输入项目名称"
+                ></el-input>
+                <el-input v-else v-model="project.projectName" clearable placeholder="请输入项目名称"></el-input>
               </el-form-item>
               <el-form-item label="项目描述" prop="description">
-                <el-input v-model="project.description" clearable></el-input>
+                <el-input
+                  v-if="isAddPro"
+                  v-model="addPro.description"
+                  clearable
+                  placeholder="请输入项目描述"
+                ></el-input>
+                <el-input v-else v-model="project.description" clearable placeholder="请输入项目描述"></el-input>
               </el-form-item>
               <el-form-item label="项目进度" prop="schedule">
                 <el-progress
+                  v-if="isAddPro"
+                  :percentage="addPro.schedule * 20"
+                  :text-inside="true"
+                  :stroke-width="26"
+                  :color="customColors"
+                ></el-progress>
+                <el-progress
+                  v-else
                   :percentage="project.schedule * 20"
                   :text-inside="true"
                   :stroke-width="26"
@@ -160,13 +266,37 @@
                 </el-button-group>
               </el-form-item>
               <el-form-item label="项目负责人" prop="leader">
-                <el-input v-model="project.leader" clearable></el-input>
+                <el-input v-if="isAddPro" v-model="addPro.leader" clearable placeholder="请输入项目负责人"></el-input>
+                <el-input v-else v-model="project.leader" clearable placeholder="请输入项目负责人"></el-input>
               </el-form-item>
-              <el-form-item label="所属组名" prop="groupName">
-                <el-input v-model="project.groupName" clearable></el-input>
+              <el-form-item label="所属组" prop="groupName">
+                <el-input v-if="isAddPro" v-model="addPro.groupName" clearable placeholder="请输入所属组"></el-input>
+                <el-input v-else v-model="project.groupName" clearable placeholder="请输入所属组"></el-input>
               </el-form-item>
               <el-form-item style="float:left">
-                <el-button type="primary" @click="submitForm('project')">提交修改</el-button>
+                <transition
+                  appear
+                  appear-active-class="fadeInRight"
+                  enter-active-class="fadeInLeft"
+                  leave-active-class="fadeOutLeft"
+                  mode="out-in"
+                >
+                  <el-button
+                    key="modify"
+                    type="success"
+                    v-if="isAddPro"
+                    class="animated"
+                    @click="addDuty('project')"
+                  >添加项目</el-button>
+                  <el-button
+                    plain
+                    key="add"
+                    type="primary"
+                    class="animated"
+                    v-else
+                    @click="submitForm('project')"
+                  >提交修改</el-button>
+                </transition>
                 <el-button plain type="danger" @click="isProject = false">取消</el-button>
               </el-form-item>
             </el-form>
@@ -184,10 +314,32 @@ dayjs.extend(isSameOrBefore);
 import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
 export default {
   name: "department",
+  inject: ["reload"],
   data() {
     let isDep = false;
     let isGroup = false;
     let isProject = false;
+    let isAddDep = false;
+    let isAddGroup = false;
+    let isAddPro = false;
+    let addDep = {
+      depName: "",
+      leader: ""
+    };
+    let addGroup = {
+      id: Number,
+      groupName: "",
+      leader: "",
+      depId: Number
+    };
+    let addPro = {
+      id: Number,
+      projectName: "",
+      description: "",
+      schedule: 0,
+      leader: "",
+      groupId: ""
+    };
     let config = {
       label: "name",
       children: "children"
@@ -224,7 +376,15 @@ export default {
       { color: "#6f7ad3", percentage: 100 }
     ];
     const timer = null;
+    let origin = {};
     return {
+      addDep,
+      addGroup,
+      addPro,
+      isAddDep,
+      isAddGroup,
+      isAddPro,
+      origin,
       customColors,
       config,
       isDep,
@@ -246,32 +406,76 @@ export default {
       Get_Groups: "hr/Get_Groups",
       Get_Projects: "hr/Get_Projects"
     }),
-    ...mapMutations({}),
+    ...mapMutations({
+      SET_Departments: "hr/SET_Departments"
+    }),
     ...mapActions({
-      INIT_DUTY: "hr/INIT_DUTY"
+      INIT_DUTY: "hr/INIT_DUTY",
+      MODIFY_DUTY: "hr/MODIFY_DUTY",
+      ADD_DUTY: "hr/ADD_DUTY"
     }),
     submitForm(formName) {
-      this.$message.success({
-        message: "新建成功！",
-        offset: 130
-      });
+      let change = this.$refs[formName].model;
+      console.log(change);
+      console.log(this.origin);
+      if (Object.is(change, this.origin)) {
+        this.$message.error({
+          message: "无效提交，请至少修改一项！",
+          offset: 150
+        });
+        return;
+      } else {
+        let flag = 0;
+        switch (formName) {
+          case "department":
+            flag = 1;
+            this.isDep = false;
+            break;
+          case "group":
+            flag = 2;
+            this.isGroup = false;
+            break;
+          case "project":
+            flag = 3;
+            this.isProject = false;
+            break;
+        }
+        this.MODIFY_DUTY({ flag, change })
+          .then(res => {
+            this.$message.success({
+              message: res,
+              offset: 150
+            });
+          })
+          .catch(err => {
+            this.$message.error({
+              message: err,
+              offset: 150
+            });
+          });
+      }
     },
-    handleNodeClick(data) {
+    handleNodeClick(data, node) {
+      // console.log(node);
       switch (data.level) {
         case 0:
           this.department = data.data;
-          this.isDep = true;
+          Object.assign(this.origin, data.data);
           break;
         case 1:
           this.group = data.data;
-          this.isGroup = true;
+          this.group.depName = node.parent.data.name;
+          this.group["parent"] = node.parent.data;
+          Object.assign(this.origin, data.data);
           break;
         case 2:
           this.project = data.data;
-          this.isProject = true;
+          this.project.groupName = node.parent.data.name;
+          this.project["parent"] = node.parent.data;
+          Object.assign(this.origin, data.data);
           break;
       }
-      console.log(data);
+      // console.log(data);
     },
     selectNode(data, select) {
       console.log(data, select);
@@ -302,24 +506,167 @@ export default {
       if (!value) return true;
       return data.name.indexOf(value) !== -1;
     },
-    append(data) {
-      console.log("append: " + JSON.stringify(data));
-      const newChild = {
-        id: ++data.id,
-        name: "test1test",
-        leader: "test1test"
-      };
-      if (!data.children) {
-        this.$set(data, "children", []);
+    addDuty(form) {
+      let flag = 0;
+      let change = {};
+      switch (form) {
+        case "department":
+          change = {
+            depName: this.addDep.depName,
+            leader: this.addDep.leader
+          };
+          if (change.depName !== "" && change.leader != "") {
+            // this.$refs.treeData.append(change, []);
+            flag = 1;
+            this.ADD_DUTY({ flag, change })
+              .then(res => {
+                this.$message.success({
+                  message: res,
+                  offset: 150
+                });
+              })
+              .catch(err => {
+                this.$message.error({
+                  message: err,
+                  offset: 150
+                });
+              });
+            this.reload();
+          } else {
+            this.$message.error({
+              message: "请输入完整信息!",
+              offset: 150
+            });
+          }
+          break;
+        case "group":
+          change = {
+            groupName: this.addGroup.groupName,
+            leader: this.addGroup.leader,
+            depId: this.addGroup.depId
+          };
+          console.log(change);
+          if (change.groupName !== "" && change.leader != "") {
+            // this.$refs.treeData.append(change, []);
+            flag = 2;
+            this.ADD_DUTY({ flag, change })
+              .then(res => {
+                this.$message.success({
+                  message: res,
+                  offset: 150
+                });
+              })
+              .catch(err => {
+                this.$message.error({
+                  message: err,
+                  offset: 150
+                });
+              });
+            this.reload();
+          } else {
+            this.$message.error({
+              message: "请输入完整信息!",
+              offset: 150
+            });
+          }
+          break;
+        case "project":
+          change = {
+            projectName: this.addPro.projectName,
+            description: this.addPro.description,
+            schedule: this.addPro.schedule,
+            leader: this.addPro.leader,
+            groupId: this.addPro.groupId
+          };
+          console.log(change);
+          if (change.projectName !== "" && change.description != "") {
+            // this.$refs.treeData.append(change, []);
+            flag = 3;
+            this.ADD_DUTY({ flag, change })
+              .then(res => {
+                this.$message.success({
+                  message: res,
+                  offset: 150
+                });
+              })
+              .catch(err => {
+                this.$message.error({
+                  message: err,
+                  offset: 150
+                });
+              });
+            this.reload();
+          } else {
+            this.$message.error({
+              message: "请输入完整信息!",
+              offset: 150
+            });
+          }
+          break;
       }
-      data.children.push(newChild);
     },
-
+    append(node, data, isNext) {
+      console.log(node);
+      console.log(data);
+      let level = data.level;
+      if (isNext == 1 && level + isNext <= 3) {
+        level += isNext;
+      }
+      switch (level) {
+        case 0:
+          this.isDep = true;
+          this.isAddDep = true;
+          this.addDep["level"] = level;
+          break;
+        case 1:
+          this.isGroup = true;
+          this.isAddGroup = true;
+          this.addGroup.depId = data.data.depId;
+          this.addGroup.depName = node.parent.data.name;
+          console.log(data.data.parent);
+          break;
+        case 2:
+          this.isProject = true;
+          this.isAddPro = true;
+          console.log(node.parent.data);
+          this.addPro.groupName = node.parent.data.name;
+          this.addPro.groupId = node.parent.data.id;
+          break;
+      }
+      console.log(node + JSON.stringify(data));
+      // let k = 7;
+      // const newChild = {
+      //   id: ++k,
+      //   name: "测试部门",
+      //   leader: "测试领导"
+      // };
+      // if (!data.children) {
+      //   this.$set(data, "children", []);
+      // }
+      // data.children.push(newChild);
+    },
+    edit(node, data) {
+      switch (data.level) {
+        case 0:
+          this.isDep = true;
+          this.isAddDep = false;
+          break;
+        case 1:
+          this.isGroup = true;
+          this.isAddGroup = false;
+          break;
+        case 2:
+          this.isProject = true;
+          this.isAddPro = false;
+          break;
+      }
+    },
     remove(node, data) {
-      console.log("remove: " + node, JSON.stringify(data));
+      console.log(node, JSON.stringify(data));
       const parent = node.parent;
       const children = parent.data.children || parent.data;
       const index = children.findIndex(d => d.id === data.id);
+      console.log(children);
       children.splice(index, 1);
     },
     increase() {
@@ -343,13 +690,13 @@ export default {
         arr.push({
           id: a.id,
           level: 0,
-          name: a.depName + "部",
+          name: a.depName,
           data: a,
           leader: a.leader
         })
       );
       this.departments = arr;
-      console.log(arr);
+      // console.log(arr);
       arr = [];
       groups.forEach(a =>
         arr.push({
@@ -395,9 +742,16 @@ export default {
     filterText(val) {
       console.log(val);
       this.$refs.treeData.filter(val);
+    },
+    Departments(curV, oldV) {
+      console.log(oldV, curV);
+      // this.departments = curV;
     }
   },
   computed: {
+    ...mapState({
+      Departments: state => state.hr.departments
+    }),
     flexWidth() {
       let flag = 1;
       this.isDep ? ++flag : 0;

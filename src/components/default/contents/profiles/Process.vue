@@ -112,7 +112,7 @@
                           <span style="text-align:left;float:left;font-size:14px;">项目成员</span>
                           <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
                             <template v-for="tag in project.members">
-                              <el-popover :key="tag.realName" placement="top" trigger="hover">
+                              <el-popover :key="tag.id" placement="top" trigger="hover">
                                 <el-card
                                   shadow="hover"
                                   :class="{popClass: true}"
@@ -120,9 +120,9 @@
                                 >职位：{{ tag.position }}</el-card>
                                 <el-tag
                                   slot="reference"
-                                  :key="tag.realName"
+                                  :key="tag.id"
                                   style="margin:0 2px 5px 2px;float:right;"
-                                  closable
+                                  :closable="false"
                                   :type="tag.type"
                                   @close="tagClose(tag,project)"
                                 >{{tag.realName}}</el-tag>
@@ -131,13 +131,13 @@
                           </el-col>
                         </el-row>
                         <el-form-item :style="{marginTop:'10px',float: 'left'}">
-                          <el-button
+                          <!-- <el-button
                             size="mini"
                             plain
                             type="primary"
                             @click="submitForm('ruleForm')"
-                          >提交修改</el-button>
-                          <el-button size="mini" plain @click="next(project)">进度调整</el-button>
+                          >提交修改</el-button> -->
+                          <!-- <el-button size="mini" plain @click="next(project)">进度调整</el-button> -->
                         </el-form-item>
                       </el-form>
                     </div>
@@ -215,7 +215,7 @@ export default {
             })
             .catch(err => {
               this.$message.error({
-                message: err,
+                message: "您还没有参与的项目",
                 offset: 200,
                 duration: 1500
               });

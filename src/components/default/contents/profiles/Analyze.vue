@@ -37,6 +37,8 @@
 <script>
 import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
 import dayjs from "dayjs";
+var isBetween = require("dayjs/plugin/isBetween");
+dayjs.extend(isBetween);
 export default {
   name: "analyze",
   data() {
@@ -63,7 +65,8 @@ export default {
         .day(
           dayjs()
             .startOf("month")
-            .day() - 1
+            .subtract(1, "day")
+            .add(1, "week")
         )
         .format("YYYY-MM-DD")
     ];
@@ -131,7 +134,6 @@ export default {
             duration: 2000
           });
         } else {
-          this.toDay.time += 1;
           if (this.toDay.time == 2) {
             this.$message.success({
               message: "同步签到信息中！",
@@ -142,15 +144,25 @@ export default {
             this.toDay.userId = this.USERDETAIL.id;
             this.syncAttendance();
           }
-          this.toDay.time == 1
-            ? (this.toDay.first = dayjs().format("YYYY-MM-DD HH:MM:ss"))
-            : (this.toDay.second = dayjs().format("YYYY-MM-DD HH:MM:ss"));
-          this.$message.success({
-            dangerouslyUseHTMLString: true,
-            message: `<b>${this.toDay.day}：第 <span style='color:red'>${this.toDay.time}</span> 次打卡成功！</b>`,
-            offset: 230,
-            duration: 2000
-          });
+          if (this.checkPickTime(this.toDay.time)) {
+            this.toDay.time += 1;
+            this.toDay.time == 1
+              ? (this.toDay.first = dayjs().format("YYYY-MM-DD HH:MM:ss"))
+              : (this.toDay.second = dayjs().format("YYYY-MM-DD HH:MM:ss"));
+            this.$message.success({
+              dangerouslyUseHTMLString: true,
+              message: `<b>${this.toDay.day}：第 <span style='color:red'>${this.toDay.time}</span> 次打卡成功！</b>`,
+              offset: 230,
+              duration: 2000
+            });
+          } else {
+            this.$message.error({
+              dangerouslyUseHTMLString: true,
+              message: `请在正确的时间签到！`,
+              offset: 150,
+              duration: 2000
+            });
+          }
         }
       } else {
         this.$message.info({
@@ -161,6 +173,22 @@ export default {
           offset: 230,
           duration: 3000
         });
+      }
+    },
+    checkPickTime(time) {
+      console.log(time,dayjs().hour());
+      // console.log(dayjs().hour(dayjs().hour()).isBetween(18, 20,"hour"));
+      switch (time) {
+        case 0:
+          return dayjs().isBetween(8, 9, "day") ||
+            dayjs().isBetween(18, 19, "hour")
+            ? true
+            : false;
+          break;
+
+        case 1:
+          return dayjs().isBetween(19, "19:30:00", "day") ? true : false;
+          break;
       }
     },
     syncAttendance() {

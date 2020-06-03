@@ -163,6 +163,8 @@ const actions = {
         if (code == 10200 || code == 10201) {
           data.length > 0 ? data.length != state.reports.length ? commit("SET_REPORTS", data) : null : null;
           resolve(data);
+        }else{
+          reject(res)
         }
       }).catch(err => {
         reject(err);
@@ -176,7 +178,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       SubmitReport(report).then(res => {
         let code = res.data.code;
-        let msg = res.data.data.msg;
+        let msg = res.data.msg;
         if (code == 10200 || code == 10201) {
           state.reports.push(report);
           resolve(msg);
@@ -212,7 +214,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       UploadReport(report).then(res => {
         console.log(res)
-        // state.push(report)
+        resolve();
       }).catch(err => {
         console.log(err)
       });

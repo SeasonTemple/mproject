@@ -41,8 +41,10 @@
         <transition appear appear-active-class="bounceInLeft" enter-active-class="bounceInLeft">
           <el-tooltip effect="light" content="导出工作日志" placement="top">
             <el-button
-              class="animated delay-3s"
+              class="animated delay-2s"
               icon="el-icon-download"
+              type="info"
+              plain
               circle
               @click="editFormVisible = true"
             ></el-button>
@@ -56,6 +58,7 @@
       :class="{timeLine: true}"
       v-loading="isPrepared"
     >
+      <!-- <span v-if="this.origin.length == 0">暂无数据</span> -->
       <el-timeline-item
         :timestamp="rep.publish"
         placement="top"
@@ -308,7 +311,11 @@ export default {
       Get_REPORTS: "profile/reports"
     }),
     load() {
-      if (this.count > 8) {
+      let origin = this.origin;
+      console.log(origin.length, this.origin.length);
+      if (this.origin.length < 8) {
+        this.count = this.origin.length;
+      } else if (this.count > 8) {
         this.loading = true;
         setTimeout(() => {
           this.count += 1;
@@ -328,16 +335,32 @@ export default {
             this.origin = res;
           })
           .catch(err => {
-            console.log(res);
+            this.$message.error({
+              message: "日志信息初始化失败!",
+              offset: 200,
+              duration: 1500
+            });
+            this.isPrepared = !this.isPrepared;
           });
+        // this.isPrepared = !this.isPrepared;
+        this.SyncCount();
       }
-      this.SyncCount();
     },
     SyncCount() {
       // let origin = [];
-      if (this.origin.length < 1) {
+      console.log(this.origin);
+      if (this.origin.length == 0 || this.origin.length == undefined) {
         return;
+      } else {
+        let count = this.count;
+        let repLength = this.reports.length | 0;
+        this.origin.slice(repLength, count).forEach(_ => {
+          this.reports.push(_);
+        });
       }
+      setTimeout(() => {
+        this.isPrepared = !this.isPrepared;
+      }, 1500);
       //   origin = this.origin;
       //   console.log(origin);
       // } else if (this.Get_REPORTS().length > 0) {
@@ -347,15 +370,6 @@ export default {
       //   this.initOrigin();
       //   console.log(this.origin);
       // }
-      console.log(this.origin);
-      let count = this.count;
-      let repLength = this.reports.length | 0;
-      this.origin.slice(repLength, count).forEach(_ => {
-        this.reports.push(_);
-      });
-      setTimeout(() => {
-        this.isPrepared = !this.isPrepared;
-      }, 1500);
     },
     onEditorReady(editor) {}, // 准备编辑器
     onEditorBlur() {}, // 失去焦点事件
@@ -512,6 +526,10 @@ export default {
         this.fileList = [];
         this.uploadVisible = false;
         console.log(this.fileList);
+        this.$message.success({
+          message: `上传成功！`,
+          offset: 200
+        });
       }, 2000);
     }
   },
@@ -536,10 +554,13 @@ export default {
     },
     origin: {
       handler: "initOrigin",
-      immediate: true
+      immediate: false
     }
   },
-  beforeMount() {}
+  beforeMount() {},
+  mounted() {
+    this.initOrigin();
+  }
 };
 </script>
 

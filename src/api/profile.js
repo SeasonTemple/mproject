@@ -5,6 +5,19 @@ import {
   getToKen
 } from '_u/loginMsg';
 
+
+export function InitEcharts(userDetail) {
+  return axios.request({
+    method: "post",
+    url: "api/initEcharts",
+    data: userDetail,
+    headers: {
+      "Authorization": getToKen()
+    }
+  })
+}
+
+
 //详情页面：职位数据获取API
 export const BelongTo = () => {
   return axios.request({

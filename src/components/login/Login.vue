@@ -28,7 +28,7 @@
     >
       <div class="animated left delay-2s" v-if="showStatus == 1" key="logForm">
         <el-form ref="form" :model="form" status-icon hide-required-asterisk :rules="logRules">
-          <el-form-item label="Username" prop="username" :class="{isFocus:actFocus.isFocus}">
+          <el-form-item label="用户名" prop="username" :class="{isFocus:actFocus.isFocus}">
             <el-input
               v-model="form.username"
               autocomplete
@@ -48,7 +48,7 @@
           >
             <el-form-item
               class="animated"
-              label="Password"
+              label="密码"
               prop="password"
               :class="{isFocus: pwdFocus.isFocus,push1:form.usePassword}"
               v-if="form.usePassword == true"
@@ -66,7 +66,7 @@
             <el-form-item
               class="animated"
               prop="valiCode"
-              label="Validate Code"
+              label="验证码"
               :style="{marginBottom:'10px'}"
               v-if="form.usePassword == false"
               :class="{isFocus: codeFocus.isFocus,push1:form.usePassword}"
@@ -129,7 +129,7 @@
           hide-required-asterisk
           :rules="regRules"
         >
-          <el-form-item label="RegName" prop="userName" :class="{regFocus:actFocus2.isFocus}">
+          <el-form-item label="用户名" prop="userName" :class="{regFocus:actFocus2.isFocus}">
             <el-input
               v-model="regForm.userName"
               autocomplete
@@ -140,7 +140,7 @@
             <!-- minlength="4" -->
             <!-- maxlength="20" -->
           </el-form-item>
-          <el-form-item label="Password" prop="passWord" :class="{regFocus:pwdFocus2.isFocus}">
+          <el-form-item label="密码" prop="passWord" :class="{regFocus:pwdFocus2.isFocus}">
             <el-input
               v-model="regForm.passWord"
               minlength="8"
@@ -151,7 +151,7 @@
             ></el-input>
           </el-form-item>
 
-          <el-form-item label="ValiPass" prop="valiPass" :class="{regFocus:vpsFocus.isFocus}">
+          <el-form-item label="验证密码" prop="valiPass" :class="{regFocus:vpsFocus.isFocus}">
             <el-input
               v-model="regForm.valiPass"
               minlength="8"
@@ -161,7 +161,7 @@
               @blur.stop="regBlur(vpsFocus.name)"
             ></el-input>
           </el-form-item>
-          <el-form-item prop="valiCode" label="Validate Code" :class="{regFocus:codeFocus.isFocus}">
+          <el-form-item prop="valiCode" label="验证码" :class="{regFocus:codeFocus.isFocus}">
             <el-input
               v-model="regForm.valiCode"
               id="valiCode"
@@ -201,7 +201,7 @@
       leave-active-class="zoomOutDown"
     >
       <div class="animated greet" v-if="showStatus == 0">
-        <span>通用人事管理系统</span>
+        <span>企业人事管理系统</span>
       </div>
     </transition>
     <transition appear appear-active-class="rollIn" leave-active-class="disappear">
@@ -222,7 +222,7 @@
         ></el-button>
       </el-tooltip>
     </transition>
-    <el-button class="btnCss" @click="reset">重置状态</el-button>
+    <!-- <el-button class="btnCss" @click="reset">重置状态</el-button> -->
     <transition
       appear
       appear-active-class="bounceInRight"
@@ -620,7 +620,7 @@ export default {
       if (value === "") {
         callback(new Error("请输入用户名"));
       } else if (validateAccount(value)) {
-        callback(new Error("格式错误,应由8至20个字母加数字或2到10个汉字组成"));
+        callback(new Error("格式错误,应由8至20个字母或汉字加数字组成"));
       } else {
         callback(); //true
       }
@@ -640,7 +640,7 @@ export default {
       if (value === "") {
         callback(new Error("请输入密码"));
       } else if (validatePass(value)) {
-        callback(new Error("密码应由8至20个数字加字母组成"));
+        callback(new Error("密码应由8至20个数字或汉字加字母组成"));
       } else {
         callback();
       }
@@ -668,7 +668,7 @@ export default {
         // this.getCode();
         return callback(new Error("请输入验证码"));
       } else if (validateVCode(value)) {
-        this.getCode();
+        // this.getCode();
         return callback(new Error("验证码格式有误"));
       } else if (
         this.vCode == value &&
@@ -714,13 +714,13 @@ export default {
       // this.$refs.form.resetFields();
       this.SET_MODES(flag);
       this.modes = this.getModes;
-      console.log(`showSwitch now ${this.modes}`);
+      // console.log(`showSwitch now ${this.modes}`);
       this.modes == "login"
         ? this.showLogForm()
         : this.modes == "register"
         ? this.showRegForm()
         : this.showFogForm();
-      console.log(`switchMode now ${this.modes} `);
+      // console.log(`switchMode now ${this.modes} `);
     },
     showLogForm: function() {
       // setTimeout(() => {
@@ -759,11 +759,11 @@ export default {
         ? this.showRegForm()
         : this.showFogForm();
     },
-    reset: function() {
+    reset: function(formName) {
       this.switchMode("login");
       this.showStatus = 0;
       // this.showForm.display = "none";
-      // this.$refs.form.resetFields();
+      this.$refs[formName].resetFields();
       this.actFocus.isFocus = false;
       this.pwdFocus.isFocus = false;
       this.codeFocus.isFocus = false;
@@ -811,11 +811,14 @@ export default {
               offset: 100,
               duration: 2000
             });
-            this.$refs.form.resetFields();
-            this.actFocus.isFocus = false;
-            this.pwdFocus.isFocus = false;
-            this.codeFocus.isFocus = false;
-            this.$router.push("/index");
+            this.reset("form");
+            setTimeout(() => {
+              this.$router.push("/index");
+            }, 2000);
+            // this.$refs.form.resetFields();
+            // this.actFocus.isFocus = false;
+            // this.pwdFocus.isFocus = false;
+            // this.codeFocus.isFocus = false;
           } else {
             this.$message.error({
               dangerouslyUseHTMLString: true,
@@ -843,11 +846,13 @@ export default {
             offset: 100,
             duration: 2000
           });
-          this.setUserName(res);
-          this.$refs.form.resetFields();
-          this.actFocus.isFocus = false;
-          this.pwdFocus.isFocus = false;
-          this.codeFocus.isFocus = false;
+          console.log(res);
+          setUserName(res);
+          this.reset("form");
+          // this.$refs.form.resetFields();
+          // this.actFocus.isFocus = false;
+          // this.pwdFocus.isFocus = false;
+          // this.codeFocus.isFocus = false;
           this.$router.push("/index");
         })
         .catch(error => {
@@ -892,6 +897,7 @@ export default {
             offset: 60,
             duration: 2500
           });
+          // this.reset("regForm");
           this.clean("regForm");
           this.getCode();
         });
@@ -904,15 +910,15 @@ export default {
       this._timer = setTimeout(() => {
         GetVCode()
           .then(res => {
-            console.log(res)
+            // console.log(res);
             let data = res.data;
-            let status =data.code;
+            let status = data.code;
             if (data == 10201 || status == 10200) {
               this.vCodeImg = "data:image/png;base64," + data.data.codeImg;
               this.vCode = data.data.codeResult;
             } else {
               this.$message.error({
-                message: "验证码获取失败！"+ data.msg,
+                message: "验证码获取失败！" + data.msg,
                 offset: 230
               });
             }

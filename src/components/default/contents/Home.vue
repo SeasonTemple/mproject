@@ -60,7 +60,7 @@
 <script>
 import dayjs from "dayjs";
 import { getUserName } from "_u/loginMsg.js";
-import { mapState, mapMutations, mapActions } from "vuex";
+import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
 export default {
   name: "home",
   props: {
@@ -74,7 +74,7 @@ export default {
     let charts = [
       {
         title: {
-          text: "周工程情况报表"
+          text: "项目情况报表"
         },
         tooltip: {
           trigger: "axis",
@@ -180,14 +180,14 @@ export default {
         },
         yAxis: {
           type: "category",
-          data: ["20岁", "30岁", "40岁", "50岁", "60岁"]
+          data: ["20岁~30岁", "30岁~40岁", "40岁~50岁", "50岁~60岁"]
         },
         series: [
           {
-            name: "20岁",
+            name: "人数",
             type: "bar",
-            label: "20岁",
-            data: [40, 30, 17, 21, 6]
+            label: "年龄",
+            data: [40, 30, 17, 21]
           }
         ],
         span: 12
@@ -204,7 +204,7 @@ export default {
         legend: {
           left: "center",
           top: "bottom",
-          data: ["缺席", "缺勤一次", "缺勤两次", "缺勤两次以上", "请假"]
+          data: ["缺席", "缺勤一次", "缺勤两次", "缺勤两次以上"]
         },
         toolbox: {
           show: true,
@@ -251,10 +251,6 @@ export default {
               {
                 value: 25,
                 name: "缺勤两次以上"
-              },
-              {
-                value: 20,
-                name: "请假出差"
               }
             ]
           }
@@ -272,7 +268,14 @@ export default {
   },
   methods: {
     ...mapActions({
-      GET_UserDetail: "main/GET_UserDetail"
+      GET_UserDetail: "main/GET_UserDetail",
+      INIT_ECHARTS: "home/INIT_ECHARTS"
+    }),
+    ...mapMutations({
+      SET_InitData: "home/SET_InitData"
+    }),
+    ...mapGetters({
+      Get_initData: "home/Get_initData"
     }),
     initTopCards: function() {
       let data = [
@@ -284,19 +287,19 @@ export default {
         },
         {
           title: "系统消息",
-          content: 11,
+          content: 12,
           icon: "el-icon-bell",
           iconColor: "rgb(178, 92, 212)"
         },
         {
-          title: "工作报表",
-          content: 213,
+          title: "工作日志",
+          content: 8,
           icon: "el-icon-files",
           iconColor: "rgb(101, 228, 63)"
         },
         {
           title: "月签到数",
-          content: 41,
+          content: 32,
           icon: "el-icon-date",
           iconColor: "rgb(255, 57, 22)"
         }
@@ -343,7 +346,15 @@ export default {
       handler: "initDetail"
     }
   },
+  beforeMount() {},
   mounted() {
+    this.INIT_ECHARTS(this.USERDETAIL)
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
     var _this = this;
     this.timer = setInterval(() => {
       _this.time = dayjs().format("YYYY/MM/DD</br>HH:mm:ss");

@@ -5,9 +5,10 @@ import sideBar from './modules/sideBar';
 import nav from './modules/nav';
 import login from './modules/login';
 import home from './modules/home';
-import permission from './modules/permission'
-import profile from './modules/profile'
-import hr from './modules/hr'
+import permission from './modules/permission';
+import profile from './modules/profile';
+import hr from './modules/hr';
+import system from './modules/system';
 Vue.use(Vuex);
 const state = {
   permissions: []
@@ -55,6 +56,7 @@ export const store = new Vuex.Store({
     login,
     permission,
     profile,
-    hr
+    hr,
+    system
   }
 })

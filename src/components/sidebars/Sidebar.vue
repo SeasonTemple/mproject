@@ -23,13 +23,13 @@
         </el-menu-item>
         <el-divider></el-divider>
         <template v-for="(router, index) in routers">
-          <el-submenu :index="router.path" :key="index">
+          <el-submenu v-if="router.meta.show" :index="router.path" :key="index">
             <template slot="title">
               <i :class="router.meta.icon"></i>
               <span slot="title">{{ router.meta.title }}</span>
             </template>
             <template v-for="child in router.children">
-              <el-menu-item-group :key="child.name">
+              <el-menu-item-group v-if="child.meta.show" :key="child.name">
                 <el-menu-item :index="child.path">{{ child.meta.title }}</el-menu-item>
               </el-menu-item-group>
             </template>
@@ -45,6 +45,7 @@
 import { mapState, mapMutations } from "vuex";
 export default {
   name: "sideBar",
+  inject: ["reload"],
   data() {
     const isCollapse = this.collapse;
     const switchBar = this.swiBar;
@@ -104,12 +105,15 @@ export default {
       return this.store_switchBar;
     },
     Routers: function() {
-      console.log(this.$router.options.routes)
+      console.log(this.$router.options.routes);
       return this.$router.options.routes
         .filter(r => r.path != "/index")
         .filter(r => r.name != "Base")
         .filter(r => r.name != "Login");
     }
+  },
+  updated() {
+    this.reload();
   },
   watch: {
     isCollapse: () => {

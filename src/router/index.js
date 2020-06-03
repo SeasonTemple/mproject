@@ -68,7 +68,8 @@ export const asyncRouterMap = [
     name: "Center",
     meta: {
       role: ['USER', 'CUSTOM', 'ADMIN'],
-      keepAlive: false,
+      keepAlive: true,
+      show: true,
       title: "个人中心",
       icon: "el-icon-user-solid"
     },
@@ -79,6 +80,7 @@ export const asyncRouterMap = [
       meta: {
         role: ['USER', 'CUSTOM', 'ADMIN'],
         keepAlive: true,
+        show: true,
         title: "用户详情",
       },
       component: () => import("@/components/default/contents/profiles/Detail")
@@ -88,6 +90,7 @@ export const asyncRouterMap = [
       meta: {
         role: ['USER', 'CUSTOM', 'ADMIN'],
         keepAlive: true,
+        show: true,
         title: "工作日志",
       },
       component: () => import("@/components/default/contents/profiles/Report")
@@ -97,6 +100,7 @@ export const asyncRouterMap = [
       meta: {
         role: ['USER', 'CUSTOM', 'ADMIN'],
         keepAlive: true,
+        show: true,
         title: "项目进展",
       },
       component: () => import("@/components/default/contents/profiles/Process")
@@ -106,6 +110,7 @@ export const asyncRouterMap = [
       meta: {
         role: ['USER', 'CUSTOM', 'ADMIN'],
         keepAlive: true,
+        show: true,
         title: "系统消息",
       },
       component: () => import("@/components/default/contents/profiles/Information")
@@ -115,6 +120,7 @@ export const asyncRouterMap = [
       meta: {
         role: ['USER', 'CUSTOM', 'ADMIN'],
         keepAlive: true,
+        show: true,
         title: "事务申请",
       },
       component: () => import("@/components/default/contents/profiles/Request")
@@ -125,6 +131,7 @@ export const asyncRouterMap = [
       meta: {
         role: ['USER', 'CUSTOM', 'ADMIN'],
         keepAlive: true,
+        show: true,
         title: "签到考勤",
       },
       component: () => import("@/components/default/contents/profiles/Request")
@@ -136,7 +143,8 @@ export const asyncRouterMap = [
     name: "Hr",
     meta: {
       role: ['ADMIN'],
-      keepAlive: false,
+      keepAlive: true,
+      show: true,
       title: "人事管理",
       icon: "el-icon-eleme"
     },
@@ -146,6 +154,7 @@ export const asyncRouterMap = [
         meta: {
           role: ['ADMIN'],
           keepAlive: true,
+          show: true,
           title: "职工管理",
         },
         component: () => import("@/components/default/contents/hr/Staff"),
@@ -156,6 +165,7 @@ export const asyncRouterMap = [
         meta: {
           role: ['ADMIN'],
           keepAlive: true,
+          show: true,
           title: "职能管理",
         },
         component: () => import("@/components/default/contents/hr/Department"),
@@ -166,6 +176,7 @@ export const asyncRouterMap = [
         meta: {
           role: ['ADMIN'],
           keepAlive: true,
+          show: true,
           title: "申请管理",
         },
         component: () => import("@/components/default/contents/hr/RequestMg"),
@@ -176,6 +187,7 @@ export const asyncRouterMap = [
         meta: {
           role: ['ADMIN'],
           keepAlive: true,
+          show: true,
           title: "薪资管理",
         },
         component: () => import("@/components/default/contents/hr/SalaryMg"),
@@ -187,7 +199,8 @@ export const asyncRouterMap = [
     name: "System",
     meta: {
       role: ['ADMIN'],
-      keepAlive: false,
+      keepAlive: true,
+      show: true,
       title: "系统管理",
       icon: "el-icon-setting"
     },
@@ -197,6 +210,7 @@ export const asyncRouterMap = [
         meta: {
           role: ['ADMIN'],
           keepAlive: true,
+          show: true,
           title: "角色管理",
         },
         component: () => import("@/components/default/contents/system/Account"),
@@ -207,6 +221,7 @@ export const asyncRouterMap = [
         meta: {
           role: ['ADMIN'],
           keepAlive: true,
+          show: true,
           title: "通知管理",
         },
         component: () => import("@/components/default/contents/system/InfoMg"),
@@ -223,37 +238,37 @@ export const asyncRouterMap = [
       // },
     ]
   },
-  {
-    path: "/faq",
-    name: "Faq",
-    meta: {
-      role: ['USER', 'CUSTOM', 'ADMIN'],
-      keepAlive: true,
-      title: "使用帮助",
-      icon: "el-icon-question"
-    },
-    children: [{
-        path: "document",
-        name: "Document",
-        meta: {
-          role: ['USER', 'CUSTOM', 'ADMIN'],
-          keepAlive: true,
-          title: "说明文档",
-        },
-        component: () => import("@/components/default/contents/faq/Document"),
-      },
-      {
-        path: "guide",
-        name: "Guide",
-        meta: {
-          role: ['USER', 'CUSTOM', 'ADMIN'],
-          keepAlive: true,
-          title: "操作向导",
-        },
-        component: () => import("@/components/default/contents/faq/Guide"),
-      },
-    ]
-  }
+  // {
+  //   path: "/faq",
+  //   name: "Faq",
+  //   meta: {
+  //     role: ['USER', 'CUSTOM', 'ADMIN'],
+  //     keepAlive: true,
+  //     title: "使用帮助",
+  //     icon: "el-icon-question"
+  //   },
+  //   children: [{
+  //       path: "document",
+  //       name: "Document",
+  //       meta: {
+  //         role: ['USER', 'CUSTOM', 'ADMIN'],
+  //         keepAlive: true,
+  //         title: "说明文档",
+  //       },
+  //       component: () => import("@/components/default/contents/faq/Document"),
+  //     },
+  //     {
+  //       path: "guide",
+  //       name: "Guide",
+  //       meta: {
+  //         role: ['USER', 'CUSTOM', 'ADMIN'],
+  //         keepAlive: true,
+  //         title: "操作向导",
+  //       },
+  //       component: () => import("@/components/default/contents/faq/Guide"),
+  //     },
+  //   ]
+  // }
 ]
 
 export const router = new Router({
@@ -264,6 +279,7 @@ export const router = new Router({
   }),
   routes: defaultRouterMap
 })
+
 
 router.beforeEach((to, from, next) => {
   NProgress.set(0.2)

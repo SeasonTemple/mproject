@@ -102,8 +102,8 @@ export default {
           );
         })
         .catch(err => {
-          this.$message.warning({
-            message: err,
+          this.$message.error({
+            message: err.data.msg,
             offset: 250
           });
         });

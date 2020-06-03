@@ -48,7 +48,7 @@ export const SSO = (token) => {
   })
 }
 /**
- * 获取用户角色
+ * 获取用户角色权限
  */
 export function getUserRole(token) {
   return axios.request({
@@ -57,7 +57,6 @@ export function getUserRole(token) {
     headers: {
       "Authorization": token
     }
-    // data: data, 左边的data是变量名（key）后台接收的。右边的Data是接收的参数。如果两者都是同名的情况下，可以写成单一个即可（ES6的写法）
   })
 }
 /**
@@ -82,6 +81,7 @@ export function Forget(userDto) {
     data: userDto
   })
 }
+
 /**
  * 过滤特殊字符
  */
